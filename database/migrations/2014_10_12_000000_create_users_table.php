@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('account_number');
             $table->string('image')->nullable();
             $table->string('isFirst')->default(0)->comment('0-No, 1-Yes');
+            $table->string('otp')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
