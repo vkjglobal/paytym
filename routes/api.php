@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Employee\AuthController;
+use App\Http\Middleware\CheckStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,8 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('login', [AuthController::class, 'index']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware([CheckStatus::class, 'auth:api', 'auth:sanctum'])->group(function () {
     Route::post('send-otp', [AuthController::class, 'sendOtp']);
     Route::post('confirm-otp', [AuthController::class, 'confirmOtp']);
     Route::post('password-update', [AuthController::class, 'updatePassword']);
+
+    Route::post('password-reset', [AuthController::class, 'resetPassword']);
 });

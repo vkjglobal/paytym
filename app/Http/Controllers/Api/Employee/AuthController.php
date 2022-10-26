@@ -111,4 +111,28 @@ class AuthController extends Controller
             ], 200);
         }
     }
+
+    // Password Reset
+    public function resetPassword(Request $request)
+    {
+        $authUser = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|confirmed'
+        ]);
+
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        } else {
+            $authUser->password = Hash::make($request->password);
+            $authUser->update();
+
+            return response()->json([
+                'message' => 'Password changed successfully.'
+            ], 200);
+        }
+    }
 }
