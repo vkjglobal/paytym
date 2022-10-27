@@ -38,7 +38,7 @@ class AuthController extends Controller
             ], 200);
         } else {
             return response()->json([
-                'message' => "Something went wrong. Please try again"
+                'message' => "Wrong credentials. Please try again."
             ], 400);
         }
     }
