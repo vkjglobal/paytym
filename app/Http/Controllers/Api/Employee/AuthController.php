@@ -29,7 +29,7 @@ class AuthController extends Controller
         // auth attempt
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $authUser = Auth::user();
-            $success['token'] =  $authUser->createToken('MyToken')->plainTextToken;
+            $success['token'] =  $authUser->createToken($authUser->first_name . '-MyToken')->plainTextToken;
 
             return response()->json([
                 'message' => "You have successfully logged in!",
@@ -133,6 +133,21 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Password changed successfully.'
             ], 200);
+        }
+    }
+
+    // Logout 
+    public function logout()
+    {
+        $res =  auth()->user()->tokens()->delete();
+        if ($res) {
+            return response()->json([
+                'message' => 'Logout Successfull'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Please try again.'
+            ], 400);
         }
     }
 }

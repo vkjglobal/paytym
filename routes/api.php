@@ -22,10 +22,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('login', [AuthController::class, 'index']);
 
-Route::middleware([CheckStatus::class, 'auth:api', 'auth:sanctum'])->group(function () {
+Route::middleware([CheckStatus::class, 'auth:sanctum'])->group(function () {
     Route::post('send-otp', [AuthController::class, 'sendOtp']);
     Route::post('confirm-otp', [AuthController::class, 'confirmOtp']);
     Route::post('password-update', [AuthController::class, 'updatePassword']);
 
     Route::post('password-reset', [AuthController::class, 'resetPassword']);
+
+    Route::post('logout', [AuthController::class, 'logout']);
 });
