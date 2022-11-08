@@ -56,9 +56,6 @@
 
         </div>
 
-        <!-- Content -->
-        {{-- @yield('content') --}}
-
     </div>
 
     <!-- core:js -->
