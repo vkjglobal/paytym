@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\ConfirmPasswordController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
+use App\Http\Controllers\Admin\EmployerController;
 use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,10 @@ Route::post('password/confirm', [ConfirmPasswordController::class, 'confirm']);
 // Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
 // Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
 // Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+
+
+Route::middleware('admin.auth')->group(function () {
+    // Employers
+    Route::get('employer-change-status', [EmployerController::class, 'changeStatus'])->name('employer.change.status');
+    Route::resource('employers', EmployerController::class)->except(['show']);
+});

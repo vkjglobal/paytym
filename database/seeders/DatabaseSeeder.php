@@ -20,11 +20,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // Admin::factory()->create([
-        //     'name' => 'Super Admin',
-        //     'email' => 'super@admin.com',
-        //     'password' => Hash::make('password')
-        // ]);
+        Admin::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'super@admin.com',
+            'password' => Hash::make('password')
+        ]);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

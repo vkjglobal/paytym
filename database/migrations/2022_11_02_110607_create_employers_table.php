@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('employers', function (Blueprint $table) {
             $table->id();
             $table->string('company');
-            $table->string('user_type');
+            $table->string('user_type')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->string('otp')->nullable();
             $table->string('fcm_token')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status')->default(1)->nullable();
             $table->timestamps();
         });
     }

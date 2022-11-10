@@ -20,6 +20,16 @@
     <link rel="stylesheet" href="{{ asset('admin_assets/css/demo_1/style.css') }}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('admin_assets/images/favicon.png') }}" />
+    <!-- custom styles -->
+    @notifyCss
+
+    <style>
+        .notify {
+            z-index: 999999999 !important;
+        }
+    </style>
+
+    @stack('custom_css')
 </head>
 
 
@@ -77,6 +87,10 @@
     <script src="{{ asset('admin_assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('admin_assets/js/datepicker.js') }}"></script>
     <!-- end custom js for this page -->
+    <!-- custom js -->
+    @notifyJs
+    <x:notify-messages />
+    @stack('custom_js')
 </body>
 
 </html>
