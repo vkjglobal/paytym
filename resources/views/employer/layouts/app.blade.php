@@ -1,80 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Paytym | Admin</title>
+    <!-- core:css -->
+    <link rel="stylesheet" href="{{ asset('admin_assets/vendors/core/core.css') }}">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="{{ asset('admin_assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
+    <!-- end plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{ asset('admin_assets/fonts/feather-font/css/iconfont.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin_assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{{ asset('admin_assets/css/demo_1/style.css') }}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{{ asset('admin_assets/images/favicon.png') }}" />
+    <!-- custom styles -->
+    @notifyCss
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        .notify {
+            z-index: 999999999 !important;
+        }
+    </style>
 
-    <title>{{ config('app.name', 'Laravel') }} :: Employer</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @stack('custom_css')
 </head>
+
+
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }} :: Employer
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <div class="main-wrapper">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+        @if (auth()->guard('employer')->user())
+            <!-- partial:partials/_sidebar.html -->
+            @include('employer.layouts.partials.sidebar')
+            <!-- partial -->
+        @endif
 
-                    </ul>
+        <div class="page-wrapper">
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @if (Auth::guard('employer')->guest())
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('employer.login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @if (Route::has('employer.register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('employer.register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::guard('employer')->user()->name }}
-                                </a>
+            @if (auth()->guard('employer')->user())
+                <!-- partial:partials/_navbar.html -->
+                @include('employer.layouts.partials.header')
+                <!-- partial -->
+            @endif
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('employer.logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+            <div class="page-content">
 
-                                    <form id="logout-form" action="{{ route('employer.logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+                <!-- Content -->
+                @yield('content')
+                <!-- Content -->
+
             </div>
-        </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+            @if (auth()->guard('employer')->user())
+                <!-- _footer -->
+                @include('employer.layouts.partials.footer')
+                <!-- _footer -->
+            @endif
+
+        </div>
+
     </div>
+
+    <!-- core:js -->
+    <script src="{{ asset('admin_assets/vendors/core/core.js') }}"></script>
+    <!-- endinject -->
+    <!-- plugin js for this page -->
+    <script src="{{ asset('admin_assets/vendors/chartjs/Chart.min.js') }}"></script>
+    <script src="{{ asset('admin_assets/vendors/jquery.flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('admin_assets/vendors/jquery.flot/jquery.flot.resize.js') }}"></script>
+    <script src="{{ asset('admin_assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('admin_assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('admin_assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
+    <!-- end plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{{ asset('admin_assets/vendors/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('admin_assets/js/template.js') }}"></script>
+    <!-- endinject -->
+    <!-- custom js for this page -->
+    <script src="{{ asset('admin_assets/js/dashboard.js') }}"></script>
+    <script src="{{ asset('admin_assets/js/datepicker.js') }}"></script>
+    <!-- end custom js for this page -->
+    <!-- custom js -->
+    @notifyJs
+    <x:notify-messages />
+    @stack('custom_js')
 </body>
+
 </html>
