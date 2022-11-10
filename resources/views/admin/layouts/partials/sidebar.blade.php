@@ -47,6 +47,15 @@
                     </ul>
                 </div>
             </li>
+            <!-- Employers end -->
+             
+            <!-- Contacts -->
+            <li class="nav-item {{ request()->is('admin/contact') ? 'active' : '' }}">
+                <a href="{{ route('admin.contact') }}" class="nav-link">
+                    <i class="link-icon" data-feather="layers"></i>
+                    <span class="link-title">Contacts</span>
+                </a>
+            </li>
 
         </ul>
     </div>
