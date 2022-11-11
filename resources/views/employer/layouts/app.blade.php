@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Paytym | Admin</title>
+    <title>Paytym | Employer</title>
     <!-- core:css -->
     <link rel="stylesheet" href="{{ asset('admin_assets/vendors/core/core.css') }}">
     <!-- endinject -->

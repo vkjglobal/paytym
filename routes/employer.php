@@ -5,6 +5,8 @@ use App\Http\Controllers\Employer\Auth\LoginController;
 use App\Http\Controllers\Employer\Auth\RegisterController;
 use App\Http\Controllers\Employer\Auth\ResetPasswordController;
 use App\Http\Controllers\Employer\HomeController;
+use App\Http\Controllers\Employer\LeaveRequestController;
+use App\Http\Controllers\Employer\PaymentRequestController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -34,4 +36,8 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 Route::middleware('employer.auth')->group(function () {
     // Dashboard
     Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    // Leave Requests
+    Route::get('leave-requests', [LeaveRequestController::class, 'index'])->name('leave.requests');
+    Route::get('payment-requests', [PaymentRequestController::class, 'index'])->name('payment.requests');
 });
