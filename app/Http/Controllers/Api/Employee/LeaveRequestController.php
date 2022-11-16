@@ -23,7 +23,7 @@ class LeaveRequestController extends Controller
             ], 200);
         } else {
             return response()->json([
-                'message' => "No Leave Requests found."
+                'message' => "No list present"
             ], 400);
         }
     }

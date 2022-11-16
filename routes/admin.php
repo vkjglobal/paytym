@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\ConfirmPasswordController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\EmployerController;
 use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -40,4 +41,9 @@ Route::middleware('admin.auth')->group(function () {
     // Employers
     Route::get('employer-change-status', [EmployerController::class, 'changeStatus'])->name('employer.change.status');
     Route::resource('employers', EmployerController::class)->except(['show']);
+
+    // Contacts
+    Route::get('contact', [ContactController::class, 'index'])->name('contact');
+    Route::post('contact', [ContactController::class, 'sendReply']);
+    Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
 });

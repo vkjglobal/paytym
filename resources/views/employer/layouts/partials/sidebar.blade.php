@@ -1,6 +1,6 @@
 <nav class="sidebar">
     <div class="sidebar-header">
-        <a href="{{ route('admin.home') }}" class="sidebar-brand">
+        <a href="{{ route('employer.home') }}" class="sidebar-brand">
             Paytym
         </a>
         <div class="sidebar-toggler not-active">
@@ -12,16 +12,43 @@
     <div class="sidebar-body">
         <ul class="nav">
             <li class="nav-item nav-category">Main</li>
-            
+
             <!-- Dashboard -->
-            <li class="nav-item {{ request()->is('admin') ? 'active' : '' }}">
-                <a href="{{ route('admin.home') }}" class="nav-link">
+            <li class="nav-item {{ request()->is('employer') ? 'active' : '' }}">
+                <a href="{{ route('employer.home') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
                     <span class="link-title">Dashboard</span>
                 </a>
             </li>
 
             <li class="nav-item nav-category">Menus</li>
+
+            <!-- Requests -->
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#requests" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Requests</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="requests">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.leave.requests') }}"
+                                class="nav-link {{ request()->is('employer/leave-requests') ? 'active' : '' }}">
+                                Leave Requests
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payment.requests') }}"
+                                class="nav-link {{ request()->is('employer/payment-requests') ? 'active' : '' }}">
+                                Payment Requests
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- Requests end -->
 
             <!-- Employers -->
             <li class="nav-item {{ request()->is('admin/employers*') ? 'active' : '' }}">
@@ -34,7 +61,8 @@
                 <div class="collapse {{ request()->is('admin/employers*') ? 'show' : '' }}" id="employers">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('admin.employers.index') }}" class="nav-link {{ request()->is('admin/employers') ? 'active' : '' }}">
+                            <a href="{{ route('admin.employers.index') }}"
+                                class="nav-link {{ request()->is('admin/employers') ? 'active' : '' }}">
                                 List
                             </a>
                         </li>
@@ -48,15 +76,7 @@
                 </div>
             </li>
             <!-- Employers end -->
-             
-            <!-- Contacts -->
-            <li class="nav-item {{ request()->is('admin/contact') ? 'active' : '' }}">
-                <a href="{{ route('admin.contact') }}" class="nav-link">
-                    <i class="link-icon" data-feather="layers"></i>
-                    <span class="link-title">Contacts</span>
-                </a>
-            </li>
-             
+
         </ul>
     </div>
 </nav>

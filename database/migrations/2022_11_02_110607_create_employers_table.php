@@ -35,6 +35,7 @@ return new class extends Migration
             $table->string('otp')->nullable();
             $table->string('fcm_token')->nullable();
             $table->string('status')->default(1)->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }
