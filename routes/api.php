@@ -44,6 +44,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Payment Request
     Route::post('request-payment', [PaymentRequestController::class, 'index']);
 
+    //Pay Slips --Robin 17-11-22
+    Route::post('payslip', [PaymentRequestController::class, 'payslip']);
+
+
     // Chats
     Route::get('get-chat', [ChatController::class, 'index']);
     Route::post('send-chat', [ChatController::class, 'store']);

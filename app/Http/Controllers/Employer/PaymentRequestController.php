@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
 use App\Models\PaymentRequest;
+use App\Models\Payroll;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -40,4 +41,27 @@ class PaymentRequestController extends Controller
             }
         }
     }
+
+    public function payslip()
+    {
+        $user=Auth::user();
+
+        $payroll=Payroll::where('user_id',$user->id)->orderBy('id', 'DESC')->first();
+        if($payroll)
+        {
+            return response()->json([
+                'message' => "Success",
+                "payroll"=>$payroll,
+            ], 200);
+        }
+        else{
+            return response()->json([
+                'message' => "No Records"
+            ], 400);
+        }
+
+
+    }
+
+
 }
