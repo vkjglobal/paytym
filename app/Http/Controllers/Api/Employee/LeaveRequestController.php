@@ -32,7 +32,6 @@ class LeaveRequestController extends Controller
     public function store(StoreLeaveRequest $request)
     {
         $validated = $request->validated();
-
         $leaveRequest = new LeaveRequest();
         $leaveRequest->user_id = Auth::user()->id;
         $leaveRequest->title = $validated['title'] ?? null;
