@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\Employee\AuthController;
 use App\Http\Controllers\Api\Employee\ChatController;
 use App\Http\Controllers\Api\Employee\LeaveRequestController;
+use App\Http\Controllers\Employer\AttendanceController;
+use App\Http\Controllers\Employer\PaymentAdvanceController;
 use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Middleware\CheckStatus;
 use Illuminate\Http\Request;
@@ -47,7 +49,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Pay Slips --Robin 17-11-22
     Route::post('payslip', [PaymentRequestController::class, 'payslip']);
 
+    //Payment Advance 18-11-22
+    Route::post('request_advance', [PaymentAdvanceController::class, 'request_advance']);
 
+    // Attendance
+    Route::post('check_in', [AttendanceController::class, 'check_in']);
+    Route::post('check_out', [AttendanceController::class, 'check_out']);
+
+    Route::post('check_in_by_scan', [AttendanceController::class, 'check_in_by_scan']);
+    Route::post('check_out_by_scan', [AttendanceController::class, 'check_out_by_scan']);
+
+    Route::post('attendance', [AttendanceController::class, 'attendance']);
+    
+
+
+    // End Robin 
     // Chats
     Route::get('get-chat', [ChatController::class, 'index']);
     Route::post('send-chat', [ChatController::class, 'store']);
