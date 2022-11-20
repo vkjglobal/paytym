@@ -4,9 +4,11 @@ use App\Http\Controllers\Api\Employee\AuthController;
 use App\Http\Controllers\Api\Employee\ChatController;
 use App\Http\Controllers\Api\Employee\LeaveRequestController;
 use App\Http\Controllers\Employer\AttendanceController;
+use App\Http\Controllers\Employer\DeductionsController;
 use App\Http\Controllers\Employer\PaymentAdvanceController;
 use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Middleware\CheckStatus;
+use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -60,9 +62,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('check_out_by_scan', [AttendanceController::class, 'check_out_by_scan']);
 
     Route::post('attendance', [AttendanceController::class, 'attendance']);
-    
 
+    // Request Payment 18-11-22
+    Route::post('request_payment', [PaymentRequestController::class, 'request_payment']);
 
+    Route::post('deductions', [DeductionsController::class, 'deductions']);
     // End Robin 
     // Chats
     Route::get('get-chat', [ChatController::class, 'index']);
