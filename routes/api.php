@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Employee\ChatController;
 use App\Http\Controllers\Api\Employee\LeaveRequestController;
 use App\Http\Controllers\Employer\AttendanceController;
 use App\Http\Controllers\Employer\DeductionsController;
+use App\Http\Controllers\Employer\MeetingsController;
 use App\Http\Controllers\Employer\PaymentAdvanceController;
 use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Middleware\CheckStatus;
@@ -44,6 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Leave Request
     Route::get('leave-request', [LeaveRequestController::class, 'index']);
     Route::post('leave-request', [LeaveRequestController::class, 'store']);
+    Route::post('dashboard', [LeaveRequestController::class, 'dashboard']);
 
     // Payment Request
     Route::post('request-payment', [PaymentRequestController::class, 'index']);
@@ -63,10 +65,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('attendance', [AttendanceController::class, 'attendance']);
 
-    // Request Payment 18-11-22
+    // Request Payment 19-11-22
     Route::post('request_payment', [PaymentRequestController::class, 'request_payment']);
 
     Route::post('deductions', [DeductionsController::class, 'deductions']);
+
+    // Request Payment 21-11-22
+    Route::post('meetings', [MeetingsController::class, 'meetings']);
+
+
+
+    
     // End Robin 
     // Chats
     Route::get('get-chat', [ChatController::class, 'index']);
