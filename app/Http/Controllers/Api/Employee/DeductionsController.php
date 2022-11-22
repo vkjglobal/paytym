@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class DeductionsController extends Controller
 {
-    //
-
     public function deductions()
     {
         $user = Auth::user();

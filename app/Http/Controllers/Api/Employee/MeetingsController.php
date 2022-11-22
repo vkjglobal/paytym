@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class MeetingsController extends Controller
 {
-    //
     public function meetings()
     {
         $user_id = Auth::user()->id;
