@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Employer;
+namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentAdvance;
 use Illuminate\Http\Request;

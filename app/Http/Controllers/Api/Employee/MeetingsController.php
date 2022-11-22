@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Employer;
+namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Meeting;
@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class MeetingsController extends Controller
 {
     //
-
     public function meetings()
     {
         $user_id = Auth::user()->id;

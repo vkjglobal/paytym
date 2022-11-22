@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Employer;
+namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
@@ -16,6 +16,7 @@ class AttendanceController extends Controller
         $attendance = new Attendance();
         $attendance->user_id = Auth::user()->id;
         $attendance->check_in = $now;
+        $attendance->date = $now;
 
         $res = $attendance->save();
 
@@ -42,6 +43,7 @@ class AttendanceController extends Controller
             // $check_in=$attendance->check_in;
             // $total_time=$now - $check_in;
             $attendance->check_out=$now;
+            $attendance->date = $now;
             $attendance->status='1'; // need to do the status check 
             $res = $attendance->save();
         if ($res) {
@@ -80,6 +82,7 @@ class AttendanceController extends Controller
         $attendance = new Attendance();
         $attendance->user_id = Auth::user()->id;
         $attendance->check_in = $now;
+        $attendance->date = $now;
 
         $res = $attendance->save();
 
@@ -106,6 +109,7 @@ class AttendanceController extends Controller
             // $check_in=$attendance->check_in;
             // $total_time=$now - $check_in;
             $attendance->check_out=$now;
+            $attendance->date = $now;
             $attendance->status='1'; // need to do the status check 
             $res = $attendance->save();
         if ($res) {

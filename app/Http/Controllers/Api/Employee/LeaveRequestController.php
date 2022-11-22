@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Employee;
+namespace App\Http\Controllers\Api\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeaveRequest;

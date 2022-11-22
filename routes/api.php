@@ -3,10 +3,10 @@
 use App\Http\Controllers\Api\Employee\AuthController;
 use App\Http\Controllers\Api\Employee\ChatController;
 use App\Http\Controllers\Api\Employee\LeaveRequestController;
-use App\Http\Controllers\Employer\AttendanceController;
-use App\Http\Controllers\Employer\DeductionsController;
-use App\Http\Controllers\Employer\MeetingsController;
-use App\Http\Controllers\Employer\PaymentAdvanceController;
+use App\Http\Controllers\Api\Employee\AttendanceController;
+use App\Http\Controllers\Api\Employee\DeductionsController;
+use App\Http\Controllers\Api\Employee\MeetingsController;
+use App\Http\Controllers\Api\Employee\PaymentAdvanceController;
 use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
