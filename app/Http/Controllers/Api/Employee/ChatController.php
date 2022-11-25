@@ -15,16 +15,22 @@ class ChatController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $employer_id=$user->employer_id;
         $chats = Chat::where('user_id', $user->id)->get();
-
+        $hod = Employer::where('id', $employer_id)->first();
+        $chat_history = Chat::with('employer')->where(['user_id' => Auth::user()->id, 'employer_id' => $employer_id])->get();
+  
         if ($chats->count() > 0) {
             return response()->json([
                 'message' => "Success",
-                'chats' => $chats
+                'chats' => $chats,
+                'hod' => $hod->name,
+                'hod_image' => $hod->logo,
+                'chat_history' => $chat_history,
             ], 200);
         } else {
             return response()->json([
-                'message' => "fail"
+                'message' => "No chat details found"
             ], 400);
         }
     }
@@ -43,8 +49,8 @@ class ChatController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-
         // Save Chat
+       
         $chat = new Chat();
         $chat->user_id = Auth::user()->id;
         $chat->employer_id = $request->employer_id;
