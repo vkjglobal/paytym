@@ -31,58 +31,60 @@
                                 </div>
                                 <div class="col-md-8 pl-md-0">
                                     <div class="auth-form-wrapper px-4 py-5">
-                                        <a href="#"
-                                            class="noble-ui-logo d-block mb-2">Paytym<span>Employer</span></a>
+                                        <a href="#" class="noble-ui-logo d-block mb-2">Paytym<span>Employer</span></a>
 
                                         <form method="POST" action="{{ route('employer.login') }}">
                                             @csrf
-                                            
+
                                             <div class="form-group">
                                                 <label for="email">{{ __('Email Address') }}</label>
-                                                <input type="email" name="email"
-                                                    class="form-control @error('email') is-invalid @enderror"
-                                                    value="{{ old('email') }}" placeholder="Email" required>
+                                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Email" required>
 
                                                 @error('email')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                                 @enderror
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="password">{{ __('Password') }}</label>
-                                                <input type="password" name="password"
-                                                    class="form-control @error('password') is-invalid @enderror"
-                                                    placeholder="Password" required>
+                                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
 
                                                 @error('password')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                                 @enderror
                                             </div>
 
                                             <div class="form-check form-check-flat form-check-primary">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="remember"
-                                                        id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                                     {{ __('Remember Me') }}
                                                 </label>
                                             </div>
 
                                             <div class="mt-3">
-                                                <button type="submit"
-                                                    class="btn btn-primary mr-2 mb-2 mb-md-0 text-white">
+                                                <button type="submit" class="btn btn-primary mr-2 mb-2 mb-md-0 text-white">
                                                     {{ __('Login') }}
                                                 </button>
 
                                                 <!-- Forgot Password -->
                                                 @if (Route::has('employer.password.request'))
-                                                    <a class="btn btn-link"
-                                                        href="{{ route('employer.password.request') }}">
-                                                        {{ __('Forgot Your Password?') }}
-                                                    </a>
+                                                <a class="btn btn-link" href="{{ route('employer.password.request') }}">
+                                                    {{ __('Forgot Your Password?') }}
+                                                </a>
+                                                @endif
+                                            </div>
+
+                                            <div class="mt-3">
+
+                                                <!-- Register -->
+                                                @if (Route::has('employer.register'))
+                                                <a class="btn btn-link" href="{{ route('employer.register') }}">
+                                                    {{ __('Register') }}
+                                                </a>
                                                 @endif
                                             </div>
 

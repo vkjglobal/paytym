@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class ChatController extends Controller
 {
     // Chats List
+    
     public function index()
     {
         $user = Auth::user();
