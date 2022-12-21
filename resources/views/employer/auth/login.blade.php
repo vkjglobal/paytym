@@ -83,7 +83,7 @@
                                                 <!-- Register -->
                                                 @if (Route::has('employer.register'))
                                                 <a class="btn btn-link" href="{{ route('employer.register') }}">
-                                                    {{ __('Register') }}
+                                                    {{ __('Register') }}  
                                                 </a>
                                                 @endif
                                             </div>

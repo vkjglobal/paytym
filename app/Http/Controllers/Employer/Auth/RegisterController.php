@@ -96,7 +96,7 @@ class RegisterController extends Controller
         $employer->street = $data['street'];
         $employer->city = $data['city'];
         $employer->website = $data['website'];
-        $employer->user_type = "Employer";
+        $employer->user_type = "Employer"; 
 
         if (isset($data['registration_certificate'])) {
             $path =  $data['registration_certificate']->storeAs(

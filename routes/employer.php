@@ -6,7 +6,7 @@ use App\Http\Controllers\Employer\Auth\RegisterController;
 use App\Http\Controllers\Employer\Auth\ResetPasswordController;
 use App\Http\Controllers\Employer\HomeController;
 use App\Http\Controllers\Employer\LeaveRequestController;
-use App\Http\Controllers\Employer\PaymentRequestController;
+use App\Http\Controllers\Employer\PaymentRequestController;   
 use Illuminate\Support\Facades\Route;
 
 // Login
