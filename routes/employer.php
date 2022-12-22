@@ -7,6 +7,7 @@ use App\Http\Controllers\Employer\Auth\ResetPasswordController;
 use App\Http\Controllers\Employer\HomeController;
 use App\Http\Controllers\Employer\LeaveRequestController;
 use App\Http\Controllers\Employer\PaymentRequestController;   
+use App\Http\Controllers\Employer\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -34,10 +35,19 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 // Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
 Route::middleware('employer.auth')->group(function () {
+
+      // Profile
+      Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+      Route::post('profile', [ProfileController::class, 'store']);
+
+      Route::post('update-password', [ProfileController::class, 'updatePass'])->name('update.password');
+
     // Dashboard
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Leave Requests
     Route::get('leave-requests', [LeaveRequestController::class, 'index'])->name('leave.requests');
     Route::get('payment-requests', [PaymentRequestController::class, 'index'])->name('payment.requests');
+
+
 });
