@@ -48,6 +48,34 @@
                 </div>
             </li>
             <!-- Employers end -->
+
+            <!---Subscriptions--->
+      <!-- Employers -->
+      <li class="nav-item {{ request()->is('admin/subscriptions*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#subscriptions" role="button" aria-expanded="false"
+                    aria-controls="subscriptions">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Subscription</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/subscriptions*') ? 'show' : '' }}" id="subscriptions">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.subscriptions.index') }}" class="nav-link {{ request()->is('admin/employers') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.subscriptions.create') }}"
+                                class="nav-link {{ request()->is('admin/subscriptions/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!----End Subscription----->
              
             <!-- Contacts -->
             <li class="nav-item {{ request()->is('admin/contact') ? 'active' : '' }}">
