@@ -51,9 +51,18 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:employers'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => 'required|string',
+            'company_name' => 'required|string',
+            'email' => 'required|email|unique:employers,email',
+            'phone' => 'required',
+            'company_phone' => 'required',
+            'street' => 'required|string',
+            'city' => 'required|string',
+            'country' => 'required|string',
+            'tin' => 'required|string',
+            'website' => 'nullable|url',
+            'registration_certificate' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
+            'logo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
         ]);
     }
 
@@ -64,13 +73,56 @@ class RegisterController extends Controller
      *
      * @return \App\Models\Employer
      */
+    // protected function create(array $data)
+    // {
+    //     return Employer::create([
+    //         'name' => $data['name'],
+    //         'email' => $data['email'],
+    //         'password' => Hash::make($data['password']),
+    //     ]);
+    // }
+
     protected function create(array $data)
     {
-        return Employer::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $employer = new Employer();
+        $employer->name = $data['name'];
+        $employer->company = $data['company_name'];
+        $employer->email = $data['email'];
+        $employer->password = Hash::make($data['email']);
+        $employer->phone = $data['phone'];
+        $employer->company_phone = $data['company_phone'];
+        $employer->tin = $data['tin'];
+        $employer->country = $data['country'];
+        $employer->street = $data['street'];
+        $employer->city = $data['city'];
+        $employer->website = $data['website'];
+        $employer->user_type = "Employer"; 
+
+        if (isset($data['registration_certificate'])) {
+            $path =  $data['registration_certificate']->storeAs(
+                'uploads/certificate',
+                urlencode(time()) . '_' . uniqid() . '_' . $data['registration_certificate']->getClientOriginalName(),
+                'public'
+            );
+            $employer->registration_certificate = $path;
+        }
+
+        if (isset($data['logo'])) {
+            $path =  $data['logo']->storeAs(
+                'uploads/logo',
+                urlencode(time()) . '_' . uniqid() . '_' . $data['logo']->getClientOriginalName(),
+                'public'
+            );
+            $employer->logo = $path;
+        }
+        $res = $employer->save();
+        if ($res) {
+            notify()->success(__('Register successfull'));
+            return $employer;
+        } else {
+            notify()->error(__('Failed to Register. Please try again'));
+            return redirect()->back();
+        }
     }
 
     /**

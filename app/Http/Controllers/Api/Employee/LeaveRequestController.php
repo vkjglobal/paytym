@@ -50,4 +50,34 @@ class LeaveRequestController extends Controller
             ], 400);
         }
     }
+
+    public function dashboard()
+    {
+        $user_id = Auth::user()->id;
+        $leave = LeaveRequest::where('status', '1')->where('user_id',$user_id);
+        if($leave)
+        {
+            $casual=LeaveRequest::where('status', '1')->where('user_id',$user_id)->where('type','casual')->get();
+            $casual=$casual->count();
+            $absence=LeaveRequest::where('status', '1')->where('user_id',$user_id)->get();
+            $absence=$absence->count();
+            $annual=LeaveRequest::where('status', '1')->where('user_id',$user_id)->where('type','annual')->get();
+            $annual=$annual->count();
+            $halfday=LeaveRequest::where('status', '1')->where('user_id',$user_id)->where('type','halfday')->get();
+            $halfday=$halfday->count();
+            return response()->json([
+                'message' => "Dash Board details listed",
+                'casual' =>$casual,
+                'absence' =>$absence,
+                'annual' =>$annual,
+                'halfday' =>$halfday,
+            ], 200);
+
+        }
+        else{
+            return response()->json([
+                'message' => "Failed to check in"
+            ], 400);
+        }
+    }
 }

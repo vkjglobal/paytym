@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SendOtp;
+use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -30,11 +31,32 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $authUser = Auth::user();
             $success['token'] =  $authUser->createToken($authUser->first_name . '-MyToken')->plainTextToken;
+            $casual = 0;
+            $absence = 0;
+            $annual = 0;
+            $halfday = 0;
+
+            $user_id = Auth::user()->id;
+            $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
+            if ($leave) {
+                $casual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'casual')->get();
+                $casual = $casual->count();
+                $absence = LeaveRequest::where('status', '1')->where('user_id', $user_id)->get();
+                $absence = $absence->count();
+                $annual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'annual')->get();
+                $annual = $annual->count();
+                $halfday = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'halfday')->get();
+                $halfday = $halfday->count();
+            }
 
             return response()->json([
                 'message' => "You have successfully logged in!",
                 'employee' => $authUser,
-                'token' => $success['token']
+                'token' => $success['token'],
+                'casual' => $casual,
+                'absence' => $absence,
+                'annual' => $annual,
+                'halfday' => $halfday,
             ], 200);
         } else {
             return response()->json([

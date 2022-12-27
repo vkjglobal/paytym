@@ -44,24 +44,50 @@ class PaymentRequestController extends Controller
 
     public function payslip()
     {
-        $user=Auth::user();
+        $user = Auth::user();
 
-        $payroll=Payroll::where('user_id',$user->id)->orderBy('id', 'DESC')->first();
-        if($payroll)
-        {
+        $payroll = Payroll::where('user_id', $user->id)->orderBy('id', 'DESC')->first();
+        if ($payroll) {
             return response()->json([
                 'message' => "Success",
-                "payroll"=>$payroll,
+                "payroll" => $payroll,
             ], 200);
-        }
-        else{
+        } else {
             return response()->json([
                 'message' => "No Records"
             ], 400);
         }
-
-
     }
 
 
+    public function request_payment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'amount' =>  'required',
+        ]);
+
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        } else {
+            $payment_request = new PaymentRequest();
+            $payment_request->user_id = Auth::user()->id;
+            $payment_request->amount = $request->amount;
+            $payment_request->date = new \DateTime();
+
+            $res = $payment_request->save();
+
+            if ($res) {
+                return response()->json([
+                    'message' => "Payment Requested Successfully",
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => "Fail"
+                ], 400);
+            }
+        }
+    }
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\EmployerController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 // Dashboard
@@ -38,9 +40,21 @@ Route::post('password/confirm', [ConfirmPasswordController::class, 'confirm']);
 
 
 Route::middleware('admin.auth')->group(function () {
+
+        // Profile
+        Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+        Route::post('profile', [ProfileController::class, 'store']);
+    
+        Route::post('update-password', [ProfileController::class, 'updatePass'])->name('update.password');
+
+
     // Employers
     Route::get('employer-change-status', [EmployerController::class, 'changeStatus'])->name('employer.change.status');
     Route::resource('employers', EmployerController::class)->except(['show']);
+
+    //Subscription Rj 26-12-22
+    Route::get('subscription-change-status', [SubscriptionController::class, 'changeStatus'])->name('subscriptions.change.status');
+    Route::resource('subscriptions', SubscriptionController::class)->except(['show']);
 
     // Contacts
     Route::get('contact', [ContactController::class, 'index'])->name('contact');

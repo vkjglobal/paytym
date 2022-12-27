@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employer;
 use App\Http\Controllers\Controller;
 use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeaveRequestController extends Controller
 {
@@ -19,4 +20,6 @@ class LeaveRequestController extends Controller
         // dd($leaveRequests);
         return view('employer.leave-requests.index', compact('breadcrumbs', 'leaveRequests'));
     }
+
+   
 }
