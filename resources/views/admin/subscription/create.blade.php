@@ -6,12 +6,12 @@
     <div class="row">
         <div class="col-md-12 stretch-card">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body">   
                     <h6 class="card-title">Subscription Create</h6>
                     <form method="POST" action="{{ route('admin.subscription.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-6"> 
                                 <div class="form-group">
                                     <label class="control-label">Company Name<span class="text-danger">*</span></label>
                                     <input type="text"

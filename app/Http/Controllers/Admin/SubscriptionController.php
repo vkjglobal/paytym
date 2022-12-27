@@ -27,7 +27,12 @@ class SubscriptionController extends Controller
             [(__('Employers')), route('admin.subscriptions.index')],
             [(__('Create')), null]
         ];
-        return view('admin.subscriptions.create', compact('breadcrumbs'));
+        return view('admin.subscription.create', compact('breadcrumbs'));
+    }
+
+    public function store(StoreEmployerRequest $request)
+    {
+
     }
 
     public function changeStatus(Request $request)
