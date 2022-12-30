@@ -74,7 +74,9 @@
         </div>
         <a href="#" class="sticky-button"><img src="{{asset('home_assets/images/logo-jobtym.png')}}" alt=""></a>
     </header>
-    
+
+
+    <!-- Banner Section -->
     <section class="header-section hero-section" id="home">
         <div class="container">
             <div class="row ">
@@ -101,6 +103,9 @@
             </div>
         </div>
     </section>
+
+    <!-- Banner End -->
+
     
     <!-- about-section -->
     <section class="about-section" id="about">
@@ -115,6 +120,7 @@
             </div>
         </div>
     </section>
+<!-- about End -->
     
     <!-- employers-section -->
     <section class="forEmployers-section" id="ForEmployers">
@@ -131,8 +137,16 @@
             <div class="feature-wrp">
                 <div class="sub-title text-center pl-md-5 pr-md-5">
                     <h4>Employer Web Features</h4>
-                    <p>An HR management software system will be of high use when various powerful features will be integrated into it. Paytym develops a wide range of next-gen features for Hr management software systems. We craft future-proof solutions in terms of 
-                        HR management software development.</p>
+                    <p>Easily manage your employees and payroll 
+                        and maximize your time and resources with 
+                        our online Paytym portal. Paytym is 
+                        convenient and user-friendly. Chat with 
+                        employees directly or their superiors and 
+                        broadcast and push notifications to their 
+                        mobile app. View reports and analyse 
+                        Payroll Budget at a click. Paytym is a next-gen
+                        HRMS platform with powerful features
+                        suitable for businesses of all sizes.</p>
                 </div>
                 <div class="row pt-3 justify-content-center"  data-aos="zoom-in-up"    data-aos-duration="2000">
                     <div class="col-md-4 mb-md-4 mb-3 d-flex">
@@ -195,7 +209,7 @@
 
                             <div class="card-body pt-3">
                                 <h5 class="card-title pt-2 text-center">Payroll Tax and Contribution Filing</h5>
-                                <p class="card-text pt-3 text-center">Auto generates payroll tax reports and employer/employee contributions for simple statutory filing 
+                                <p class="card-text pt-3 text-center">Auto generate payroll tax reports and employer/employee contributions for simple statutory filing 
                                     requirements.</p>
                             </div>
                         </div>
@@ -246,11 +260,11 @@
                     your pay slips, salary and time 
                     worked. You can chat within 
                     the groups created by your 
-                    superiors; view your shift 
+                    superiors, view your shift 
                     roster, scheduled meetings 
                     and employment benefits. 
                     You can also update your 
-                    personal and payment 
+                    profile and payment 
                     accounts, request leaves and 
                     time off, view attendance and 
                     work history and receive 
@@ -324,7 +338,7 @@
                                 </div>
                                 <div class="text-table">
                                     <strong class="d-block mb-2 black-txt">Deposit Accounts</strong>
-                                    <p class="grey-txt">update your payments accounts at any time.</p>
+                                    <p class="grey-txt">update your payment accounts at any time.</p>
                                 </div>
                             </div>
                         </li>
@@ -419,125 +433,89 @@
     </section>
 
     <!-- howwork-section -->
-    <section class="howwork-section" id="HowItWork">
-        <div class="container about-title pt-5 text-center">
-            <h3>How It Work?</h3>
-            <p>It is a long established fact that a reader will be distracted by the readable content of a page when
-                looking at its layout.</p>
-        </div>
-        <div class="container" data-aos="zoom-in"    data-aos-duration="2000">
-            <div class="row justify-content-center">
-                <div class="col-md-4">
-                    <div class="card-work text-center pt-4">
-                        <div class="work-img-wrp">
-                            <img src="{{asset('home_assets/images/work/Group 68.png')}}" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title pt-2"> Employer chooses a plan and registers</h5>
-                            <!-- <p class="card-text pt-2">
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered
-                                alteration in some form, by injected humour,</p> -->
-
-                        </div>
+   <!-- howwork-section -->
+<section class="howwork-section" id="HowItWork">
+    <div class="container about-title pt-5 text-center">
+        <h3 class="light-blue-text">How It Works?</h3>
+        <p>It is a long established fact that a reader will be distracted by the readable content of a page when
+            looking at its layout.</p>
+    </div>
+    <div class="container" data-aos="zoom-in"    data-aos-duration="2000">
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-sm-6">
+                <div class="card-work text-center">
+                    <div class="work-img-wrp">
+                        <img src="{{asset('home_assets/images/svg/1.svg')}}" alt="">
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-work text-center pt-4">
-                        <div class="work-img-wrp">
-                            <img src="{{asset('home_assets/images/work/new.png')}}" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title pt-2"> Employer on-boards employees</h5>
-                            <!-- <p class="card-text pt-2">
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered
-                                alteration in some form, by injected humour,</p> -->
-
-                        </div>
+                    <div class="title-wrp">
+                        Employer Chooses a
+                        <strong>PLAN & REGISTER</strong>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-work text-center pt-4">
-                        <div class="work-img-wrp">
-                            <img src="{{asset('home_assets/images/work/Gro.png')}}" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title pt-2">Share login details with employees</h5>
-                            <!-- <p class="card-text pt-2">
-
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered alteration in some form, by injected humour,</p> -->
-
-                        </div>
+                </div>    
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card-work text-center">
+                    <div class="work-img-wrp">
+                        <img src="{{asset('home_assets/images/svg/2.svg')}}" alt="">
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-work text-center pt-4">
-                        <div class="work-img-wrp">
-                            <img src="{{asset('home_assets/images/work/Gro.png')}}" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title pt-2">Employee downloads Paytym Mobile App</h5>
-                            <!-- <p class="card-text pt-2">
-
-                                Ther
-                                
-                        <div class="work-img-wrp">
-                            <img src="images/work/Gro.png" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title pt-2">Employee signs in</h5>
-                             <p class="card-text pt-2">
-
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered alteration in some form, by injected humour,</p> -->
-
-                        </div>
+                    <div class="title-wrp">
+                        Employer on
+                        <strong>BOARDS EMPLOYEES</strong>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-work text-center pt-4">
-                        <div class="work-img-wrp">
-                            <img src="{{asset('home_assets/images/work/Gro.png')}}" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title pt-2">Employee Signs in</h5>
-                            <!-- <p class="card-text pt-2">
-
-                                Ther
-                                
-                        <div class="work-img-wrp">
-                            <img src="images/work/Gro.png" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title pt-2">Employee signs in</h5>
-                             <p class="card-text pt-2">
-
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered alteration in some form, by injected humour,</p> -->
-
-                        </div>
+                </div>    
+            </div>
+            <div class="col-md-4 col-sm-6 line-right">
+                <div class="card-work text-center">
+                    <div class="work-img-wrp">
+                        <img src="{{asset('home_assets/images/svg/3.svg')}}" alt="">
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-work text-center pt-4">
-                        <div class="work-img-wrp">
-                            <img src="{{asset('home_assets/images/work/Gro.png')}}" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title pt-2">Paytym syncs employer and employee</h5>
-                            <!-- <p class="card-text pt-2">
-
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered alteration in some form, by injected humour,</p> -->
-
-                        </div>
+                    <div class="title-wrp">
+                        Share login details with
+                        <strong>EMPLOYEES</strong>
                     </div>
-                </div>
+                </div>    
             </div>
         </div>
-    </section>
+        <div class="row">
+            <hr class="dashed-border col-md-12 pl-0 pr-0">
+        </div>
+        <div class="row justify-content-center">    
+            <div class="col-md-4 col-sm-6 line-left">
+                <div class="card-work text-center">
+                    <div class="work-img-wrp">
+                        <img src="{{asset('home_assets/images/svg/4.svg')}}" alt="">
+                    </div>
+                    <div class="title-wrp">
+                        Employee downloads
+                        <strong>PAYTYM MOBILE APP</strong>
+                    </div>
+                </div>    
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card-work text-center">
+                    <div class="work-img-wrp">
+                        <img src="{{asset('home_assets/images/svg/5.svg')}}" alt="">
+                    </div>
+                    <div class="title-wrp">
+                        Employee
+                        <strong>SIGNS IN</strong>
+                    </div>
+                </div>    
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card-work text-center">
+                    <div class="work-img-wrp">
+                        <img src="{{asset('home_assets/images/svg/6.svg')}}" alt="">
+                    </div>
+                    <div class="title-wrp">
+                        Paytym syncs
+                        <strong>EMPLOYER & EMPLOYEE</strong>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+</section>
 
 
     <!-- testimonial-section -->
@@ -702,198 +680,141 @@
 
     <!-- pricing-plan section -->
     <section class="pricing-plan" id="pricing">
-        <div class="container about-title pt-5 text-center">
-            <h3>Pricing</h3>
-            <p>Start streamlining your Payroll 
-                processes and simplifying your HR 
-                management now!
-                </p>
-        </div>
-        <div class="container" data-aos="fade-up" data-aos-duration="2000" >
-            <div class="row  pt-2">
-                <div class="col-md-3">
-                    <div class="card-price-blue white-bg rounded border mt-3">
-                        <div class="p-lg-4 p-3" >
-                            <!-- <h3 class="text-center pt-3"> Standard</h3>
-                            <hr> --> 
-                            <h4 class="text-center d-flex flex-column align-items-center">
-                                <strong>Free</strong>
-                                <span class="small-text">&nbsp;</span>
-                            </h4>
-                            <hr>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center mb-4">
-                                    <strong>1-9</strong>
-                                </div>
-                                <!-- <p class="card-text ">
-                                    <div class="body-card">
-                                        Extra features
-                                        <ul class="ul-list ">
-                                            <li>Lifetime free support</li>
-                                            <li>Upgrate options</li>
-                                            <li>Full access</li>
-                                            <li>Web Design</li>
-                                            <li>App Design</li>
-                                            <li>Web Developement</li>
-                                        </ul>
-                                    </div>
-                                </p> -->
-                                <div class="btn-started text-center">
-                                    <button class="btn" type="button">
-                                        Get Started
-                                    </button>
-                                </div>
+    <div class="container about-title pt-5 text-center">
+        <h3>Pricing</h3>
+        <p>Start streamlining your Payroll 
+            processes and simplifying your HR 
+            management now!
+            </p>
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-duration="2000" >
+        <div class="form-row justify-content-center pt-2">
+            <div class="col">
+                <div class="card-price-blue white-bg rounded border mt-3">
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">Micro</h3>
+                        <hr> 
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>19 </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4>
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong>1-25</strong>
+                                <span>Per person $6.00</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn" type="button">
+                                    Get Started
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-    
-                <div class="col-md-3">
-                    <div class="card-price-pink white-bg rounded border mt-3">
-                        <div class="p-lg-4 p-3" >
-                            <!-- <h3 class="text-center pt-3"> Personal</h3>
-                            <hr> -->
-                            <h4 class="text-center d-flex flex-column align-items-center">
-                                <strong>$<span>39 </span></strong>
-                                <span class="small-text">monthly</span>
-                            </h4> 
-                            <hr>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center mb-4">
-                                    <strong>10-49</strong>
-                                </div>
-                                <!-- <p class="card-text ">
-                                    <div class="body-card">
-                                        Extra features
-                                        <ul class="ul-list ">
-                                            <li>Lifetime free support</li>
-                                            <li>Upgrate options</li>
-                                            <li>Full access</li>
-                                            <li>Web Design</li>
-                                            <li>App Design</li>
-                                            <li>Web Developement</li>
-                                        </ul>
-                                    </div>
-                                </p> -->
-                                <div class="btn-started text-center">
-                                    <button class="btn" type="button">
-                                        Get Started
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col-md-3">
-                    <div class="card-price-light-yellow white-bg rounded border mt-3" >
-                        <div class="p-lg-4 p-3" >
-                            <!-- <h3 class="text-center pt-3">Business</h3>
-                            <hr> -->
-                            <h4 class="text-center d-flex flex-column align-items-center">
-                                <strong>$<span>59 </span></strong>
-                                <span class="small-text">monthly</span>
-                            </h4>
-                            <hr>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center mb-4">
-                                    <strong>50-99</strong>
-                                </div>
-                                <!-- <p class="card-text ">
-                                    <div class="body-card">
-                                        Extra features
-                                        <ul class="ul-list ">
-                                            <li>Lifetime free support</li>
-                                            <li>Upgrate options</li>
-                                            <li>Full access</li>
-                                            <li>Web Design</li>
-                                            <li>App Design</li>
-                                            <li>Web Developement</li>
-                                        </ul>
-                                    </div>
-                                </p> -->
-                                <div class="btn-started text-center">
-                                    <button class="btn" type="button">
-                                        Get Started
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
-                <div class="col-md-3">
-                    <div class="card-price-light-peach white-bg rounded border mt-3" >
-                        <div class="p-lg-4 p-3" >
-                            <!-- <h3 class="text-center pt-3">Business</h3>
-                            <hr> -->
-                            <h4 class="text-center d-flex flex-column align-items-center">
-                                <strong>$<span>99 </span></strong>
-                                <span class="small-text">monthly</span>
-                            </h4> 
-                            <hr>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center mb-4">
-                                    <strong>100+</strong>
-                                </div>
-                                <!-- <p class="card-text ">
-                                    <div class="body-card">
-                                        Extra features
-                                        <ul class="ul-list ">
-                                            <li>Lifetime free support</li>
-                                            <li>Upgrate options</li>
-                                            <li>Full access</li>
-                                            <li>Web Design</li>
-                                            <li>App Design</li>
-                                            <li>Web Developement</li>
-                                        </ul>
-                                    </div>
-                                </p> -->
-                                <div class="btn-started text-center">
-                                    <button class="btn">
-                                        Get Started
-                                    </button>
-                                </div>
+            <div class="col">
+                <div class="card-price-pink white-bg rounded border mt-3">
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">Small</h3>
+                        <hr>
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>39 </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4> 
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong>26-50</strong>
+                                <span>Per person $5.00</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn" type="button">
+                                    Get Started
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="form-row sub-title justify-content-center">
-                <h4 class="col-12 text-center mt-5">Pay-As-You-Go Monthly Fee</h4>
-                <p class="col-12 text-center">Recurring post-pay billing based on the number of active employees on the last day of each 
-                    month.</p>
-                <div class="col-md-6">
-                    <table class="fee-table">
-                        <tr>
-                            <th>No. of Employees</th>
-                            <th>Fee</th>
-                        </tr>
-                        <tr>
-                            <td>1 to 25</td>
-                            <td>$6.00</td>
-                        </tr>
-                        <tr>
-                            <td>26 to 50</td>
-                            <td>$5.00</td>
-                        </tr>
-                        <tr>
-                            <td>51 to 100</td>
-                            <td>$4.50</td>
-                        </tr>
-                        <tr>
-                            <td>101 to 200</td>
-                            <td>$3.50</td>
-                        </tr>
-                        <tr>
-                            <td>201 and Above</td>
-                            <td>$3.00</td>
-                        </tr>
-                    </table>
+
+            <div class="col">
+                <div class="card-price-light-yellow white-bg rounded border mt-3" >
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">Medium</h3>
+                        <hr>
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>59 </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4>
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong>51-100</strong>
+                                <span>Per person $4.50</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn" type="button">
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card-price-light-peach white-bg rounded border mt-3" >
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">Enterprise</h3>
+                        <hr>
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>99 </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4> 
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong>101-200</strong>
+                                <span>Per person $3.50</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn">
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card-price-light-blue white-bg rounded border mt-3" >
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">Mega</h3>
+                        <hr>
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>149 </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4> 
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong>201 & Above</strong>
+                                <span>Per person $3.00</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn">
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- our-expert-section -->
     <!-- <section class="our-expert">
@@ -933,7 +854,7 @@
 <section class="get-in-touch" id="contact">
     <div class="container get-title pt-5 text-center">
         <h3>Get In Touch</h3>
-        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        <p>Get in touch with our team for assistance or reach out for any inquiries!
         </p>
     </div>
 
@@ -955,7 +876,7 @@
                     </div>
                     <div class="send-btn pb-2 text-center w-100 pt-5">
                         <!-- <button type="button">Send a Message</button> -->
-                        <input type="submit" class="btn text-white btn-typ2" value="Send a Message">
+                        <input type="submit" class="btn text-white btn-typ2" value="Submit">
                     </div>
                 </div>
             </form>
@@ -972,8 +893,7 @@
                 <div class="footer-contact-sec">
                     <div class="address mb-3">1 Regal Lane, <br> Level 2 De Vos on the Park Building, <br>Suva, Fiji</div>
                     <div>
-                        Email: <a href="mailto:contact@paytym.net">contact@paytym.net</a> <br>
-                        Call : <a href="tel:+1 245 369 8741">+1 245 369 8741</a>
+                        Email: <a href="mailto:contact@paytym.net">contact@paytym.net</a> 
                     </div>
                     <ul class="social-links mt-3">
                         <li class="fb-icon"><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
@@ -1003,7 +923,7 @@
             </div> -->
             <div class="col-md-3 pt-2">
                 <div class="quik-link">
-                    <h5 class="mt-4">Quik Links</h5>
+                    <h5 class="mt-4">Quick Links</h5>
                     <ul class="links pt-3">
                         <li><a href="#" >About</a></li>
                         <li><a href="#" >Contact Us</a></li>
@@ -1025,7 +945,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <p class="copy-text">Copyright &copy; 2022 Paytym.com. All Rights Reserved</p>
+                <p class="copy-text">Copyright &copy; 2022 Paytym.net . All Rights Reserved</p>
             </div>
         </div>
     </div>

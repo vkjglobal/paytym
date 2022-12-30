@@ -8,6 +8,8 @@ use App\Http\Controllers\Employer\HomeController;
 use App\Http\Controllers\Employer\LeaveRequestController;
 use App\Http\Controllers\Employer\PaymentRequestController;   
 use App\Http\Controllers\Employer\ProfileController;
+use App\Http\Controllers\Employer\BranchController;
+use App\Http\Controllers\Employer\DepartmentController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -49,5 +51,20 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('leave-requests', [LeaveRequestController::class, 'index'])->name('leave.requests');
     Route::get('payment-requests', [PaymentRequestController::class, 'index'])->name('payment.requests');
 
+
+    // Branch
+    Route::get('branch/create', [BranchController::class, 'index'])->name('branch.create');
+    Route::get('branch/list', [BranchController::class, 'list'])->name('branch.list');
+    Route::post('branch/store',[BranchController::class,'store'])->name('branch.store');
+    Route::get('branch/{id}/edit',[BranchController::class,'edit'])->name('branch.edit');
+    Route::put('branch/{id}',[BranchController::class,'update'])->name('branch.update');
+    Route::get('branch-change-status', [BranchController::class, 'changeStatus'])->name('branch.change.status');  //change status
+    Route::delete('branch/{id}',[BranchController::class, 'destroy'])->name('branch.destroy');
+
+    // Departments
+    Route::get('departments', [DepartmentController::class, 'index'])->name('department.create');
+    Route::get('departments/list', [DepartmentController::class, 'list'])->name('department.list');
+    
+    
 
 });
