@@ -320,9 +320,7 @@ hero-section */
     height: 100%;
 }
 
-.light-blue-text{
-    color: #03AAEB !important;
-}
+
 /* about-section */
 
 .about-title h3{
@@ -330,10 +328,6 @@ hero-section */
     font-size: 24px;
     font-weight: 600;
     color: #0818a8;
-}
-.get-title h3{
-    font-family: 'Poppins', sans-serif;
-    font-size: 24px;
 }
 .about-title p{
     font-size: 13px;
@@ -537,32 +531,14 @@ hero-section */
 
 /* how-work-section */
 .work-img-wrp {
-    width: 90px;
-    height: 90px;
+    min-height: 295px;
     display: flex;
     align-items: end;
     justify-content: center;
-    margin-bottom: 33px;
 }
 .work-img-wrp img {
-    max-width: 100%;
-    height: auto;
-}
-.card-work{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.title-wrp{
-    font-size: 15px;
-    font-weight: 400;
-    text-align: center;
-}
-.title-wrp strong{
-    font-size: 20px;
-    font-weight: 700;
-    display: block;
-    color: #03AAEB;
+    height: 100%;
+    width: auto;
 }
 .card-title{
     color: #000000;
@@ -574,51 +550,7 @@ hero-section */
     color: #000000;
     font-weight: 300;
 }
-.howwork-section .col-md-4.line-right,
-.howwork-section .col-md-4.line-left {
-    position: relative;
-}
-.howwork-section .col-md-4.line-right::after{
-    content: "";
-    width: 78px;
-    height: 140px;
-    display: block;
-    border-right: 2px dashed #A9A9A9;
-    border-top: 2px dashed #A9A9A9;
-    position: absolute;
-    right: -1px;
-    top: 50%;
-}
-.howwork-section .col-md-4.line-left:before{
-    content: "";
-    width: 78px;
-    height: 140px;
-    display: block;
-    border-left: 2px dashed #A9A9A9;
-    border-bottom: 2px dashed #A9A9A9;
-    position: absolute;
-    left: -1px;
-    bottom: 50%;
-}
-.howwork-section .col-md-4 .card-work:after{
-    content: "";
-    background: url(../images/blue-arrow.svg) no-repeat;
-    width: 78px;
-    height: 16px;
-    background-size: 100%;
-    display: block;
-    position: absolute;
-    right: -10%;
-    top: 50%;
-    margin-top: -8px;
-}
-.howwork-section .col-md-4:last-child .card-work:after{
-    display: none;
-}
-.dashed-border{
-    border-top: 2px dashed #A9A9A9;
-    margin: 50px 0;
-}
+
 /* testimonial-section */
 /*.testi{
     width: 10px;
@@ -628,6 +560,7 @@ hero-section */
     font-size: 14px;
 }*/
 .carousel-item h4{
+   
     font-size: 18px;
 }
 .carousel-item p{
@@ -669,7 +602,7 @@ hero-section */
     font-size: 38px;
 }
 .pricing-plan h4 > span{
-    font-size: 13px;
+    font-size: 20px;
 }
 .card-price-blue{
     border-top: 5px solid #825DF7 !important;
@@ -692,11 +625,10 @@ hero-section */
 .white-bg{
     background: #ffffff !important;
 }
-
-/* .card-price-blue h3{
+.card-price-blue h3{
     color: #825DF7;;
     font-size: 18px;
-} */
+}
 .card-price-blue h4{
     color: #29272e;;
     font-size: 16px;
@@ -704,21 +636,15 @@ hero-section */
 .card-price-blue h4 strong{
     color: #825DF7;
 }
-/* .card-price-blue span{
+.card-price-blue span{
     font-size: 24px;
-} */
+}
 /* .card-price-blue .card-body{
     font-size: 18px;
     color: #696464;
 } */
 .card-price-blue .card-text{
     font-size: 16px;
-}
-.pricing-plan .form-row > .col .card-body{
-    padding: 10px;
-}
-.pricing-plan .form-row > .col .card-body span{
-    font-size: 14px;
 }
 .ul-list{
     font-size: 14px;
@@ -763,7 +689,8 @@ hero-section */
     border-top: 5px solid #ED6950 !important;
 }
 .card-price-light-blue{
-    border-top: 5px solid #009fb3 !important;
+    border-top: 5px solid 
+    #4CB5FF;
 }
 .card-price-light-yellow{
     border-top: 5px solid #ea9500 !important;
@@ -775,10 +702,10 @@ hero-section */
     color: #ED6950;
 }
 
-/* .card-price-light-blue h3{
-    color: #009fb3;
+.card-price-light-blue h3{
+    color: #4CB5FF;
     font-size: 18px;
-} */
+}
 .card-price-pink .btn-started button{
     color: white;
     background-color: #ED6950;
@@ -788,7 +715,7 @@ hero-section */
 }
 .card-price-light-blue .btn-started button{
     color: white;
-    background-color: #009fb3;
+    background-color: #4CB5FF;
     border: none;
     font-size: 14px;
     border-radius: 20px;
@@ -813,9 +740,7 @@ hero-section */
 .card-price-light-peach h4 strong{
     color: #b900ca;
 }
-.card-price-light-blue h4 strong{
-    color: #009fb3;
-}
+
 /* our-expert-section */
 .our-expert{
     padding-bottom: 60px;
@@ -1395,29 +1320,23 @@ input.btn-typ2{
     .testimonial-section, .forEmployees-section, .pricing-plan, .get-in-touch{
         padding-bottom: 40px;
     }
-    .work-img-wrp{
-        margin-bottom: 25px;
+    .work-img-wrp {
+        min-height: 140px;
     }
-    .howwork-section .col-md-4.line-right::after,
-    .howwork-section .col-md-4.line-left:before{
-        height: 125px;
+    .work-img-wrp img {
+        width: auto;
+        height: 140px;
     }
     .pricing-plan h4 > strong {
         font-size: 30px;
+    }
+    .card-body{
+        padding: 15px 0;
     }
     .about-icons{
         width: 50px;
         min-width: 50px;
         margin-top: 0;
-    }
-    .dashed-border{
-        margin: 40px 0;
-    }
-}
-@media only screen and (max-width: 1200px) {
-    .pricing-plan .form-row > .col {
-        max-width: 33.33%;
-        min-width: 33.33%;
     }
 }
 @media only screen and (max-width: 1023px) {
@@ -1444,10 +1363,6 @@ input.btn-typ2{
     .forEmployees-section{
         padding-bottom: 0;
     }
-    .howwork-section .col-md-4.line-right::after,
-    .howwork-section .col-md-4.line-left:before{
-        width: 50px;
-    }
 }
 @media only screen and (max-width: 767px) {
     .header-section{
@@ -1471,42 +1386,5 @@ input.btn-typ2{
     }
     .feature-wrp{
         padding: 30px 25px 10px;
-    }
-    .pricing-plan .form-row > .col {
-        max-width: 50%;
-        min-width: 50%;
-    }
-    .pricing-plan .form-row > .col hr{
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-    .pricing-plan .form-row > .col h3{
-        font-size: 22px;
-    }
-    .pricing-plan h4 > strong{
-        font-size: 25px;
-    }
-    .pricing-plan .card-body strong{
-        font-size: 18px;
-    }
-    .pricing-plan .form-row > .col .card-body{
-        padding: 0 10px;
-    }
-    .pricing-plan .form-row > .col .card-body span{
-        font-size: 12px;
-    }
-    .howwork-section .col-md-4 .card-work:after,
-    .dashed-border,
-    .howwork-section .col-md-4.line-right::after, 
-    .howwork-section .col-md-4.line-left:before{
-        display: none;
-    }
-    .work-img-wrp{
-        margin-top: 15px;
-        margin-bottom: 15px;
-        height: auto;
-    }
-    .title-wrp strong{
-        font-size: 16px;
     }
 }
