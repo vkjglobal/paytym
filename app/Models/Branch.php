@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Department;
 
 class Branch extends Model
 {
@@ -19,4 +20,9 @@ class Branch extends Model
            'account_number',
            'qr_code'
     ];
+
+
+    public function departments(){
+        return $this->hasMany(Department::class);
+    }
 }

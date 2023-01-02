@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\employer;
+namespace App\Http\Requests\branch;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,7 +13,7 @@ class StoreDepartmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreDepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=> 'required',
+            'branch_id'=>'required'
+
         ];
     }
 }

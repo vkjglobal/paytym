@@ -91,8 +91,8 @@
         $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
-                var employer_id = $(this).data('id');
-                console.log(employer_id);
+                var branch_id = $(this).data('id');
+                console.log(branch_id);
 
                 $.ajax({
                     type: "GET",
@@ -100,7 +100,7 @@
                     url: '{{ route('employer.branch.change.status') }}',
                     data: {
                         'status': status,
-                        'employer_id': employer_id
+                        'branch_id': branch_id
                     },
                     success: function(data) {
                         console.log(data.success)
