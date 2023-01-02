@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\branch\StoreBranchRequest;
 use App\Http\Requests\branch\UpdateBranchRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Branch;
 
 use App\Http\Controllers\Controller;
@@ -100,7 +101,7 @@ class BranchController extends Controller
                     'public'
                 );
 
-                Storage::delete($branch->qr_code);
+                
                 $branch->qr_code = $path;
             }
     
@@ -138,10 +139,11 @@ class BranchController extends Controller
     public function changeStatus(Request $request)
     {
         $branch = Branch::find($request->branch_id);
-        $employer->status = $request->status;
-        $employer->save();
-
+        $branch->status = $request->status;
+        $res=$branch->save();
+        if($res){
         return response()->json(['success' => 'Status change successfully.']);
+        }
     }
     
     }

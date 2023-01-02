@@ -62,9 +62,6 @@ Route::middleware('employer.auth')->group(function () {
     Route::delete('branch/{id}',[BranchController::class, 'destroy'])->name('branch.destroy');
 
     // Departments
-    Route::get('departments', [DepartmentController::class, 'index'])->name('department.create');
-    Route::get('departments/list', [DepartmentController::class, 'list'])->name('department.list');
-    
-    
+    Route::resource('department', DepartmentController::class);
 
 });
