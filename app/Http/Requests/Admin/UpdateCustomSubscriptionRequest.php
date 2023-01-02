@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubscriptionRequest extends FormRequest
+class UpdateCustomSubscriptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class SubscriptionRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,10 +24,7 @@ class SubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'plan' => 'required',
-            'range_from' => 'required|numeric',
-            'range_to' => 'required|numeric',
-            'rate_per_employee' => 'required',
+            //
         ];
     }
 }
