@@ -50,7 +50,6 @@
             <!-- Employers end -->
 
             <!---Subscriptions--->
-      <!-- Employers -->
       <li class="nav-item {{ request()->is('admin/subscriptions*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#subscriptions" role="button" aria-expanded="false"
                     aria-controls="subscriptions">
@@ -76,6 +75,34 @@
             </li>
 
             <!----End Subscription----->
+
+       <!---Custom Subscriptions--->
+      <li class="nav-item {{ request()->is('admin/custom_subscriptions*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#subscriptions" role="button" aria-expanded="false"
+                    aria-controls="subscriptions">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Custom Subscription</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/custom_subscriptions*') ? 'show' : '' }}" id="subscriptions">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.custom_subscriptions.index') }}" class="nav-link {{ request()->is('admin/custom_subscriptions') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.custom_subscriptions.create') }}"
+                                class="nav-link {{ request()->is('admin/custom_subscriptions/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!----End Subscription----->
+
              
             <!-- Contacts -->
             <li class="nav-item {{ request()->is('admin/contact') ? 'active' : '' }}">

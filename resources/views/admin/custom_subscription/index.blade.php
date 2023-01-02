@@ -7,13 +7,14 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Subscriptions</h6>
+                    <h6 class="card-title">Custom Subscriptions</h6>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Plan</th>
+                                    <th>Company</th>
                                     <th>Employee Range</th>
                                     <th>Rate Per Employee</th>
                                     <th>Rate Per Month</th>
@@ -26,6 +27,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $subscription->plan }}</td>
+                                        <td>{{ $subscription->employer->company }}</td>
                                         <td>{{ $subscription->range_from }} - {{$subscription->range_to}}</td>
                                         <td>{{ $subscription->rate_per_employee }}</td>
                                         <td>@if (isset($subscription->rate_per_month ))
@@ -57,7 +59,7 @@
                                                     <i data-feather="trash"></i>
                                                 </button>
                                                 <form id="delete-data-{{ $subscription->id }}"
-                                                    action="{{ route('admin.custom_subscriptions.destroy', $subscription->id) }}"
+                                                    action="{{ route('admin.subscriptions.destroy', $subscription->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -94,7 +96,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('admin.custom_subscriptions.change.status') }}',
+                    url: '{{ route('admin.subscriptions.change.status') }}',
                     data: {
                         'status': status,
                         'subscription_id': subscription_id

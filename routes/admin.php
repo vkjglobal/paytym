@@ -5,10 +5,12 @@ use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\CustomSubscriptionController;
 use App\Http\Controllers\Admin\EmployerController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubscriptionController;
+use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
 // Dashboard
@@ -55,6 +57,10 @@ Route::middleware('admin.auth')->group(function () {
     //Subscription Rj 26-12-22
     Route::get('subscription-change-status', [SubscriptionController::class, 'changeStatus'])->name('subscriptions.change.status');
     Route::resource('subscriptions', SubscriptionController::class)->except(['show']);
+
+// Custom Subscriptions
+Route::get('custom_subscriptions-change-status', [CustomSubscriptionController::class, 'changeStatus'])->name('custom_subscriptions.change.status');
+Route::resource('custom_subscriptions', CustomSubscriptionController::class)->except(['show']);
 
     // Contacts
     Route::get('contact', [ContactController::class, 'index'])->name('contact');
