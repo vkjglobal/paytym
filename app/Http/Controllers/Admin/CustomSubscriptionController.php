@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CustomSubscriptionRequest;
+use App\Http\Requests\Admin\UpdateCustomSubscriptionRequest;
 use App\Models\CustomSubscription;
 use App\Models\Employer;
 use Illuminate\Http\Request;
@@ -57,10 +58,42 @@ class CustomSubscriptionController extends Controller
         return redirect()->back();
     }
 
+    public function edit(CustomSubscription $custom_subscription)
+    {
+        $subscription=$custom_subscription;
+        $breadcrumbs = [
+            [(__('Dashboard')), route('admin.home')],
+            [(__('Custom Subscription')), route('admin.custom_subscriptions.index')],
+            [(__('Edit')), null]
+        ];
+        $employer=Employer::get();
+        return view('admin.custom_subscription.edit', compact('breadcrumbs', 'subscription','employer'));
+    }
+
+
+    public function update(UpdateCustomSubscriptionRequest $request, CustomSubscription $custom_subscription)
+    {
+        
+        $validated = $request->validated();
+        $custom_subscription->plan = $validated['plan'];
+        $custom_subscription->employer_id = $validated['company'];
+        $custom_subscription->range_from = $validated['range_from'];
+        $custom_subscription->range_to = $validated['range_to'];
+        $custom_subscription->rate_per_employee = $validated['rate_per_employee'];
+        $custom_subscription->rate_per_month = $request->get('rate_per_month');
+        $issave = $custom_subscription->save();
+        if ($issave) {
+            notify()->success(__('Updated successfully'));
+        } else {
+            notify()->error(__('Failed to Create. Please try again'));
+        }
+        return redirect()->back();
+
+    }
+
     public function destroy(CustomSubscription $subscription)
     {
         $res = $subscription->delete();
-
         if ($res) {
             notify()->success(__('Deleted successfully'));
         } else {

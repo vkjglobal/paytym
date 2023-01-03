@@ -62,7 +62,7 @@ Route::middleware('admin.auth')->group(function () {
 Route::get('custom_subscriptions-change-status', [CustomSubscriptionController::class, 'changeStatus'])->name('custom_subscriptions.change.status');
 Route::resource('custom_subscriptions', CustomSubscriptionController::class)->except(['show']);
 
-    // Contacts
+// Contacts
     Route::get('contact', [ContactController::class, 'index'])->name('contact');
     Route::post('contact', [ContactController::class, 'sendReply']);
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
