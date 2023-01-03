@@ -45,7 +45,7 @@
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
                                                 <!-- Edit button -->
-                                                <a href="{{ route('admin.subscriptions.edit', $subscription->id) }}"
+                                                <a href="{{ route('admin.custom_subscriptions.edit', $subscription->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
                                                     title="Edit">
                                                     <i data-feather="edit"></i>
@@ -59,7 +59,7 @@
                                                     <i data-feather="trash"></i>
                                                 </button>
                                                 <form id="delete-data-{{ $subscription->id }}"
-                                                    action="{{ route('admin.subscriptions.destroy', $subscription->id) }}"
+                                                    action="{{ route('admin.custom_subscriptions.destroy', $subscription->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')

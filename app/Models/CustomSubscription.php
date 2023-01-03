@@ -11,6 +11,15 @@ class CustomSubscription extends Model
     public $timestamps = false;
     use HasFactory;
 
+    protected $fillable = [
+        'plan',
+        'employer_id',
+        'range_from',
+        'range_to',
+        'rate_per_employee',
+        'rate_per_month'
+ ];
+
 
     public function employer()
 {

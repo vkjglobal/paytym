@@ -13,7 +13,7 @@ class UpdateCustomSubscriptionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdateCustomSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'plan' => 'required',
+            'company' => 'required',
+            'range_from' => 'required|numeric',
+            'range_to' => 'required|numeric',
+            'rate_per_employee' => 'required',
         ];
     }
 }

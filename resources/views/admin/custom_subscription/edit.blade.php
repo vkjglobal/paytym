@@ -7,11 +7,26 @@
     <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">Subscription Edit</h6>
-                <form method="POST" action="{{ route('admin.subscriptions.update', $subscription->id) }}" enctype="multipart/form-data">
+                <h6 class="card-title">Custom Subscription Edit</h6>
+                <form method="POST" action="{{ route('admin.custom_subscriptions.update', $subscription->employer_id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
+                    <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Company<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('company')) is-invalid @endif" name="company" value="{{ old('company') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($employer as $key => $value)
+                                    <option value="{{$value['id']}}" @if ($value['id']==$subscription->employer_id)
+                                        selected
+                                    @endif>{{$value['company']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('company') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Plan Name<span class="text-danger">*</span></label>
