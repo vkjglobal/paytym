@@ -436,9 +436,8 @@
    <!-- howwork-section -->
 <section class="howwork-section" id="HowItWork">
     <div class="container about-title pt-5 text-center">
-        <h3 class="light-blue-text">How It Works?</h3>
-        <p>It is a long established fact that a reader will be distracted by the readable content of a page when
-            looking at its layout.</p>
+        <h3 class="light-blue-text">Registration Process</h3>
+        <p>Simply register your business and start on-boarding and managing your employees while automating your Payroll.</p>
     </div>
     <div class="container" data-aos="zoom-in"    data-aos-duration="2000">
         <div class="row justify-content-center">
@@ -449,7 +448,7 @@
                     </div>
                     <div class="title-wrp">
                         Employer Chooses a
-                        <strong>PLAN & REGISTER</strong>
+                        <strong>PLAN & REGISTERS</strong>
                     </div>
                 </div>    
             </div>
@@ -459,8 +458,8 @@
                         <img src="{{asset('home_assets/images/svg/2.svg')}}" alt="">
                     </div>
                     <div class="title-wrp">
-                        Employer on
-                        <strong>BOARDS EMPLOYEES</strong>
+                        Employer on-boarding
+                        <strong>EMPLOYEES</strong>
                     </div>
                 </div>    
             </div>
@@ -701,8 +700,9 @@
                         <hr>
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
-                                <strong>1-25</strong>
-                                <span>Per person $6.00</span>
+                                <strong>Up to 5</strong>
+                                <span>employees</span>
+                                <span>Free</span>
                             </div>
                             <div class="btn-started text-center">
                                 <button class="btn" type="button">
@@ -726,8 +726,9 @@
                         <hr>
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
-                                <strong>26-50</strong>
-                                <span>Per person $5.00</span>
+                                <strong>6 to 40</strong>
+                                <span>employees</span>
+                                <span>$6.00/employee</span>
                             </div>
                             <div class="btn-started text-center">
                                 <button class="btn" type="button">
@@ -751,8 +752,9 @@
                         <hr>
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
-                                <strong>51-100</strong>
-                                <span>Per person $4.50</span>
+                                <strong>41 to 100</strong>
+                                <span>employees</span>
+                                <span>$5.00/employee</span>
                             </div>
                             <div class="btn-started text-center">
                                 <button class="btn" type="button">
@@ -776,8 +778,9 @@
                         <hr>
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
-                                <strong>101-200</strong>
-                                <span>Per person $3.50</span>
+                                <strong>101 to 200</strong>
+                                <span>employees</span>
+                                <span>$4.00/employee</span>
                             </div>
                             <div class="btn-started text-center">
                                 <button class="btn">
@@ -800,8 +803,9 @@
                         <hr>
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
-                                <strong>201 & Above</strong>
-                                <span>Per person $3.00</span>
+                                <strong>201+</strong>
+                                <span>employees</span>
+                                <span>$3.00/employee</span>
                             </div>
                             <div class="btn-started text-center">
                                 <button class="btn">

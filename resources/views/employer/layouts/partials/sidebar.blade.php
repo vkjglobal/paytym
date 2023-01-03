@@ -100,7 +100,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href=""
+                            <a href="{{route('employer.department.index')}}"
                                 class="nav-link {{ request()->is('employer/departments/list') ? 'active' : '' }}">
                                 List
                             </a>
