@@ -6,9 +6,10 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title"> Create Branch</h6>
-                    <form method="POST" action="{{ route('employer.department.store') }}" enctype="multipart/form-data">
+                    <h6 class="card-title"> Update Department</h6>
+                    <form method="POST" action="{{ route('employer.department.update',$department->id) }}" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         
                         <div class="row">
                             <div class="col-sm-6">
@@ -16,7 +17,7 @@
                                     <label class="control-label">Department Name <span class="text-danger">*</span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('email')) is-invalid @endif"
-                                        name="dep_name" value="{{ old('email') }}" placeholder="Enter Branch Name" required>
+                                        name="dep_name" value="{{old('dep_name', $department->dep_name) }}" placeholder="Enter Branch Name" required>
                                     <div class="invalid-feedback">{{ $errors->first('dep_name') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -32,10 +33,9 @@
                                 <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                             </div>
                         </div><!-- Col -->
-                            
                         </div><!-- Row -->
 
-                      
+                        
 
 
                         <button type="submit" class="btn btn-primary submit">Submit</button>

@@ -337,8 +337,14 @@ hero-section */
 }
 .about-title p{
     font-size: 13px;
-    color: #adadad;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
     
+}
+.testimonial-section .about-title p, .pricing-plan .about-title p {
+    text-align: center;
 }
 .feature-wrp{
     border: 1px solid #dddddd;

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Branch;
-use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Requests\branch\StoreDepartmentRequest;
+use App\Http\Requests\branch\UpdateDepartmentRequest;
+use App\Models\Branch;
+use App\Models\Department;
 
 class DepartmentController extends Controller
 {
@@ -17,7 +18,16 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        {
+            $breadcrumbs = [
+                [(__('Dashboard')), route('employer.department.index')],
+                [(__('departments')), null],
+            ];
+    
+            $departments = Department::get();
+    
+            return view('employer.departments.index', compact('breadcrumbs', 'departments'));
+        }
     }
 
     /**
@@ -29,9 +39,11 @@ class DepartmentController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.department.create')],
-            [(__('Department')), null]
+            [(__('Create')), null]
         ];
-        return view('employer.departments.create', compact('breadcrumbs'));
+        //Employer $employer
+        $branches=Branch::get();
+        return view('employer.departments.create', compact('breadcrumbs','branches'));
     }
 
     /**
@@ -42,14 +54,19 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-       $validated = $request->validated(); 
-
-       $department = new Department;
-       $department->name = $validated['name'];
-       $department->branch_id= $validated['branch_id'];
-
-       $department->save();
-    }
+        $validated = $request->validated();
+        $department = new Department();
+        $department->dep_name = $validated['dep_name'];
+        $department-> branch_id = $validated['branch'];
+        $issave = $department->save();
+        if($issave){
+            notify()->success(__('Created successfully'));
+        } else {
+            notify()->error(__('Failed to Create. Please try again'));
+        }
+        return redirect()->back();
+     }
+    
 
     /**
      * Display the specified resource.
@@ -70,7 +87,13 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.branch.create')],
+            [(__('Branch')), null],
+        ];
+        $branches = Branch::get();
+        $department = Department::findOrFail($id);   
+        return view('employer.departments.edit',compact('breadcrumbs','department','branches'));
     }
 
     /**
@@ -80,9 +103,18 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateDepartmentRequest $request, Department $department)
     {
-        //
+        $validated = $request->validated();
+        $department->dep_name = $validated['dep_name'];
+        $department-> branch_id = $validated['branch'];
+        $issave = $department->save();
+        if($issave){
+            notify()->success(__('Updated successfully'));
+        } else {
+            notify()->error(__('Failed to Update. Please try again'));
+        }
+        return redirect()->back();
     }
 
     /**
@@ -93,6 +125,22 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $res = Department::findOrFail($id)->delete();
+    
+        if ($res) {
+            notify()->success(__('Deleted successfully'));
+        } else {
+            notify()->error(__('Failed to Delete. Please try again'));
+        }
+        return redirect()->back();
+    }
+    //Change Employer Status
+    public function changeStatus(Request $request){
+        $department = Department::find($request->department_id);
+        $department->status = $request->status;
+        $res=$department->save();
+        if($res){
+        return response()->json(['success' => 'Status change successfully.']);
+        }
     }
 }
