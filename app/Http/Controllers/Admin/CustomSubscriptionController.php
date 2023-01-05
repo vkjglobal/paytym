@@ -60,20 +60,19 @@ class CustomSubscriptionController extends Controller
 
     public function edit(CustomSubscription $custom_subscription)
     {
-        $subscription=$custom_subscription;
+       // $subscription=$custom_subscription;
         $breadcrumbs = [
             [(__('Dashboard')), route('admin.home')],
             [(__('Custom Subscription')), route('admin.custom_subscriptions.index')],
             [(__('Edit')), null]
         ];
         $employer=Employer::get();
-        return view('admin.custom_subscription.edit', compact('breadcrumbs', 'subscription','employer'));
+        return view('admin.custom_subscription.edit', compact('breadcrumbs', 'custom_subscription','employer'));
     }
 
 
-    public function update(UpdateCustomSubscriptionRequest $request, CustomSubscription $custom_subscription)
+    public function update(UpdateCustomSubscriptionRequest $request,CustomSubscription $custom_subscription)
     {
-        
         $validated = $request->validated();
         $custom_subscription->plan = $validated['plan'];
         $custom_subscription->employer_id = $validated['company'];
