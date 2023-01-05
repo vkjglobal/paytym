@@ -16,9 +16,7 @@ class SubscriptionController extends Controller
             [(__('Dashboard')), route('admin.home')],
             [(__('Subscriptions')), null],
         ];
-
         $subscription = Subscription::get();
-
         return view('admin.subscription.index', compact('breadcrumbs', 'subscription'));
     }
 

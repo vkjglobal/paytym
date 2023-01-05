@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\ConfirmPasswordController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
+use App\Http\Controllers\Admin\CmsController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CustomSubscriptionController;
 use App\Http\Controllers\Admin\EmployerController;
@@ -43,11 +44,11 @@ Route::post('password/confirm', [ConfirmPasswordController::class, 'confirm']);
 
 Route::middleware('admin.auth')->group(function () {
 
-        // Profile
-        Route::get('profile', [ProfileController::class, 'index'])->name('profile');
-        Route::post('profile', [ProfileController::class, 'store']);
-    
-        Route::post('update-password', [ProfileController::class, 'updatePass'])->name('update.password');
+    // Profile
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('profile', [ProfileController::class, 'store']);
+
+    Route::post('update-password', [ProfileController::class, 'updatePass'])->name('update.password');
 
 
     // Employers
@@ -58,11 +59,15 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('subscription-change-status', [SubscriptionController::class, 'changeStatus'])->name('subscriptions.change.status');
     Route::resource('subscriptions', SubscriptionController::class)->except(['show']);
 
-// Custom Subscriptions
-Route::get('custom_subscriptions-change-status', [CustomSubscriptionController::class, 'changeStatus'])->name('custom_subscriptions.change.status');
-Route::resource('custom_subscriptions', CustomSubscriptionController::class)->except(['show']);
+    // Custom Subscriptions
+    Route::get('custom_subscriptions-change-status', [CustomSubscriptionController::class, 'changeStatus'])->name('custom_subscriptions.change.status');
+    Route::resource('custom_subscriptions', CustomSubscriptionController::class)->except(['show']);
 
-// Contacts
+    //CMS
+    Route::get('custom_subscriptions-change-status', [CmsController::class, 'changeStatus'])->name('cms.change.status');
+    Route::resource('cms', CmsController::class)->except(['show']);
+
+    // Contacts
     Route::get('contact', [ContactController::class, 'index'])->name('contact');
     Route::post('contact', [ContactController::class, 'sendReply']);
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
