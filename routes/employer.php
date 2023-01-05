@@ -65,4 +65,7 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('department', DepartmentController::class)->except(['show']);
     Route::get('department-change-status', [DepartmentController::class, 'changeStatus'])->name('department.change.status');
 
+    //Users
+    Route::resource('user', UserController::class)->except(['show']);
+
 });
