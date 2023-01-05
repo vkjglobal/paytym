@@ -123,9 +123,9 @@
                 <div class="collapse" id="users">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('employer.leave.requests') }}"
+                            <a href="{{ route('employer.user.create') }}"
                                 class="nav-link {{ request()->is('employer/leave-requests') ? 'active' : '' }}">
-                                Leave Requests
+                                Add Users
                             </a>
                         </li>
                         <li class="nav-item">
