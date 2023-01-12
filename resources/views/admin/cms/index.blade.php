@@ -33,14 +33,12 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
-
                                                 <!-- Edit button -->
                                                 <a href="{{ route('admin.cms.edit', $cms->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
                                                     title="Edit">
                                                     <i data-feather="edit"></i>
                                                 </a>
-
                                                 <!-- Delete button -->
                                                 <button type="button" class="text-danger"
                                                     onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
@@ -54,7 +52,6 @@
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
-
                                             </div>
                                         </td>
                                     </tr>
