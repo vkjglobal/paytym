@@ -7,7 +7,6 @@ use App\Http\Requests\branch\StoreBranchRequest;
 use App\Http\Requests\branch\UpdateBranchRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Branch;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -29,7 +28,7 @@ class BranchController extends Controller
             [(__('Branch')), null],
         ];
 
-        $branches = Branch::latest()->get();
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
         return view('employer.branch.list_view', compact('breadcrumbs', 'branches'));
     }
 
@@ -39,6 +38,7 @@ class BranchController extends Controller
     
     
             $branch = new Branch();
+            $branch->employer_id = Auth::guard('employer')->user()->id;
             $branch->name = $validated['name'];
             $branch->city = $validated['city'];
             $branch->town = $validated['town'];
@@ -81,11 +81,10 @@ class BranchController extends Controller
         }
 
         //update
-        public function update(UpdateBranchRequest $request, Branch $branch){
+        public function update(UpdateBranchRequest $request, $id){
             $validated = $request->validated();
-    
-    
-            $branch = new Branch();
+            $branch = Branch::findOrFail($id);
+            $branch->employer_id = Auth::guard('employer')->user()->id;
             $branch->name = $validated['name'];
             $branch->city = $validated['city'];
             $branch->town = $validated['town'];
@@ -113,7 +112,7 @@ class BranchController extends Controller
             } else {
                 notify()->error(__('Failed to Update. Please try again'));
             }
-            return redirect()->back();
+            return redirect('employer/branch/list');
         }
 
 

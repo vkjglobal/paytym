@@ -8,6 +8,7 @@ use App\Http\Requests\branch\StoreDepartmentRequest;
 use App\Http\Requests\branch\UpdateDepartmentRequest;
 use App\Models\Branch;
 use App\Models\Department;
+use Auth;
 
 class DepartmentController extends Controller
 {
@@ -24,7 +25,7 @@ class DepartmentController extends Controller
                 [(__('departments')), null],
             ];
     
-            $departments = Department::get();
+            $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
     
             return view('employer.departments.index', compact('breadcrumbs', 'departments'));
         }
@@ -42,7 +43,7 @@ class DepartmentController extends Controller
             [(__('Create')), null]
         ];
         //Employer $employer
-        $branches=Branch::get();
+        $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
         return view('employer.departments.create', compact('breadcrumbs','branches'));
     }
 
@@ -56,6 +57,7 @@ class DepartmentController extends Controller
     {
         $validated = $request->validated();
         $department = new Department();
+        $department->employer_id = Auth::guard('employer')->user()->id;
         $department->dep_name = $validated['dep_name'];
         $department-> branch_id = $validated['branch'];
         $issave = $department->save();
@@ -91,7 +93,7 @@ class DepartmentController extends Controller
             [(__('Dashboard')), route('employer.branch.create')],
             [(__('Branch')), null],
         ];
-        $branches = Branch::get();
+        $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $department = Department::findOrFail($id);   
         return view('employer.departments.edit',compact('breadcrumbs','department','branches'));
     }
@@ -106,6 +108,7 @@ class DepartmentController extends Controller
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
         $validated = $request->validated();
+        $department->employer_id = Auth::guard('employer')->user()->id;
         $department->dep_name = $validated['dep_name'];
         $department-> branch_id = $validated['branch'];
         $issave = $department->save();
@@ -114,7 +117,7 @@ class DepartmentController extends Controller
         } else {
             notify()->error(__('Failed to Update. Please try again'));
         }
-        return redirect()->back();
+        return redirect('employer/department');
     }
 
     /**

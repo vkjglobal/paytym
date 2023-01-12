@@ -15,7 +15,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Department Name <span class="text-danger">*</span></label>
                                     <input type="text"
-                                        class="form-control @if ($errors->has('email')) is-invalid @endif"
+                                        class="form-control @if ($errors->has('dep_name')) is-invalid @endif"
                                         name="dep_name" value="{{ old('email') }}" placeholder="Enter Branch Name" required>
                                     <div class="invalid-feedback">{{ $errors->first('dep_name') }}</div>
                                 </div>
