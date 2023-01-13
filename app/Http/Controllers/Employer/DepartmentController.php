@@ -137,7 +137,7 @@ class DepartmentController extends Controller
         }
         return redirect()->back();
     }
-    //Change Employer Status
+    //Change department Status
     public function changeStatus(Request $request){
         $department = Department::find($request->department_id);
         $department->status = $request->status;

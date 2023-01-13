@@ -90,7 +90,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('employer.user.change.status') }}',
+                    url: '{{ route('employer.user.changestatus') }}',
                     data: {
                         'status': status,
                         'user_id': user_id

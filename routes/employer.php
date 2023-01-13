@@ -10,6 +10,7 @@ use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Controllers\Employer\ProfileController;
 use App\Http\Controllers\Employer\BranchController;
 use App\Http\Controllers\Employer\DepartmentController;
+use App\Http\Controllers\Employer\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -67,6 +68,6 @@ Route::middleware('employer.auth')->group(function () {
 
     //Users
     Route::resource('user', UserController::class)->except(['show']);
-    Route::get('user-change-status', [UserController::class, 'changeStatus'])->name('user.change.status');
+    Route::get('user-change-status', [UserController::class, 'changeStatus'])->name('user.changestatus');
 
 });
