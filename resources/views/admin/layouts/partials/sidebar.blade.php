@@ -65,7 +65,7 @@
                             <a href="{{ route('admin.subscriptions.create') }}" class="nav-link {{ request()->is('admin/subscriptions/create') ? 'active' : '' }}">
                                 Create
                             </a>
-                        </li>range_from
+                        </li>
                     </ul>
                 </div>
             </li>

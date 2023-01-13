@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\Employee\DeductionsController;
 use App\Http\Controllers\Api\Employee\MeetingsController;
 use App\Http\Controllers\Api\Employee\PaymentAdvanceController;
 use App\Http\Controllers\Employer\PaymentRequestController;
+use App\Http\Controllers\Api\Employee\QuitCompanyController;
+use App\Http\Controllers\Api\Employee\EventController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
@@ -32,6 +34,7 @@ Route::post('login', [AuthController::class, 'index']);
 
 // Forgot Password
 Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->middleware('guest');
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // Authentication
@@ -73,11 +76,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Request Payment 21-11-22
     Route::post('meetings', [MeetingsController::class, 'meetings']);
 
-
-
-    
     // End Robin 
     // Chats
     Route::get('get-chat', [ChatController::class, 'index']);
     Route::post('send-chat', [ChatController::class, 'store']);
+
+    //Quit Company
+    Route::post('quit_company',[QuitCompanyController::class,'quit_request']);
+
+    // Events
+
+    Route::get('events_list',[EventController::class,'list_events']);
+  
+
 });
