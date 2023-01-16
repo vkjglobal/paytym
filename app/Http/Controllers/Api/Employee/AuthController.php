@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Mail\SendOtp;
 use App\Models\LeaveRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -170,6 +171,30 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Please try again.'
             ], 400);
+        }
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' =>  'required|email',
+        ]);
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        } else {
+            $email=$request->email;
+            $otp = rand(1000, 9999);
+            Mail::to($email)->send(new SendOtp($otp));
+            // save otp to users table
+            $authUser=User::where('email',$email)->first();
+            $authUser->otp = $otp;
+            $authUser->update();
+            return response()->json([
+                'message' => 'Please find the email otp'
+            ], 200);
         }
     }
 }
