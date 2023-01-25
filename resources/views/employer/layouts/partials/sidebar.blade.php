@@ -25,7 +25,7 @@
 
             <!-- Requests -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#requests" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="users"></i>
@@ -48,7 +48,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
             <!-- Requests end -->
 
@@ -142,7 +142,7 @@
 
               <!-- Calender -->
 
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#calender" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="users"></i>
@@ -165,13 +165,13 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
             <!-- Calender End -->
 
               <!-- Roster -->
 
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#roster" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="users"></i>
@@ -194,13 +194,13 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
             <!-- Roster End -->
 
               <!-- Chat -->
 
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#chat" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="users"></i>
@@ -223,13 +223,13 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
             <!-- Chat End -->
 
               <!-- Employee -->
 
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#employee" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="users"></i>
@@ -252,7 +252,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
             <!-- Employee End -->
 

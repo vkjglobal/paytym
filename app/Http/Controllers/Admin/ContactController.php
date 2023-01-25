@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Notifications\AdminContact;
 use Illuminate\Http\Request;
+use App\Http\Requests\Admin\ContactRequest;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
 
 class ContactController extends Controller
@@ -19,6 +20,25 @@ class ContactController extends Controller
 
         $contacts = Contact::latest()->get();
         return view('admin.contacts.index', compact('breadcrumbs', 'contacts'));
+    }
+
+    public function store(ContactRequest $request){
+        dd($request);
+        $request->validated($request->all());
+        $result = Contact::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'message' => $request->message
+        ]);
+        if ($result) {
+            return redirect('/')->with('success', 'Send successfully!');
+
+        } else {
+            return redirect('')->with('error', 'Error Occured');
+
+        }
+        return redirect()->back();
+       
     }
 
     public function sendReply(Request $request)

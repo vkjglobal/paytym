@@ -19,6 +19,7 @@
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         <link rel="shortcut icon" href="{{asset('home_assets/images/fevicon.PNG')}}" type="">
         <link rel="stylesheet" href="{{asset('home_assets/css/style.css')}}">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     </head>
 
 <body>
@@ -63,7 +64,7 @@
                                     </li>
                                 </ul>
                                 <span class="download">
-                                    <a href="#" class="btn btn-typ2">Login</a>
+                                    <a href="{{Route('employer.login')}}" class="btn btn-typ2">Login</a>
                                     <a href="#downloadApp" class="btn btn-typ2">Download</a>
                                 </span>
                             </div>
@@ -864,16 +865,17 @@
 
     <div class="container" data-aos="fade-down"    data-aos-duration="2000" >
         
-            <form>
+            <form action="#" method="">
+                @csrf
                 <div class="row pt-2">
                     <div class="col-md-6 pt-2">
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Name" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="name" id="exampleInputEmail1" placeholder="Name" aria-describedby="emailHelp">
                     </div>
                     <div class="col-md-6 pt-2">
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" aria-describedby="emailHelp">
+                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" placeholder="Email" aria-describedby="emailHelp">
                     </div>
                     <div class="col-md-12 pt-2">
-                        <textarea class="form-control" placeholder="Message" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <textarea class="form-control" placeholder="Message" name="message" id="floatingTextarea2" style="height: 100px"></textarea>
                         <!-- <div class="form-floating">
                             <label for="floatingTextarea2">Message</label>
                         </div> -->
@@ -965,6 +967,24 @@
         crossorigin="anonymous"></script> -->
     <script src="{{asset('home_assets/js/owl.carousel.min.js')}}"></script>    
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
+    @if (session('success'))
+    <script>
+        Swal.fire(
+            'Success!',
+            '{{ session('success') }}',
+            'success'
+        )
+    </script>
+    @endif
+    @if (session('error'))
+    <script>
+        Swal.fire(
+            'error!',
+            '{{ session('error') }}',
+            'success'
+        )
+    </script>
+    @endif
     <script>
         
 
@@ -985,6 +1005,9 @@
         
 
     </script> 
-</body>
+    @push('custom_js')
+<script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
+@endpush
 </body>
 </html>

@@ -15,6 +15,7 @@ use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -72,6 +73,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('attendance', [AttendanceController::class, 'attendance']);
 
+    Route::get('attendance_list',[AttendanceController::class, 'attendance_list']);
+
     // Request Payment 19-11-22
     Route::post('request_payment', [PaymentRequestController::class, 'request_payment']);
 
@@ -89,8 +92,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('quit_company',[QuitCompanyController::class,'quit_request']);
 
     // Events
+     Route::get('events_list',[EventController::class,'list_events']);
 
-    Route::get('events_list',[EventController::class,'list_events']);
+    
   
 
 });
