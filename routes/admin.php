@@ -68,6 +68,7 @@ Route::middleware('admin.auth')->group(function () {
     Route::resource('cms', CmsController::class)->except(['show']);
 
     // Contacts
+    Route::post('contact_store', [ContactController::class, 'store'])->name('contact.store');
     Route::get('contact', [ContactController::class, 'index'])->name('contact');
     Route::post('contact', [ContactController::class, 'sendReply']);
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
