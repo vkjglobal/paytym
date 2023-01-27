@@ -19,7 +19,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">3,897</h3>
+                                    <h3 class="mb-2">{{count($employers)}}</h3>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
                                     <div id="apexChart1" class="mt-md-3 mt-xl-0"></div>
@@ -32,11 +32,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline mb-3">
-                                <h6 class="card-title mb-0">Active Employees</h6>
+                                <h6 class="card-title mb-0">Contacts</h6>
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">35,084</h3>
+                                    <h3 class="mb-2">{{count($contacts)}}</h3>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
                                     <div id="apexChart2" class="mt-md-3 mt-xl-0"></div>
@@ -49,11 +49,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline mb-3">
-                                <h6 class="card-title mb-0">subscription plans</h6>
+                                <h6 class="card-title mb-0">subscriptions</h6>
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">14</h3>
+                                    <h3 class="mb-2">{{count($subscriptions)}}</h3>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
                                     <div id="apexChart3" class="mt-md-3 mt-xl-0"></div>
