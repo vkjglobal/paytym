@@ -90,8 +90,9 @@ class CustomSubscriptionController extends Controller
 
     }
 
-    public function destroy(CustomSubscription $subscription)
+    public function destroy($id)
     {
+        $subscription = CustomSubscription::findOrFail($id);
         $res = $subscription->delete();
         if ($res) {
             notify()->success(__('Deleted successfully'));

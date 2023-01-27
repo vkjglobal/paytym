@@ -57,7 +57,7 @@
                                                     <i data-feather="trash"></i>
                                                 </button>
                                                 <form id="delete-data-{{ $subscription->id }}"
-                                                    action="{{ route('admin.custom_subscriptions.destroy', $subscription->id) }}"
+                                                    action="{{ route('admin.subscriptions.destroy', $subscription->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
