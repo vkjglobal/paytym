@@ -98,7 +98,7 @@
             <!----End Subscription----->
 
             <!---CMS--->
-            <li class="nav-item {{ request()->is('admin/cms*') ? 'active' : '' }}">
+            <!-- <li class="nav-item {{ request()->is('admin/cms*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#cms" role="button" aria-expanded="false" aria-controls="subscriptions">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Manage CMS</span>
@@ -118,7 +118,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
             <!----End CMS----->
 

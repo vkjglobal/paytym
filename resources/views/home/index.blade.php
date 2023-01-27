@@ -861,21 +861,30 @@
         <h3>Get In Touch</h3>
         <p>Get in touch with our team for assistance or reach out for any inquiries!
         </p>
+        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     </div>
 
     <div class="container" data-aos="fade-down"    data-aos-duration="2000" >
         
-            <form action="#" method="">
+            <form action="{{Route('admin.contact.store')}}" method="POST">
                 @csrf
                 <div class="row pt-2">
                     <div class="col-md-6 pt-2">
-                        <input type="text" class="form-control" name="name" id="exampleInputEmail1" placeholder="Name" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="name" id="exampleInputEmail1" placeholder="Name" aria-describedby="emailHelp" required>
                     </div>
                     <div class="col-md-6 pt-2">
-                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" placeholder="Email" aria-describedby="emailHelp">
+                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" placeholder="Email" aria-describedby="emailHelp" required>
                     </div>
                     <div class="col-md-12 pt-2">
-                        <textarea class="form-control" placeholder="Message" name="message" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <textarea class="form-control" placeholder="Message" name="message" id="floatingTextarea2" style="height: 100px" required></textarea>
                         <!-- <div class="form-floating">
                             <label for="floatingTextarea2">Message</label>
                         </div> -->

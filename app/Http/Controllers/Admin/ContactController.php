@@ -22,22 +22,27 @@ class ContactController extends Controller
         return view('admin.contacts.index', compact('breadcrumbs', 'contacts'));
     }
 
-    public function store(ContactRequest $request){
-        dd($request);
-        $request->validated($request->all());
+    public function store(Request $request){
+        // $validated = $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required',
+        //     'message' => 'required'
+        // ]);
+        // if($validated->fail()){
+        //     return redirect()->back()->withErrors($validated);
+        // }
         $result = Contact::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'message' => $request->message
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'message' => $request['message']
         ]);
         if ($result) {
-            return redirect('/')->with('success', 'Send successfully!');
+            return redirect()->back()->with('success', 'Send successfully!');
 
         } else {
-            return redirect('')->with('error', 'Error Occured');
+            return redirect()->back()->with('error', 'Error Occured');
 
         }
-        return redirect()->back();
        
     }
 
