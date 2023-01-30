@@ -49,7 +49,7 @@
                                                     <i data-feather="trash"></i>
                                                 </button>
                                                 <form id="delete-data-{{ $department->id }}"
-                                                    action="{{ route('employer.event.destroy', $event->id) }}"
+                                                    action="{{ route('employer.event.destroy', $department->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
