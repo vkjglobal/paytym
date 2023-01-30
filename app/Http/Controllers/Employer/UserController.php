@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Requests\Employer\StoreUserRequest;
 use App\Http\Requests\Employer\UpdateUserRequest;
@@ -10,6 +11,7 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Models\Employer;
 use App\Models\Role;
+use App\Models\LeaveRequest;
 use Auth,Hash;
 
 
@@ -158,8 +160,13 @@ class UserController extends Controller
          $user->city = $validated['city'];
          $user->account_number = $validated['account_number'];
          $user->password = Hash::make($validated['password']);
+         $image = $user->image;
     
          if ($request->hasFile('image')) {
+            if (Storage::exists('public/'. $image))  {
+                $del=Storage::delete('public/'.$image);
+               
+            } 
             $path =  $request->file('image')->storeAs(  
                 'uploads/users',
                 urlencode(time()) . '_' . uniqid() . '_' . $request->image->getClientOriginalName(),
@@ -183,7 +190,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
-    {
+    {   
+        $user->paymentAdvance()->delete();
+        $image = $user->imagel;
+        if (Storage::exists('public/'. $image))  {
+            $del=Storage::delete('public/'.$image);
+           
+        } 
         $res = $user->delete();
     
         if ($res) {

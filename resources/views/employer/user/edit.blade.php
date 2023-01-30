@@ -157,7 +157,7 @@
                                 <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="position" value="{{ old('branch') }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($roles as $key => $value)
-                                    <option value="{{$value['role_name']}}">{{$value['role_name']}}</option>
+                                    <option value="{{$value['role_name']}}" {{$user->position == $value['role_name'] ? 'selected':''}}>{{$value['role_name']}}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('name') }}</div>
@@ -170,9 +170,9 @@
                         <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Image <span class="text-danger"> *</span></label>
-                                    <input type="file"
-                                        class="form-control @if ($errors->has('image')) is-invalid @endif"
-                                        name="image" value="" placeholder="Enter Image" required>
+                                    <input type="file" class="form-control @if ($errors->has('image')) is-invalid @endif" name="image"  
+                                     placeholder="Enter Image">
+                                        <img src="{{ asset('storage/' . $user->image) }}" class="img-thumbnail mt-2" width="100" alt="">
                                     <div class="invalid-feedback">{{ $errors->first('image') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -182,7 +182,8 @@
                                 <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="branch" value="{{ old('branch',$user->branch) }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($branches as $key => $value)
-                                    <option value="{{$value['name']}}">{{$value['name']}}</option>
+                                    <option value="{{$value['name']}}" {{ $user->branch == $value['name'] ? 'selected' : '' }}>{{$value['name']}}</option>
+
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('name') }}</div>

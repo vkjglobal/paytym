@@ -88,8 +88,8 @@
                                     <label class="control-label">QR Code <span class="text-danger">*</span></label>
                                     <input type="file"
                                         class="form-control @if ($errors->has('logo')) is-invalid @endif"
-                                        name="qr_code" value="{{ old('qr_code') }}" placeholder="Enter logo" required>
-                                        <img src="{{ asset('storage/' . $branch->qr_code) }}" class="img-thumbnail mt-2" width="500" alt="">
+                                        name="qr_code" value="{{ old('qr_code') }}" placeholder="Enter logo">
+                                        <img src="{{ asset('storage/' . $branch->qr_code) }}" class="img-thumbnail mt-2" width="100" alt="">
                                     <div class="invalid-feedback">{{ $errors->first('qr_code') }}</div>
                                 </div>
                             </div><!-- Col -->
