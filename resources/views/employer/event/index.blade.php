@@ -20,6 +20,8 @@
                                     <th>End Date</th>
                                     <th>Start Time</th>
                                     <th>End Time</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
