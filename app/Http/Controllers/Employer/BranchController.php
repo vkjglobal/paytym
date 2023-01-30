@@ -92,13 +92,18 @@ class BranchController extends Controller
             $branch->country = $validated['country'];
             $branch->bank = $validated['bank'];
             $branch->account_number = $validated['account_number'];
-    
+            $qr_code=$branch->qr_code;  
             if ($request->hasFile('qr_code')) {
+                if (Storage::exists('public/'. $qr_code))  {
+                    $del=Storage::delete('public/'.$qr_code);
+                   
+                } 
                 $path =  $request->file('qr_code')->storeAs(
                     'uploads/branch',
                     urlencode(time()) . '_' . uniqid() . '_' . $request->qr_code->getClientOriginalName(),
                     'public'
                 );
+            
 
                 
                 $branch->qr_code = $path;
@@ -123,7 +128,13 @@ class BranchController extends Controller
         
         public function destroy($id)
         {
-            $res = Branch::findOrFail($id)->delete();
+            $branch = Branch::findOrFail($id);
+            $qr_code=$branch->qr_code;
+            if (Storage::exists('public/'. $qr_code))  {
+                $del=Storage::delete('public/'.$qr_code);
+               
+            } 
+            $res = $branch->delete();
     
             if ($res) {
                 notify()->success(__('Deleted successfully'));

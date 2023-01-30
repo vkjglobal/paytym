@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('type', ['annual', 'special', 'bereavement', 'maternity', 'casual', 'sick', 'halfday']);
             $table->string('status')->default(0)->comment('0-Pending, 1-Approved, 2-Rejected');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

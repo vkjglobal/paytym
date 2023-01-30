@@ -12,10 +12,12 @@
         <div class="col-12 col-xl-12 stretch-card">
             <div class="row flex-grow">
                 <div class="col-md-4 grid-margin stretch-card">
+                
                     <div class="card">
+                    <a href="{{Route('admin.employers.index')}}">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline mb-3">
-                                <h6 class="card-title mb-0">Active Companies</h6>
+                                <h6 class="card-title mb-0">Active Employers</h6>
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
@@ -25,11 +27,13 @@
                                     <div id="apexChart1" class="mt-md-3 mt-xl-0"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div></a>
                     </div>
                 </div>
+                
                 <div class="col-md-4 grid-margin stretch-card">
                     <div class="card">
+                        <a href="{{Route('admin.contact')}}">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline mb-3">
                                 <h6 class="card-title mb-0">Contacts</h6>
@@ -42,11 +46,12 @@
                                     <div id="apexChart2" class="mt-md-3 mt-xl-0"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div></a>
                     </div>
                 </div>
                 <div class="col-md-4 grid-margin stretch-card">
                     <div class="card">
+                        <a href="{{Route('admin.subscriptions.index')}}">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline mb-3">
                                 <h6 class="card-title mb-0">subscriptions</h6>
@@ -59,7 +64,7 @@
                                     <div id="apexChart3" class="mt-md-3 mt-xl-0"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div></a>
                     </div>
                 </div>
             </div>

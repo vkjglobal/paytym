@@ -147,6 +147,9 @@ class EmployerController extends Controller
         $employer->country = $validated['country'];
         $employer->tin = $validated['tin'];
         $employer->website = $validated['website'];
+        $registration_certificate = $employer->registration_certificate;
+        $tin_letter = $employer->tin_letter;
+        $logo = $employer->logo;
 
         if ($request->hasFile('registration_certificate')) {
             $path =  $request->file('registration_certificate')->storeAs(
@@ -155,7 +158,10 @@ class EmployerController extends Controller
                 'public'
             );
 
-            Storage::delete($employer->registration_certificate);
+            if (Storage::exists('public/'. $registration_certificate))  {
+                $del=Storage::delete('public/'.$registration_certificate);
+               
+            } 
             $employer->registration_certificate = $path;
         }
 
@@ -166,7 +172,10 @@ class EmployerController extends Controller
                 'public'
             );
 
-            Storage::delete($employer->tin_letter);
+            if (Storage::exists('public/'. $tin_letter))  {
+                $del=Storage::delete('public/'.$tin_letter);
+               
+            } 
             $employer->tin_letter = $path;
         }
 
@@ -177,7 +186,10 @@ class EmployerController extends Controller
                 'public'
             );
 
-            Storage::delete($employer->logo);
+            if (Storage::exists('public/'. $logo))  {
+                $del=Storage::delete('public/'.$logo);
+               
+            } 
             $employer->logo = $path;
         }
 
