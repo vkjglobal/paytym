@@ -140,6 +140,34 @@
 
             <!-- Users End -->
 
+              <!-- Events -->
+
+              <li class="nav-item {{ request()->is('employer/user*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#events" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Events</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/event*') ? 'show' : '' }}" id="events">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.event.create') }}"
+                                class="nav-link {{ request()->is('employer/event/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.event.index') }}"
+                                class="nav-link {{ request()->is('employer/event') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Events End -->
+
               <!-- Calender -->
 
               <!-- <li class="nav-item">

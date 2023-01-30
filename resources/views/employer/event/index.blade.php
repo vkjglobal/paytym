@@ -7,35 +7,43 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Departments</h6>
+                    <h6 class="card-title">Users</h6>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
-                                    <th>Department</th>
-                                    <th>Branch</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>Name</th>
+                                    <th>Place</th>
+                                    <th>Description</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($departments as $department)
+                                @foreach ($events as $event)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $department->dep_name }}</td>
-                                        <td>{{ $department->branch->name }}</td>
+                                        <td>{{ $event->name }}</td>
+                                        <td>{{ $event->place }}</td>
+                                        <td>{{ $event->description }}</td>
+                                        <td>{{ $event->start_date }}</td>
+                                        <td>{{ $event->end_date }}</td>
+                                        <td>{{ $event->start_time }}</td>
+                                        <td>{{ $event->start_time }}</td>
                                         <td>
-                                            <input data-id="{{ $department->id }}" class="toggle-class" type="checkbox"
+                                            <input data-id="{{ $event->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
                                                 data-on="Active" data-off="InActive"
-                                                {{ $department->status ? 'checked' : '' }}>
+                                                {{ $event->status ? 'checked' : '' }}>
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
                                                 <!-- Edit button -->
-                                                <a href="{{ route('employer.department.edit', $department->id) }}"
+                                                <a href="{{ Route('employer.event.edit', $event->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
                                                     title="Edit">
                                                     <i data-feather="edit"></i>
@@ -44,11 +52,11 @@
                                                 <!-- Delete button -->
                                                 <button type="button" class="text-danger"
                                                     onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
-                                                        document.getElementById('delete-data-{{ $department->id }}').submit();}"
+                                                        document.getElementById('delete-data-{{ $event->id }}').submit();}"
                                                     data-toggle="tooltip" data-placement="top" title="Delete">
                                                     <i data-feather="trash"></i>
                                                 </button>
-                                                <form id="delete-data-{{ $department->id }}"
+                                                <form id="delete-data-{{ $event->id }}"
                                                     action="{{ route('employer.event.destroy', $event->id) }}"
                                                     method="POST">
                                                     @csrf
@@ -76,20 +84,20 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script>
+    <!-- <script>
         $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
-                var department_id = $(this).data('id');
-                console.log(department_id);
+                var user_id = $(this).data('id');
+                console.log(user_id);
 
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('employer.department.change.status') }}',
+                    url: '{{ route('employer.user.changestatus') }}',
                     data: {
                         'status': status,
-                        'department_id': department_id
+                        'user_id': user_id
                     },
                     success: function(data) {
                         console.log(data.success)
@@ -97,5 +105,5 @@
                 });
             })
         })
-    </script>
+    </script> -->
 @endpush
