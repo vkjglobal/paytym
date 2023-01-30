@@ -90,7 +90,7 @@ class DepartmentController extends Controller
     public function edit($id)
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.branch.create')],
+            [(__('Dashboard')), route('employer.department.create')],
             [(__('Branch')), null],
         ];
         $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();

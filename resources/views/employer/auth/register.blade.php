@@ -138,39 +138,7 @@
                                 </div>
                             </div><!-- Row -->
 
-                            <div class="row">
-                        
-                       
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="control-label">Password<span class="text-danger"> *</span></label>
-                                    <input type="password"
-                                        class="form-control @if ($errors->has('street')) is-invalid @endif" id="pswd1"
-                                        name="password" value="{{ old('password') }}" placeholder="Enter Password">
-                                    <div class="invalid-feedback">{{ $errors->first('password') }}</div>
-                                </div>
-                               
-                            </div><!-- Col -->
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="control-label">Confirm Password<span class="text-danger"> *</span></label>
-                                    <input type="password"
-                                        class="form-control @if ($errors->has('password')) is-invalid @endif"
-                                        id="pswd2" name="" value="{{ old('password') }}" placeholder="Confirm Password">
-                                   <span id = "message1" style="color:red"> </span> <br><br>
-                                </div>
-                            </div><!-- Col -->
-                         
-                        </div><!-- Row -->
-                        <form method="POST" action="{{ route('employer.register') }}">
-    @csrf
-    <div class="form-group">
-        <label for="otp">OTP</label>
-        <input id="otp" type="text" class="form-control" name="otp" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Send OTP</button>
-</form><br>
-
+                          
                             
                             <button type="submit" class="btn btn-primary submit">Register</button>
                         </form>

@@ -88,7 +88,6 @@ class RegisterController extends Controller
         $employer->name = $data['name'];
         $employer->company = $data['company_name'];
         $employer->email = $data['email'];
-        $employer->password = Hash::make($data['password']);
         $employer->phone = $data['phone'];
         $employer->company_phone = $data['company_phone'];
         $employer->tin = $data['tin'];
@@ -96,7 +95,6 @@ class RegisterController extends Controller
         $employer->street = $data['street'];
         $employer->city = $data['city'];
         $employer->website = $data['website'];
-        
         $employer->user_type = "Employer"; 
 
         if (isset($data['registration_certificate'])) {
@@ -105,7 +103,6 @@ class RegisterController extends Controller
                 urlencode(time()) . '_' . uniqid() . '_' . $data['registration_certificate']->getClientOriginalName(),
                 'public'
             );
-            dd($path);
             $employer->registration_certificate = $path;
         }
 
