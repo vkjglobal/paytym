@@ -168,6 +168,36 @@
 
             <!-- Events End -->
 
+             <!-- projects -->
+
+             <li class="nav-item {{ request()->is('employer/project*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#project" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Projects</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/project*') ? 'show' : '' }}" id="project">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.project.create') }}"
+                                class="nav-link {{ request()->is('employer/project/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.project.index') }}"
+                                class="nav-link {{ request()->is('employer/project') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Projects End -->
+
+
+
               <!-- Calender -->
 
               <!-- <li class="nav-item">

@@ -7,6 +7,8 @@ use App\Models\LeaveRequest;
 use App\Models\User;
 use App\Models\Branch;
 use App\Models\Department;
+use App\Models\Attendance;
+use Carbon\Carbon;
 use Auth;
 
 class HomeController extends Controller
@@ -31,6 +33,13 @@ class HomeController extends Controller
         $user = User::where('status','1')->count();
         $branches= Branch::where('employer_id', Auth::guard('employer')->user()->id)->count();
         $departments= Department::where('employer_id', Auth::guard('employer')->user()->id)->count();
-        return view('employer.home',compact('annualLeaves','user','branches','departments'));
+        $today = Carbon::today();
+        $formatted_date = $today->format('Y-m-d');
+        $checked_in = Attendance::whereNotNull('check_in')->where('date',$formatted_date)->count();
+        $checked_out = Attendance::whereNotNull('check_out')->where('date',$formatted_date)->count();
+        $on_annual_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','annual')->count();
+        $on_sick_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','sick')->count();
+
+        return view('employer.home',compact('annualLeaves','user','branches','departments','checked_in','checked_out','on_annual_leave','on_sick_leave'));
     }
 }

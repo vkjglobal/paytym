@@ -13,29 +13,36 @@
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
-                                    <th>Department</th>
+                                    <th>Project</th>
                                     <th>Branch</th>
+                                    <th>Department</th>
+                                    <th>Description</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($departments as $department)
+                                @foreach ($projects as $project)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $department->dep_name }}</td>
-                                        <td>{{ $department->branch->name }}</td>
+                                        <td>{{ $project->name  }}</td>
+                                        <td>{{ $project->branch->name  }}</td>
+                                        <td>{{ $project->department->dep_name  }}</td>
+                                        <td>{{ $project->description}}</td>
+                                        
+                                       
+                                        
                                         <td>
-                                            <input data-id="{{ $department->id }}" class="toggle-class" type="checkbox"
+                                            <input data-id="{{ $project->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
                                                 data-on="Active" data-off="InActive"
-                                                {{ $department->status ? 'checked' : '' }}>
+                                                {{ $project->status ? 'checked' : '' }}>
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
                                                 <!-- Edit button -->
-                                                <a href="{{ route('employer.department.edit', $department->id) }}"
+                                                <a href="{{ route('employer.project.edit', $project->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
                                                     title="Edit">
                                                     <i data-feather="edit"></i>
@@ -44,12 +51,12 @@
                                                 <!-- Delete button -->
                                                 <button type="button" class="text-danger"
                                                     onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
-                                                        document.getElementById('delete-data-{{ $department->id }}').submit();}"
+                                                        document.getElementById('delete-data-{{ $project->id }}').submit();}"
                                                     data-toggle="tooltip" data-placement="top" title="Delete">
                                                     <i data-feather="trash"></i>
                                                 </button>
-                                                <form id="delete-data-{{ $department->id }}"
-                                                    action="{{ route('employer.department.destroy', $department->id) }}"
+                                                <form id="delete-data-{{ $project->id }}"
+                                                    action="{{ route('employer.project.destroy', $project->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -76,7 +83,7 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script>
+    <!-- <script>
         $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
@@ -97,5 +104,5 @@
                 });
             })
         })
-    </script>
+    </script> -->
 @endpush

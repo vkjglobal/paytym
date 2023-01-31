@@ -274,6 +274,47 @@ $(function() {
   }
   // Apex chart1 end
 
+  // Apex chart4 start
+  if($('#chartjsMixedBar').length) {
+    new Chart($('#chartjsMixedBar'), {
+      type: 'bar',
+      data: {
+        labels: ["1900", "1950", "1999", "2050"],
+        datasets: [{
+            label: "Europe",
+            type: "line",
+            borderColor: "#66d1d1",
+            backgroundColor: "rgba(0,0,0,0)",
+            data: [408,547,675,734],
+            fill: false
+          }, {
+            label: "Africa",
+            type: "line",
+            borderColor: "#ff3366",
+            backgroundColor: "rgba(0,0,0,0)",
+            data: [133,221,783,2478],
+            fill: false
+          }, {
+            label: "Europe",
+            type: "bar",
+            backgroundColor: "#f77eb9",
+            // backgroundColor: "rgba(0,0,0,0)",
+            data: [408,547,675,734],
+          }, {
+            label: "Africa",
+            type: "bar",
+            backgroundColor: "#7ee5e5",
+            backgroundColorHover: "#3e95cd",
+            // backgroundColor: "rgba(0,0,0,0)",
+            data: [133,221,783,2478]
+          }
+        ]
+      }
+    });
+    new ApexCharts(document.querySelector("#chartjsMixedBar"),options1).render();
+  }
+  // Apex chart4 end
+
   // Apex chart2 start
   if($('#apexChart2').length) {
     var options2 = {
@@ -365,6 +406,8 @@ $(function() {
     new ApexCharts(document.querySelector("#apexChart3"),options3).render();
   }
   // Apex chart3 end
+
+  
 
   // Progressgar1 start
   if($('#progressbar1').length) {
