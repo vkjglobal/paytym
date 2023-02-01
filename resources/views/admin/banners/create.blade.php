@@ -7,30 +7,31 @@
     <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">CMS Create</h6>
-                <form method="POST" action="{{ route('admin.cms.store') }}" enctype="multipart/form-data">
+                <h6 class="card-title">Banner Create</h6>
+                <form method="POST" action="{{ route('admin.banner.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">CMS Type<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('cms_type')) is-invalid @endif" name="cms_type" value="{{ old('cms_type') }}" placeholder="Enter CMS Type">
-                                <div class="invalid-feedback">{{ $errors->first('cms_type') }}</div>
+                                <label class="control-label">Banner Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('name')) is-invalid @endif" name="name" value="{{ old('name') }}" placeholder="Enter Banner Name">
+                                <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
                 <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Content<span class="text-danger">*</span></label>
+                                <label class="control-label">Image<span class="text-danger">*</span></label>
                                 <!-- <select class="form-control" id="file_type" name="file_type">
                                     <option value="0">--SELECT--</option>
 
                                 </select> -->
-                                <textarea name="content" class="form-control @if ($errors->has('content')) is-invalid @endif" cols="30"
-                                        rows="5" required>{{ old('content') }}</textarea>
-                                    
-                                <div class="invalid-feedback">{{ $errors->first('content') }}</div>
+                                <input type="file"
+                                        class="form-control @if ($errors->has('image')) is-invalid @endif"
+                                        name="image" value="{{ old('image') }}" placeholder="Choose Image">
+                                    <div class="invalid-feedback">{{ $errors->first('image') }}</div>
+                               
                             </div>
                         </div><!-- Col -->
 

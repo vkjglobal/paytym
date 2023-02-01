@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCmsRequest extends FormRequest
+class UpdateBannerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,6 @@ class UpdateCmsRequest extends FormRequest
      */
     public function authorize()
     {
-        //return false;
         return true;
     }
 
@@ -24,9 +23,10 @@ class UpdateCmsRequest extends FormRequest
      */
     public function rules()
     {
-       return [
-            'cms_type' => 'required',
-            'content' => 'nullable',
+        return [
+            'name' => 'required',
+            'image' => 'nullable',
+            
         ];
     }
 }
