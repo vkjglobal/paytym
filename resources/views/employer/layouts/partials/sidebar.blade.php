@@ -25,14 +25,14 @@
 
             <!-- Requests -->
 
-            <!-- <li class="nav-item">
+            <li class="nav-item {{ request()->is('employer/leave-requests*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#requests" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Requests</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse" id="requests">
+                <div class="collapse {{ request()->is('employer/leave-requests*') ? 'show' : '' }}"  id="requests">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
                             <a href="{{ route('employer.leave.requests') }}"
@@ -40,15 +40,15 @@
                                 Leave Requests
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route('employer.payment.requests') }}"
                                 class="nav-link {{ request()->is('employer/payment-requests') ? 'active' : '' }}">
                                 Payment Requests
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
-            </li> -->
+            </li> 
 
             <!-- Requests end -->
 
@@ -313,6 +313,17 @@
             </li> -->
 
             <!-- Employee End -->
+
+            <!-- Uploads -->
+
+            <li class="nav-item {{ request()->is('employer.uploads') ? 'active' : '' }}">
+                <a href="{{ route('employer.uploads.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Uploads</span>
+                </a>
+            </li>
+
+            <!-- Uploads end -->
 
           
 

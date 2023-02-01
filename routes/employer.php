@@ -12,6 +12,7 @@ use App\Http\Controllers\Employer\BranchController;
 use App\Http\Controllers\Employer\DepartmentController;
 use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
+use App\Http\Controllers\Employer\UploadController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -51,6 +52,9 @@ Route::middleware('employer.auth')->group(function () {
 
     // Leave Requests
     Route::get('leave-requests', [LeaveRequestController::class, 'index'])->name('leave.requests');
+    Route::delete('leave-requests/{id}', [LeaveRequestController::class, 'destroy'])->name('leave.requests.delete');
+    Route::get('leave-requests/status/{id}', [LeaveRequestController::class, 'statusChange'])->name('leave.requests.status');
+
     Route::get('payment-requests', [PaymentRequestController::class, 'index'])->name('payment.requests');
 
 
@@ -78,5 +82,8 @@ Route::middleware('employer.auth')->group(function () {
     //Projects
     Route::resource('project',ProjectController::class)->except(['show']);
     Route::get('project-change-status', [ProjectController::class, 'changeStatus'])->name('project.changestatus');
+
+    //Uploads
+    Route::resource('uploads', UploadController::class);
 
 });
