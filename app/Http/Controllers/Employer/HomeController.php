@@ -29,6 +29,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
+        $employer = Auth::guard('employer')->user();
         $annualLeaves = LeaveRequest::where('type','annual')->where('status','1')->count();
         $user = User::where('status','1')->count();
         $branches= Branch::where('employer_id', Auth::guard('employer')->user()->id)->count();
@@ -40,6 +41,7 @@ class HomeController extends Controller
         $on_annual_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','annual')->count();
         $on_sick_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','sick')->count();
 
-        return view('employer.home',compact('annualLeaves','user','branches','departments','checked_in','checked_out','on_annual_leave','on_sick_leave'));
+        return view('employer.home',compact('employer','annualLeaves','user','branches','departments','checked_in',
+                                            'checked_out','on_annual_leave','on_sick_leave'));
     }
 }

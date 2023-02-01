@@ -14,8 +14,9 @@ class BranchController extends Controller
 {
     public function index(){
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.branch.create')],
-            [(__('Branch')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Branches')), route('employer.branch.list')],
+            [(__('Create')), null],
         ];
 
         $admin = Auth::guard('employer')->user();
@@ -24,7 +25,7 @@ class BranchController extends Controller
 
     public function list(){
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.branch.list')],
+            [(__('Dashboard')), route('employer.home')],
             [(__('Branch')), null],
         ];
 
@@ -72,8 +73,9 @@ class BranchController extends Controller
 
         public function edit($id){
             $breadcrumbs = [
-                [(__('Dashboard')), route('employer.branch.create')],
-                [(__('Branch')), null],
+                [(__('Dashboard')), route('employer.home')],
+                [(__('Branches')), route('employer.branch.list')],
+                [(__('Edit')), null],
             ];
             $branch = Branch::findOrFail($id);   
             return view('employer.branch.edit',compact('breadcrumbs','branch'));

@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Roster extends Model
 {
     use HasFactory;
+
+    public function user(){
+
+        return $this->belongsTo(User::class);
+    }
+
+    public function project(){
+
+        return $this->belongsTo(Project::class);
+    }
+
+    public function job_type(){
+
+        return $this->belongsTo(JobType::class,'job_id');
+    }
 }

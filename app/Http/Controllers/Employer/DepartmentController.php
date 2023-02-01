@@ -39,7 +39,8 @@ class DepartmentController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.department.create')],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Departments')), route('employer.department.index')],
             [(__('Create')), null]
         ];
         //Employer $employer
@@ -90,8 +91,9 @@ class DepartmentController extends Controller
     public function edit($id)
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.department.create')],
-            [(__('Branch')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Departments')), route('employer.department.index')],
+            [(__('Edit')), null],
         ];
         $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $department = Department::findOrFail($id);   

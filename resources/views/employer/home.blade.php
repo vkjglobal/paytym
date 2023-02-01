@@ -154,24 +154,7 @@
                     </div>
                 </div>
               
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                        <a href="#">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-baseline mb-3">
-                                <h6 class="card-title mb-0">On Annual Leave</h6>
-                            </div>
-                            <div class="row">
-                                <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">{{$on_annual_leave}}</h3>
-                                </div>
-                                <div class="col-6 col-md-12 col-xl-7">
-                                    <div id="apexChart6" class="mt-md-3 mt-xl-0"></div>
-                                </div>
-                            </div>
-                        </div></a>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div> <!-- row -->
