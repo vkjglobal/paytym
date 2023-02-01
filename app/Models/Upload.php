@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Upload extends Model
 {
     use HasFactory;
+
+    public function employer(){
+
+        return $this->belongsTo(Employer::class);
+
+    }
 }
