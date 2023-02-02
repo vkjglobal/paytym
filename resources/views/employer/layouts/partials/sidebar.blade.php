@@ -23,6 +23,9 @@
 
             <li class="nav-item nav-category">Menus</li>
 
+
+            
+
             <!-- Requests -->
 
             <li class="nav-item {{ request()->is('employer/leave-requests*') ? 'active' : '' }}">
@@ -142,10 +145,10 @@
 
               <!-- Events -->
 
-              <li class="nav-item {{ request()->is('employer/user*') ? 'active' : '' }}">
+              <li class="nav-item {{ request()->is('employer/event*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#events" role="button" aria-expanded="false" aria-controls="requests">
                     <i class="link-icon" data-feather="users"></i>
-                    <span class="link-title">Events</span>
+                    <span class="link-title">Calender</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse {{ request()->is('employer/event*') ? 'show' : '' }}" id="events">
@@ -153,13 +156,13 @@
                         <li class="nav-item">
                             <a href="{{ route('employer.event.create') }}"
                                 class="nav-link {{ request()->is('employer/event/create') ? 'active' : '' }}">
-                                Create
+                               Create Events
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('employer.event.index') }}"
                                 class="nav-link {{ request()->is('employer/event') ? 'active' : '' }}">
-                                List
+                                List Events
                             </a>
                         </li>
                     </ul>
@@ -195,6 +198,67 @@
             </li>
 
             <!-- Projects End -->
+
+
+
+               <!-- Roster -->
+
+              <li class="nav-item  {{ request()->is('employer/roster*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#roster" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Rosters</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/roster*') ? 'show' : '' }}" id="roster">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.roster.create') }}"
+                                class="nav-link {{ request()->is('employer/roster/create') ? 'active' : '' }}">
+                                Create 
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.roster.index') }}"
+                                class="nav-link {{ request()->is('employer/roster') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Roster End -->
+
+            
+               <!-- Deduction -->
+
+               <li class="nav-item  {{ request()->is('employer/deduction*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#deduction" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Deductions</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/deduction*') ? 'show' : '' }}" id="deduction">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.deduction.create') }}"
+                                class="nav-link {{ request()->is('employer/deduction/create') ? 'active' : '' }}">
+                                Create 
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.deduction.index') }}"
+                                class="nav-link {{ request()->is('employer/deduction') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Deduction End -->
 
 
 
