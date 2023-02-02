@@ -13,10 +13,8 @@ use App\Http\Controllers\Employer\DepartmentController;
 use App\Http\Controllers\Employer\PayrollController;
 use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\Employer\RosterController;
->>>>>>> 21d6928 (02-01-2023_Rosters_deductions)
+
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -87,17 +85,19 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('project',ProjectController::class)->except(['show']);
     Route::get('project-change-status', [ProjectController::class, 'changeStatus'])->name('project.changestatus');
 
-<<<<<<< HEAD
     //Payroll
     Route::get('payroll', [PayrollController::class, 'index'])->name('payroll.index');
     
     //Uploads
     Route::resource('uploads', UploadController::class);
-=======
+
+    //Rosters
+    Route::resource('roster',RosterController::class)->except(['show']);
+
+    //Deductions
+    Route::resource('deduction',DeductionController::class)->except(['show']);
     
     
 
-
->>>>>>> 21d6928 (02-01-2023_Rosters_deductions)
 
 });
