@@ -13,7 +13,7 @@
                             <thead>
                                 <tr>
 
-                                
+
                                     <th>Sl #</th>
                                     <th>Plan</th>
                                     <th>Company</th>
@@ -98,7 +98,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('admin.custom_subscriptions.change.status') }}',
+                    url: '{{ route('admin.custom_subscriptions.change.status')}}',
                     data: {
                         'status': status,
                         'subscription_id': subscription_id
