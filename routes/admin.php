@@ -68,6 +68,10 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('custom_subscriptions-change-status', [CmsController::class, 'changeStatus'])->name('cms.change.status');
     Route::resource('cms', CmsController::class)->except(['show']);
 
+    //Banner
+    Route::get('banner-change-status', [BannerController::class, 'changeStatus'])->name('banner.change.status');
+    Route::resource('banner', BannerController::class)->except(['show']);
+
     // Contacts
     
     Route::get('contact', [ContactController::class, 'index'])->name('contact');
