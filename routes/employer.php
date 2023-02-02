@@ -78,12 +78,12 @@ Route::middleware('employer.auth')->group(function () {
     
     //Events
     Route::resource('event', EventController::class)->except(['show']);
-    Route::get('event-change-status', [UserController::class, 'changeStatus'])->name('event.changestatus');
+   
 
     //Projects
     Route::resource('project',ProjectController::class)->except(['show']);
-    Route::get('project-change-status', [ProjectController::class, 'changeStatus'])->name('project.changestatus');
 
+  
     
 
 
