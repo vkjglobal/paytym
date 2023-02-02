@@ -11,7 +11,6 @@ use App\Http\Controllers\Admin\EmployerController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubscriptionController;
-use App\Http\Controllers\Admin\BannerController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
@@ -66,15 +65,8 @@ Route::middleware('admin.auth')->group(function () {
     Route::resource('custom_subscriptions', CustomSubscriptionController::class)->except(['show']);
 
     //CMS
-    //Route::get('cms-change-status', [CmsController::class, 'changeStatus'])->name('cms.change.status');
-    //Route::resource('cms', CmsController::class)->except(['show']);
-    Route::get('cms-change-status', [CmsController::class, 'changeStatus'])->name('cms.change.status');
+    Route::get('custom_subscriptions-change-status', [CmsController::class, 'changeStatus'])->name('cms.change.status');
     Route::resource('cms', CmsController::class)->except(['show']);
-    //Route::delete('cms/{id}', [CmsController::class, 'destroy'])->name('cms.destroy');
-
-    //Banner
-    Route::get('banner-change-status', [BannerController::class, 'changeStatus'])->name('banner.change.status');
-    Route::resource('banner', BannerController::class)->except(['show']);
 
     // Contacts
     
