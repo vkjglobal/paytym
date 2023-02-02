@@ -15,6 +15,7 @@ use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\RosterController;
 
+use App\Http\Controllers\Employer\RosterController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -85,19 +86,8 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('project',ProjectController::class)->except(['show']);
     Route::get('project-change-status', [ProjectController::class, 'changeStatus'])->name('project.changestatus');
 
-    //Payroll
-    Route::get('payroll', [PayrollController::class, 'index'])->name('payroll.index');
     
-    //Uploads
-    Route::resource('uploads', UploadController::class);
 
-    //Rosters
-    Route::resource('roster',RosterController::class)->except(['show']);
-
-    //Deductions
-    Route::resource('deduction',DeductionController::class)->except(['show']);
-    
-    
 
 
 });
