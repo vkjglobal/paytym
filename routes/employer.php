@@ -83,6 +83,18 @@ Route::middleware('employer.auth')->group(function () {
     //Projects
     Route::resource('project',ProjectController::class)->except(['show']);
 
+    //Rosters
+    Route::resource('roster',RosterController::class)->except(['show']);
+
+    //Deductions
+    Route::resource('deduction',DeductionController::class)->except(['show']);
+
+    //Payroll
+    Route::get('payroll', [PayrollController::class, 'index'])->name('payroll.index');
+    
+    //Uploads
+    Route::resource('uploads', UploadController::class);
+
   
     
 
