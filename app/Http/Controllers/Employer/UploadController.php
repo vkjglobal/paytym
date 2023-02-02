@@ -26,7 +26,7 @@ class UploadController extends Controller
         $employees = User::where('employer_id', $employer)->get();
         // $data = Upload::where();
 
-        return view('employer.uploads.index', compact('breadcrumbs', 'employees'));
+        return view('employer.Uploads.index', compact('breadcrumbs', 'employees'));
     }
 
     /**
@@ -37,7 +37,7 @@ class UploadController extends Controller
     public function create(Request $request)
     {
         $id = $request->managefile;
-        return view('employer.uploads.add', compact('id'));
+        return view('employer.Uploads.add', compact('id'));
     }
 
     /**
@@ -121,7 +121,7 @@ class UploadController extends Controller
     public function edit($id)
     {
         $file = Upload::where('user_id', $id)->get();
-        return view('employer.uploads.edit', compact('file'));
+        return view('employer.Uploads.edit', compact('file'));
     }
 
     /**

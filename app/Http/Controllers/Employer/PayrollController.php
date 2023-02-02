@@ -11,6 +11,6 @@ class PayrollController extends Controller
     public function index(){
         $payrolls = Payroll::all();
 
-        return view('employer.payroll.index', compact('payrolls'));
+        return view('employer.Payroll.index', compact('payrolls'));
     }
 }
