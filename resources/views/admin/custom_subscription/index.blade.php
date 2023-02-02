@@ -12,6 +12,8 @@
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
+
+                                
                                     <th>Sl #</th>
                                     <th>Plan</th>
                                     <th>Company</th>
