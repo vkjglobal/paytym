@@ -314,9 +314,20 @@
 
             <!-- Employee End -->
 
+            <!-- Payroll -->
+
+            <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                <a href="{{ route('employer.payroll.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Payroll</span>
+                </a>
+            </li>
+
+            <!-- Payroll end -->
+            
             <!-- Uploads -->
 
-            <li class="nav-item {{ request()->is('employer.uploads') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('employer/uploads') ? 'active' : '' }}">
                 <a href="{{ route('employer.uploads.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
                     <span class="link-title">Uploads</span>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Controllers\Employer\ProfileController;
 use App\Http\Controllers\Employer\BranchController;
 use App\Http\Controllers\Employer\DepartmentController;
+use App\Http\Controllers\Employer\PayrollController;
 use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\UploadController;
@@ -83,6 +84,9 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('project',ProjectController::class)->except(['show']);
     Route::get('project-change-status', [ProjectController::class, 'changeStatus'])->name('project.changestatus');
 
+    //Payroll
+    Route::get('payroll', [PayrollController::class, 'index'])->name('payroll.index');
+    
     //Uploads
     Route::resource('uploads', UploadController::class);
 
