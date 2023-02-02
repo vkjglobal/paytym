@@ -7,35 +7,36 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">CMS</h6>
+                    <h6 class="card-title">Banners</h6>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
-                                    <th>CMS Type</th>
-                                    <th>Content</th>
+                                    <th>Name</th>
+                                    <th>Image</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($cms as $cms)
+                                @foreach ($banner as $banner)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $cms->cms_type }}</td>
-                                        <td>{{ $cms->content }}</td>
-                                       
+                                        <td>{{ $banner->name }}</td>
+                                        <td>{{ $banner->image }}</td>
+                                      
+                                        <!-- <td><img src ="{{asset('uploads/banners/'.$banner->image) }}"> </td> -->
                                         <td>
-                                            <input data-id="{{ $cms->id }}" class="toggle-class" type="checkbox"
+                                            <input data-id="{{ $banner->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
                                                 data-on="Active" data-off="InActive"
-                                                {{ $cms->status ? 'checked' : '' }}>
+                                                {{ $banner->status ? 'checked' : '' }}>
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                                 <!-- Edit button -->
-                                                <a href="{{ route('admin.cms.edit', $cms->id) }}"
+                                                <a href="{{ route('admin.banner.edit', $banner->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
                                                     title="Edit">
                                                     <i data-feather="edit"></i>
@@ -43,12 +44,12 @@
                                                 <!-- Delete button -->
                                                 <button type="button" class="text-danger"
                                                     onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
-                                                        document.getElementById('delete-data-{{ $cms->id }}').submit();}"
+                                                        document.getElementById('delete-data-{{ $banner->id }}').submit();}"
                                                     data-toggle="tooltip" data-placement="top" title="Delete">
                                                     <i data-feather="trash"></i>
                                                 </button>
-                                                <form id="delete-data-{{ $cms->id }}"
-                                                    action="{{ route('admin.cms.destroy', $cms->id) }}"
+                                                <form id="delete-data-{{ $banner->id }}"
+                                                    action="{{ route('admin.banner.destroy', $banner->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -78,17 +79,17 @@
         $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
-                var cms_id = $(this).data('id');
+                var banner_id = $(this).data('id');
                 
-                console.log(cms_id);
+                console.log(banner_id);
 
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('admin.cms.change.status') }}',
+                    url: '{{ route('admin.banner.change.status') }}',
                     data: {
                         'status': status,
-                        'cms_id': cms_id
+                        'banner_id': banner_id
                     },
                     success: function(data) {
                         console.log(data.success)

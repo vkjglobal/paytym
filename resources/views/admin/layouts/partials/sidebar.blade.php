@@ -98,8 +98,8 @@
             <!----End Subscription----->
 
             <!---CMS--->
-            <!-- <li class="nav-item {{ request()->is('admin/cms*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#cms" role="button" aria-expanded="false" aria-controls="subscriptions">
+             <li class="nav-item {{ request()->is('admin/cms*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#cms" role="button" aria-expanded="false" aria-controls="cms">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Manage CMS</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
@@ -118,9 +118,34 @@
                         </li>
                     </ul>
                 </div>
-            </li> -->
+            </li> 
 
             <!----End CMS----->
+
+             <!---Banner--->
+             <li class="nav-item {{ request()->is('admin/banner*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#banner" role="button" aria-expanded="false" aria-controls="banner">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Manage Banners</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/banner*') ? 'show' : '' }}" id="banner">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.banner.index') }}" class="nav-link {{ request()->is('admin/banner') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.banner.create') }}" class="nav-link {{ request()->is('admin/banner/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li> 
+
+            <!----End Banner----->
 
 
             <!-- Contacts -->
