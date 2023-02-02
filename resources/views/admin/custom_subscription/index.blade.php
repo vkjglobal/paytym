@@ -96,7 +96,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('admin.subscriptions.change.status') }}',
+                    url: '{{ route('admin.custom_subscriptions.change.status') }}',
                     data: {
                         'status': status,
                         'subscription_id': subscription_id
