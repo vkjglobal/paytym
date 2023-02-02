@@ -14,8 +14,6 @@ use App\Http\Controllers\Employer\PayrollController;
 use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\RosterController;
-
-use App\Http\Controllers\Employer\RosterController;
 use Illuminate\Support\Facades\Route;
 
 // Login
