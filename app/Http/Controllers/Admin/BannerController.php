@@ -64,7 +64,7 @@ class BannerController extends Controller
             [(__('Banner')), route('admin.banner.index')],
             [(__('Edit')), null]
         ];
-        //dd($banner);
+        
 
         return view('admin.banners.edit', compact('breadcrumbs', 'banner'));
     }
@@ -74,11 +74,13 @@ class BannerController extends Controller
         $validated = $request->validated();
         $banner->name = $validated['name'];
         $image = $banner->image;
+        
         if ($request->hasFile('image')) {
             $path =  $request->file('image')->storeAs(
                 'uploads/banners',
                 urlencode(time()) . '_' . uniqid() . '_' . $request->image->getClientOriginalName(),
                 'public'
+                
             );
 
             if (Storage::exists('public/'. $image))  {
@@ -86,7 +88,7 @@ class BannerController extends Controller
                
             } 
             $banner->image = $path;
-            dd($banner);
+            //dd($banner);
         }
         $res = $banner->save();
 

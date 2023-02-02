@@ -24,7 +24,8 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $banner->name }}</td>
-                                        <td>{{ $banner->image }}</td>
+                                        <!-- <td>{{ $banner->image }}</td> -->
+                                        <td> <img src="{{ asset('storage/' . $banner->image) }}" class="img-thumbnail mt-2" width="100" alt=""> </td>
                                       
                                         <!-- <td><img src ="{{asset('uploads/banners/'.$banner->image) }}"> </td> -->
                                         <td>

@@ -31,13 +31,14 @@
                                     <!-- <input type="file"
                                         class="form-control @if ($errors->has('image')) is-invalid @endif"
                                         name="image" value="{{ old('image',$banner->image) }}" placeholder="Choose Image">
-
-                                    <img src="{{ asset('storage/' . $banner->image) }}" class="img-thumbnail mt-2" width="100" alt=""> -->
+-->
+                                    <img src="{{ asset('storage/' . $banner->image) }}" class="img-thumbnail mt-2" width="100" alt=""> 
                                     
                                     <input type="file"
                                             class="form-control @if ($errors->has('image')) is-invalid @endif"
                                             name="image" value="{{old('image', $banner->image) }}" placeholder="Enter Image">
                                     <div class="invalid-feedback">{{ $errors->first('image') }}</div>
+                                    {{ $banner->image }}
                                 </div>
                             </div><!-- Col -->
                         </div><!-- Row -->
