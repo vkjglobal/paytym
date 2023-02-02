@@ -80,11 +80,6 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('project',ProjectController::class)->except(['show']);
     Route::get('project-change-status', [ProjectController::class, 'changeStatus'])->name('project.changestatus');
 
-    //Rosters
-    Route::resource('roster',RosterController::class)->except(['show']);
-
-    //Deductions
-    Route::resource('deduction',DeductionController::class)->except(['show']);
     
 
 
