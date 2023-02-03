@@ -181,6 +181,19 @@
                 </a>
                 <div class="collapse {{ request()->is('employer/project*') ? 'show' : '' }}" id="project">
                     <ul class="nav sub-menu">
+                    <li class="nav-item">  
+                            <a href="{{ route('employer.assign.create') }}"
+                                class="nav-link {{ request()->is('employer/project/assign/create') ? 'active' : '' }}">
+                                Assign Project
+                            </a>
+                        </li>
+
+                        <li class="nav-item">  
+                            <a href="{{ route('employer.assign.index') }}"
+                                class="nav-link {{ request()->is('employer/project/assign') ? 'active' : '' }}">
+                                 List Assigned Projects
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('employer.project.create') }}"
                                 class="nav-link {{ request()->is('employer/project/create') ? 'active' : '' }}">

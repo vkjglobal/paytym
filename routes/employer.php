@@ -85,6 +85,8 @@ Route::middleware('employer.auth')->group(function () {
 
     //Projects
     Route::resource('project',ProjectController::class)->except(['show']);
+    Route::resource('project/assign',AssignEmployerController::class)->except(['show']);
+    Route::get('project/assign/search',[AssignEmployerController::class,'search'])->name('project.assign.search'); //project assign
 
     //Rosters
     Route::resource('roster',RosterController::class)->except(['show']);
@@ -101,5 +103,6 @@ Route::middleware('employer.auth')->group(function () {
     //Attendance
     Route::resource('attendance', AttendanceController::class);
     Route::post('attendance/csvfile', [AttendanceController::class, 'csvfile'])->name('attendance.csvfile');
+    
 
 });
