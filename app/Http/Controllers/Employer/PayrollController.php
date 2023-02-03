@@ -29,7 +29,7 @@ class PayrollController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('employer.payroll.create', compact('users'));
+        return view('employer.Payroll.create', compact('users'));
     }
 
     /**
