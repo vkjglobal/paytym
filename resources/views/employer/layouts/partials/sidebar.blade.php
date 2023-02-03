@@ -31,7 +31,7 @@
             <li class="nav-item {{ request()->is('employer/leave-requests*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#requests" role="button" aria-expanded="false"
                     aria-controls="requests">
-                    <i class="link-icon" data-feather="arrow-down-left"></i>
+                    <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Requests</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -60,7 +60,7 @@
 
             <li class="nav-item {{ request()->is('employer/branch*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse"  href="#branch" role="button" aria-expanded="false" aria-controls="branch">
-                    <i class="link-icon" data-feather="move"></i>
+                    <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Branch</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -90,7 +90,7 @@
 
               <li class="nav-item {{ request()->is('employer/department*') ? 'active' : '' }}">
                 <a class="nav-link"  data-toggle="collapse" href="#departments"  role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="layers"></i>
+                    <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Departments</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -147,7 +147,7 @@
 
               <li class="nav-item {{ request()->is('employer/event*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#events" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="calendar"></i>
+                    <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Calender</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -175,25 +175,21 @@
 
              <li class="nav-item {{ request()->is('employer/project*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#project" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="grid"></i>
+                    <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Projects</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse {{ request()->is('employer/project*') ? 'show' : '' }}" id="project">
                     <ul class="nav sub-menu">
-                  
-
-
                         <li class="nav-item">
                             <a href="{{ route('employer.project.create') }}"
                                 class="nav-link {{ request()->is('employer/project/create') ? 'active' : '' }}">
                                 Create
                             </a>
                         </li>
-                       
                         <li class="nav-item">
                             <a href="{{ route('employer.project.index') }}"
-                                class="nav-link {{ request()->is('employer/project/') ? 'active' : '' }}">
+                                class="nav-link {{ request()->is('employer/project') ? 'active' : '' }}">
                                 List
                             </a>
                         </li>
@@ -210,7 +206,7 @@
               <li class="nav-item  {{ request()->is('employer/roster*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#roster" role="button" aria-expanded="false"
                     aria-controls="requests">
-                    <i class="link-icon" data-feather="corner-down-left"></i>
+                    <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Rosters</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -385,10 +381,35 @@
             <!-- Payroll -->
 
             <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
-                <a href="{{ route('employer.payroll.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="dollar-sign"></i>
+                {{-- <a href="{{ route('employer.payroll.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
                     <span class="link-title">Payroll</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a> --}}
+                <a class="nav-link" data-toggle="collapse" href="#payroll" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Payroll</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
+                <div class="collapse {{ request()->is('employer/payroll*') ? 'show' : '' }}" id="payroll">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payroll.create') }}"
+                                class="nav-link {{ request()->is('employer/payroll/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payroll.index') }}"
+                                class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                                List 
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
             </li>
 
             <!-- Payroll end -->
@@ -397,7 +418,7 @@
 
             <li class="nav-item {{ request()->is('employer/uploads') ? 'active' : '' }}">
                 <a href="{{ route('employer.uploads.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="upload"></i>
+                    <i class="link-icon" data-feather="box"></i>
                     <span class="link-title">Uploads</span>
                 </a>
             </li>
@@ -405,7 +426,32 @@
             <!-- Uploads end -->
 
           
+            <li class="nav-item  {{ request()->is('employer/attendance*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#attendance" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Attendance</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/attendance*') ? 'show' : '' }}" id="attendance">
+                    <ul class="nav sub-menu">
 
+                        <li class="nav-item">
+                            <a href="{{ route('employer.attendance.create') }}"
+                                class="nav-link {{ request()->is('employer/attendance/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.attendance.index') }}"
+                                class="nav-link {{ request()->is('employer/attendance') ? 'active' : '' }}">
+                                List 
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
 
 
 
