@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CountryController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
@@ -81,4 +82,8 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('contact', [ContactController::class, 'index'])->name('contact');
     Route::post('contact', [ContactController::class, 'sendReply']);
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
+
+
+
+    
 });

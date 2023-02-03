@@ -14,6 +14,7 @@ use App\Http\Controllers\Employer\PayrollController;
 use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\RosterController;
+use App\Http\Controllers\Employer\AssignEmployerController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -81,7 +82,9 @@ Route::middleware('employer.auth')->group(function () {
    
 
     //Projects
-    Route::resource('project',ProjectController::class)->except(['show']);
+    Route::resource('project',ProjectController::class)->except(['show']); //project create,edit,list,delete
+    
+
 
     //Rosters
     Route::resource('roster',RosterController::class)->except(['show']);
