@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\Employer\Auth\ForgotPasswordController;
 use App\Http\Controllers\Employer\Auth\LoginController;
 use App\Http\Controllers\Employer\Auth\RegisterController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\Employer\PayrollController;
 use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\RosterController;
+use App\Http\Controllers\Employer\UploadController;
+use App\Http\Controllers\Employer\AttendanceController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -90,14 +93,13 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('deduction',DeductionController::class)->except(['show']);
 
     //Payroll
-    Route::get('payroll', [PayrollController::class, 'index'])->name('payroll.index');
+    Route::resource('payroll', PayrollController::class);
     
     //Uploads
     Route::resource('uploads', UploadController::class);
 
-  
-    
-
-
+    //Attendance
+    Route::resource('attendance', AttendanceController::class);
+    Route::post('attendance/csvfile', [AttendanceController::class, 'csvfile'])->name('attendance.csvfile');
 
 });

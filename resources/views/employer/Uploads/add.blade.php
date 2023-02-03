@@ -18,9 +18,10 @@
                             <tbody>
                                 <form method="POST" class="form-control" enctype="multipart/form-data" action="{{route('employer.uploads.store')}}">@csrf 
                                     <input type="hidden" name="userid" value="{{$id}}">
+                                    @if(!$ups)
                                     <tr>
                                         <td>{{ 'Contract' }}</td>
-                                        <td><input type="file" name="contract" class="form-control"></td>
+                                        <td><input type="file" name="contract" ></td>
                                     </tr>
                                     <tr>
                                         <td>{{ 'Employment Letter' }}</td>
@@ -29,12 +30,37 @@
                                         <td>{{ 'Termination Letter' }}</td>
                                         <td><input type="file" name="termination" id=""></td>
                                     </tr>
+                                    
                                     <tr>
                                         <td>
                                             <button name="submit" type="submit" value=""><span class="btn btn-success">ADD</span></button>
                                         </td>
                                     </tr>
+                                    @else
+                                    <tr>
+                                        <td>{{ 'Contract' }}</td>
+                                        <td>@if($ups->contracts){{$ups->contracts}}@else {{'No file'}}@endif</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ 'Employment Letter' }}</td>
+                                        <td>@if($ups->employment_letter){{$ups->employment_letter}}@else {{'No file'}}@endif</td>
+                                    <tr>
+                                        <td>{{ 'Termination Letter' }}</td>
+                                        <td>@if($ups->termination_letter){{$ups->termination_letter}}@else {{'No file'}}@endif</td>
+                                    </tr>
+                                    @endif
                                 </form>
+                                @if($ups)
+                                <tr>
+                                    <td>
+                                        <form method="GET" action="{{route('employer.uploads.edit', $id)}}">
+                
+                                            <button name="managefile" type="submit" value="{{$id}}"><span class="btn btn-warning">UPDATE HERE</span></button>
+        
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
