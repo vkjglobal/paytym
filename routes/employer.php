@@ -95,7 +95,7 @@ Route::middleware('employer.auth')->group(function () {
     //Payroll
     Route::get('payroll', [PayrollController::class, 'index'])->name('payroll.index');
     
-    //Uploads
+    //Uploads of Employees
     Route::resource('uploads', UploadController::class);
 
   

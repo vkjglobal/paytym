@@ -83,6 +83,10 @@ Route::middleware('admin.auth')->group(function () {
     Route::post('contact', [ContactController::class, 'sendReply']);
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
 
+     //Country
+     Route::resource('country', CountryController::class)->except(['show']);
+     Route::get('country-change-status', [CountryController::class, 'changeStatus'])->name('country.change.status');
+
 
 
     
