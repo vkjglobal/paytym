@@ -24,9 +24,10 @@ class UploadController extends Controller
         ];
         $employer = Auth::guard('employer')->id();
         $employees = User::where('employer_id', $employer)->get();
+        $up = Upload::all();
         // $data = Upload::where();
 
-        return view('employer.Uploads.index', compact('breadcrumbs', 'employees'));
+        return view('employer.Uploads.index', compact('breadcrumbs', 'employees','up'));
     }
 
     /**
@@ -37,7 +38,8 @@ class UploadController extends Controller
     public function create(Request $request)
     {
         $id = $request->managefile;
-        return view('employer.Uploads.add', compact('id'));
+        $ups = Upload::where('user_id', $id)->first();
+        return view('employer.Uploads.add', compact('id', 'ups'));
     }
 
     /**
@@ -55,8 +57,6 @@ class UploadController extends Controller
         ]);
         $uploadid = $request->id;
         $res = Upload::where('id', $uploadid)->get();
-
-        if(!$res){
         
         $user = new Upload();
         
@@ -94,10 +94,7 @@ class UploadController extends Controller
             notify()->error(__('Failed to Create. Please try again'));
                 }
         return redirect()->back();
-        }else{
-            notify()->error(__('Failed to Create. The employee files already exists'));
-            return redirect()->back();
-        }
+ 
     }
 
     /**
@@ -120,7 +117,8 @@ class UploadController extends Controller
      */
     public function edit($id)
     {
-        $file = Upload::where('user_id', $id)->get();
+        $file = Upload::where('user_id', $id)->first();
+        // return($file);
         return view('employer.Uploads.edit', compact('file'));
     }
 

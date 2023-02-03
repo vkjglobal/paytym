@@ -39,17 +39,20 @@
 
                                                 <!-- Add button -->
 
+
+
                                                 <form method="GET" action="{{route('employer.uploads.create')}}">
                 
-                                                    <button name="managefile" type="submit" value="{{$employee->id}}" class="mr-3"><span class="btn btn-success">ADD</span></button>
+                                                    <button name="managefile" type="submit" value="{{$employee->id}}" class="mr-3"><span class="btn btn-success">MANAGE FILES</span></button>
 
                                                 </form>
 
-                                                <form method="GET" action="{{route('employer.uploads.edit', $employee->id)}}">
+                                                {{-- <form method="GET" action="{{route('employer.uploads.edit', $employee->id)}}">
                 
-                                                    <button name="managefile" type="submit" value=""><span class="btn btn-warning">UPDATE</span></button>
+                                                    <button name="managefile" type="submit" value="{{$employee->id}}"><span class="btn btn-warning">UPDATE</span></button>
 
-                                                </form>
+                                                </form> --}}
+
 
                                                 <!-- Add ends -->
 

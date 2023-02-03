@@ -17,7 +17,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <form method="POST" class="form-control" enctype="multipart/form-data" action="{{route('employer.uploads.update',$file[0]->user_id)}}">@csrf 
+                                <form method="POST" class="form-control" enctype="multipart/form-data" action="{{route('employer.uploads.update',$file->user_id)}}">@csrf 
                                     @method('PUT')
                                     <input type="hidden" name="userid" value="">
                                     {{-- @foreach($files as $file) --}}
