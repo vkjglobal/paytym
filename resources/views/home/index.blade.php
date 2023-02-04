@@ -40,10 +40,19 @@
                                 </span>
                             </button>
                             <div class="collapse navbar-collapse" id="navbarText">
-                                <ul class="navbar-nav mr-auto ml-auto">
-                                    <li class="nav-item">
+                             <ul class="navbar-nav mr-auto ml-auto"> 
+                            
+                                <li class="nav-item">
                                         <a class="nav-link" href="#home">Home</a>
                                     </li>
+                                   <!--  @foreach($cms as $count => $cms)
+                                    <li class="nav-item"> -->
+                                    <!-- <a class="nav-link" href="#tab-{{ $cms->id }}" aria-controls="#tab-{{ $cms->id }}" role="tab" data-toggle="tab">{{ $cms->cms_type }}</a> -->
+                                        <!-- <a class="nav-link" href="#{{ $cms->id }}" >{{ $cms->cms_type }}</a>
+                                    </li>
+
+@endforeach -->
+                                   
                                     <li class="nav-item">
                                         <a class="nav-link" href="#about">About</a>
                                     </li>
@@ -61,7 +70,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#contact">Contact</a>
-                                    </li>
+                                    </li> 
                                 </ul>
                                 <span class="download">
                                     <a href="{{Route('employer.login')}}" class="btn btn-typ2">Login</a>
@@ -74,7 +83,7 @@
             </div>
         </div>
         <a href="#" class="sticky-button"><img src="{{asset('home_assets/images/logo-jobtym.png')}}" alt=""></a>
-    </header>
+     </header>
 
 
     <!-- Banner Section -->
@@ -108,6 +117,17 @@
     <!-- Banner End -->
 
     
+<!-- @foreach($cms as $cm)
+<section class="about-section" id="about">
+        <div class="container"  >
+            <div class="about-title pt-5 text-center" >
+    
+  
+    </div>
+        </div>
+    </section>
+@endforeach -->
+
     <!-- about-section -->
     <section class="about-section" id="about">
         <div class="container"  >
@@ -687,9 +707,37 @@
             management now!
             </p>
     </div>
-    <div class="container" data-aos="fade-up" data-aos-duration="2000" >
-        <div class="form-row justify-content-center pt-2">
-            <div class="col">
+    <div class="container" data-aos="fade-up" data-aos-duration="2000">
+        <div class="form-row justify-content-center pt-2" style="width:auto">
+        @foreach ($subscription as $sub)
+        <div class="col">
+                <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
+                        <hr> 
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>{{ $sub->rate_per_month }} </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4>
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong>{{ $sub->range_from }} to {{ $sub->range_to }}</strong>
+                                <span>employees</span>
+                               <!--  <span>Free</span> -->
+                                <span>{{ $sub->rate_per_employee }}/employee</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn" type="button">
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+@endforeach
+           <!--  <div class="col">
                 <div class="card-price-blue white-bg rounded border mt-3">
                     <div class="p-lg-4 p-3" >
                         <h3 class="text-center fw-600">Micro</h3>
@@ -817,7 +865,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+ -->        </div>
     </div>
 </section>
 
