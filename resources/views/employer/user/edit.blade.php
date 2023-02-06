@@ -157,7 +157,7 @@
                                 <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="position" value="{{ old('branch') }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($roles as $key => $value)
-                                    <option value="{{$value['role_name']}}" {{$user->position == $value['role_name'] ? 'selected':''}}>{{$value['role_name']}}</option>
+                                    <option value="{{$value['id']}}" {{$user->position == $value['role_name'] ? 'selected':''}}>{{$value['role_name']}}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('name') }}</div>
