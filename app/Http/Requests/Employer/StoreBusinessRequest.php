@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\branch;
+namespace App\Http\Requests\Employer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBranchRequest extends FormRequest
+class StoreBusinessRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,14 +25,7 @@ class StoreBranchRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'city' => 'required',
-            'business' => 'required',
-            'town' => 'required',
-            'postcode' => 'required',
-            'country' => 'required',
-            'bank' => 'nullable',
-            'account_number' => 'nullable',
-            'qr_code' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
+            'description' => 'required',
         ];
     }
 }

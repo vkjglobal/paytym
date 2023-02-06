@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\EmployerController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CountryController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 

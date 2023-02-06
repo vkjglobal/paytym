@@ -20,15 +20,20 @@
                                     <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 </div>
                             </div><!-- Col -->
+
                             <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">City <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                        class="form-control @if ($errors->has('phone')) is-invalid @endif"
-                                        name="city" value="{{ old('city') }}" placeholder="Enter City" required>
-                                    <div class="invalid-feedback">{{ $errors->first('city') }}</div>
-                                </div>
-                            </div><!-- Col -->
+                            <div class="form-group">
+                                <label class="control-label">Business<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="business" value="{{ old('branch') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($businesses as $business)
+                                    <option value="{{$business['id']}}">{{$business['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('business') }}</div>
+                            </div>
+                        </div><!-- Col -->
+                            
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Town <span class="text-danger">*</span></label>
@@ -39,9 +44,7 @@
                                     <div class="invalid-feedback">{{ $errors->first('town') }}</div>
                                 </div>
                             </div><!-- Col -->
-                        </div><!-- Row -->
 
-                        <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Post Code <span class="text-danger">*</span></label>
@@ -51,6 +54,17 @@
                                     <div class="invalid-feedback">{{ $errors->first('postcode') }}</div>
                                 </div>
                             </div><!-- Col -->
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">City <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                        class="form-control @if ($errors->has('phone')) is-invalid @endif"
+                                        name="city" value="{{ old('city') }}" placeholder="Enter City" required>
+                                    <div class="invalid-feedback">{{ $errors->first('city') }}</div>
+                                </div>
+                            </div><!-- Col -->
+
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Country <span class="text-danger">*</span></label>
@@ -60,6 +74,12 @@
                                     <div class="invalid-feedback">{{ $errors->first('country') }}</div>
                                 </div>
                             </div><!-- Col -->
+
+                        </div><!-- Row -->
+
+                        <div class="row">
+                            
+                           
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">bank <span class="text-danger">*</span></label>
@@ -69,8 +89,8 @@
                                     <div class="invalid-feedback">{{ $errors->first('bank') }}</div>
                                 </div>
                             </div><!-- Col -->
-                        </div><!-- Row -->
-                        <div class="row">
+
+                            
 
                             <div class="col-sm-4">
                                 <div class="form-group">

@@ -17,6 +17,9 @@ use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\RosterController;
 use App\Http\Controllers\Employer\UploadController;
 use App\Http\Controllers\Employer\AttendanceController;
+use App\Http\Controllers\Employer\BusinessController;
+use App\Http\Controllers\Employer\AssignEmployerController;
+use App\Http\Controllers\Employer\AllowanceController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -94,6 +97,11 @@ Route::middleware('employer.auth')->group(function () {
     //Deductions
     Route::resource('deduction',DeductionController::class)->except(['show']);
 
+    //Allowance
+    Route::resource('allowance',AllowanceController::class)->except(['show']);
+  
+
+
     //Payroll
     Route::resource('payroll', PayrollController::class);
     
@@ -103,6 +111,11 @@ Route::middleware('employer.auth')->group(function () {
     //Attendance
     Route::resource('attendance', AttendanceController::class);
     Route::post('attendance/csvfile', [AttendanceController::class, 'csvfile'])->name('attendance.csvfile');
+
+    //Business
+    Route::resource('business', BusinessController::class)->except(['show']);
+    Route::get('business-change-status', [BusinessController::class, 'changeStatus'])->name('business.change.status');
+
     
 
 });
