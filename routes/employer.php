@@ -11,6 +11,7 @@ use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Controllers\Employer\ProfileController;
 use App\Http\Controllers\Employer\BranchController;
 use App\Http\Controllers\Employer\DepartmentController;
+use App\Http\Controllers\Employer\AssignEmployerController;
 use App\Http\Controllers\Employer\PayrollController;
 use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
@@ -18,8 +19,8 @@ use App\Http\Controllers\Employer\RosterController;
 use App\Http\Controllers\Employer\UploadController;
 use App\Http\Controllers\Employer\AttendanceController;
 use App\Http\Controllers\Employer\BusinessController;
-use App\Http\Controllers\Employer\AssignEmployerController;
 use App\Http\Controllers\Employer\AllowanceController;
+use App\Http\Controllers\Employer\FileTypeController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -107,6 +108,7 @@ Route::middleware('employer.auth')->group(function () {
     
     //Uploads
     Route::resource('uploads', UploadController::class);
+    Route::resource('file_type', FileTypeController::class);
 
     //Attendance
     Route::resource('attendance', AttendanceController::class);
@@ -117,5 +119,6 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('business-change-status', [BusinessController::class, 'changeStatus'])->name('business.change.status');
 
     
-
+    //chat
+    Route::resource('chat', ChatController::class);
 });

@@ -62,9 +62,6 @@
                                         <option value="0" {{$attendance->status == 0 ? 'selected': '' }}>Halfday</option>
                                         <option value="1" {{$attendance->status == 1 ? 'selected': '' }}>Fullday</option>
                                     </select>
-                                    {{-- <input type="text"
-                                        class="form-control @if ($errors->has('status')) is-invalid @endif"
-                                        name="status" value="{{old('name', $attendance->status) }}"   > --}}
                                     <div class="invalid-feedback">{{ $errors->first('status') }}</div>
                                 </div>
                             </div><!-- Col -->
