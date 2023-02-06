@@ -30,6 +30,12 @@ class AttendanceController extends Controller
     public function store(Request $request)
     {
         // dd($request);
+        $request->validate([
+            'name' => 'required|not_in:select',
+            'date' => 'required',
+            'date1' => 'required',
+            'status' => 'required',
+        ]);
         $stor = new Attendance();
         $stor->user_id = $request->name;
         $stor->date = $request->date;
@@ -99,6 +105,5 @@ class AttendanceController extends Controller
             notify()->error(__('Failed to upload file. Please try again'));
         }
         return redirect()->back();
-        
     }
 }

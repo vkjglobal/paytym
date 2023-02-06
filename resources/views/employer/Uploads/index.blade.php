@@ -24,16 +24,6 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $employee->first_name." ".$employee->last_name }}</td>
                                         <td>@isset($employee->employer->company) {{ $employee->employer->company }}@endisset</td>
-                                        {{-- @isset($job->first_name) {{ $job->first_name }}@endisset --}}
-                                        {{-- <td class="status_{{$leaveRequest->id}}">
-                                            @if ($leaveRequest->status == 1)
-                                                <span class="btn btn-success">{{ $leaveRequest->statusCheck() }}</span>
-                                            @elseif ($leaveRequest->status == 2)
-                                                <span class="btn btn-danger">{{ $leaveRequest->statusCheck() }}</span>
-                                            @else
-                                                <span class="btn btn-secondary">{{ $leaveRequest->statusCheck() }}</span>
-                                            @endif
-                                        </td> --}}
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
@@ -41,9 +31,9 @@
 
 
 
-                                                <form method="GET" action="{{route('employer.uploads.create')}}">
+                                                <form method="GET" action="{{route('employer.uploads.show',$employee->id)}}">
                 
-                                                    <button name="managefile" type="submit" value="{{$employee->id}}" class="mr-3"><span class="btn btn-success">MANAGE FILES</span></button>
+                                                    <button  type="submit"  class="mr-3"><span class="btn btn-success">MANAGE FILES</span></button>
 
                                                 </form>
 

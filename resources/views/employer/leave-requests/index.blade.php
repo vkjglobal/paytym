@@ -50,14 +50,14 @@
                                                         href="{{route('employer.leave.requests.status')}}"> 
                                                         <i data-feather="check" style="color:#4BB543;"></i>
                                                     </a> --}}
-                                                    <button name="approve" type="submit" value="1"><i data-feather="check" style="color:#4BB543;"></i></button>
+                                                    <button name="approve" type="submit" value="1" title="Approve"><i data-feather="check" style="color:#4BB543;" ></i></button>
 
                                                     {{-- <a type="button" class="text-danger mr-2 reject" id="reject"
                                                     data-id="{{ $leaveRequest->id }}" > 
                                                         <i data-feather="x" ></i>
                                                     </a> --}}
                                                 
-                                                    <button name="reject" type="submit" value="2" class="text-danger mr-2"><i data-feather="x" ></i></button>
+                                                    <button name="reject" type="submit" value="2" class="text-danger mr-2" title="Reject"><i data-feather="x" ></i></button>
 
                                                 </form>
 

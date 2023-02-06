@@ -105,8 +105,14 @@ class UploadController extends Controller
      */
     public function show($id)
     {
-        // $id = $id;
-        // return view('employer.uploads.upload', compact('id'));
+        $ups = Upload::where('user_id', $id)->get();
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Uploads')), null],
+        ];
+
+        return view('employer.uploads.show', compact('breadcrumbs', 'ups'));
+
     }
 
     /**

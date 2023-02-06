@@ -17,15 +17,12 @@
                                     <label class="control-label"> Name <span class="text-danger"></span></label>
 
                                     <select name="name" id="">
-                                        <option value="" default>Select User</option>
+                                        <option value="select" default>Select User</option>
                                         @foreach($users as $user)
                                             <option value="{{$user->id}}">{{$user->first_name}}</option>
                                         @endforeach
                                     </select>
-                                    {{-- <input type="text"
-                                        class="form-control @if ($errors->has('name')) is-invalid @endif"
-                                        name="name" value=""   >
-                                    <div class="invalid-feedback">{{ $errors->first('name') }}</div> --}}
+                                    <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 </div>
                             </div><!-- Col -->
                             <div class="col-sm-4">
