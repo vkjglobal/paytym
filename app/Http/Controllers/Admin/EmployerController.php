@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreEmployerRequest;
 use App\Http\Requests\Admin\UpdateEmployerRequest;
 use App\Models\Employer;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -25,8 +26,8 @@ class EmployerController extends Controller
             [(__('Employers')), null],
         ];
 
-        $employers = Employer::latest()->get();
-
+        //$employers = Employer::latest()->get();
+        $employers = Employer::with('country')->latest()->get();
         return view('admin.employers.index', compact('breadcrumbs', 'employers'));
     }
 
@@ -42,7 +43,10 @@ class EmployerController extends Controller
             [(__('Employers')), route('admin.employers.index')],
             [(__('Create')), null]
         ];
-        return view('admin.employers.create', compact('breadcrumbs'));
+        $country = Country::get();
+        //dd($country);
+
+        return view('admin.employers.create', compact('breadcrumbs','country'));
     }
 
     /**
@@ -67,7 +71,7 @@ class EmployerController extends Controller
         $employer->street = $validated['street'];
         $employer->city = $validated['city'];
         $employer->postcode = $validated['postcode'];
-        $employer->country = $validated['country'];
+        $employer->country_id = $validated['country'];
         $employer->tin = $validated['tin'];
         $employer->website = $validated['website'];
 
@@ -121,8 +125,8 @@ class EmployerController extends Controller
             [(__('Employers')), route('admin.employers.index')],
             [(__('Edit')), null]
         ];
-
-        return view('admin.employers.edit', compact('breadcrumbs', 'employer'));
+        $country = Country::get();
+        return view('admin.employers.edit', compact('breadcrumbs', 'employer','country'));
     }
 
     /**
@@ -144,7 +148,7 @@ class EmployerController extends Controller
         $employer->street = $validated['street'];
         $employer->city = $validated['city'];
         $employer->postcode = $validated['postcode'];
-        $employer->country = $validated['country'];
+        $employer->country_id = $validated['country'];
         $employer->tin = $validated['tin'];
         $employer->website = $validated['website'];
         $registration_certificate = $employer->registration_certificate;
@@ -192,7 +196,7 @@ class EmployerController extends Controller
             } 
             $employer->logo = $path;
         }
-
+//dd($employer);
         $res = $employer->save();
 
         if ($res) {

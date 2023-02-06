@@ -104,10 +104,19 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Country <span class="text-danger">*</span></label>
-                                    <input type="text"
+                                    <!-- <input type="text"
                                         class="form-control @if ($errors->has('country')) is-invalid @endif"
                                         name="country" value="{{ old('country', $employer->country) }}"
-                                        placeholder="Enter Country" required>
+                                        placeholder="Enter Country" required> -->
+                                        <!-- <select class="form-control"  class="form-control @if ($errors->has('country_id')) is-invalid @endif" name="country" value="{{ old('country_id')}}"> -->
+                                        <select class="form-control"  class="form-control @if ($errors->has('country')) is-invalid @endif" name="country" value="{{ old('country')}}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($country as $key => $value)
+                                    <option value="{{$value['id']}}" @if ($value['id']==$employer->country_id)
+                                        selected
+                                    @endif>{{$value['name']}}</option>
+                                    @endforeach
+                                </select>
                                     <div class="invalid-feedback">{{ $errors->first('country') }}</div>
                                 </div>
                             </div><!-- Col -->

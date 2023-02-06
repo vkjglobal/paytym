@@ -96,10 +96,23 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Country <span class="text-danger">*</span></label>
-                                    <input type="text"
+                                    <!-- <input type="text"
                                         class="form-control @if ($errors->has('country')) is-invalid @endif"
                                         name="country" value="{{ old('country') }}" placeholder="Enter Country" required>
-                                    <div class="invalid-feedback">{{ $errors->first('country') }}</div>
+                                     -->
+                                   <!--  <select name="country" class="form-control category-dropdown" id="country" placeholder="Choose Country">
+                                    <option value=" ">--All--</option>
+                                        @foreach($country as $cntry)
+                                            <option value="{{$cntry->id}}" {{Request::get('country') == $cntry->name ? 'selected': ''}}>{{$cntry->name}}</option>
+                                        @endforeach 
+                                </select> -->
+                                <select class="form-control"  class="form-control @if ($errors->has('country')) is-invalid @endif" name="country" value="{{ old('country') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($country as $key => $value)
+                                    <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('country') }}</div>
                                 </div>
                             </div><!-- Col -->
 

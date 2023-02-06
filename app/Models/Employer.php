@@ -60,4 +60,8 @@ class Employer extends Authenticatable
     {
         $this->notify(new VerifyEmail);
     }
+    public function country(){
+        return $this->belongsTo(Country::class);
+    }
+
 }
