@@ -7,6 +7,7 @@ use App\Http\Requests\branch\StoreBranchRequest;
 use App\Http\Requests\branch\UpdateBranchRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Branch;
+use App\Models\EmployerBusiness;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -18,9 +19,9 @@ class BranchController extends Controller
             [(__('Branches')), route('employer.branch.list')],
             [(__('Create')), null],
         ];
-
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
         $admin = Auth::guard('employer')->user();
-        return view('employer.branch.index', compact('breadcrumbs', 'admin'));
+        return view('employer.branch.index', compact('breadcrumbs', 'admin','businesses'));
     }
 
     public function list(){
@@ -41,6 +42,7 @@ class BranchController extends Controller
             $branch = new Branch();
             $branch->employer_id = Auth::guard('employer')->user()->id;
             $branch->name = $validated['name'];
+            $branch->buisness_id = $validated['business'];
             $branch->city = $validated['city'];
             $branch->town = $validated['town'];
             $branch->postcode = $validated['postcode'];
@@ -77,8 +79,9 @@ class BranchController extends Controller
                 [(__('Branches')), route('employer.branch.list')],
                 [(__('Edit')), null],
             ];
+            $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
             $branch = Branch::findOrFail($id);   
-            return view('employer.branch.edit',compact('breadcrumbs','branch'));
+            return view('employer.branch.edit',compact('breadcrumbs','branch','businesses'));
         
         }
 

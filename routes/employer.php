@@ -11,12 +11,16 @@ use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Controllers\Employer\ProfileController;
 use App\Http\Controllers\Employer\BranchController;
 use App\Http\Controllers\Employer\DepartmentController;
+use App\Http\Controllers\Employer\AssignEmployerController;
 use App\Http\Controllers\Employer\PayrollController;
 use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\RosterController;
 use App\Http\Controllers\Employer\UploadController;
 use App\Http\Controllers\Employer\AttendanceController;
+use App\Http\Controllers\Employer\BusinessController;
+use App\Http\Controllers\Employer\AllowanceController;
+use App\Http\Controllers\Employer\FileTypeController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -94,15 +98,27 @@ Route::middleware('employer.auth')->group(function () {
     //Deductions
     Route::resource('deduction',DeductionController::class)->except(['show']);
 
+    //Allowance
+    Route::resource('allowance',AllowanceController::class)->except(['show']);
+  
+
+
     //Payroll
     Route::resource('payroll', PayrollController::class);
     
     //Uploads
     Route::resource('uploads', UploadController::class);
+    Route::resource('file_type', FileTypeController::class);
 
     //Attendance
     Route::resource('attendance', AttendanceController::class);
     Route::post('attendance/csvfile', [AttendanceController::class, 'csvfile'])->name('attendance.csvfile');
-    
 
+    //Business
+    Route::resource('business', BusinessController::class)->except(['show']);
+    Route::get('business-change-status', [BusinessController::class, 'changeStatus'])->name('business.change.status');
+
+    
+    //chat
+    Route::resource('chat', ChatController::class);
 });

@@ -14,4 +14,9 @@ class Upload extends Model
         return $this->belongsTo(Employer::class);
 
     }
+    public function filetype(){
+
+        return $this->belongsTo(FileType::class);
+
+    }
 }
