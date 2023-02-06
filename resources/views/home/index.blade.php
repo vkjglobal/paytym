@@ -757,7 +757,62 @@
     <div class="container" data-aos="fade-up" data-aos-duration="2000" >
         <div class="form-row justify-content-center pt-2" style="width:auto">
         @foreach ($subscription as $sub)
+        @if($sub->plan == 'MICRO')    
         <div class="col" style="width:100%">
+                <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
+                        <hr> 
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>{{ $sub->rate_per_month }} </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4>
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong> Up to {{ $sub->range_to }}</strong>
+                                <span>employees</span>
+                               <!--  <span>Free</span> -->
+                                <span>${{ $sub->rate_per_employee }}/employee</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @elseif($sub->plan == 'MEGA')
+            <div class="col" style="width:100%">
+                <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
+                        <hr> 
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>{{ $sub->rate_per_month }} </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4>
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong>{{ $sub->range_from }} +</strong>
+                                <span>employees</span>
+                               <!--  <span>Free</span> -->
+                                <span>${{ $sub->rate_per_employee }}/employee</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @else
+            <div class="col" style="width:100%">
                 <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
                     <div class="p-lg-4 p-3" >
                         <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
@@ -783,6 +838,7 @@
                     </div>
                 </div>
             </div>
+            @endif
 @endforeach
            <!--  <div class="col">
                 <div class="card-price-blue white-bg rounded border mt-3">
