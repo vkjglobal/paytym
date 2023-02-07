@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\FileType;
 
 class Upload extends Model
 {
@@ -16,7 +17,7 @@ class Upload extends Model
     }
     public function filetype(){
 
-        return $this->belongsTo(FileType::class);
+        return $this->belongsTo(FileType::class,'file_type_id');
 
     }
 }

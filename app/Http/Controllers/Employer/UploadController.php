@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Models\Upload;
 use App\Models\User;
+use App\Models\FileType;
 use Illuminate\Http\Request;
 
 class UploadController extends Controller
@@ -51,50 +52,31 @@ class UploadController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'contract' => 'file',
-            'employment' => 'file',
-            'termination' => 'file',
+            'filetype' => 'required',
+            'file' => 'required|file|mimes:pdf,doc,docx,jpeg,png',
+            'employee_id' => 'required'
         ]);
-        $uploadid = $request->id;
-        $res = Upload::where('id', $uploadid)->get();
+        $upload = new Upload();
         
-        $user = new Upload();
+        $upload->user_id = $request->employee_id;
+        $upload->employer_id = Auth::guard('employer')->id();  
+        $upload->file_type_id = $request->filetype; 
         
-        $user->user_id = $request->userid;
-        $user->employer_id = Auth::guard('employer')->id();   
-        
-        if ($request->hasFile('contract')) {
-            $path =  $request->file('contract')->storeAs(  
-                'uploads/contract',
-                urlencode(time()) . '_' . uniqid() . '_' . $request->contract->getClientOriginalName(),
+        if ($request->hasFile('file')) {
+            $path =  $request->file('file')->storeAs(  
+                'uploads/employees',
+                urlencode(time()) . '_' . uniqid() . '_' . $request->file->getClientOriginalName(),
                 'public'
             );
-            $user->contracts = $path;
-        }
-        if ($request->hasFile('employment')) {
-            $path =  $request->file('employment')->storeAs(  
-                'uploads/employment',
-                urlencode(time()) . '_' . uniqid() . '_' . $request->employment->getClientOriginalName(),
-                'public'
-            );
-            $user->employment_letter = $path;
-        }
-        if ($request->hasFile('termination')) {
-            $path =  $request->file('termination')->storeAs(  
-                'uploads/termination',
-                urlencode(time()) . '_' . uniqid() . '_' . $request->termination->getClientOriginalName(),
-                'public'
-            );
-            $user->termination_letter = $path;
-        }
-        $issave = $user->save();
+            $upload->file = $path;
+            $issave = $upload->save();
         if($issave){
             notify()->success(__('Created successfully'));
                 } else {
             notify()->error(__('Failed to Create. Please try again'));
                 }
         return redirect()->back();
- 
+        }
     }
 
     /**
@@ -105,13 +87,15 @@ class UploadController extends Controller
      */
     public function show($id)
     {
-        $ups = Upload::where('user_id', $id)->get();
+
+        $ups = Upload::where('user_id',$id);
+
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
             [(__('Uploads')), null],
         ];
 
-        return view('employer.uploads.show', compact('breadcrumbs', 'ups'));
+        return view('employer.uploads.show', compact('breadcrumbs', 'ups','id'));
 
     }
 
@@ -163,30 +147,7 @@ class UploadController extends Controller
             );
             $user->contracts = $path;
         }
-        if ($request->hasFile('employment')) {
-            if (Storage::exists('public/'. $employment))  {
-                $del=Storage::delete('public/'.$employment);
-               
-            } 
-            $path =  $request->file('employment')->storeAs(  
-                'uploads/employment',
-                urlencode(time()) . '_' . uniqid() . '_' . $request->employment->getClientOriginalName(),
-                'public'
-            );
-            $user->employment_letter = $path;
-        }
-        if ($request->hasFile('termination')) {
-            if (Storage::exists('public/'. $termination))  {
-                $del=Storage::delete('public/'.$termination);
-               
-            } 
-            $path =  $request->file('termination')->storeAs(  
-                'uploads/termination',
-                urlencode(time()) . '_' . uniqid() . '_' . $request->termination->getClientOriginalName(),
-                'public'
-            );
-            $user->termination_letter = $path;
-        }
+     
         
         // if ($request->hasFile('contract')) {
         //     $path =  $request->file('contract')->storeAs(  
@@ -230,5 +191,33 @@ class UploadController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function showCreateForm($id){
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Uploads')), null],
+        ];
+            $employee_id = $id;
+            $filetypes = FileType::get()->all();
+            return view('employer.Uploads.add',compact('breadcrumbs','employee_id','filetypes'));
+
+    }
+
+    public function download($id)
+    {
+        $file = Upload::findOrFail($id);
+        $filePath = $file->file;
+        $fileName = basename($filePath);
+        if (Storage::exists('public/'. $filePath))  {
+            // return Storage::download('public/'.$file->path, $fileName) ;
+            $del=Storage::delete('public/'.$filePath);
+           } 
+           if($del){
+            dd('not success');
+           }
+
+
+     
     }
 }

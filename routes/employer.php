@@ -108,7 +108,10 @@ Route::middleware('employer.auth')->group(function () {
     
     //Uploads
     Route::resource('uploads', UploadController::class);
+    Route::get('upload/download/{id}', [UploadController::class,'download'])->name('upload.download');
+    Route::get('upload/createform/{id}', [UploadController::class,'showCreateForm'])->name('upload.form');
     Route::resource('file_type', FileTypeController::class);
+  
 
     //Attendance
     Route::resource('attendance', AttendanceController::class);

@@ -7,56 +7,25 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Departments</h6>
+                    <h6 class="card-title">Files</h6>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
-                                    <th></th>
-                                    <th>Branch</th>
-                                    <th>Status</th>
+                                    <th>File Type</th>
+                                    <th>File</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
+                            <a href="{{route('employer.upload.form',$id)}}" class="btn btn-success">Add File</a><br><br>
                             <tbody>
-                                @foreach ($departments as $department)
+                                @foreach ($ups as $up)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $department->dep_name }}</td>
-                                        <td>{{ $department->branch->name }}</td>
-                                        <td>
-                                            <input data-id="{{ $department->id }}" class="toggle-class" type="checkbox"
-                                                data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
-                                                data-on="Active" data-off="InActive"
-                                                {{ $department->status ? 'checked' : '' }}>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-
-                                                <!-- Edit button -->
-                                                <a href="{{ route('employer.department.edit', $department->id) }}"
-                                                    class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
-                                                    title="Edit">
-                                                    <i data-feather="edit"></i>
-                                                </a>
-
-                                                <!-- Delete button -->
-                                                <button type="button" class="text-danger"
-                                                    onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
-                                                        document.getElementById('delete-data-{{ $department->id }}').submit();}"
-                                                    data-toggle="tooltip" data-placement="top" title="Delete">
-                                                    <i data-feather="trash"></i>
-                                                </button>
-                                                <form id="delete-data-{{ $department->id }}"
-                                                    action="{{ route('employer.department.destroy', $department->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-
-                                            </div>
-                                        </td>
+                                        <td>{{ $up->filetype->file_type }}</td>
+                                        <td>{{basename($up->file)}}</td>
+                                        <td><a href="{{route('employer.upload.download',$up->id)}}" class="btn btn-primary">Download</a></td>
                                     </tr>
                                 @endforeach
                             </tbody>
