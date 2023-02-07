@@ -452,11 +452,7 @@
             <!-- Payroll -->
 
             <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
-                {{-- <a href="{{ route('employer.payroll.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="box"></i>
-                    <span class="link-title">Payroll</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a> --}}
+               
                 <a class="nav-link" data-toggle="collapse" href="#payroll" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="dollar-sign"></i>
@@ -466,12 +462,12 @@
                 <div class="collapse {{ request()->is('employer/payroll*') ? 'show' : '' }}" id="payroll">
                     <ul class="nav sub-menu">
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="{{ route('employer.payroll.create') }}"
                                 class="nav-link {{ request()->is('employer/payroll/create') ? 'active' : '' }}">
                                 Create
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="{{ route('employer.payroll.index') }}"
                                 class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
@@ -487,22 +483,19 @@
 
              <!-- Uploads -->
 
-             <!-- <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}"> -->
-                 <!-- <a href="{{ route('employer.payroll.index') }}" class="nav-link">  //no Needed
-                    <i class="link-icon" data-feather="box"></i>
-                    <span class="link-title">Payroll</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i> // noo needed
-                </a>  -->
-                <!-- <a class="nav-link" data-toggle="collapse" href="#uploads" role="button" aria-expanded="false"
+             <!-- <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                
+                </a>  
+                <a class="nav-link" data-toggle="collapse" href="#uploads" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Uploads</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse {{ request()->is('employer/uploads*') ? 'show' : '' }}" id="uploads">
-                    <ul class="nav sub-menu"> -->
+                    <ul class="nav sub-menu">
 
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="{{route('employer.file_type.create')}}"
                                 class="nav-link {{ request()->is('employer/payroll/create') ? 'active' : '' }}">
                                 Create File Type
@@ -514,9 +507,9 @@
                                 class="nav-link {{ request()->is('employer/file_type') ? 'active' : '' }}">
                                 List File Type
                             </a>
-                        </li> -->
+                        </li>
                         
-            <!-- <li class="nav-item ">
+            <li class="nav-item ">
                 <a href="{{ route('employer.uploads.index') }}" 
                    class="nav-link {{ request()->is('employer/uploads') ? 'active' : '' }}">
                    

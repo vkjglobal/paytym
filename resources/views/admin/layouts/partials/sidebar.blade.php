@@ -86,11 +86,11 @@
                                 List
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="{{ route('admin.subscriptions.create') }}" class="nav-link {{ request()->is('admin/subscriptions/create') ? 'active' : '' }}">
                                 Create
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </li>

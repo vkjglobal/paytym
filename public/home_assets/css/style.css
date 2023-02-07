@@ -822,6 +822,48 @@ hero-section */
 .card-price-light-blue h4 strong{
     color: #009fb3;
 }
+/***************************************************************************************/
+.pricing-plan .form-row .col:nth-child(2) .card-price-blue{
+    border-top-color: #ED6950 !important;
+}
+.pricing-plan .form-row .col:nth-child(2) .card-price-blue h4 strong{
+    color: #ED6950;
+}
+.pricing-plan .form-row .col:nth-child(2) .card-price-blue .btn-started button{
+    background-color: #ED6950;
+}
+/***********/
+.pricing-plan .form-row .col:nth-child(3) .card-price-blue{
+    border-top-color: #ea9500 !important;
+}
+.pricing-plan .form-row .col:nth-child(3) .card-price-blue h4 strong{
+    color: #ea9500;
+}
+.pricing-plan .form-row .col:nth-child(3) .card-price-blue .btn-started button{
+    background-color: #ea9500;
+}
+/*************/
+.pricing-plan .form-row .col:nth-child(4) .card-price-blue{
+    border-top-color: #b900ca !important;
+}
+.pricing-plan .form-row .col:nth-child(4) .card-price-blue h4 strong{
+    color: #b900ca;
+}
+.pricing-plan .form-row .col:nth-child(4) .card-price-blue .btn-started button{
+    background-color: #b900ca;
+}
+/*************/
+.pricing-plan .form-row .col:last-child .card-price-blue{
+    border-top-color: #009fb3 !important;
+}
+.pricing-plan .form-row .col:last-child .card-price-blue h4 strong{
+    color: #009fb3;
+}
+.pricing-plan .form-row .col:last-child .card-price-blue .btn-started button{
+    background-color: #009fb3;
+}
+/*************/
+/***************************************************************************************/
 /* our-expert-section */
 .our-expert{
     padding-bottom: 60px;
