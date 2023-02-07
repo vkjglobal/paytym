@@ -331,7 +331,34 @@
 
             <!-- Deduction End -->
 
+<!-- Benefits -->
 
+<li class="nav-item {{ request()->is('employer/benefit*') ? 'active' : '' }}">
+                <a class="nav-link"  data-toggle="collapse" href="#benefit"  role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="user-plus"></i>
+                    <span class="link-title">Benefits</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/benefit*') ? 'show' : '' }}" id="benefit">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('employer.benefit.create')}}"
+                                class="nav-link {{ request()->is('employer/benefit/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('employer.benefit.index')}}"
+                                class="nav-link {{ request()->is('employer/benefit') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+            </li>
+
+            <!-- Benefits End -->
 
               <!-- Calender -->
 
