@@ -25,7 +25,29 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $up->filetype->file_type }}</td>
                                         <td>{{basename($up->file)}}</td>
-                                        <td><a href="{{route('employer.upload.download',$up->id)}}" class="btn btn-primary">Download</a></td>
+                                        <td> <div class="btn-group" role="group" aria-label="Basic example">
+                                            <a href="{{route('employer.upload.download',$up->id)}}" class="btn btn-primary">Download</a>
+
+                                              <!-- Edit button -->
+                                              <a href="{{ route('employer.uploads.edit', $up->id) }}"
+                                                    class="mr-1 text-warning ml-2" data-toggle="tooltip" data-placement="top"
+                                                    title="Edit">
+                                                    <i data-feather="edit"></i>
+                                                </a>
+
+                                            <!-- Delete button -->
+                                            <button type="button" class="text-danger ml-2"
+                                                    onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
+                                                        document.getElementById('delete-data-{{ $up->id }}').submit();}"
+                                                    data-toggle="tooltip" data-placement="top" title="Delete">
+                                                    <i data-feather="trash"></i>
+                                                </button>
+                                                <form id="delete-data-{{ $up->id }}"
+                                                    action="{{ route('employer.uploads.destroy', $up->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form></div></td>
                                     </tr>
                                 @endforeach
                             </tbody>

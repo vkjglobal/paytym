@@ -483,7 +483,7 @@
 
              <!-- Uploads -->
 
-             <!-- <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
+              <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
                 
                 </a>  
                 <a class="nav-link" data-toggle="collapse" href="#uploads" role="button" aria-expanded="false"
@@ -519,7 +519,7 @@
                         
                     </ul>
                 </div>
-            </li> -->
+            </li> 
 
             <!-- Uploads end -->
             
