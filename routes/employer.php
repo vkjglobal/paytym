@@ -21,6 +21,7 @@ use App\Http\Controllers\Employer\AttendanceController;
 use App\Http\Controllers\Employer\BusinessController;
 use App\Http\Controllers\Employer\AllowanceController;
 use App\Http\Controllers\Employer\FileTypeController;
+use App\Http\Controllers\Employer\BenefitController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -86,6 +87,10 @@ Route::middleware('employer.auth')->group(function () {
     //Events
     Route::resource('event', EventController::class)->except(['show']);
    
+    //Benefits
+    Route::resource('benefit', BenefitController::class)->except(['show']);
+    Route::get('benefit-change-status', [BenefitController::class, 'changeStatus'])->name('benefit.change.status');
+
 
     //Projects
     Route::resource('project',ProjectController::class)->except(['show']);

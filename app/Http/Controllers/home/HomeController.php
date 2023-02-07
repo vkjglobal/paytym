@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function show(){
-        $subscription = Subscription::get();
+        $subscription = Subscription::where('status', '1')->get();
         $banner = Banner::get();
         $cms = Cms::get();
        
