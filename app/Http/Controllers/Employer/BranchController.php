@@ -42,7 +42,7 @@ class BranchController extends Controller
             $branch = new Branch();
             $branch->employer_id = Auth::guard('employer')->user()->id;
             $branch->name = $validated['name'];
-            $branch->buisness_id = $validated['business'];
+            $branch->employer_business_id = $validated['business'];
             $branch->city = $validated['city'];
             $branch->town = $validated['town'];
             $branch->postcode = $validated['postcode'];
