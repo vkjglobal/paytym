@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Mail\SendEmployerPassword;
+use App\Models\Country;
 
 class RegisterController extends Controller
 {
@@ -95,7 +96,7 @@ class RegisterController extends Controller
         $employer->phone = $data['phone'];
         $employer->company_phone = $data['company_phone'];
         $employer->tin = $data['tin'];
-        $employer->country = $data['country'];
+        $employer->country_id = $data['country'];
         $employer->street = $data['street'];
         $employer->city = $data['city'];
         $employer->website = $data['website'];
@@ -142,7 +143,8 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('employer.auth.register');
+        $country = Country::get();
+        return view('employer.auth.register', compact('country'));
     }
 
     /**
