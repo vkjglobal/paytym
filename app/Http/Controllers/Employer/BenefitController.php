@@ -7,6 +7,7 @@ use App\Http\Requests\Employer\UpdateBenefitRequest;
 use App\Http\Requests\Employer\StoreBenefitRequest;
 use App\Models\Benefit;
 use Illuminate\Http\Request;
+use Auth;
 
 class BenefitController extends Controller
 {
@@ -21,7 +22,7 @@ class BenefitController extends Controller
             [(__('Dashboard')), route('employer.home')],
             [(__('Benefit')), null],
         ];
-        $benefit = Benefit::get();
+        $benefit = Benefit::where('employer_id',Auth::guard('employer')->user()->id)->get();
         return view('employer.benefit.index', compact('breadcrumbs', 'benefit'));
     }
 
@@ -53,7 +54,7 @@ class BenefitController extends Controller
         $benefit = new Benefit();
         $benefit->benefit_type = $validated['benefit_type'];
         $benefit->description = $validated['description'];
-       
+        $benefit->employer_id = Auth::guard('employer')->user()->id;
         $issave = $benefit->save();
         if ($issave) {
             notify()->success(__('Created successfully'));
@@ -103,6 +104,7 @@ class BenefitController extends Controller
         $validated = $request->validated();
         $benefit->benefit_type = $validated['benefit_type'];
         $benefit->description = $validated['description'];
+        $benefit->employer_id = Auth::guard('employer')->user()->id;
        
         $issave = $benefit->save();
         if ($issave) {
