@@ -7,7 +7,7 @@
     <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">CMS Create</h6>
+                <h6 class="card-title">Benefit Create</h6>
                 <form method="POST" action="{{ route('employer.benefit.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">

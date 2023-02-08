@@ -7,7 +7,7 @@
     <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">CMS Edit</h6>
+                <h6 class="card-title">Benefit Edit</h6>
                 <form method="POST" action="{{ route('employer.benefit.update', $benefit->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
