@@ -59,13 +59,12 @@ class EmployerController extends Controller
     {
         $validated = $request->validated();
 
-        $password = Str::random(8);
 
         $employer = new Employer();
         $employer->company = $validated['company'];
         $employer->name = $validated['name'];
         $employer->email = $validated['email'];
-        $employer->password = Hash::make($password);
+        $employer->password = Hash::make($employer->email);
         $employer->phone = $validated['phone'];
         $employer->company_phone = $validated['company_phone'];
         $employer->street = $validated['street'];
