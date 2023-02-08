@@ -103,8 +103,13 @@ class RegisterController extends Controller
         $employer->user_type = "Employer"; 
         $rand_pass =  Str::random(8);
         $employer->password = Hash::make($rand_pass);
-
-        $issend =Mail::to($email)->send(new SendEmployerPassword($rand_pass));
+        try{
+            $issend =Mail::to($email)->send(new SendEmployerPassword($rand_pass));
+        }catch(Exception $e){
+            notify()->error(__('Failed to Create. Please try again'));
+            return redirect()->back();
+        }
+        
         
 
         if (isset($data['registration_certificate'])) {
