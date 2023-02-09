@@ -22,6 +22,7 @@ use App\Http\Controllers\Employer\BusinessController;
 use App\Http\Controllers\Employer\AllowanceController;
 use App\Http\Controllers\Employer\FileTypeController;
 use App\Http\Controllers\Employer\BenefitController;
+use App\Http\Controllers\Employer\SupportTicketController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -90,7 +91,9 @@ Route::middleware('employer.auth')->group(function () {
     //Benefits
     Route::resource('benefit', BenefitController::class)->except(['show']);
     Route::get('benefit-change-status', [BenefitController::class, 'changeStatus'])->name('benefit.change.status');
-
+    //Support Tickets
+    Route::resource('supportticket', SupportTicketController::class)->except(['show']);
+    Route::get('supportticket-change-status', [SupportTicketController::class, 'changeStatus'])->name('supportticket.change.status');
 
     //Projects
     Route::resource('project',ProjectController::class)->except(['show']);
