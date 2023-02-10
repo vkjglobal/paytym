@@ -20,6 +20,7 @@
                                     <th>Type</th>
                                     <th>Status</th>
                                     <th>Actions</th>
+                                    <th>Reject Message</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,14 +51,17 @@
                                                         href="{{route('employer.leave.requests.status')}}"> 
                                                         <i data-feather="check" style="color:#4BB543;"></i>
                                                     </a> --}}
-                                                    <button name="approve" type="submit" value="1" title="Approve"><i data-feather="check" style="color:#4BB543;" ></i></button>
-
+                                                    <button name="approve" type="submit" value="1" title="Approve" >
+                                                        <i data-feather="check" style="color:#4BB543;" ></i>
+                                                    </button>
                                                     {{-- <a type="button" class="text-danger mr-2 reject" id="reject"
                                                     data-id="{{ $leaveRequest->id }}" > 
                                                         <i data-feather="x" ></i>
                                                     </a> --}}
                                                 
-                                                    <button name="reject" type="submit" value="2" class="text-danger mr-2" title="Reject"><i data-feather="x" ></i></button>
+                                                    <button name="reject" type="submit" value="2" class="text-danger mr-2" title="Reject">
+                                                        <i data-feather="x" ></i>
+                                                    </button>
 
                                                 </form>
 
@@ -84,7 +88,52 @@
                                                     <i data-feather="trash" style="color:#D3D3D3;"></i>
                                                     </button>
                                                 @endif
+
+                                                
                                             </div>
+                                        </td>
+                                        <td>
+                                            @if($leaveRequest->status == 2)
+                                            <button name="reject" type="submit" value="2" class="text-info mr-2" title="Reject"
+                                                    data-toggle="modal" data-target="#exampleModal">
+                                                        <i data-feather="message-square" ></i>
+                                            </button>
+                                            @else
+                                            <button name="reject" type="button"  class="text-secondary mr-2" title="Reject">
+                                                        <i data-feather="message-square" ></i>
+                                            </button>
+                                            @endif
+
+                                            <!-- Send Reply Modal -->
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Send Contact Reply</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form method="POST" action="{{ route('employer.leave.requests.message', $leaveRequest->id) }}">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label for="reply_message">Reply Message</label>
+                                                                <textarea class="form-control" name="message" rows="3" required></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Send Reply</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Send Reply Modal Ends -->
                                         </td>
                                     </tr>
                                 @endforeach
@@ -103,48 +152,47 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
-    {{-- <script>
-        $(function() {
-            $('.approve').on('click', function() {
-                var status = 1;
-                var req_id = $(this).data('id');
-                console.log(req_id);
-                $.ajax({
-                    type:'GET',
-                    url:'{{route('employer.leave.requests.status')}}',
-                    data: {
-                        'status': status,
-                        'req_id': req_id,
-                    },
-                    success: function(result){
-                        console.log(result);
-                        // $(".status").html(data);  
-                        $.each(result, function(index, item) {
-                        if (item.id === req_id) {
-                            $("#status_" + item.id).html(item.status);
-                            return false;   
+    {{-- <script type="text/javascript">
+        function deleteConfirmation(id) {
+            swal.fire({
+                title: "Delete?",
+                icon: 'question',
+                text: "Please ensure and then confirm!",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: !0
+            }).then(function (e) {
+    
+                if (e.value === true) {
+                    let token = $('meta[name="csrf-token"]').attr('content');
+                    let _url = `/users/delete/${id}`;
+    
+                    $.ajax({
+                        type: 'POST',
+                        url: _url,
+                        data: {_token: token},
+                        success: function (resp) {
+                            if (resp.success) {
+                                swal.fire("Done!", resp.message, "success");
+                                location.reload();
+                            } else {
+                                swal.fire("Error!", 'Sumething went wrong.', "error");
+                            }
+                        },
+                        error: function (resp) {
+                            swal.fire("Error!", 'Sumething went wrong.', "error");
                         }
                     });
-                    }
-                }); 
-            });
-            $('.reject').on('click', function() {
-                var status = 2;
-                var req_id = $(this).data('id');
-                console.log(req_id);
-                $.ajax({
-                    type:'GET',
-                    url:'{{route('employer.leave.requests.status')}}',
-                    data: {
-                        'status': status,
-                        'req_id': req_id,
-                    },
-                    sucess: function(data){
-                        console.log(data);
-                        $(".status").html(data);
-                    }
-                }); 
-            });      
-        })
+    
+                } else {
+                    e.dismiss;
+                }
+    
+            }, function (dismiss) {
+                return false;
+            })
+        }
     </script> --}}
 @endpush

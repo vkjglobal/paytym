@@ -64,6 +64,9 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('leave-requests', [LeaveRequestController::class, 'index'])->name('leave.requests');
     Route::delete('leave-requests/{id}', [LeaveRequestController::class, 'destroy'])->name('leave.requests.delete');
     Route::get('leave-requests/status/{id}', [LeaveRequestController::class, 'statusChange'])->name('leave.requests.status');
+    Route::post('leave-requests/message/{id}', [LeaveRequestController::class, 'message'])->name('leave.requests.message');
+
+
 
     Route::get('payment-requests', [PaymentRequestController::class, 'index'])->name('payment.requests');
 
@@ -132,4 +135,12 @@ Route::middleware('employer.auth')->group(function () {
     
     //chat
     Route::resource('chat', ChatController::class);
+
+    //bonus
+    Route::resource('bonus', BonusController::class);
+
+    //ProvidentFund
+    Route::resource('providentfund', ProvidentFundController::class);
+
+
 });
