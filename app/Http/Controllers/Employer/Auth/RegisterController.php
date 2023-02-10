@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Mail\SendEmployerPassword;
+use Swift_TransportException;
 use App\Models\Country;
+use SwiftTransportException;
 
 class RegisterController extends Controller
 {
@@ -103,15 +105,14 @@ class RegisterController extends Controller
         $employer->user_type = "Employer"; 
         $rand_pass =  Str::random(8);
         $employer->password = Hash::make($rand_pass);
-        try{
+        try {
             $issend =Mail::to($email)->send(new SendEmployerPassword($rand_pass));
-        }catch(Exception $e){
-            notify()->error(__('Failed to Create. Please try again'));
-            return redirect()->back();
+            if (!$issend) {
+                return redirect()->back()->with('error', 'Email not sent. Please try again later.');
+            }
+        } catch (Swift_TransportException $e) {
+            return redirect()->back()->with('error', 'Invalid email address');
         }
-        
-        
-
         if (isset($data['registration_certificate'])) {
             $path =  $data['registration_certificate']->storeAs(
                 'uploads/certificate',
