@@ -41,7 +41,21 @@ class StoreUserRequest extends FormRequest
             'city' => 'required',
             'account_number' => 'required', 
             'image' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
-            'password' => 'required'
+            'password' => 'required',
+
+            'business' => 'required',
+            'department' => 'required',
+            'bank_branch' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'payperiod' => 'nullable|numeric',
+            'fixed-rate' => 'nullable|numeric',
+            'hourly-rate' => 'nullable|numeric',
+            'employeetype' => 'required',
+            'work_days_per_week' => 'nullable|numeric',
+            'Total_hours_per_week' => 'nullable|numeric',
+            'Extra_hours_at_base_rate' => 'nullable|numeric',
+            'salary_type' => 'required',
         ];
     }
 }

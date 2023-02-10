@@ -25172,5 +25172,11 @@ div.tagsinput {
 .rtl .wizard > .steps > ul > li,
 .rtl .wizard > .actions > ul > li {
   float: right; }
-
+.tab-wrp{
+  padding: 10px;
+  background-color: rgba(114, 124,245, 0.4);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-bottom: 1rem;
+}
 /*# sourceMappingURL=../maps/demo_1/style.css.map */
