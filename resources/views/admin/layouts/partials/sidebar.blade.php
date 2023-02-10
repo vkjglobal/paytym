@@ -172,6 +172,14 @@
 
             <!----End Banner----->
 
+
+ <!-- Support Tickets -->
+            <li class="nav-item {{ request()->is('admin/support-tickets') ? 'active' : '' }}">
+                <a href="{{ route('admin.supportticket') }}" class="nav-link">
+                    <i class="link-icon" data-feather="layers"></i>
+                    <span class="link-title">Support Tickets</span>
+                </a>
+            </li>
             
             
 

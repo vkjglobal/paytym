@@ -7,26 +7,26 @@
     <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">Benefit Create</h6>
-                <form method="POST" action="{{ route('employer.benefit.store') }}" enctype="multipart/form-data">
+                <h6 class="card-title">Create Support Ticket </h6>
+                <form method="POST" action="{{ route('employer.supportticket.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Benefit Type<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('benefit_type')) is-invalid @endif" name="benefit_type" value="{{ old('benefit_type') }}" placeholder="Enter Benefit Type">
-                                <div class="invalid-feedback">{{ $errors->first('benefit_type') }}</div>
+                                <label class="control-label">Subject<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('subject')) is-invalid @endif" name="subject" value="{{ old('subject') }}" placeholder="Enter Subject">
+                                <div class="invalid-feedback">{{ $errors->first('subject') }}</div>
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
                 <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Description<span class="text-danger">*</span></label>
-                                <textarea name="description" class="form-control @if ($errors->has('description')) is-invalid @endif" cols="30"
-                                        rows="5" required>{{ old('description') }}</textarea>
+                                <label class="control-label">Message<span class="text-danger">*</span></label>
+                                <textarea name="message" class="form-control @if ($errors->has('message')) is-invalid @endif" cols="30"
+                                        rows="5" required>{{ old('message') }}</textarea>
                                     
-                                <div class="invalid-feedback">{{ $errors->first('description') }}</div>
+                                <div class="invalid-feedback">{{ $errors->first('message') }}</div>
                             </div>
                         </div><!-- Col -->
 
