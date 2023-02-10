@@ -490,11 +490,13 @@
                     <ul class="nav sub-menu">
 
                         <!-- <li class="nav-item">
+
                             <a href="{{ route('employer.payroll.create') }}"
                                 class="nav-link {{ request()->is('employer/payroll/create') ? 'active' : '' }}">
                                 Create
                             </a>
                         </li> -->
+
                         <li class="nav-item">
                             <a href="{{ route('employer.payroll.index') }}"
                                 class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
@@ -551,7 +553,8 @@
             <!-- Uploads end -->
             
 
-          
+            <!-- Attendance end -->
+
             <li class="nav-item  {{ request()->is('employer/attendance*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#attendance" role="button" aria-expanded="false"
                     aria-controls="requests">
@@ -606,6 +609,39 @@
             </li>
 
             <!-- Support Tickets End -->
+
+            <!-- Attendance end -->
+
+             <!-- Provident/Super Fund end -->
+
+             <li class="nav-item  {{ request()->is('employer/providentfund*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#providentfund" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">FNPF</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/providentfund*') ? 'show' : '' }}" id="providentfund">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.providentfund.create') }}"
+                                class="nav-link {{ request()->is('employer/providentfund/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.providentfund.index') }}"
+                                class="nav-link {{ request()->is('employer/providentfund') ? 'active' : '' }}">
+                                List 
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+
+            <!--Provident/Super Fund end -->
 
 
 
