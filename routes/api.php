@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Employee\PaymentAdvanceController;
 use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Controllers\Api\Employee\QuitCompanyController;
 use App\Http\Controllers\Api\Employee\EventController;
+use App\Http\Controllers\Api\Employee\EmployeeDashboardController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
@@ -93,6 +94,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Events
      Route::get('events_list',[EventController::class,'list_events']);
+
+     //Employee Dashboard
+     Route::get('employee_dashboard',[EmployeeDashboardController::class,'index']);
 
     
   

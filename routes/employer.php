@@ -20,9 +20,11 @@ use App\Http\Controllers\Employer\UploadController;
 use App\Http\Controllers\Employer\AttendanceController;
 use App\Http\Controllers\Employer\BusinessController;
 use App\Http\Controllers\Employer\AllowanceController;
+use App\Http\Controllers\Employer\LeaveTypeController;
 use App\Http\Controllers\Employer\FileTypeController;
 use App\Http\Controllers\Employer\BenefitController;
 use App\Http\Controllers\Employer\SupportTicketController;
+use App\Http\Controllers\Employer\PayslipController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -65,6 +67,10 @@ Route::middleware('employer.auth')->group(function () {
     Route::delete('leave-requests/{id}', [LeaveRequestController::class, 'destroy'])->name('leave.requests.delete');
     Route::get('leave-requests/status/{id}', [LeaveRequestController::class, 'statusChange'])->name('leave.requests.status');
     Route::post('leave-requests/message/{id}', [LeaveRequestController::class, 'message'])->name('leave.requests.message');
+
+    //Leave type
+    Route::resource('leave-type', LeaveTypeController::class)->except(['show']);
+
 
 
 
@@ -141,6 +147,12 @@ Route::middleware('employer.auth')->group(function () {
 
     //ProvidentFund
     Route::resource('providentfund', ProvidentFundController::class);
+
+    //payslip
+    Route::get('payslip/show', [PayslipController::class,'index'])->name('payslip.show');
+    Route::get('payslip/create/{id}', [PayslipController::class,'create'])->name('payslip.create');
+    Route::get('payslip/view/default', [PayslipController::class,'view_payslip'])->name('payslip.view.default');
+    Route::post('payslip/store', [PayslipController::class,'store'])->name('payslip.store');
 
 
 });
