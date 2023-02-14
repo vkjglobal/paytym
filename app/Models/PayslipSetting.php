@@ -4,13 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PayslipSetting;
 
-class EmployerBusiness extends Model
+class PayslipSetting extends Model
 {
     use HasFactory;
-
-    public function payslipsetting()
-    {
-        return $this->hasOne(PayslipSetting::class);
-    }
+    public $timestamps = false;
 }

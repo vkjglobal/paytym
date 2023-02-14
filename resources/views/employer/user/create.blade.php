@@ -275,11 +275,12 @@
                             <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Employee type<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="employeetype" value="{{ old('employeetype') }}">
+                                <select class="form-control"  class="form-control @if ($errors->has('employeetype')) is-invalid @endif" name="employeetype" value="{{ old('employeetype') }}">
                                     <option value="">--SELECT--</option>
-                                    @foreach ($employeetypes as $employeetype )
-                                    <option value="{{$employeetype['code']}}" {{ old('employeetype')==$employeetype['code'] ? 'selected':'' }}>{{$employeetype['employee_type']}}</option>
-                                    @endforeach
+                                    <option value="0">Attachee</option>
+                                    <option value="1">Apprenticeship</option>
+                                    <option value="2">Probationary</option>
+                                    <option value="3">Permanent</option>
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('employeetype') }}</div>
                             </div>
@@ -305,9 +306,10 @@
                                                         <label class="control-label">Pay Period<span class="text-danger">*</span></label>
                                                         <select class="form-control" name="payperiod" value="{{ old('payperiod') }}">
                                                             <option value="">--SELECT--</option>
-                                                            @foreach ($payperiods as $payperiod)
-                                                            <option value="{{$payperiod['code']}}">{{$payperiod['pay_period']}}</option>
-                                                            @endforeach
+                                                            <option value="0">Weekly</option>
+                                                            <option value="1">Fortnightly</option>
+                                                            <option value="2">Monthly</option>
+                                                            <option value="3">Yearly</option>
                                                         </select>
                                                         <div class="invalid-feedback"></div>
                                                     </div>
@@ -333,14 +335,14 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Total hours per week <span class="text-danger"> *</span></label>
-                                                        <input type="number" class="form-control " name="Total_hours_per_week" value="" value="{{ old('Total_hours_per_week') }}" placeholder="Total hours per week">
+                                                        <input type="number" class="form-control " name="total_hours_per_week" value="" value="{{ old('Total_hours_per_week') }}" placeholder="Total hours per week">
                                                         <div class="invalid-feedback">{{ $errors->first('Total_hours_per_week') }}</div>
                                                     </div>
                                                 </div><!-- Col -->
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Extra hours at base rate <span class="text-danger"> *</span></label>
-                                                        <input type="number" class="form-control " name="Extra_hours_at_base_rate" value="{{ old('Extra_hours_at_base_rate') }}" placeholder="Extra hours at base rate">
+                                                        <input type="number" class="form-control " name="extra_hours_at_base_rate" value="{{ old('Extra_hours_at_base_rate') }}" placeholder="Extra hours at base rate">
                                                         <div class="invalid-feedback">{{ $errors->first('Extra_hours_at_base_rate') }}</div>
                                                     </div>
                                                 </div><!-- Col -->

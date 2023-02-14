@@ -5,12 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EmployerBusiness extends Model
+class LeaveType extends Model
 {
     use HasFactory;
-
-    public function payslipsetting()
-    {
-        return $this->hasOne(PayslipSetting::class);
-    }
+    public $timestamps = false;
 }
