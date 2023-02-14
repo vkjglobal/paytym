@@ -19,14 +19,20 @@
                         </div>
                         <ul class="list-unstyled chat-list mt-2 mb-0">
                             @foreach($employees as $employee)
-                                <li class="clearfix">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-                                    {{-- <img src="{{assets('user_assets\images/'s)}}" alt="avatar"> --}}
-                                    <div class="about">
-                                        <div class="name">{{$employee->first_name}}</div>
-                                        <div class="status"> <i class="fa fa-circle offline"></i> {{$employee->updated_at->diffForHumans()}} </div>                                            
-                                    </div>
-                                </li>
+                                <form action="{{route('employer.chat.show', $employee->id)}}" method="get">
+                                    @csrf
+                                <input type="hidden" name="employee_id">
+                                <button>
+                                    <li class="clearfix">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                        {{-- <img src="{{assets('user_assets\images/'s)}}" alt="avatar"> --}}
+                                        <div class="about">
+                                            <div class="name">{{$employee->first_name}}</div>
+                                            <div class="status"> <i class="fa fa-circle offline"></i> {{$employee->updated_at->diffForHumans()}} </div>                                            
+                                        </div>
+                                    </li>
+                                </button>
+                            </form>
                             @endforeach
                             {{-- <li class="clearfix">
                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
@@ -72,7 +78,7 @@
                             </li> --}}
                         </ul>
                     </div>
-                    @include('employer.chat.show')
+                    {{-- @include('employer.chat.chat') --}}
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Employer\StoreAllowanceRequest;
 use App\Models\Allowance;
+use App\Models\AssignAllowance;
 use Auth;
 
 class AllowanceController extends Controller
@@ -52,7 +53,7 @@ class AllowanceController extends Controller
         $request = $request->validated();
         $allowance = new Allowance();
         $allowance->type = $request['type'];
-        $allowance->rate = $request['rate'];
+        // $allowance->rate = $request['rate'];
         $allowance->employer_id = Auth::guard('employer')->user()->id;
         $issave = $allowance->save();
         if($issave){
@@ -102,7 +103,7 @@ class AllowanceController extends Controller
     {
         $request = $request->validated();
         $allowance->type = $request['type'];
-        $allowance->rate = $request['rate'];
+        // $allowance->rate = $request['rate'];
         $allowance->employer_id = Auth::guard('employer')->user()->id;
         $issave = $allowance->save();
         if($issave){
@@ -130,4 +131,12 @@ class AllowanceController extends Controller
         }
         return redirect()->back();
     }
+
+    // public function assignAllowance()
+    // {
+    //     $employer_id = Auth::guard('employer')->id();
+    //     $assign_allowances = AssignAllowance::where('employer_id', $employer_id)->get();
+    //     // return($assign_allowances);
+    //     return view('employer.allowance.assign', compact('assign_allowances'));
+    // }
 }

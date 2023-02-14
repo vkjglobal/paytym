@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +51,11 @@ class ChatController extends Controller
      */
     public function show($id)
     {
-        //
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
+        $employee_chats = Chat::where('user_id', $id)->where('group_chat_id', NULL)->get();
+        $employee_name = User::find($id);
+        // return ($employee_chats);
+        return view('employer.chat.show', compact('employees', 'employee_chats','employee_name'));
     }
 
     /**

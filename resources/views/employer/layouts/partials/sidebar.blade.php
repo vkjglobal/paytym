@@ -343,6 +343,12 @@
                                 List
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.assignallowance.index') }}"
+                                class="nav-link {{ request()->is('employer/allowance/assignallowance') ? 'active' : '' }}">
+                                Assign
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -371,6 +377,12 @@
                             <a href="{{ route('employer.deduction.index') }}"
                                 class="nav-link {{ request()->is('employer/deduction') ? 'active' : '' }}">
                                 List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.assigndeduction.index') }}"
+                                class="nav-link {{ request()->is('employer/deduction/assigndeduction') ? 'active' : '' }}">
+                                Assign
                             </a>
                         </li>
                     </ul>
@@ -725,6 +737,23 @@
                </div>
            </li>
             <!--Payslip Settings End-->
+            <!-- Commission -->
+            <li class="nav-item {{ request()->is('employer/commission*') ? 'active' : '' }}">
+                <a href="{{ route('employer.commission.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Commission</span>
+                </a>
+            </li>
+
+            {{-- <!-- Billing -->
+            <li class="nav-item {{ request()->is('employer/billing*') ? 'active' : '' }}">
+                <a href="{{ route('employer.commission.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Commission</span>
+                </a>
+            </li> --}}
+
+
 
 
 
