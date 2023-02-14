@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Models\Employer;
+use App\Models\GroupChat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -74,4 +75,55 @@ class ChatController extends Controller
             ], 400);
         }
     }
+
+//list chat groups
+
+public function list_chat_groups()
+{
+    $user = Auth::user();
+    $chats = GroupChat::where('employee_id', $user->id)->get();
+    if ($chats->count() > 0) {
+        return response()->json([
+            'message' => "Success",
+            'chats' => $chats,
+        ], 200);
+    } else {
+        return response()->json([
+            'message' => "No chat details found"
+        ], 400);
+    }
+}
+
+//chat group details
+
+public function list_chat_group_details(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'group_chat_id' =>  'required',
+    ]);
+
+    // if validation fails
+    if ($validator->fails()) {
+        return response()->json([
+            'message' => $validator->errors()->first()
+        ], 400);
+    }
+    // Save Chat
+
+
+    $user = Auth::user();
+    $chats = Chat::where('group_chat_id', $request->group_chat_id)->get();
+    if ($chats->count() > 0) {
+        return response()->json([
+            'message' => "Success",
+            'chats' => $chats,
+        ], 200);
+    } else {
+        return response()->json([
+            'message' => "No chat details found"
+        ], 400);
+    }
+}
+
+
 }
