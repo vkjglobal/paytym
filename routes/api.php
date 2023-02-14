@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\Employee\PaymentAdvanceController;
 use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Controllers\Api\Employee\QuitCompanyController;
 use App\Http\Controllers\Api\Employee\EventController;
-use App\Http\Controllers\Api\Employee\EmployeeDashboardController;
+use App\Http\Controllers\Api\Employee\LeaveController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
@@ -95,8 +95,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Events
      Route::get('events_list',[EventController::class,'list_events']);
 
-     //Employee Dashboard
-     Route::get('employee_dashboard',[EmployeeDashboardController::class,'index']);
+
+     // Robin 14-02-2023
+
+     Route::get('chat_group',[ChatController::class,'list_chat_groups']);
+     Route::post('chat_group_detais',[ChatController::class,'list_chat_group_details']);
+
+     Route::post('get_holidays',[LeaveController::class,'get_holidays']);
+
 
     
   
