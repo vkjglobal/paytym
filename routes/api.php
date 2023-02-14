@@ -103,7 +103,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
      Route::post('get_holidays',[LeaveController::class,'get_holidays']);
 
-
+     Route::get('employee_dashboard',[EmployeeDashboardController::class,'index']);
     
   
 
