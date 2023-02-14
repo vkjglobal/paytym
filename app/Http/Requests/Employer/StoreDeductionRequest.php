@@ -25,9 +25,9 @@ class StoreDeductionRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'amount' => 'required',
-            'percentage' => 'required',
-            'description' => 'required',
+            // 'amount' => 'required',
+            // 'percentage' => 'required',
+            // 'description' => 'required',
         ];
     }
 }

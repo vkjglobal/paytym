@@ -9,14 +9,14 @@
                 <div class="card-body">
                     <h6 class="card-title">Bonus</h6>
                     <div class="table-responsive">
-                        <button class="btn btn-success">ADD Bonus</button>
+                        <a class="btn btn-success" href="{{route('employer.bonus.create')}}">ADD Bonus</a>
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
-                                    <th>Employer</th>
+                                    {{-- <th>Employer</th> --}}
                                     <th>Type</th>
-                                    <th>Type name</th>
+                                    <th>name(employee/department/branch/buisness)</th>
                                     <th>Rate type</th>
                                     <th>Rate</th>
 
@@ -26,7 +26,7 @@
                                 @foreach ($bonuses as $bonus)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $bonus->employer->name }}</td>
+                                        {{-- <td>{{ $bonus->employer->name }}</td> --}}
                                         
                                         @if($bonus->type == 0)
                                             <td>{{ 'Employee' }}</td>

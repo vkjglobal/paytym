@@ -53,9 +53,9 @@ class DeductionController extends Controller
         $request = $request->validated();
         $deduction = new Deduction();
         $deduction->name = $request['name'];
-        $deduction->amount = $request['amount'];
-        $deduction->percentage = $request['percentage'];
-        $deduction->description = $request['description'];
+        // $deduction->amount = $request['amount'];
+        // $deduction->percentage = $request['percentage'];
+        // $deduction->description = $request['description'];
         $deduction->employer_id = Auth::guard('employer')->user()->id;
         $issave=$deduction->save();
 
@@ -107,9 +107,9 @@ class DeductionController extends Controller
     {
         $request = $request->validated();
         $deduction->name = $request['name'];
-        $deduction->amount = $request['amount'];
-        $deduction->percentage = $request['percentage'];
-        $deduction->description = $request['description'];
+        // $deduction->amount = $request['amount'];
+        // $deduction->percentage = $request['percentage'];
+        // $deduction->description = $request['description'];
         $deduction->employer_id = Auth::guard('employer')->user()->id;
         $issave=$deduction->save();
 

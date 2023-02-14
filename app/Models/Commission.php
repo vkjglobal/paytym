@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Chat extends Model
+class Commission extends Model
 {
     use HasFactory;
 
     public function employer()
     {
-        return $this->hasOne(Employer::class, 'id', 'employer_id');
+        return $this->belongsTo(Employer::class, 'employer_id');
     }
 
     public function employee()

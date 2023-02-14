@@ -114,10 +114,12 @@ Route::middleware('employer.auth')->group(function () {
 
     //Deductions
     Route::resource('deduction',DeductionController::class)->except(['show']);
+    Route::resource('deduction/assigndeduction',AssignDeductionController::class)->except(['show']);
 
     //Allowance
     Route::resource('allowance',AllowanceController::class)->except(['show']);
-  
+
+    Route::resource('allowance/assignallowance',AssignAllowanceController::class)->except(['show']);
 
 
     //Payroll
@@ -144,6 +146,9 @@ Route::middleware('employer.auth')->group(function () {
 
     //bonus
     Route::resource('bonus', BonusController::class);
+
+    //bonus
+    Route::resource('commission', CommissionController::class);
 
     //ProvidentFund
     Route::resource('providentfund', ProvidentFundController::class);

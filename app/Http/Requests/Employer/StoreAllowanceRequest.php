@@ -25,7 +25,7 @@ class StoreAllowanceRequest extends FormRequest
     {
         return [
             'type' => 'required',
-            'rate'=> 'required'
+            // 'rate'=> 'required'
         ];
     }
 }
