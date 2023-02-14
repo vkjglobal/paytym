@@ -7,10 +7,13 @@ use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\CmsController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CustomSubscriptionController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\EmployerController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\SupportTicketController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
@@ -77,4 +80,14 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('contact', [ContactController::class, 'index'])->name('contact');
     Route::post('contact', [ContactController::class, 'sendReply']);
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
+
+    //Support Tickets
+    Route::get('supportticket', [SupportTicketController::class, 'index'])->name('supportticket');
+    Route::get('supportticket-change-status', [SupportTicketController::class, 'changeStatus'])->name('supportticket.change.status');
+    //Route::post('supportticket', [SupportTicketController::class, 'sendReply']);
+    Route::delete('supportticket/{id}', [SupportTicketController::class, 'destroy'])->name('supportticket.destroy');
+
+     //Country
+     Route::resource('country', CountryController::class)->except(['show']);
+     Route::get('country-change-status', [CountryController::class, 'changeStatus'])->name('country.change.status');
 });

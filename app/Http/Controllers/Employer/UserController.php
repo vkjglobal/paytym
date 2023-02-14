@@ -9,7 +9,12 @@ use App\Http\Requests\Employer\StoreUserRequest;
 use App\Http\Requests\Employer\UpdateUserRequest;
 use App\Models\User;
 use App\Models\Branch;
+use App\Models\EmployerBusiness;
+use App\Models\Department;
 use App\Models\Employer;
+use App\Models\Country;
+use App\Models\EmployeeType;
+use App\Models\PayPeriod;
 use App\Models\Role;
 use App\Models\LeaveRequest;
 use Auth,Hash;
@@ -48,8 +53,12 @@ class UserController extends Controller
             [(__('Users')), null],
         ];
         $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $countries = Country::get();
         $roles = Role::get();
-        return view('employer.user.create',compact('breadcrumbs','branches','roles'));
+        return view('employer.user.create',compact('breadcrumbs','branches','roles','departments','businesses','countries'));
     }
 
     /**
@@ -58,18 +67,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRequest $request, User $user)
+    public function store(StoreUserRequest $request)
     {
      $user = new User(); 
      $validated = $request->validated();
      $user->employer_id = Auth::guard('employer')->user()->id;
      $user->company = Auth::guard('employer')->user()->company;
-     $user->branch= $validated['branch'];
      $user->first_name = $validated['first_name'];
      $user->last_name = $validated['last_name'];
      $user->email = $validated['email'];
-     $user->branch = $validated['branch'];
-     $user->country = $validated['country'];
+     $user->branch_id = $validated['branch'];
+     $user->country_id = $validated['country'];
      $user->position = $validated['position'];
      $user->phone = $validated['phone'];
      $user->date_of_birth = $validated['date_of_birth'];
@@ -81,6 +89,32 @@ class UserController extends Controller
      $user->bank = $validated['bank'];
      $user->city = $validated['city'];
      $user->account_number = $validated['account_number'];
+     $user->pay_type = $validated['salary_type'];
+     $user->business_id = $validated['business'];
+     $user->department_id = $validated['department'];
+     $user->bank_branch = $validated['bank_branch'];
+     $user->start_date = $validated['start_date'];
+     $user->end_date = $validated['end_date'];
+     $user->pay_period = $validated['payperiod'];
+     
+     if($validated['hourly-rate']){
+        $user->rate = $validated['hourly-rate'];
+     }
+     if($validated['fixed-rate']){
+        $user->rate = $validated['fixed-rate'];
+     }
+     
+     $user->employee_type = $validated['employeetype'];
+     if( isset($validated['work_days_per_week'])){
+        $user->work_days_per_week = $validated['work_days_per_week'];
+     }
+     if(isset($validated['total_hours_per_week'])){
+        $user->total_hours_per_week = $validated['total_hours_per_week'];
+     }
+     if(isset($validated['extra_hours_at_base_rate'])){
+        $user->extra_hours_at_base_rate = $validated['extra_hours_at_base_rate'];
+     }
+     
      $user->password = Hash::make($validated['password']);
 
      if ($request->hasFile('image')) {

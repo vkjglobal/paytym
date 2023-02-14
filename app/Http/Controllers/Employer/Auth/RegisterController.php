@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Mail\SendEmployerPassword;
+use Swift_TransportException;
+use App\Models\Country;
+use SwiftTransportException;
 
 class RegisterController extends Controller
 {
@@ -95,17 +98,21 @@ class RegisterController extends Controller
         $employer->phone = $data['phone'];
         $employer->company_phone = $data['company_phone'];
         $employer->tin = $data['tin'];
-        $employer->country = $data['country'];
+        $employer->country_id = $data['country'];
         $employer->street = $data['street'];
         $employer->city = $data['city'];
         $employer->website = $data['website'];
         $employer->user_type = "Employer"; 
         $rand_pass =  Str::random(8);
         $employer->password = Hash::make($rand_pass);
-
-        $issend =Mail::to($email)->send(new SendEmployerPassword($rand_pass));
-        
-
+        try {
+            $issend =Mail::to($email)->send(new SendEmployerPassword($rand_pass));
+            if (!$issend) {
+                return redirect()->back()->with('error', 'Email not sent. Please try again later.');
+            }
+        } catch (Swift_TransportException $e) {
+            return redirect()->back()->with('error', 'Invalid email address');
+        }
         if (isset($data['registration_certificate'])) {
             $path =  $data['registration_certificate']->storeAs(
                 'uploads/certificate',
@@ -142,7 +149,8 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('employer.auth.register');
+        $country = Country::get();
+        return view('employer.auth.register', compact('country'));
     }
 
     /**

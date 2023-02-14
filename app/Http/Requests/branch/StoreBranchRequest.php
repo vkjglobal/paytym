@@ -26,6 +26,7 @@ class StoreBranchRequest extends FormRequest
         return [
             'name' => 'required',
             'city' => 'required',
+            'business' => 'required',
             'town' => 'required',
             'postcode' => 'required',
             'country' => 'required',

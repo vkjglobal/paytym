@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
 use App\Models\LeaveRequest;
+use App\Models\QuitRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +40,7 @@ class LeaveRequestController extends Controller
         $req = LeaveRequest::findOrFail($id);
         if($request->approve){
             $req->status = $request->approve;
+            $req->message = NULL;
             $msg = 'Approved';
         }else{
             $req->status = $request->reject;
@@ -61,6 +63,24 @@ class LeaveRequestController extends Controller
         // $datas = ['id' => $request->id, 'data' => $data];
         // return response()->json($datas);
     }
+
+    public function message($id, Request $request)
+    {
+        $req = LeaveRequest::findOrFail($id);
+        if($request->message){
+            $req->message = $request->message;
+        }
+        $res = $req->save();
+
+        if ($res) {
+            notify()->success(__('Message send'));
+        } else {
+            notify()->error(__('Failed to change. Please try again'));
+        }
+        return redirect()->back();
+
+    }
+
 
    
 }

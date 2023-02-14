@@ -14,9 +14,9 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Name</th>
-                                    <th>Amount</th>
+                                    {{-- <th>Amount</th>
                                     <th>Percentage</th>
-                                    <th>Description</th>
+                                    <th>Description</th> --}}
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -25,9 +25,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $deduction->name }}</td>
-                                        <td>{{ $deduction->amount }}</td>
+                                        {{-- <td>{{ $deduction->amount }}</td>
                                         <td>{{ $deduction->percentage }}</td>
-                                        <td>{{ $deduction->description }}</td>
+                                        <td>{{ $deduction->description }}</td> --}}
                                         
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">

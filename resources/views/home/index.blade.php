@@ -40,10 +40,19 @@
                                 </span>
                             </button>
                             <div class="collapse navbar-collapse" id="navbarText">
-                                <ul class="navbar-nav mr-auto ml-auto">
-                                    <li class="nav-item">
+                             <ul class="navbar-nav mr-auto ml-auto"> 
+                            
+                                <li class="nav-item">
                                         <a class="nav-link" href="#home">Home</a>
                                     </li>
+                                   <!--  @foreach($cms as $count => $cms)
+                                    <li class="nav-item"> -->
+                                    <!-- <a class="nav-link" href="#tab-{{ $cms->id }}" aria-controls="#tab-{{ $cms->id }}" role="tab" data-toggle="tab">{{ $cms->cms_type }}</a> -->
+                                        <!-- <a class="nav-link" href="#{{ $cms->id }}" >{{ $cms->cms_type }}</a>
+                                    </li>
+
+@endforeach -->
+                                   
                                     <li class="nav-item">
                                         <a class="nav-link" href="#about">About</a>
                                     </li>
@@ -61,7 +70,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#contact">Contact</a>
-                                    </li>
+                                    </li> 
                                 </ul>
                                 <span class="download">
                                     <a href="{{Route('employer.login')}}" class="btn btn-typ2">Login</a>
@@ -74,7 +83,7 @@
             </div>
         </div>
         <a href="#" class="sticky-button"><img src="{{asset('home_assets/images/logo-jobtym.png')}}" alt=""></a>
-    </header>
+     </header>
 
 
     <!-- Banner Section -->
@@ -98,26 +107,44 @@
                 <div class="col-md-6 pt-3">
                     <div class="right-img"  data-aos="fade-down"    data-aos-duration="2000">
                         <img src="{{asset('home_assets/images/Group 82.png')}}" alt="" srcset="">
-                    </div>
-
-                </div>
-            </div>
+                  </div>
+         </div>
         </div>
     </section>
 
     <!-- Banner End -->
+   <!--  <section id="home">
+    <div class="container" data-aos="fade-down"    data-aos-duration="2000">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="owl-carousel banner-carousel owl-theme owl-loaded">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                                <div class="owl-item">
+                                    <div class="test-item row">
+                                        <div class="col-md-3">
+                                            
+                                    <img src="{{ asset('storage/' . $banner[0]->image) }}" alt="" srcset="">
 
-    
+</div></div></div></div></div></div></div></div></div>
+</section> -->
+
     <!-- about-section -->
     <section class="about-section" id="about">
         <div class="container"  >
             <div class="about-title pt-5 text-center" >
+                  @if(is_null($about))
                 <h3>About Paytym</h3>
                 <p>Paytym is a cloud-based web and mobile HR management and Payroll software application platform for 
                     employers and employees. It greatly reduces manual work and errors and saves time and resources, 
                     both for employers and employees, in managing time & attendance and the entire payroll process. 
                     Paytym also provides in-app chat and push notifications and automates the statutory filing requirements.
                     Employers can simply <a href="register.html" class="lnk-typ1">Sign Up</a> and commence on-boarding employees.</p>
+            @else
+    <h3>{{$about->cms_type}}</h3>
+    <p>{{ $about->content}}</p>
+    @endif
+                
             </div>
         </div>
     </section>
@@ -127,17 +154,24 @@
     <section class="forEmployers-section" id="ForEmployers">
         <div class="container">
             <div class="about-title pt-5 text-center" >
-                <h3>For Employers</h3>
-                <p>As an employer, the Paytym app allows you to easily manage your employees and their salaries and 
+            @if(is_null($foremployers))
+            <h3> For Employers </h3>
+                   <p>  As an employer, the Paytym app allows you to easily manage your employees and their salaries and 
                     payments by country, business, branch and projects and also schedule shifts & meetings. With just a 
                     few clicks you can manage attendance, process payroll, track time worked, view leaves due, chat with 
                     employees and auto-generate reports. Say goodbye to tedious manual calculations and paperwork, and 
-                    effortlessly manage all your HR work online.
+                    effortlessly manage all your HR work online. 
                     </p>
+            @else
+                <h3>{{$foremployers->cms_type}}</h3>
+                <p>{{$foremployers->content}}</p>
+                @endif
+                   
             </div>
             <div class="feature-wrp">
                 <div class="sub-title text-center pl-md-5 pr-md-5">
-                    <h4>Employer Web Features</h4>
+                    @if(is_null($empwebfeatures))
+                     <h4>Employer Web Features</h4>
                     <p>Easily manage your employees and payroll 
                         and maximize your time and resources with 
                         our online Paytym portal. Paytym is 
@@ -147,7 +181,12 @@
                         mobile app. View reports and analyse 
                         Payroll Budget at a click. Paytym is a next-gen
                         HRMS platform with powerful features
-                        suitable for businesses of all sizes.</p>
+                        suitable for businesses of all sizes.</p> 
+                    @else
+                    <h4>{{$empwebfeatures->cms_type}}</h4>
+                    <p>{{$empwebfeatures->content}}</h4>
+                    @endif
+                   
                 </div>
                 <div class="row pt-3 justify-content-center"  data-aos="zoom-in-up"    data-aos-duration="2000">
                     <div class="col-md-4 mb-md-4 mb-3 d-flex">
@@ -253,6 +292,7 @@
     <section class="forEmployees-section" id="ForEmployees">
         <div class="container">
             <div class="about-title pt-5 text-center" >
+                @if(is_null($foremployees))
                 <h3>For Employees</h3>
                 <p>As an employee, the Paytym
                     app lets you check-in and 
@@ -271,6 +311,11 @@
                     work history and receive 
                     documents and notifications.
                     </p>
+                    @else
+                    <h3>{{$foremployees->cms_type}}</h3>
+                    <p>{{$foremployees->content}}</p>
+                    @endif
+
             </div>
             <div class="row pt-3 align-items-stretch">
                 <div class="col-lg-6 col-12" data-aos="zoom-in-down" data-aos-duration="2000">
@@ -378,9 +423,14 @@
     <section class="showcase-section" >
         <div class="container" >
             <div class="show-title pt-5 text-center">
+                @if(is_null($showcase))
                 <h3>Showcase</h3>
                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when
                     looking at its layout.</p>
+                    @else
+                    <h3>{{$showcase->cms_type}}</h3>
+                    <p>{{$showcase->content}}</p>
+                    @endif
             </div>
             <div class="row" data-aos="fade-down"    data-aos-duration="2000">
                 <div class="col-md-2 pt-2">
@@ -437,8 +487,14 @@
    <!-- howwork-section -->
 <section class="howwork-section" id="HowItWork">
     <div class="container about-title pt-5 text-center">
-        <h3 class="light-blue-text">Registration Process</h3>
+        @if(is_null($howitworks))
+                <h3 class="light-blue-text">Registration Process</h3>
         <p>Simply register your business and start on-boarding and managing your employees while automating your Payroll.</p>
+   @else
+   <h3  class="light-blue-text">{{$howitworks->cms_type}}</h3>
+   <p>{{$howitworks->content}}</p>
+   @endif
+
     </div>
     <div class="container" data-aos="zoom-in"    data-aos-duration="2000">
         <div class="row justify-content-center">
@@ -522,9 +578,14 @@
 
     <section class="testimonial-section" id="testimonial">
         <div class="container about-title pt-5 text-center">
+        @if(is_null($testimonial))
             <h3>Testimonial</h3>
             <p>We do not brag but what others say about us can help you in understanding our ability and ethics well.
             </p>
+            @else
+            <h3>{{$testimonial->cms_type}}</h3>
+            <p>{{$testimonial->content}}</p>
+            @endif
         </div>
         <!-- <div class="container text-center testi" data-aos="fade-down"    data-aos-duration="2000">
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -681,15 +742,105 @@
     <!-- pricing-plan section -->
     <section class="pricing-plan" id="pricing">
     <div class="container about-title pt-5 text-center">
+
+    @if(is_null($pricing))
         <h3>Pricing</h3>
         <p>Start streamlining your Payroll 
             processes and simplifying your HR 
             management now!
             </p>
+            @else
+            <h3>{{$pricing->cms_type}}</h3>
+            <p>{{$pricing->content}}</p>
+            @endif
     </div>
     <div class="container" data-aos="fade-up" data-aos-duration="2000" >
-        <div class="form-row justify-content-center pt-2">
-            <div class="col">
+        <div class="form-row justify-content-center pt-2" style="width:auto">
+        @foreach ($subscription as $sub)
+        @if($sub->plan == 'MICRO')    
+        <div class="col" style="width:100%">
+                <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
+                        <hr> 
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>{{ $sub->rate_per_month }} </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4>
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong> Up to {{ $sub->range_to }}</strong>
+                                <span>employees</span>
+                               <!--  <span>Free</span> -->
+                                <span>${{ $sub->rate_per_employee }}/employee</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @elseif($sub->plan == 'MEGA')
+            <div class="col" style="width:100%">
+                <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
+                        <hr> 
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>{{ $sub->rate_per_month }} </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4>
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong>{{ $sub->range_from }} +</strong>
+                                <span>employees</span>
+                               <!--  <span>Free</span> -->
+                                <span>${{ $sub->rate_per_employee }}/employee</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @else
+            <div class="col" style="width:100%">
+                <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
+                    <div class="p-lg-4 p-3" >
+                        <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
+                        <hr> 
+                        <h4 class="text-center d-flex flex-column align-items-center">
+                            <strong>$<span>{{ $sub->rate_per_month }} </span></strong>
+                            <span class="small-text">Per Month</span>
+                        </h4>
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                <strong>{{ $sub->range_from }} to {{ $sub->range_to }}</strong>
+                                <span>employees</span>
+                               <!--  <span>Free</span> -->
+                                <span>${{ $sub->rate_per_employee }}/employee</span>
+                            </div>
+                            <div class="btn-started text-center">
+                                <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+@endforeach
+           <!--  <div class="col">
                 <div class="card-price-blue white-bg rounded border mt-3">
                     <div class="p-lg-4 p-3" >
                         <h3 class="text-center fw-600">Micro</h3>
@@ -817,7 +968,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+ -->        </div>
     </div>
 </section>
 
@@ -940,8 +1091,8 @@
                 <div class="quik-link">
                     <h5 class="mt-4">Quick Links</h5>
                     <ul class="links pt-3">
-                        <li><a href="#" >About</a></li>
-                        <li><a href="#" >Contact Us</a></li>
+                        <li><a href="#about" >About</a></li>
+                        <li><a href="#contact" >Contact Us</a></li>
                         <li><a href="#" >Privacy Policy</a></li>
                         <li><a href="#" >Terms and Conditions</a></li>
                         <li><a href="#" >Post a Job</a></li>
@@ -994,6 +1145,27 @@
         )
     </script>
     @endif
+
+    <script>
+        
+
+        $(document).ready(function(){
+            $('.banner-carousel').owlCarousel({
+                loop:true,
+                autoplay:true,
+                margin:30,
+                nav:false,
+                dots:false,
+                center:true,
+                smartSpeed:1000,
+                items:1
+            })
+            AOS.init();
+
+        });
+        
+
+    </script> 
     <script>
         
 
@@ -1014,6 +1186,7 @@
         
 
     </script> 
+        
     @push('custom_js')
 <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>

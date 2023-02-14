@@ -16,10 +16,12 @@
                                     <th>Name</th>
                                     <th>Salary</th>
                                     <th>Payed Salary</th>
-                                    <th>Fund deduction</th>
-                                    <th>P tax</th>
-                                    <th>total deduction</th>
+                                    <th>Fund Deduction</th>
+                                    <th>P-tax</th>
+                                    <th>Total Deduction</th>
                                     <th>Status</th>
+                                    <td>Payslip</td>
+                                    {{-- <td>Actions</td> --}}
 
                                 </tr>
                             </thead>
@@ -33,9 +35,6 @@
                                         <td>{{ $payroll->fund_deduction }}</td>
                                         <td>{{ $payroll->p_tax }}</td>
                                         <td>{{ $payroll->total_deduction }}</td>
-
-                                        {{-- <td>@isset($employee->employer->company) {{ $employee->employer->company }}@endisset</td> --}}
-
                                         <td>
                                             @if($payroll->salary - $payroll->total_deduction == $payroll->paid_salary)
                                                 <a href="#" class="btn btn-success">Completed</a>
@@ -43,6 +42,24 @@
                                                 <a href="#" class="btn btn-danger">Pending</a>   
                                             @endif
                                         </td>
+                                        <td>
+                                            <form method="GET" action="{{route('employer.payroll.show', $payroll->id)}}">
+                                                <button name="approve" type="submit" value="">
+                                                    <i data-feather="eye" class="text-info"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        {{-- <td>
+                                            <form method="GET" action="{{route('employer.attendance.edit', $payroll->id)}}">
+                                                <button name="approve" type="submit" value="">
+                                                    <i data-feather="edit" class="text-warning"></i>
+                                                </button>
+                                            </form>
+                                        </td> --}}
+
+                                        {{-- <td>@isset($employee->employer->company) {{ $employee->employer->company }}@endisset</td> --}}
+
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>

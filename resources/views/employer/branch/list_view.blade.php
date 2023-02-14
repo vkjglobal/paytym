@@ -14,6 +14,7 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Name</th>
+                                    <th>Business</th>
                                     <th>City</th>
                                     <th>Town</th>
                                     <th>Post Code</th>
@@ -29,6 +30,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $branch->name }}</td>
+                                        <td>{{ $branch->buisness_id }}</td>
                                         <td>{{ $branch->city }}</td>
                                         <td>{{ $branch->town }}</td>
                                         <td>{{ $branch->postcode }}</td>

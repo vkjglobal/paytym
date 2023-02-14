@@ -47,6 +47,31 @@
             </li>
             <!-- Employers end -->
 
+             <!---Country--->
+             <li class="nav-item {{ request()->is('admin/banner*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#country" role="button" aria-expanded="false" aria-controls="banner">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Country</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/banner*') ? 'show' : '' }}" id="country">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.country.index') }}" class="nav-link {{ request()->is('admin/country') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.country.create') }}" class="nav-link {{ request()->is('admin/country/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li> 
+
+            <!----End Country----->
+
             <!---Subscriptions--->
             <li class="nav-item {{ request()->is('admin/subscriptions*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#subscriptions" role="button" aria-expanded="false" aria-controls="subscriptions">
@@ -61,11 +86,11 @@
                                 List
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="{{ route('admin.subscriptions.create') }}" class="nav-link {{ request()->is('admin/subscriptions/create') ? 'active' : '' }}">
                                 Create
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </li>
@@ -146,6 +171,17 @@
             </li> 
 
             <!----End Banner----->
+
+
+ <!-- Support Tickets -->
+            <li class="nav-item {{ request()->is('admin/support-tickets') ? 'active' : '' }}">
+                <a href="{{ route('admin.supportticket') }}" class="nav-link">
+                    <i class="link-icon" data-feather="layers"></i>
+                    <span class="link-title">Support Tickets</span>
+                </a>
+            </li>
+            
+            
 
 
             <!-- Contacts -->

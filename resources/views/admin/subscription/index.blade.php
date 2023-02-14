@@ -50,7 +50,7 @@
                                                 </a>
 
                                                 <!-- Delete button -->
-                                                <button type="button" class="text-danger"
+                                                <!-- <button type="button" class="text-danger"
                                                     onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
                                                         document.getElementById('delete-data-{{ $subscription->id }}').submit();}"
                                                     data-toggle="tooltip" data-placement="top" title="Delete">
@@ -61,7 +61,7 @@
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                </form>
+                                                </form> -->
 
                                             </div>
                                         </td>

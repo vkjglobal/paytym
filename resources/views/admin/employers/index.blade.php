@@ -32,7 +32,7 @@
                                         <td>{{ date('d-m-Y', strtotime($employer->created_at)) }}</td>
                                         <td>{{ $employer->company_phone }}</td>
                                         <td>{{ $employer->email }}</td>
-                                        <td>{{ $employer->country }}</td>
+                                        <td>{{ $employer->country->name }}</td>
                                         <td>
                                             <input data-id="{{ $employer->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"

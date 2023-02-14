@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\Employer\Auth\ForgotPasswordController;
 use App\Http\Controllers\Employer\Auth\LoginController;
 use App\Http\Controllers\Employer\Auth\RegisterController;
@@ -10,10 +11,20 @@ use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Controllers\Employer\ProfileController;
 use App\Http\Controllers\Employer\BranchController;
 use App\Http\Controllers\Employer\DepartmentController;
+use App\Http\Controllers\Employer\AssignEmployerController;
 use App\Http\Controllers\Employer\PayrollController;
 use App\Http\Controllers\Employer\UserController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\RosterController;
+use App\Http\Controllers\Employer\UploadController;
+use App\Http\Controllers\Employer\AttendanceController;
+use App\Http\Controllers\Employer\BusinessController;
+use App\Http\Controllers\Employer\AllowanceController;
+use App\Http\Controllers\Employer\LeaveTypeController;
+use App\Http\Controllers\Employer\FileTypeController;
+use App\Http\Controllers\Employer\BenefitController;
+use App\Http\Controllers\Employer\SupportTicketController;
+use App\Http\Controllers\Employer\PayslipController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -55,6 +66,13 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('leave-requests', [LeaveRequestController::class, 'index'])->name('leave.requests');
     Route::delete('leave-requests/{id}', [LeaveRequestController::class, 'destroy'])->name('leave.requests.delete');
     Route::get('leave-requests/status/{id}', [LeaveRequestController::class, 'statusChange'])->name('leave.requests.status');
+    Route::post('leave-requests/message/{id}', [LeaveRequestController::class, 'message'])->name('leave.requests.message');
+
+    //Leave type
+    Route::resource('leave-type', LeaveTypeController::class)->except(['show']);
+
+
+
 
     Route::get('payment-requests', [PaymentRequestController::class, 'index'])->name('payment.requests');
 
@@ -79,25 +97,67 @@ Route::middleware('employer.auth')->group(function () {
     //Events
     Route::resource('event', EventController::class)->except(['show']);
    
+    //Benefits
+    Route::resource('benefit', BenefitController::class)->except(['show']);
+    Route::get('benefit-change-status', [BenefitController::class, 'changeStatus'])->name('benefit.change.status');
+    //Support Tickets
+    Route::resource('supportticket', SupportTicketController::class)->except(['show']);
+    Route::get('supportticket-change-status', [SupportTicketController::class, 'changeStatus'])->name('supportticket.change.status');
 
     //Projects
     Route::resource('project',ProjectController::class)->except(['show']);
+    Route::resource('project/assign',AssignEmployerController::class)->except(['show']);
+    Route::get('project/assign/search',[AssignEmployerController::class,'search'])->name('project.assign.search'); //project assign
 
     //Rosters
     Route::resource('roster',RosterController::class)->except(['show']);
 
     //Deductions
     Route::resource('deduction',DeductionController::class)->except(['show']);
+    Route::resource('deduction/assigndeduction',AssignDeductionController::class)->except(['show']);
+
+    //Allowance
+    Route::resource('allowance',AllowanceController::class)->except(['show']);
+
+    Route::resource('allowance/assignallowance',AssignAllowanceController::class)->except(['show']);
+
 
     //Payroll
-    Route::get('payroll', [PayrollController::class, 'index'])->name('payroll.index');
+    Route::resource('payroll', PayrollController::class);
     
     //Uploads
     Route::resource('uploads', UploadController::class);
-
+    Route::get('upload/download/{id}', [UploadController::class,'download'])->name('upload.download');
+    Route::get('upload/createform/{id}', [UploadController::class,'showCreateForm'])->name('upload.form');
+    Route::resource('file_type', FileTypeController::class);
   
-    
 
+    //Attendance
+    Route::resource('attendance', AttendanceController::class);
+    Route::post('attendance/csvfile', [AttendanceController::class, 'csvfile'])->name('attendance.csvfile');
+
+    //Business
+    Route::resource('business', BusinessController::class)->except(['show']);
+    Route::get('business-change-status', [BusinessController::class, 'changeStatus'])->name('business.change.status');
+
+    
+    //chat
+    Route::resource('chat', ChatController::class);
+
+    //bonus
+    Route::resource('bonus', BonusController::class);
+
+    //bonus
+    Route::resource('commission', CommissionController::class);
+
+    //ProvidentFund
+    Route::resource('providentfund', ProvidentFundController::class);
+
+    //payslip
+    Route::get('payslip/show', [PayslipController::class,'index'])->name('payslip.show');
+    Route::get('payslip/create/{id}', [PayslipController::class,'create'])->name('payslip.create');
+    Route::get('payslip/view/default', [PayslipController::class,'view_payslip'])->name('payslip.view.default');
+    Route::post('payslip/store', [PayslipController::class,'store'])->name('payslip.store');
 
 
 });
