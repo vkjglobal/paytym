@@ -251,4 +251,25 @@ class UserController extends Controller
         return response()->json(['success' => 'Status change successfully.']);
         }
     }
+
+    public function SendMailWithPublicInfo(Request $request)
+    {
+        $users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        //dd($request);
+        $user = User::find($request->user_id);
+        //dd($user);
+      /*  $pdf = PDF::loadView('publicinformation',$user);
+        $to_email = "neena.reubro@gmail.com";
+       // Mail::to($to_email)->send(new SendPDFMail($pdf));
+       Mail::send('publicinformation',$user,function($message) use ($user, $pdf)
+       {
+        $message->to($user['email'])
+        ->subject($user['first_name'])
+        ->attachData($pdf->output(),"information.pdf");
+       });
+        return response()->json(['status' => 'success', 'message' => 'Information has been shared successfully.']);
+    */
+    }
+    
+    
 }

@@ -37,7 +37,11 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
-
+                                            <a href="{{ route('employer.user.user-shareinfo', $user->id) }}"
+                                                    class="mr-1 text-info" data-toggle="tooltip" data-placement="top"
+                                                    title="Share Information">
+                                                    <i data-feather="share"></i>
+                                                </a>
                                                 <!-- Edit button -->
                                                 <a href="{{ route('employer.user.edit', $user->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"

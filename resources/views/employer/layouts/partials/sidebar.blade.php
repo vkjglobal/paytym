@@ -714,7 +714,38 @@
 
             <!--Provident/Super Fund end -->
 
-            
+                        <!-- User Capability -->
+
+            <li class="nav-item  {{ request()->is('employer/usercapabilities*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#capabilities" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">User Capabilities</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/usercapabilities*') ? 'show' : '' }}" id="capabilities">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.usercapabilities.create') }}"
+                                class="nav-link {{ request()->is('employer/usercapabilities/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.usercapabilities.index') }}"
+                                class="nav-link {{ request()->is('employer/usercapabilities') ? 'active' : '' }}">
+                                List 
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+
+            <!--User Capability end -->
+
+
             <!-- Payslip Settings -->
             <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
                
