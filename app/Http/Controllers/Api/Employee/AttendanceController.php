@@ -157,6 +157,30 @@ class AttendanceController extends Controller
         ], 200);
 
     }
+
+
+    public function check_in_check_out_list(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+        ]);
+    
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        $year=date("Y");
+        $user_id = Auth::user()->id;
+        $history=[];
+        $history=Attendance::with('user')->where('employer_id',$request->employer_id)
+        ->whereYear('created_at', '=',$year)->get();
+        return response()->json([
+            'message' => "Checkin- Checkout  Details Listed Below",
+            'history'=>$history,
+        ], 200);
+    }
     
 
 
