@@ -40,6 +40,10 @@
                                             <a href="{{ route('employer.user.user-shareinfo', $user->id) }}"
                                                     class="mr-1 text-info" data-toggle="tooltip" data-placement="top"
                                                     title="Share Information">
+                                                  <!--   <a href="/employer/user-shareinfo/{{$user->id}}"
+                                                    class="mr-1 text-info" data-toggle="tooltip" data-placement="top"
+                                                    title="Share Information"> -->
+                                                    
                                                     <i data-feather="share"></i>
                                                 </a>
                                                 <!-- Edit button -->
