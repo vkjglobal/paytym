@@ -93,18 +93,29 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('quit_company',[QuitCompanyController::class,'quit_request']);
 
     // Events
-     Route::get('events_list',[EventController::class,'list_events']);
+    
 
 
      // Robin 14-02-2023
 
-     Route::get('chat_group',[ChatController::class,'list_chat_groups']);
+     Route::post('chat_group',[ChatController::class,'list_chat_groups']);
      Route::post('chat_group_detais',[ChatController::class,'list_chat_group_details']);
-
      Route::post('get_holidays',[LeaveController::class,'get_holidays']);
 
      Route::get('employee_dashboard',[EmployeeDashboardController::class,'index']);
-    
+
+          // Robin 15-02-2023
+     Route::post('checkin_checkout_list', [AttendanceController::class, 'check_in_check_out_list']);
+     Route::post('leave_requests_lists', [LeaveRequestController::class, 'leave_requests_lists']);
+     Route::post('leave_requests_accept_reject', [LeaveRequestController::class, 'leave_requests_accept_reject']);
+     Route::post('create_leaves', [LeaveController::class, 'create_leaves']);
+     Route::post('list_leaves', [LeaveController::class, 'list_leaves']);
+     Route::post('delete_leave', [LeaveController::class, 'delete_leave']);
+     Route::post('events_list',[EventController::class,'list_events']);
+     Route::post('create_event',[EventController::class,'create_event']);
+     Route::post('delete_event',[EventController::class,'delete_event']);
+     
+     
   
 
 });

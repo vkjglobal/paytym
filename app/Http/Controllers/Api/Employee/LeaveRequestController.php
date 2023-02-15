@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeaveRequest;
 use App\Models\LeaveRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LeaveRequestController extends Controller
 {
@@ -34,6 +36,7 @@ class LeaveRequestController extends Controller
         $validated = $request->validated();
         $leaveRequest = new LeaveRequest();
         $leaveRequest->user_id = Auth::user()->id;
+        $leaveRequest->employer_id = $validated['employer_id'];
         $leaveRequest->title = $validated['title'] ?? null;
         $leaveRequest->start_date = date('Y-m-d', strtotime($validated['start_date']));
         $leaveRequest->end_date = date('Y-m-d', strtotime($validated['end_date']));
@@ -54,30 +57,104 @@ class LeaveRequestController extends Controller
     public function dashboard()
     {
         $user_id = Auth::user()->id;
-        $leave = LeaveRequest::where('status', '1')->where('user_id',$user_id);
-        if($leave)
-        {
-            $casual=LeaveRequest::where('status', '1')->where('user_id',$user_id)->where('type','casual')->get();
-            $casual=$casual->count();
-            $absence=LeaveRequest::where('status', '1')->where('user_id',$user_id)->get();
-            $absence=$absence->count();
-            $annual=LeaveRequest::where('status', '1')->where('user_id',$user_id)->where('type','annual')->get();
-            $annual=$annual->count();
-            $halfday=LeaveRequest::where('status', '1')->where('user_id',$user_id)->where('type','halfday')->get();
-            $halfday=$halfday->count();
+        $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
+        if ($leave) {
+            $casual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'casual')->get();
+            $casual = $casual->count();
+            $absence = LeaveRequest::where('status', '1')->where('user_id', $user_id)->get();
+            $absence = $absence->count();
+            $annual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'annual')->get();
+            $annual = $annual->count();
+            $halfday = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'halfday')->get();
+            $halfday = $halfday->count();
             return response()->json([
                 'message' => "Dash Board details listed",
-                'casual' =>$casual,
-                'absence' =>$absence,
-                'annual' =>$annual,
-                'halfday' =>$halfday,
+                'casual' => $casual,
+                'absence' => $absence,
+                'annual' => $annual,
+                'halfday' => $halfday,
             ], 200);
-
-        }
-        else{
+        } else {
             return response()->json([
                 'message' => "Failed to check in"
             ], 400);
+        }
+    }
+
+
+
+    public function leave_requests_lists(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+            'status' => 'required'
+        ]);
+
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        $employer_id = $request->employer_id;
+        $status = $request->status;
+        $year = date("Y");
+        $now = new \DateTime();
+        $leaveRequest = LeaveRequest::where('employer_id', $employer_id);
+        if ($status == '1') {
+            $leaveRequest = $leaveRequest->whereMonth('created_at', Carbon::now()->month)->get();
+        } elseif ($status == '2') {
+            $leaveRequest = $leaveRequest->where('created_at', '=', Carbon::yesterday())->get();
+        } else {
+            $leaveRequest = $leaveRequest->whereDate('created_at', '=', $now)->get();
+        }
+
+        return response()->json([
+            'message' => "Leave Request",
+            'leaveRequest' => $leaveRequest,
+        ], 200);
+    }
+
+    public function leave_requests_accept_reject(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employee_id' =>  'required',
+            'approval_status' => 'required',
+            'start_date' => 'required'
+
+        ]);
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+
+        $employee_id = $request->employee_id;
+        $approval_status = $request->approval_status;
+        $start_date=$request->start_date;
+        $leave_request = LeaveRequest::where('user_id', $employee_id)->where('status','0')
+        ->whereDate('start_date',date($start_date))->first();
+        if ($leave_request) {
+            if ($approval_status == '0') {
+                $leave_request->status = '0';
+            } else {
+                $leave_request->status = '1';
+            }
+            $issave = $leave_request->save();
+            if ($issave) {
+                return response()->json([
+                    'message' => "Leave Request Status Updated",
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => "Something went Wrong",
+                ], 200);
+            }
+        } else {
+            return response()->json([
+                'message' => "No Record Found",
+            ], 200);
         }
     }
 }
