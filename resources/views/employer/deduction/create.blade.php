@@ -20,7 +20,7 @@
                                     <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 </div>
                             </div><!-- Col -->
-                            <div class="col-sm-4">
+                            {{-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Amount<span class="text-danger">*</span></label>
                                     <input type="number"
@@ -50,7 +50,7 @@
                                         name="description" value="{{ old('description') }}" placeholder="Enter Description">
                                     <div class="invalid-feedback">{{ $errors->first('description') }}</div>
                                 </div>
-                            </div><!-- Col -->
+                            </div><!-- Col --> --}}
                             
                         </div><!-- Row -->
                     

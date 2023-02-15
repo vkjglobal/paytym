@@ -57,10 +57,8 @@ class UserController extends Controller
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $countries = Country::get();
-        $employeetypes = EmployeeType::get();
-        $payperiods = PayPeriod::get();
         $roles = Role::get();
-        return view('employer.user.create',compact('breadcrumbs','branches','roles','departments','businesses','employeetypes','payperiods','countries'));
+        return view('employer.user.create',compact('breadcrumbs','branches','roles','departments','businesses','countries'));
     }
 
     /**
@@ -107,14 +105,14 @@ class UserController extends Controller
      }
      
      $user->employee_type = $validated['employeetype'];
-     if( $validated['work_days_per_week']){
+     if( isset($validated['work_days_per_week'])){
         $user->work_days_per_week = $validated['work_days_per_week'];
      }
-     if($validated['Total_hours_per_week']){
-        $user->Total_hours_per_week = $validated['Total_hours_per_week'];
+     if(isset($validated['total_hours_per_week'])){
+        $user->total_hours_per_week = $validated['total_hours_per_week'];
      }
-     if($validated['Extra_hours_at_base_rate']){
-        $user->Extra_hours_at_base_rate = $validated['Extra_hours_at_base_rate'];
+     if(isset($validated['extra_hours_at_base_rate'])){
+        $user->extra_hours_at_base_rate = $validated['extra_hours_at_base_rate'];
      }
      
      $user->password = Hash::make($validated['password']);

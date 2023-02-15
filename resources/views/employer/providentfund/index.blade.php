@@ -42,7 +42,7 @@
                                                         <i data-feather="edit" ></i>
                                                 </button>
 
-                                                <!-- Send Reply Modal -->
+                                                <!-- Update Modal -->
                                                         <div class="modal fade" id="employerrate{{$employee->id}}" tabindex="-1" role="dialog"
                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
@@ -76,7 +76,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!-- Send Reply Modal Ends -->
+                                                    <!-- Update Modal Ends -->
 
                                                 <!-- Delete button -->
                                                 <button type="button" class="text-danger"

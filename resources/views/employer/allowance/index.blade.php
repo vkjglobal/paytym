@@ -14,7 +14,7 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Type</th>
-                                    <th>Rate</th>
+                                    {{-- <th>Rate</th> --}}
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -23,7 +23,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $allowance->type }}</td>
-                                        <td>{{ $allowance->rate }}</td>
+                                        {{-- <td>{{ $allowance->rate }}</td> --}}
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
