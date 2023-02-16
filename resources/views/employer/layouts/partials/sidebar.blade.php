@@ -549,14 +549,13 @@
                 <div class="collapse {{ request()->is('employer/payroll*') ? 'show' : '' }}" id="payroll">
                     <ul class="nav sub-menu">
 
-                        <!-- <li class="nav-item">
 
-                            <a href="{{ route('employer.payroll.create') }}"
-                                class="nav-link {{ request()->is('employer/payroll/create') ? 'active' : '' }}">
-                                Create
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payroll.generate.form') }}"
+                                class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                                Generate 
                             </a>
-                        </li> -->
-
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('employer.payroll.index') }}"
                                 class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
@@ -768,6 +767,32 @@
                </div>
            </li>
             <!--Payslip Settings End-->
+
+
+            <!-- Report -->
+            <li class="nav-item {{ request()->is('employer/report') ? 'active' : '' }}">
+               
+               <a class="nav-link" data-toggle="collapse" href="#report" role="button" aria-expanded="false"
+                   aria-controls="requests">
+                   <i class="link-icon" data-feather="clipboard"></i>
+                   <span class="link-title">Report</span>
+                   <i class="link-arrow" data-feather="chevron-down"></i>
+               </a>
+               <div class="collapse {{ request()->is('employer/report*') ? 'show' : '' }}" id="report">
+                   <ul class="nav sub-menu">
+                       <li class="nav-item">
+                           <a href="{{ route('employer.report.attendance.search') }}"
+                               class="nav-link {{ request()->is('employer/report') ? 'active' : '' }}">
+                                Attendance
+                           </a>
+                       </li>
+                       
+                   </ul>
+               </div>
+           </li>
+            <!--Report End-->
+
+
             <!-- Commission -->
             <li class="nav-item {{ request()->is('employer/commission*') ? 'active' : '' }}">
                 <a href="{{ route('employer.commission.index') }}" class="nav-link">
