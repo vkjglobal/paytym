@@ -18,8 +18,8 @@ use App\Models\PayPeriod;
 use App\Models\Role;
 use App\Models\LeaveRequest;
 use Auth,Hash;
-//use PDF;
-
+use Barryvdh\DomPDF\Facade\Pdf;
+use Mail;
 
 class UserController extends Controller
 {
@@ -37,8 +37,8 @@ class UserController extends Controller
             ];
     
             $users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
-    
-            return view('employer.user.index', compact('breadcrumbs', 'users'));
+            $roles = Role::get();
+            return view('employer.user.index', compact('breadcrumbs', 'users','roles'));
         }
     }
 
@@ -255,23 +255,27 @@ class UserController extends Controller
 
     public function SendMailWithPublicInfo(Request $request, $user_id)
     {
-        //$users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        //dd($request);
-        $user = User::where('id',$user_id)->first();
-        //dd($user);
-
-       /*$pdf = PDF::loadView('publicinformation',$user);
-        $to_email = "neena.reubro@gmail.com";
-       // Mail::to($to_email)->send(new SendPDFMail($pdf));
-       Mail::send('publicinformation',$user,function($message) use ($user, $pdf)
-       {
-        $message->to($user['email'])
-        ->subject($user['first_name'])
-        ->attachData($pdf->output(),"information.pdf");
-       });*/
-
-      // return view('employer.user.publicinformation', compact('user'));
-      //  return response()->json(['status' => 'success', 'message' => 'Information has been shared successfully.']);
+        $user = User::findOrFail($user_id); 
+        $role = Role::where('id',$user->position)->first();
+        //return view('employer.user.publicinformation', compact('user','role'));
+       
+        $email = $user->email;
+        $name = $user->first_name;
+        $data=['user'=>$user];
+        $data["email"]= $email;
+        $data["name"] = $name;
+       
+        $pdf = PDF::LoadView('employer.user.publicinformation',$data, compact('user','role'));
+        Mail::send('employer.user.publicinformation',$data,function($message) use ($data, $pdf)
+       { 
+      
+        $message->to($data["email"])
+                ->subject('Employee Information of ' .$data["name"])
+                ->attachData($pdf->output(),"information.pdf");
+       });
+       notify()->success(__('User information shared successfully'));
+       return redirect()->back();
+       
     
     }
     

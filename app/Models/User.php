@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(ProvidentFund::class);
     }
+    public function role(){
+
+        return $this->belongsTo(Role::class);
+    }
+
 }
