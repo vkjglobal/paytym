@@ -9,7 +9,7 @@ class Attendance extends Model
 {
     public $table = "attendance";
     protected $fillable = [
-        'user_id','check_in','check_out','status','date',
+        'user_id','check_in','check_out','status','approve_reject','reason','date',
     ];
     use HasFactory;
 
