@@ -5,7 +5,12 @@ namespace App\Http\Controllers\Employer;
 use App\Http\Controllers\Controller;
 use App\Models\Payroll;
 use App\Models\User;
+use App\Models\Attendance;
+use App\Models\AssignAllowance;
+use App\Models\AssignDeduction;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Auth;
 
 class PayrollController extends Controller
 {
@@ -116,4 +121,68 @@ class PayrollController extends Controller
     {
         //
     }
+
+    public function generate_form(){
+        return view('employer.payroll.generate');
+    }
+
+    public function generate_hourly_payroll(Request $request){
+        $payDate = Carbon::parse($request->paydate)->toDateString();
+        // dd($payDate);
+        $employees = User::where('pay_type','1')->where('employer_id', Auth::guard('employer')->user()->id)->get();
+            foreach($employees as $employee){
+            $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$employee->last_payed_date ,$payDate])->get();
+            $totalHours = 0;
+            
+            foreach($attendances as $attendance){
+                $checkIn = Carbon::parse($attendance->check_in);
+                $checkOut = Carbon::parse($attendance->check_out);
+                // calculate the number of hours worked for this day
+                $hoursWorked = $checkIn->diffInHours($checkOut);
+                $totalHours += $hoursWorked;   
+            }
+
+            //Extra hours at base rate and over time rate calculation
+
+            $overtimerate = $employee->business->payrollsetting->over_time_rate;
+            if($totalHours > $employee->total_hours_per_week){
+                $extraHours = $totalHours - ($employee->total_hours_per_week);
+
+                if($extraHours > $employee->extra_hours_at_base_rate){
+                    $overTimeHours = $extraHours - $employee->extra_hours_at_base_rate;
+                    $extraOverTimeSalary = ($overTimeHours * ($employee->rate * $overtimerate));
+                    $extraBaseTimeSalary = ($employee->rate * ($employee->extra_hours_at_base_rate));
+                    $total_pay = $extraOverTimeSalary + $extraBaseTimeSalary;  //overtime salary + over time base
+                }else{
+                    $total_pay = ($extraHours * $employee->rate); //over time base salary
+            }
+
+            //Double time calculation
+
+
+            //Allowance Calculation
+            $allowances = AssignAllowance::where('user_id',$employee->id)->get();
+            $totalAllowance = 0;
+            foreach($allowances as $allowance){
+                $totalAllowance += $allowance->rate;
+            }
+
+            //Deduction Calculation
+            $deductions = AssignDeduction::where('user_id',$employee->id)->get();
+            $totalDeduction = 0;
+            foreach($deductions as $deduction){
+                $totalDeduction += ($employee->rate * ($deduction->rate/100));
+            }
+
+            $base_pay = ($employee->rate * ($totalHours - $extraHours)); 
+            $totalEarnings = $base_pay + $total_pay;
+           
+            $totalEarnings += $totalAllowance - $totalDeduction;
+            dd($totalEarnings);
+        }
+        
+
+    }
+    }
 }
+

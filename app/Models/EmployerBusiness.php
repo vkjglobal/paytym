@@ -13,4 +13,8 @@ class EmployerBusiness extends Model
     {
         return $this->hasOne(PayslipSetting::class);
     }
+    public function payrollsetting()
+    {
+        return $this->hasOne(PayrollSetting::class);
+    }
 }
