@@ -23,6 +23,7 @@ use App\Http\Controllers\Employer\AllowanceController;
 use App\Http\Controllers\Employer\LeaveTypeController;
 use App\Http\Controllers\Employer\FileTypeController;
 use App\Http\Controllers\Employer\BenefitController;
+use App\Http\Controllers\Employer\BillingController;
 use App\Http\Controllers\Employer\SupportTicketController;
 use App\Http\Controllers\Employer\UserCapabilitiesController;
 use App\Http\Controllers\Employer\PayslipController;
@@ -175,4 +176,9 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('report/attendance/search',[ReportController::class,'attendance_search'])->name('report.attendance.search');
 
 
+    //Billing
+    Route::get('/billing', [BillingController::class,'index'])->name('billing');
+    Route::post('/billing/pay', [BillingController::class,'pay'])->name('billing.pay');
+    Route::get('/billing/plan', [BillingController::class,'plan'])->name('billing.plan');
+    
 });
