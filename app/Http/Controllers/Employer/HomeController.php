@@ -8,6 +8,9 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Attendance;
+use App\Models\Deduction;
+use App\Models\AssignDeduction;
+
 use Carbon\Carbon;
 use Auth;
 
@@ -40,8 +43,16 @@ class HomeController extends Controller
         $checked_out = Attendance::whereNotNull('check_out')->where('date',$formatted_date)->count();
         $on_annual_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','annual')->count();
         $on_sick_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','sick')->count();
+        //dd($on_sick_leave);
+        $absentees = $user - $checked_in;
+        $totaldayoffs = $user - $checked_in;
+        $loan= Deduction::where('employer_id', Auth::guard('employer')->user()->id)->where('name','loan')->get();
+        $loanid= $loan->pluck('id');
+        //$totalloans = AssignDeduction::where('deduction_id',$loanid)->count();
+        $lwop = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','LWOP')->count();
 
+        //dd($checked_in);
         return view('employer.home',compact('employer','annualLeaves','user','branches','departments','checked_in',
-                                            'checked_out','on_annual_leave','on_sick_leave'));
+                                            'checked_out','on_annual_leave','on_sick_leave','absentees','totaldayoffs','lwop'));
     }
 }
