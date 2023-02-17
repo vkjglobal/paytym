@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Api\Employee\AuthController;
 use App\Http\Controllers\Api\Employee\ChatController;
 use App\Http\Controllers\Api\Employee\LeaveRequestController;
 use App\Http\Controllers\Api\Employee\AttendanceController;
 use App\Http\Controllers\Api\Employee\DeductionsController;
+use App\Http\Controllers\Api\Employee\EmployeeController;
 use App\Http\Controllers\Api\Employee\MeetingsController;
 use App\Http\Controllers\Api\Employee\PaymentAdvanceController;
 use App\Http\Controllers\Employer\PaymentRequestController;
@@ -74,7 +76,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('attendance', [AttendanceController::class, 'attendance']);
 
-    Route::get('attendance_list',[AttendanceController::class, 'attendance_list']);
+    Route::get('attendance_list', [AttendanceController::class, 'attendance_list']);
 
     // Request Payment 19-11-22
     Route::post('request_payment', [PaymentRequestController::class, 'request_payment']);
@@ -90,32 +92,38 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('send-chat', [ChatController::class, 'store']);
 
     //Quit Company
-    Route::post('quit_company',[QuitCompanyController::class,'quit_request']);
+    Route::post('quit_company', [QuitCompanyController::class, 'quit_request']);
 
     // Events
-    
 
 
-     // Robin 14-02-2023
 
-     Route::post('chat_group',[ChatController::class,'list_chat_groups']);
-     Route::post('chat_group_detais',[ChatController::class,'list_chat_group_details']);
-     Route::post('get_holidays',[LeaveController::class,'get_holidays']);
+    // Robin 14-02-2023
 
-     Route::get('employee_dashboard',[EmployeeDashboardController::class,'index']);
+    Route::post('chat_group', [ChatController::class, 'list_chat_groups']);
+    Route::post('chat_group_detais', [ChatController::class, 'list_chat_group_details']);
+    Route::post('get_holidays', [LeaveController::class, 'get_holidays']);
 
-          // Robin 15-02-2023
-     Route::post('checkin_checkout_list', [AttendanceController::class, 'check_in_check_out_list']);
-     Route::post('leave_requests_lists', [LeaveRequestController::class, 'leave_requests_lists']);
-     Route::post('leave_requests_accept_reject', [LeaveRequestController::class, 'leave_requests_accept_reject']);
-     Route::post('create_leaves', [LeaveController::class, 'create_leaves']);
-     Route::post('list_leaves', [LeaveController::class, 'list_leaves']);
-     Route::post('delete_leave', [LeaveController::class, 'delete_leave']);
-     Route::post('events_list',[EventController::class,'list_events']);
-     Route::post('create_event',[EventController::class,'create_event']);
-     Route::post('delete_event',[EventController::class,'delete_event']);
-     
-     
-  
+    Route::get('employee_dashboard', [EmployeeDashboardController::class, 'index']);
+
+    // Robin 15-02-2023
+    Route::post('checkin_checkout_list', [AttendanceController::class, 'check_in_check_out_list']);
+    Route::post('leave_requests_lists', [LeaveRequestController::class, 'leave_requests_lists']);
+    Route::post('leave_requests_accept_reject', [LeaveRequestController::class, 'leave_requests_accept_reject']);
+    Route::post('create_leaves', [LeaveController::class, 'create_leaves']);
+    Route::post('list_leaves', [LeaveController::class, 'list_leaves']);
+    Route::post('delete_leave', [LeaveController::class, 'delete_leave']);
+    Route::post('events_list', [EventController::class, 'list_events']);
+    Route::post('create_event', [EventController::class, 'create_event']);
+    Route::post('delete_event', [EventController::class, 'delete_event']);
+
+    // Robin 16-02-2023
+
+    Route::post('create_chat_groups', [ChatController::class, 'create_chat_groups']);
+    Route::post('list_employees', [EmployeeController::class, 'list_employees']);
+    Route::post('list_employees_departmentwise', [EmployeeController::class, 'list_employees_departmentwise']);
+    Route::post('list_employees_branchwise', [EmployeeController::class, 'list_employees_branchwise']);
+    Route::post('attendance_approve_reject', [AdminAttendanceController::class, 'attendance_approve_reject']);
+    Route::post('attendance_edit', [AdminAttendanceController::class, 'attendance_edit']);
 
 });

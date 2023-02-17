@@ -95,7 +95,7 @@
                                         <td>
                                             @if($leaveRequest->status == 2)
                                             <button name="reject" type="submit" value="2" class="text-info mr-2" title="Reject"
-                                                    data-toggle="modal" data-target="#exampleModal">
+                                                    data-toggle="modal" data-target="#exampleModal_{{$leaveRequest->id}}">
                                                         <i data-feather="message-square" ></i>
                                             </button>
                                             @else
@@ -105,7 +105,7 @@
                                             @endif
 
                                             <!-- Send Reply Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                            <div class="modal fade" id="exampleModal_{{$leaveRequest->id}}" tabindex="-1" role="dialog"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">

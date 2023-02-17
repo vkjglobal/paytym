@@ -23,9 +23,11 @@ use App\Http\Controllers\Employer\AllowanceController;
 use App\Http\Controllers\Employer\LeaveTypeController;
 use App\Http\Controllers\Employer\FileTypeController;
 use App\Http\Controllers\Employer\BenefitController;
+use App\Http\Controllers\Employer\BillingController;
 use App\Http\Controllers\Employer\SupportTicketController;
 use App\Http\Controllers\Employer\UserCapabilitiesController;
 use App\Http\Controllers\Employer\PayslipController;
+use App\Http\Controllers\Employer\ReportController;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -132,6 +134,8 @@ Route::middleware('employer.auth')->group(function () {
 
     //Payroll
     Route::resource('payroll', PayrollController::class);
+    Route::get('payroll-generate-form', [PayrollController::class,'generate_form'])->name('payroll.generate.form');
+    Route::post('payroll-generate-hourly', [PayrollController::class,'generate_hourly_payroll'])->name('payroll.generate.hourly');
     
     //Uploads
     Route::resource('uploads', UploadController::class);
@@ -167,5 +171,14 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('payslip/view/default', [PayslipController::class,'view_payslip'])->name('payslip.view.default');
     Route::post('payslip/store', [PayslipController::class,'store'])->name('payslip.store');
 
+    //Report
+    Route::get('report/attendance/search-form',[ReportController::class,'attendance_search_form'])->name('report.attendance.search_form');
+    Route::get('report/attendance/search',[ReportController::class,'attendance_search'])->name('report.attendance.search');
 
+
+    //Billing
+    Route::get('/billing', [BillingController::class,'index'])->name('billing');
+    Route::post('/billing/pay', [BillingController::class,'pay'])->name('billing.pay');
+    Route::get('/billing/plan', [BillingController::class,'plan'])->name('billing.plan');
+    
 });
