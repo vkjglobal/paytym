@@ -222,11 +222,11 @@
 
   wages.addEventListener("change", function() {
     this.value = this.checked ? 1 : 0;
-   alert(this.value);
+   
   });
   projects.addEventListener("change", function() {
     this.value = this.checked ? 1 : 0;
-    alert(this.value);
+    
   });
   attendance.addEventListener("change", function() {
     this.value = this.checked ? 1 : 0;

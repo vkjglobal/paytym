@@ -55,15 +55,8 @@ class UserCapabilitiesController extends Controller
      */
     public function store(StoreUserCapabilitiesRequest $request)
     {
-        //dd($request);
 
         $validated = $request->validated();
-        /* $usercapability = UserCapabilities::where('role_id', '=', $request->input('role_name'))->first();
-        if(!$usercapability)
-        { 
-            $usercapability = new UserCapabilities();
-            $usercapability->employer_business_id = $request->business_id;
-        }   */
         $usercapability = new UserCapabilities();
 
         $usercapability->role_id = $validated['role_name'];
@@ -119,7 +112,7 @@ class UserCapabilitiesController extends Controller
         //dd($usercapability);
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('Support Ticket')), route('employer.usercapabilities.index')],
+            [(__('User Capabilities')), route('employer.usercapabilities.index')],
             [(__('Edit')), null]
         ];
         $roles = Role::get();
@@ -136,26 +129,22 @@ class UserCapabilitiesController extends Controller
      */
     public function update(UpdateUserCapabilitiesRequest $request, UserCapabilities $usercapability)
     {
-        //dd($request);
         $validated = $request->validated();
         $usercapability->role_id = $validated['role_name'];
-       // dd($validated['wages']);
-                $usercapability->wages = $validated['wages'];
-                $usercapability->projects = $validated['projects'];
-                $usercapability->attendance = $validated['attendance'];
-                $usercapability->approve_attendance = $validated['approve_attendance'];
-                $usercapability->medical = $validated['medical'];
-                $usercapability->contract_period = $validated['contract_period'];
-                $usercapability->deductions = $validated['deductions'];
-                $usercapability->create_chat_groups = $validated['create_chat_groups'];
-                $usercapability->create_meetings = $validated['create_meetings'];
-                $usercapability->approve_leaves = $validated['approve_leaves'];
-                $usercapability->view_payroll = $validated['view_payroll'];
-                $usercapability->approve_payroll = $validated['approve_payroll'];
-                $usercapability->calculate_payroll = $validated['calculate_payroll'];
-                $usercapability->edit_deduction = $validated['edit_deduction'];
-    //dd($usercapability);
-        
+        $usercapability->wages = $validated['wages'];
+        $usercapability->projects = $validated['projects'];
+        $usercapability->attendance = $validated['attendance'];
+        $usercapability->approve_attendance = $validated['approve_attendance'];
+        $usercapability->medical = $validated['medical'];
+        $usercapability->contract_period = $validated['contract_period'];
+        $usercapability->deductions = $validated['deductions'];
+        $usercapability->create_chat_groups = $validated['create_chat_groups'];
+        $usercapability->create_meetings = $validated['create_meetings'];
+        $usercapability->approve_leaves = $validated['approve_leaves'];
+        $usercapability->view_payroll = $validated['view_payroll'];
+        $usercapability->approve_payroll = $validated['approve_payroll'];
+        $usercapability->calculate_payroll = $validated['calculate_payroll'];
+        $usercapability->edit_deduction = $validated['edit_deduction'];
         $issave = $usercapability->save();
         if ($issave) {
             notify()->success(__('Updated successfully'));

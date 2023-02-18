@@ -257,15 +257,18 @@ class UserController extends Controller
     {
         $user = User::findOrFail($user_id); 
         $role = Role::where('id',$user->position)->first();
-        //return view('employer.user.publicinformation', compact('user','role'));
+        //dd($role);
+        $rolename = $role->role_name;
+        //return view('employer.user.publicinformation', compact('user','rolename'));
        
         $email = $user->email;
         $name = $user->first_name;
-        $data=['user'=>$user];
+        $data=['user'=>$user,'rolename'=>$rolename];
+        //dd($data);
         $data["email"]= $email;
         $data["name"] = $name;
        
-        $pdf = PDF::LoadView('employer.user.publicinformation',$data, compact('user','role'));
+        $pdf = PDF::LoadView('employer.user.publicinformation',$data, compact('user','rolename'));
         Mail::send('employer.user.publicinformation',$data,function($message) use ($data, $pdf)
        { 
       

@@ -17,7 +17,7 @@
                                     <th>Subject</th>
                                     <th>Message</th>
                                     <th>Status</th>
-                                    <!-- <th>Actions</th> -->
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,7 +44,7 @@
                                                 </a> -->
 
                                                 <!-- Delete button -->
-                                                <!-- <button type="button" class="text-danger"
+                                                <button type="button" class="text-danger"
                                                     onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
                                                         document.getElementById('delete-data-{{ $supportTicket->id }}').submit();}"
                                                     data-toggle="tooltip" data-placement="top" title="Delete">
@@ -56,7 +56,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
- -->
+
                                             </div>
                                         </td>
                                     </tr>

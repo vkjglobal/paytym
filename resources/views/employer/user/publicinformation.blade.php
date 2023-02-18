@@ -68,7 +68,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Position<span class="text-danger"> - </span></label>
                                   
-                                   {{  $user->position }}
+                                   {{ $rolename }}
                                 </div>
                             </div>
                             <div class="col-sm-4">
