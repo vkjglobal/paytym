@@ -11,6 +11,7 @@ class DeductionsController extends Controller
 {
     public function deductions()
     {
+       
         $user = Auth::user();
         $deduction = Payroll::where('user_id', $user->id)->get();
         if ($deduction) {
