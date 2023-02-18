@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\Api\Admin\DeductionsController as AdminDeductionsController;
+use App\Http\Controllers\Api\Admin\ReportsController;
 use App\Http\Controllers\Api\Employee\AuthController;
 use App\Http\Controllers\Api\Employee\ChatController;
 use App\Http\Controllers\Api\Employee\LeaveRequestController;
@@ -13,6 +15,7 @@ use App\Http\Controllers\Employer\PaymentRequestController;
 use App\Http\Controllers\Api\Employee\QuitCompanyController;
 use App\Http\Controllers\Api\Employee\EventController;
 use App\Http\Controllers\Api\Employee\LeaveController;
+use App\Http\Controllers\Employer\ReportController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
@@ -118,12 +121,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('delete_event', [EventController::class, 'delete_event']);
 
     // Robin 16-02-2023
-
     Route::post('create_chat_groups', [ChatController::class, 'create_chat_groups']);
     Route::post('list_employees', [EmployeeController::class, 'list_employees']);
     Route::post('list_employees_departmentwise', [EmployeeController::class, 'list_employees_departmentwise']);
     Route::post('list_employees_branchwise', [EmployeeController::class, 'list_employees_branchwise']);
     Route::post('attendance_approve_reject', [AdminAttendanceController::class, 'attendance_approve_reject']);
     Route::post('attendance_edit', [AdminAttendanceController::class, 'attendance_edit']);
+
+    // Robin 17-02-2023
+    Route::post('deductions_list', [AdminDeductionsController::class, 'deductions_list']);
+    Route::post('deductions_add', [AdminDeductionsController::class, 'deductions_add']);
+    Route::post('deductions_delete', [AdminDeductionsController::class, 'deductions_delete']);
+    Route::post('medical_reports', [ReportsController::class, 'medical_reports']);
 
 });
