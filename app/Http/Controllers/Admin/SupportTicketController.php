@@ -19,10 +19,11 @@ class SupportTicketController extends Controller
         $supportTicket = SupportTicket::with('employer')->latest()->get();
         return view('admin.support-tickets.index', compact('breadcrumbs', 'supportTicket'));
     }
-
-    public function destroy(SupportTicket $supportTicket)
+ 
+    public function destroy(SupportTicket $supportTicket, $id)
     {
-        //dd($supportTicket);
+        //dd($id);
+        $supportTicket = SupportTicket::where('id',$id)->latest()->first();
         $res = $supportTicket->delete();
 
         if ($res) {
