@@ -149,15 +149,10 @@ class ChatController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
-            'profile_pic' =>  'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'profile_pic' =>  'required|image|mimes:jpg,png,jpeg,gif,svg',
             'group_name' =>  'required',
             'members' =>'required'
         ]);
-
-    //     foreach ($request->members as $member) {
-    //         dd($member);
-    //  }
-
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
