@@ -7,6 +7,7 @@ use App\Models\Payroll;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\AssignAllowance;
+use App\Models\Leaves;
 use App\Models\AssignDeduction;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -126,14 +127,27 @@ class PayrollController extends Controller
         return view('employer.payroll.generate');
     }
 
-    public function generate_hourly_payroll(Request $request){
-        $payDate = Carbon::parse($request->paydate)->toDateString();
+    public function generate_hourly_payroll($employee,$payDate){
+        $payDate = Carbon::parse($payDate)->toDateString();
         // dd($payDate);
-        $employees = User::where('pay_type','1')->where('employer_id', Auth::guard('employer')->user()->id)->get();
-            foreach($employees as $employee){
-            $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$employee->last_payed_date ,$payDate])->get();
+           
+           
+            if($employee->last_payed_date != Null){
+                $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$employee->last_payed_date ,$payDate])->get();
+                $attendance_dup=$attendances;
+                $holidays = Leaves::whereBetween('date',[$employee->last_payed_date ,$payDate])->get();
+            }
+            else{
+                $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$employee->start_date ,$payDate])->get();
+                $attendance_dup=$attendances;
+                $holidays = Leaves::whereBetween('date',[$employee->start_date ,$payDate])->get();
+            }
+            $holidayArray = $holidays->pluck('date')->toArray();
             $totalHours = 0;
-            
+            $attendancesWithoutHoliday = $attendances->reject(function ($attendance) use ($holidayArray) {
+                return in_array($attendance->date, $holidayArray);
+            });
+
             foreach($attendances as $attendance){
                 $checkIn = Carbon::parse($attendance->check_in);
                 $checkOut = Carbon::parse($attendance->check_out);
@@ -158,9 +172,24 @@ class PayrollController extends Controller
             }
 
             //Double time calculation
+            $doubletimerate = $employee->business->payrollsetting->double_time_rate;
+            foreach($holidays as $holiday){
+                foreach($attendance_dup as $attendance){
+                    if($attendance->date == $holiday->date){
+                        $TotalHolidayHours = 0;
+                        $checkIn = Carbon::parse($attendance->check_in);
+                        $checkOut = Carbon::parse($attendance->check_out);
+                        $holidayHours = $checkIn->diffInHours($checkOut);
+                        $TotalHolidayHours += $holidayHours;
+                        $doubleTimeRate = $TotalHolidayHours * ($employee->rate * $doubletimerate);
+                        
+                    }
+                }
+            }
 
 
             //Allowance Calculation
+
             $allowances = AssignAllowance::where('user_id',$employee->id)->get();
             $totalAllowance = 0;
             foreach($allowances as $allowance){
@@ -168,6 +197,7 @@ class PayrollController extends Controller
             }
 
             //Deduction Calculation
+
             $deductions = AssignDeduction::where('user_id',$employee->id)->get();
             $totalDeduction = 0;
             foreach($deductions as $deduction){
@@ -175,14 +205,21 @@ class PayrollController extends Controller
             }
 
             $base_pay = ($employee->rate * ($totalHours - $extraHours)); 
-            $totalEarnings = $base_pay + $total_pay;
+            $totalEarnings = $base_pay + $total_pay + $doubleTimeRate ;
            
             $totalEarnings += $totalAllowance - $totalDeduction;
             dd($totalEarnings);
         }
         
 
+    
     }
+
+    public function generate_fixed_payroll($employee,$paydate,$from_date){
+        $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$from_date,$payDate])->get();
+        
+        
+
     }
 }
 

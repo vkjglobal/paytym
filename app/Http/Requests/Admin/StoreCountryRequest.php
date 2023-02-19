@@ -28,6 +28,8 @@ class StoreCountryRequest extends FormRequest
             'currency' => 'required',
             'tax' => 'required',
             'fnpf' => 'required',
+            'srt' => 'required',
+            'ecal' => 'required',
         ];
     }
 }

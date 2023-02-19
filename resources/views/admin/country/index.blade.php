@@ -16,6 +16,8 @@
                                     <th>Name</th>
                                     <th>Currency</th>
                                     <th>Tax</th>
+                                    <th>SRT</th>
+                                    <th>ECAL</th>
                                     <th>FNPF</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -28,6 +30,8 @@
                                         <td>{{ $country->name }}</td>
                                         <td>{{ $country->currency }}</td>
                                         <td>{{ $country->tax }}</td>
+                                        <td>{{ $country->srt_tax }}</td>
+                                        <td>{{ $country->ecal_tax }}</td>
                                         <td>{{ $country->fnpf }}</td>
                                         <td>
                                             <input data-id="{{ $country->id }}" class="toggle-class" type="checkbox"

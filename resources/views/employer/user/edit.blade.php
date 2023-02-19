@@ -8,8 +8,8 @@
                 <div class="card-body">
                     <h6 class="card-title">Edit User</h6>
                     <form method="POST" onsubmit = "return validateForm()" action="{{ route('employer.user.update',$user->id) }}" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
+                    @csrf
+                    @method('PUT')
                         
                         <div class="row">
                             <div class="col-sm-4">
@@ -17,7 +17,7 @@
                                     <label class="control-label">First Name <span class="text-danger">*</span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('email')) is-invalid @endif"
-                                        name="first_name" value="{{ old('first_name', $user->first_name) }}" placeholder="Enter First Name" required>
+                                        name="first_name" value="{{ old('first_name',$user->first_name) }}" placeholder="Enter First Name" required>
                                     <div class="invalid-feedback">{{ $errors->first('first_name') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -105,13 +105,16 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="control-label">Country <span class="text-danger"> *</span></label>
-                                    <input type="text"
-                                        class="form-control @if ($errors->has('street')) is-invalid @endif"
-                                        name="country" value="{{ old('country',$user->country) }}" placeholder="Enter Country">
-                                    <div class="invalid-feedback">{{ $errors->first('country') }}</div>
+                                    <label class="control-label">Country<span class="text-danger">*</span></label>
+                                    <select class="form-control" name="country" value="{{ old('country') }}">
+                                        <option value="">--SELECT--</option>
+                                        @foreach ($countries as $country)
+                                        <option value="{{$country['id']}}" {{ $user->country == $country['id'] ? 'selected':'' }}>{{$country['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
                                 </div>
-                            </div><!-- Col -->
+                            </div><!-- Col --> 
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Tin<span class="text-danger"> *</span></label>
@@ -133,65 +136,232 @@
                         </div><!-- Row -->
 
                         <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Business<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($businesses as $business)
+                                    <option value="{{$business['id']}} " {{ $user->business_id ==$business['id'] ? 'selected':'' }}>{{$business['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('business') }}</div>
+                            </div>
+                        </div><!-- Col -->
                             <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Branch<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="branch" value="{{ old('branch') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($branches as $key => $value)
+                                    <option value="{{$value['id']}}" {{ $user->branch_id == $value['id'] ? 'selected': ''}}>{{$value['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('branch') }}</div>
+                            </div>
+                        </div><!-- Col -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Department<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($departments as $department)
+                                    <option value="{{$department['id']}}" {{$user->department_id == $department['id'] ? 'selected': ''}}>{{$department['dep_name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('department') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
+
+                        
+                       
+                         
+                        </div><!-- Row -->
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Bank<span class="text-danger"> *</span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('bank')) is-invalid @endif"
-                                        name="bank" value="{{ old('bank',$user->bank) }}" placeholder="Enter Bank">
+                                        name="bank" value="{{ old('bank', $user->bank) }}" placeholder="Enter Bank">
                                     <div class="invalid-feedback">{{ $errors->first('bank') }}</div>
                                 </div>
                             </div><!-- Col -->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Bank Branch<span class="text-danger"> *</span></label>
+                                    <input type="text"
+                                        class="form-control @if ($errors->has('bank_branch')) is-invalid @endif"
+                                        name="bank_branch" value="{{ old('bank_branch', $user->bank_branch_name) }}" placeholder="Enter Bank Branch">
+                                    <div class="invalid-feedback">{{ $errors->first('bank_branch') }}</div>
+                                </div>
+                            </div><!-- Col -->
+
+                        
+
+
+                        </div><!-- Row -->
+
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Account Number<span class="text-danger"> *</span></label>
                                     <input type="text"
-                                        class="form-control @if ($errors->has('city')) is-invalid @endif"
+                                        class="form-control @if ($errors->has('account_number')) is-invalid @endif"
                                         name="account_number" value="{{ old('account_number',$user->account_number) }}" placeholder="Enter Account Number">
                                     <div class="invalid-feedback">{{ $errors->first('account_number') }}</div>
                                 </div>
                             </div><!-- Col -->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Position<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="position" value="{{ old('branch') }}">
+                                <label class="control-label">Role<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('position')) is-invalid @endif" name="position" value="{{ old('position') }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($roles as $key => $value)
-                                    <option value="{{$value['id']}}" {{$user->position == $value['role_name'] ? 'selected':''}}>{{$value['role_name']}}</option>
+                                    <option value="{{$value['id']}}"  {{ $user->position == $value['id'] ? 'selected': ''}} >{{$value['role_name']}}</option>
                                     @endforeach
                                 </select>
-                                <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                                <div class="invalid-feedback">{{ $errors->first('position') }}</div>
                             </div>
                         </div><!-- Col -->
-                           
+
+                        
+
+
                         </div><!-- Row -->
 
+
+
+                       
+
+
                         <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Start date of employment <span class="text-danger"> *</span></label>
+                                    <input type="date"
+                                        class="form-control @if ($errors->has('start_date')) is-invalid @endif"
+                                        name="start_date" value="{{ old('start_date', $user->employment_start_date) }}" placeholder="Enter Image" required>
+                                    <div class="invalid-feedback">{{ $errors->first('start_date') }}</div>
+                                </div>
+                            </div><!-- Col -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">End date of employment  <span class="text-danger"> *</span></label>
+                                    <input type="date"
+                                        class="form-control @if ($errors->has('end_date')) is-invalid @endif"
+                                        name="end_date" value="{{ old('end_date',$user->employment_end_date) }}" placeholder="Enter Image" required>
+                                    <div class="invalid-feedback">{{ $errors->first('end_date') }}</div>
+                                </div>
+                            </div><!-- Col -->
+                       
+                         
+                        </div><!-- Row -->
+
+
+
+                        <div class="row">
+                        <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Image <span class="text-danger"> *</span></label>
-                                    <input type="file" class="form-control @if ($errors->has('image')) is-invalid @endif" name="image"  
-                                     placeholder="Enter Image">
-                                        <img src="{{ asset('storage/' . $user->image) }}" class="img-thumbnail mt-2" width="100" alt="">
+                                    <input type="file"
+                                        class="form-control @if ($errors->has('image')) is-invalid @endif"
+                                        name="image"  placeholder="Enter Image">
                                     <div class="invalid-feedback">{{ $errors->first('image') }}</div>
                                 </div>
                             </div><!-- Col -->
                             <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Branch<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="branch" value="{{ old('branch',$user->branch) }}">
+                                <label class="control-label">Employee type<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('employeetype')) is-invalid @endif" name="employeetype" value="{{ old('employeetype') }}">
                                     <option value="">--SELECT--</option>
-                                    @foreach ($branches as $key => $value)
-                                    <option value="{{$value['name']}}" {{ $user->branch == $value['name'] ? 'selected' : '' }}>{{$value['name']}}</option>
-
-                                    @endforeach
+                                    <option value="0" {{ $user->position == "0" ? 'selected': ''}}>Attachee</option>
+                                    <option value="1" {{ $user->position == "1" ? 'selected': ''}}>Apprenticeship</option>
+                                    <option value="2" {{ $user->position == "2" ? 'selected': ''}}>Probationary</option>
+                                    <option value="3" {{ $user->position == "3" ? 'selected': ''}}>Permanent</option>
                                 </select>
-                                <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                                <div class="invalid-feedback">{{ $errors->first('employeetype') }}</div>
                             </div>
                         </div><!-- Col -->
-                       
-                         
                         </div><!-- Row -->
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="fixed-tab" data-toggle="tab" href="#fixed" role="tab" aria-controls="fixed" aria-selected="true" onclick="setSalaryType(0)">Fixed</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="hourly-tab" data-toggle="tab" href="#hourly" role="tab" aria-controls="hourly" aria-selected="false" onclick="setSalaryType(1)">Hourly</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content tab-wrp" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="fixed" role="tabpanel" aria-labelledby="fixed-tab">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Pay Period<span class="text-danger">*</span></label>
+                                                        <select class="form-control" name="payperiod" value="{{ old('payperiod') }}">
+                                                            <option value="">--SELECT--</option>
+                                                            <option value="0">Weekly</option>
+                                                            <option value="1">Fortnightly</option>
+                                                            <option value="2">Monthly</option>
+                                                            <option value="3">Yearly</option>
+                                                        </select>
+                                                        <div class="invalid-feedback"></div>
+                                                    </div>
+                                                </div><!-- Col -->    
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Rate <span class="text-danger"> *</span></label>
+                                                        <input type="number" class="form-control " name="fixed-rate" value="{{ old('fixed-rate') }}" placeholder="Enter Rate">
+                                                        <div class="invalid-feedback">{{ $errors->first('fixed-rate') }}</div>
+                                                    </div>
+                                                </div><!-- Col -->
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="hourly" role="tabpanel" aria-labelledby="hourly-tab">
+                                            <div class="row">
+                                            <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">work days per Week <span class="text-danger"> *</span></label>
+                                                        <input type="number" class="form-control" name="work_days_per_week" value="{{ old('work_days_per_week', $user->workdays_per_week) }}" placeholder="work days per Week">
+                                                        <div class="invalid-feedback">{{ $errors->first('work_days_per_week') }}</div>
+                                                    </div>
+                                                </div><!-- Col -->
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Total hours per week <span class="text-danger"> *</span></label>
+                                                        <input type="number" class="form-control " name="total_hours_per_week" value="" value="{{ old('Total_hours_per_week', $user->total_hours_per_week) }}" placeholder="Total hours per week">
+                                                        <div class="invalid-feedback">{{ $errors->first('Total_hours_per_week') }}</div>
+                                                    </div>
+                                                </div><!-- Col -->
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Extra hours at base rate <span class="text-danger"> *</span></label>
+                                                        <input type="number" class="form-control " name="extra_hours_at_base_rate" value="{{ old('Extra_hours_at_base_rate',$user->extra_hours_at_base_rate) }}" placeholder="Extra hours at base rate">
+                                                        <div class="invalid-feedback">{{ $errors->first('Extra_hours_at_base_rate') }}</div>
+                                                    </div>
+                                                </div><!-- Col -->
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Rate <span class="text-danger"> *</span></label>
+                                                        <input type="number" class="form-control " name="hourly-rate" value="{{ old('hourly-rate') }}" placeholder="Enter Rate">
+                                                        <div class="invalid-feedback">{{ $errors->first('hourly-rate') }}</div>
+                                                    </div>
+                                                </div><!-- Col -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Row -->
+                        <input type="hidden" name="salary_type" id="salary_type" value="0">
+                        
                         <div class="row">
                         
                        

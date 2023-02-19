@@ -36,6 +36,22 @@
                             </div>
                         </div><!-- Col -->
 
+                <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">SRT<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control @if ($errors->has('srt')) is-invalid @endif" name="srt" value="{{ old('srt') }}" placeholder="Enter SRT">
+                                <div class="invalid-feedback">{{ $errors->first('tax') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
+                <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">ECAL<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control @if ($errors->has('ecal')) is-invalid @endif" name="ecal" value="{{ old('ecal') }}" placeholder="Enter ECAL">
+                                <div class="invalid-feedback">{{ $errors->first('ecal') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">FNPF<span class="text-danger">*</span></label>
