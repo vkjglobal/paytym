@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Api\Admin\DeductionsController as AdminDeductionsController;
+use App\Http\Controllers\Api\Admin\GeneralController;
+use App\Http\Controllers\Api\Admin\MeetingsController as AdminMeetingsController;
 use App\Http\Controllers\Api\Admin\ReportsController;
 use App\Http\Controllers\Api\Employee\AuthController;
 use App\Http\Controllers\Api\Employee\ChatController;
@@ -132,6 +134,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('deductions_list', [AdminDeductionsController::class, 'deductions_list']);
     Route::post('deductions_add', [AdminDeductionsController::class, 'deductions_add']);
     Route::post('deductions_delete', [AdminDeductionsController::class, 'deductions_delete']);
-    Route::post('medical_reports', [ReportsController::class, 'medical_reports']);
+
+    //19-02-23
+    Route::post('extra_details', [ReportsController::class, 'extra_details']);
+    Route::post('list_branch_departments', [GeneralController::class, 'list_branch_departments']);
+    Route::post('list_meetings', [AdminMeetingsController::class, 'list_meetings']);
+    Route::post('create_meetings', [AdminMeetingsController::class, 'create_meetings']);
+    Route::post('meetings_delete', [AdminMeetingsController::class, 'meetings_delete']);
+    
+    //
+    //
+    //create_chat_groups
+
+    //   Route::post('medical_reports', [ReportsController::class, 'medical_reports']);
+
 
 });
