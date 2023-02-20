@@ -28,6 +28,9 @@ use App\Http\Controllers\Employer\SupportTicketController;
 use App\Http\Controllers\Employer\UserCapabilitiesController;
 use App\Http\Controllers\Employer\PayslipController;
 use App\Http\Controllers\Employer\ReportController;
+use App\Http\Controllers\Employer\GroupChatController;
+
+
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -154,12 +157,15 @@ Route::middleware('employer.auth')->group(function () {
 
     
     //chat
-    Route::resource('chat', ChatController::class);
+    // Route::resource('chat', ChatController::class);
+    Route::resource('groupchat', GroupChatController::class);
+    Route::resource('groupmember', GroupMembersAddController::class);
+
 
     //bonus
     Route::resource('bonus', BonusController::class);
 
-    //bonus
+    //commission
     Route::resource('commission', CommissionController::class);
 
     //ProvidentFund
@@ -177,7 +183,7 @@ Route::middleware('employer.auth')->group(function () {
 
 
     //Billing
-    Route::get('/billing', [BillingController::class,'index'])->name('billing');
+    Route::post('/billing', [BillingController::class,'index'])->name('billing');
     Route::post('/billing/pay', [BillingController::class,'pay'])->name('billing.pay');
     Route::get('/billing/plan', [BillingController::class,'plan'])->name('billing.plan');
     

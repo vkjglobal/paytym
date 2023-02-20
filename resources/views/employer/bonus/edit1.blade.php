@@ -27,7 +27,7 @@
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
-                    <div class="row" id="temployee" style="display:none">
+                    <div class="row" id="temployee" >
                         <div class="col-sm-6">
                             
                             <div class="form-group">
@@ -35,55 +35,15 @@
                                 <select name="type_id" class="@if ($errors->has('type_id')) is-invalid @endif">
                                     <option selected="true" disabled="disabled" >Select User</option>
                                     @foreach($employees as $employee)
-                                        <option value="{{$employee->id}}">{{$employee->first_name}}</option>
+                                        <option {{ old('type_id', $bonus->type_id) == $employee->id ? "selected" : "" }}
+                                        value="{{$employee->id}}">{{$employee->first_name}}</option>
                                     @endforeach
                                 </select>                                
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
-                    <div class="row" id="tdepartment" style="display:none">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">Employee<span class="text-danger">*</span></label>
-                                <select name="type_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true" disabled="disabled" >Select Department</option>
-                                    @foreach($departments as $department)
-                                        <option value="{{$department->id}}">{{$department->dep_name}}</option>
-                                    @endforeach
-                                </select>                                
-                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                    </div><!-- Row -->
-                    <div class="row" id="tbranch" style="display:none">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">Employee<span class="text-danger">*</span></label>
-                                <select name="type_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true" disabled="disabled" >Select Branch</option>
-                                    @foreach($branches as $branch)
-                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
-                                    @endforeach
-                                </select>                                
-                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                    </div><!-- Row -->
-                    <div class="row" id="tbusiness" style="display:none">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">Employee<span class="text-danger">*</span></label>
-                                <select name="type_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true" disabled="disabled" >Select Business</option>
-                                    @foreach($businesses as $business)
-                                        <option value="{{$business->id}}">{{$business->name}}</option>
-                                    @endforeach
-                                </select>                                
-                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                    </div><!-- Row -->
+                    
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -120,40 +80,5 @@
 @push('custom_js')
 <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
-<script>
-    $('#type').on('change',function(){
-        var selection = $(this).val();
-        switch(selection){
-        case "0":
-            $("#temployee").show()
-            $("#tdepartment").hide()
-            $("#tbranch").hide()
-            $("#tbusiness").hide()
-            break;
-        case "1":
-            $("#tdepartment").show()
-            $("#temployee").hide()
-            $("#tbranch").hide()
-            $("#tbusiness").hide()
-            break;
-        case "2":
-            $("#tbranch").show()
-            $("#temployee").hide()
-            $("#tdepartment").hide()
-            $("#tbusiness").hide()
-            break;
-        case "3":
-            $("#tbusiness").show()
-            $("#temployee").hide()
-            $("#tdepartment").hide()
-            $("#tbranch").hide()
-            break;
-        default:
-            $("#temployee").hide()
-            $("#tdepartment").hide()
-            $("#tbranch").hide()
-            $("#tbusiness").hide()
-        }
-});
-</script>
+
 @endpush

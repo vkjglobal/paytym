@@ -31,4 +31,7 @@ class Bonus extends Model
     public function business(){
         return $this->belongsTo(EmployerBusiness::class,'type_id');
     }
+    public function employee(){
+        return $this->belongsTo(User::class,'type_id');
+    }
 }

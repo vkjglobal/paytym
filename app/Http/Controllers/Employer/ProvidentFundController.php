@@ -18,8 +18,12 @@ class ProvidentFundController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.project.index')],
+            [(__('FNPF')), null],
+        ];
         $employees = ProvidentFund::where('employer_id', Auth::guard('employer')->id())->get();
-        return view('employer.providentfund.index', compact('employees'));
+        return view('employer.providentfund.index', compact('breadcrumbs','employees'));
     }
 
     /**
@@ -29,8 +33,12 @@ class ProvidentFundController extends Controller
      */
     public function create()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.project.index')],
+            [(__('FNPF')), null],
+        ];
         $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
-        return view('employer.providentfund.create', compact('employees'));
+        return view('employer.providentfund.create', compact('breadcrumbs','employees'));
     }
 
     /**
@@ -41,6 +49,11 @@ class ProvidentFundController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+        'employee' => 'required',
+        'user_rate' => 'required|numeric|max:20',
+        'employer_rate' => 'required|numeric|max:20',
+    ]);
         $data = new ProvidentFund();
         $data->employer_id = Auth::guard('employer')->id();
         $data->user_id = $request->employee;
@@ -53,7 +66,7 @@ class ProvidentFundController extends Controller
             notify()->error(__('Already exists'));
         }else{
             $data->save();
-            notify()->success(__('PF Create.'));
+            notify()->success(__('FNPF Create.'));
         }
          
         return redirect()->back();
@@ -90,7 +103,10 @@ class ProvidentFundController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $validated = $request->validate([
+            'userrate' => 'required|numeric|max:20',
+            'employerrate' => 'required|numeric|max:20',
+        ]);
         $data = ProvidentFund::find($id);
         $data->user_rate = $request->userrate;
         $data->employer_rate = $request->employerrate;

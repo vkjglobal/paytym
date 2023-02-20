@@ -801,6 +801,80 @@
                 </a>
             </li>
 
+            <!-- bonus -->
+
+            <li class="nav-item  {{ request()->is('employer/bonus*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#bonus" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Bonus</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/bonus*') ? 'show' : '' }}" id="bonus">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.bonus.create') }}"
+                                class="nav-link {{ request()->is('employer/bonus/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.bonus.index') }}"
+                                class="nav-link {{ request()->is('employer/bonus') ? 'active' : '' }}">
+                                List 
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+
+            <!--bonus -->
+
+            <!-- chat -->
+
+            <li class="nav-item  {{ request()->is('employer/groupchat*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#chat" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Chat</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/groupchat*') ? 'show' : '' }}" id="chat">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.groupchat.create') }}"
+                                class="nav-link {{ request()->is('employer/groupchat/create') ? 'active' : '' }}">
+                                Create Group
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.groupchat.index') }}"
+                                class="nav-link {{ request()->is('employer/groupchat') ? 'active' : '' }}">
+                                List Group
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.groupmember.create') }}"
+                                class="nav-link {{ request()->is('employer/groupmember/create') ? 'active' : '' }}">
+                                Add Members
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.groupmember.index') }}"
+                                class="nav-link {{ request()->is('employer/groupmember') ? 'active' : '' }}">
+                                List Members
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+
+            <!--chat -->
+
             {{-- <!-- Billing -->
             <li class="nav-item {{ request()->is('employer/billing*') ? 'active' : '' }}">
                 <a href="{{ route('employer.commission.index') }}" class="nav-link">
@@ -809,7 +883,36 @@
                 </a>
             </li> --}}
 
+            <!-- payment -->
 
+            <li class="nav-item  {{ request()->is('employer/billing*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#payment" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Payment</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/billing*') ? 'show' : '' }}" id="payment">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.billing.plan') }}"
+                                class="nav-link {{ request()->is('employer/billing/plan') ? 'active' : '' }}">
+                                Plans
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <a href="{{ route('employer.bonus.index') }}"
+                                class="nav-link {{ request()->is('employer/bonus') ? 'active' : '' }}">
+                                List 
+                            </a>
+                        </li> --}}
+                        
+                    </ul>
+                </div>
+            </li>
+
+            <!--payment -->
 
 
 

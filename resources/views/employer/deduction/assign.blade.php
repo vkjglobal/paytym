@@ -75,7 +75,9 @@
                                 @foreach ($assign_deductions as $assign_deduction)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $assign_deduction->employee->first_name }}</td>
+                                        <td>@isset($assign_deduction->employee->first_name)
+                                            {{ $assign_deduction->employee->first_name }}
+                                        @endisset</td>
                                         <td>{{ $assign_deduction->deduction->name }}</td>
                                         <td>{{ $assign_deduction->rate }}</td>
                                         <td>

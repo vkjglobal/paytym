@@ -1,7 +1,7 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -48,7 +48,7 @@
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Update PF</h5>
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Update FNPF</h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
@@ -59,12 +59,16 @@
                                                                     @method('PUT')
                                                                     <div class="modal-body">
                                                                         <div class="form-group">
-                                                                            <label for="reply_message">User_rate</label>
-                                                                            <input type="number" class="form-control" name="userrate"  required>
+                                                                            <label for="reply_message">User Rate</label>
+                                                                            <input type="number" class="form-control @if ($errors->has('userrate')) is-invalid @endif" 
+                                                                            value="{{old('userrate', $employee->user_rate)}}" name="userrate"  required>
+                                                                            <div class="invalid-feedback">{{ $errors->first('userrate') }}</div>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="reply_message">Employer_rate</label>
-                                                                            <input type="number" class="form-control" name="employerrate"  required>
+                                                                            <label for="reply_message">Employer Rate</label>
+                                                                            <input type="number" class="form-control @if ($errors->has('employerrate')) is-invalid @endif" 
+                                                                            value="{{old('userrate', $employee->employer_rate)}}" name="employerrate"  required>
+                                                                            <div class="invalid-feedback">{{ $errors->first('employerrate') }}</div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="modal-footer">
