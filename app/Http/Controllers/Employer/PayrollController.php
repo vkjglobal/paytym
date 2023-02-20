@@ -128,10 +128,7 @@ class PayrollController extends Controller
     }
 
     public function generate_hourly_payroll($employee,$payDate){
-        $payDate = Carbon::parse($payDate)->toDateString();
-        // dd($payDate);
-           
-           
+        dd($employee->pay_date);
             if($employee->last_payed_date != Null){
                 $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$employee->last_payed_date ,$payDate])->get();
                 $attendance_dup=$attendances;
@@ -157,7 +154,7 @@ class PayrollController extends Controller
             }
 
             //Extra hours at base rate and over time rate calculation
-
+            dd($totalHours);
             $overtimerate = $employee->business->payrollsetting->over_time_rate;
             if($totalHours > $employee->total_hours_per_week){
                 $extraHours = $totalHours - ($employee->total_hours_per_week);
@@ -208,18 +205,28 @@ class PayrollController extends Controller
             $totalEarnings = $base_pay + $total_pay + $doubleTimeRate ;
            
             $totalEarnings += $totalAllowance - $totalDeduction;
-            dd($totalEarnings);
+            
+            //Payroll Entry
+            $payroll = new Payroll();
+            $payroll->paid_salary = $totalEarnings;
+            $payroll->fund_deduction = $totalDeduction;
+            $payroll->user_id = $employee->id;
+            $payroll->save();
         }
         
 
     
     }
 
-    public function generate_fixed_payroll($employee,$paydate,$from_date){
-        $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$from_date,$payDate])->get();
+    // public function generate_fixed_payroll($employee,$paydate,$from_date){
+    //     $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$from_date,$payDate])->get();
+    //     foreach($attandences as $attendance){
+
+
+    //     }
         
         
 
-    }
+    // }
 }
 

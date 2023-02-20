@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use App\Models\User;
+use Carbon\Carbon;  
+use App\Http\Controllers\Employer\PayrollController;
 class HourlyPayroll extends Command
 {
     /**
@@ -27,7 +29,7 @@ class HourlyPayroll extends Command
      */
     public function handle()
     {
-        $employees = User::where('pay_type','1')->where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $employees = User::where('salary_type','1')->get();
         $today = Carbon::today()->toDateString();
         foreach($employees as $employee){
             $payrollcontroller = new PayrollController;
@@ -38,14 +40,14 @@ class HourlyPayroll extends Command
                 }
             }
             else if($employee->last_payed_date != Null){
-                $employee->pay_date = $employee->last_payed_date->copy()->addWeek();
+                $employee->pay_date = Carbon::parse($employee->last_payed_date)->copy()->addWeek();
                 $employee->save();
                 if($employee->pay_date == $today){
                     $payDate = $employee->pay_date;
                     $payrollcontroller->generate_hourly_payroll($employee,$payDate);
                 }
             }else{
-                $employee->pay_date = $employee->employment_start_date->copy()->addWeek();
+                $employee->pay_date = Carbon::parse($employee->employment_start_date)->copy()->addWeek();
                 $employee->save();
                 if($employee->pay_date == $today){
                     $payDate = $employee->pay_date;

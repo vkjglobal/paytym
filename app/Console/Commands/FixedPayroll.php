@@ -30,7 +30,7 @@ class FixedPayroll extends Command
      */
     public function handle()
     {
-        $employees = User::where('pay_type','0')->where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $employees = User::where('salary_type','0')->where('employer_id', Auth::guard('employer')->user()->id)->get();
         $today = Carbon::today()->toDateString();
         foreach($employees as $employee){
             $payrollcontroller = new PayrollController;
