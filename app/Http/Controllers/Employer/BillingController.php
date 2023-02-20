@@ -55,7 +55,7 @@ class BillingController extends Controller
         
         // return ($nar_merId);
 
-        return Http::asForm()->post('https://uat2.yalamanchili.in/MPI_v1/sandboxtest', [
+        $response = Http::asForm()->post('https://uat2.yalamanchili.in/MPI_v1/sandboxtest', [
             'nar_msgType' => $nar_msgType,
             'nar_merTxnTime' => $nar_merTxnTime,
             'nar_merBankCode' => $nar_merBankCode,
@@ -74,6 +74,13 @@ class BillingController extends Controller
             'nar_checkSum' => $signed_string,
             // 'Referral_Url' => $request->Referral_Url,
         ]);
+
+        if ($response->successful()){
+            return view('employer.payment.success');
+        }
+        else{
+            return view('employer.payment.failed');
+        }
     }
 
     public function checkSum($data){
