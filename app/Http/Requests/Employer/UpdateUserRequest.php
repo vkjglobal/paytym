@@ -41,7 +41,21 @@ class UpdateUserRequest extends FormRequest
             'city' => 'required',
             'account_number' => 'required', 
             'image' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
-            'password' => 'required'
+            'password' => 'nullable',
+
+            'business' => 'required',
+            'department' => 'required',
+            'bank_branch' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'payperiod' => 'nullable|numeric',
+            'fixed-rate' => 'nullable|numeric',
+            'hourly-rate' => 'nullable|numeric',
+            'employeetype' => 'required',
+            'work_days_per_week' => 'nullable|numeric',
+            'total_hours_per_week' => 'nullable|numeric',
+            'extra_hours_at_base_rate' => 'nullable|numeric',
+            'salary_type' => 'required',
         ];
     }
 }

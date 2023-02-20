@@ -51,6 +51,8 @@ class CountryController extends Controller
         $country->name = $request['name'];
         $country->currency = $request['currency'];
         $country->tax = $request['tax'];
+        $country->srt_tax = $request['srt'];
+        $country->ecal_tax = $request['ecal'];
         $country->fnpf = $request['fnpf'];
         $res = $country->save();
         if($res){
@@ -104,6 +106,8 @@ class CountryController extends Controller
         $country->name = $request['name'];
         $country->currency = $request['currency'];
         $country->tax = $request['tax'];
+        $country->srt_tax = $request['srt'];
+        $country->ecal_tax = $request['ecal'];
         $country->fnpf = $request['fnpf'];
         $res = $country->save();
         if($res){

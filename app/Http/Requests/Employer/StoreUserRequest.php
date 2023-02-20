@@ -53,8 +53,8 @@ class StoreUserRequest extends FormRequest
             'hourly-rate' => 'nullable|numeric',
             'employeetype' => 'required',
             'work_days_per_week' => 'nullable|numeric',
-            'Total_hours_per_week' => 'nullable|numeric',
-            'Extra_hours_at_base_rate' => 'nullable|numeric',
+            'total_hours_per_week' => 'nullable|numeric',
+            'extra_hours_at_base_rate' => 'nullable|numeric',
             'salary_type' => 'required',
         ];
     }
