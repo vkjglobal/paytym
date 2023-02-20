@@ -13,10 +13,14 @@ class CommissionController extends Controller
 
     public function index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.project.index')],
+            [(__('Commission')), null],
+        ];
         $employer_id = Auth::guard('employer')->id();
         $users = User::where('employer_id', $employer_id)->get();
         $commissions = Commission::where('employer_id', $employer_id)->get();
-        return view('employer.commission.index', compact('commissions', 'users'));
+        return view('employer.commission.index', compact('breadcrumbs','commissions', 'users'));
     }
 
     /**
@@ -37,9 +41,9 @@ class CommissionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'employee_id' => 'required',
-            'rate' => 'required',
+            'rate' => 'required|numeric',
         ]);
         
         $employee = Commission::where('user_id', $request->employee_id)->first();
@@ -97,7 +101,10 @@ class CommissionController extends Controller
     {
         // $employee = Commission::where('user_id', $request->employee_id)->first();
         // $employer_id = Auth::guard('employer')->id();
-        
+        $validated = $request->validate([   
+            'rate' => 'required|numeric',
+        ]);
+
         $data = Commission::find($id);
         $data->rate = $request->rate;
 

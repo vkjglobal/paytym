@@ -46,6 +46,12 @@ class BonusController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'type' => 'required',
+            'type_id' => 'required',
+            'rate_type' => 'required',
+            'rate' => 'required|numeric',
+        ]);
         $data = new Bonus();
         $data->employer_id = Auth::guard('employer')->id();
         $data->type = $request->type;
@@ -88,7 +94,19 @@ class BonusController extends Controller
         $departments = Department::all(); 
         $branches = Branch::all(); 
         $businesses = EmployerBusiness::all(); 
-        return view('employer.bonus.edit', compact('employees','departments','branches','businesses','bonus'));
+
+        if($bonus->type == 0){
+            return view('employer.bonus.edit1', compact('employees','departments','branches','businesses','bonus'));
+        }elseif($bonus->type == 1){
+            return view('employer.bonus.edit2', compact('employees','departments','branches','businesses','bonus'));
+        }elseif($bonus->type == 2){
+            return view('employer.bonus.edit3', compact('employees','departments','branches','businesses','bonus'));
+        }elseif($bonus->type == 3){
+            return view('employer.bonus.edit4', compact('employees','departments','branches','businesses','bonus'));
+        }else{
+            return view('employer.bonus.edit', compact('employees','departments','branches','businesses','bonus'));
+        }
+        // return view('employer.bonus.edit', compact('employees','departments','branches','businesses','bonus'));
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -39,9 +39,9 @@
                                                     <div class="invalid-feedback">{{ $errors->first('employee_id') }}</div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="reply_message">Commission Rate</label>
+                                                    <label for="reply_message">Commission Amount</label>
                                                     <input type="number" class="form-control" name="rate"  required>
-                                                    <div class="invalid-feedback">{{ $errors->first('employee_id') }}</div>
+                                                    <div class="invalid-feedback">{{ $errors->first('rate') }}</div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -60,7 +60,7 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Name</th>
-                                    <th>Commission Rate (%)</th>
+                                    <th>Commission Amount</th>
 
                                     <th>Actions</th>
                                 </tr>
@@ -80,7 +80,7 @@
                                                         <i data-feather="edit" >ADD</i>
                                                 </button>
 
-                                                <!-- Send Reply Modal -->
+                                                <!-- Edit Modal -->
                                                         <div class="modal fade" id="commissionupdate{{$commission->id}}" tabindex="-1" role="dialog"
                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
@@ -108,9 +108,10 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="reply_message">Commission Rate</label>
-                                                                            <input type="number" class="form-control" name="rate"  
+                                                                            <input type="number" class="form-control @if ($errors->has('user_rate')) is-invalid @endif" name="rate"  
                                                                             value="{{old('rate', $commission->rate)}}" required>
                                                                         </div>
+                                                                        <div class="invalid-feedback">{{ $errors->first('rate') }}</div>                                
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-secondary"
@@ -159,26 +160,5 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    {{-- <script>
-        $(function() {
-            $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var branch_id = $(this).data('id');
-                console.log(branch_id);
 
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: '{{ route('employer.branch.change.status') }}',
-                    data: {
-                        'status': status,
-                        'branch_id': branch_id
-                    },
-                    success: function(data) {
-                        console.log(data.success)
-                    }
-                });
-            })
-        })
-    </script> --}}
 @endpush

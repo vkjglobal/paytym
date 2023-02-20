@@ -8,20 +8,21 @@ use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Crypt;
 
 class BillingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // return('ORD_'.now()->format('YmdHis'));
-        return view('employer.billing.index');
+        $plan = Subscription::find($request->plan_id);
+        return view('employer.billing.index', compact('plan'));
     }
     
     public function plan()
     {
         $subscription = Subscription::where('status', '1')->get();
         $pricing = Cms::where('cms_type','like','%pricing%') -> first();
-        return view('employer.billing.plan', compact('subscription', 'pricing'));
+        return view('employer.payment.plan', compact('subscription', 'pricing'));
     }
     
     public function pay(Request $request)
@@ -46,6 +47,11 @@ class BillingController extends Controller
         $nar_paymentDesc.'|'.$nar_remitterEmail.'|'.$nar_remitterMobile.'|'.$nar_txnAmount.'|'.$nar_txnCurrency.'|'.
         $nar_version.'|'.$nar_returnUrl;
 
+        $signed_string = $this->checkSum($nar_checkSum);
+
+        // $signed_string=Crypt::encryptString($nar_checkSum);
+
+        // dd($signed_string);
         
         // return ($nar_merId);
 
@@ -54,7 +60,7 @@ class BillingController extends Controller
             'nar_merTxnTime' => $nar_merTxnTime,
             'nar_merBankCode' => $nar_merBankCode,
             'nar_orderNo' => $nar_orderNo,
-            'nar_merId' => $nar_merId,
+            // 'nar_merId' => $nar_merId,
             'nar_txnCurrency' => $nar_txnCurrency,
             'nar_txnAmount' => $nar_txnAmount,
             'nar_remitterEmail' => $nar_remitterEmail,
@@ -65,12 +71,29 @@ class BillingController extends Controller
             'nar_mcccode' => $nar_mcccode,
             'nar_returnUrl' => $nar_returnUrl,
             'nar_Secure' => $nar_Secure,
-            'nar_checkSum' => $nar_checkSum,
+            'nar_checkSum' => $signed_string,
             // 'Referral_Url' => $request->Referral_Url,
         ]);
     }
 
-    public function checkSum(){
-        $nar_merTxnTime = now()->format('YmdHis');
+    public function checkSum($data){
+        // // Generate a new private key
+        // $privateKey = openssl_pkey_new();
+        // dd($privateKey);
+        // // Extract the public key from the private key
+        // $details = openssl_pkey_get_details($privateKey);
+        // $publicKey = $details['key'];
+
+        // // Encrypt the data using the public key
+        // openssl_public_encrypt($data, $encryptedData, $publicKey);
+
+        // // Base64 encode the encrypted data
+        // $base64Data = base64_encode($encryptedData);
+
+        // return ($base64Data);
+
+        return Http::post('https://uat2.yalamanchili.in/pgsim/GenCksum', [
+            'nar_checkSum' => $data,
+        ]);
     }
 }

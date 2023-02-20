@@ -24,10 +24,10 @@
 									</thead>
 									<tbody>
 										<tr>
-											<th>Small</th>
-											<th>6 to 40	 people</th>
+											<th>{{$plan->plan}}</th>
+											<th>{{$plan->range_from}} to {{$plan->range_to}} people</th>
 											{{-- <th>Pending</th>  --}}
-											<th>$30</th>
+											<th>${{$plan->rate_per_month}}</th>
 										</tr>
 									</tbody>
 								</table>	
@@ -36,45 +36,48 @@
 						<form
 								name="myform" action="{{route('employer.billing.pay')}}" method="POST" class="m-4">
 								@csrf
-								<input type="hidden" id="nar_msgType" name="nar_msgType" value="AR" class="m-2">
-								<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="20200928231710" class="m-2">
-								<input type="hidden" id="nar_merBankCode" name="nar_merBankCode" value="01" class="m-2">
-								<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="ORD_20200928231710" class="m-2"/>
-								<input type="hidden" id="nar_merId" name="nar_merId" value="840000008400001" class="m-2"/> 
-								<input type="hidden" id="nar_txnCurrency" name="nar_txnCurrency" value="242" class="m-2"/>
-								<input type="hidden" id="nar_txnAmount" name="nar_txnAmount" value="30.00" class="m-2"/>
-								<input type="hidden" id="nar_remitterEmail" name="nar_remitterEmail"
-								value="paytym@gmail.com" class="m-2"/>
-								<input type="hidden" id="nar_remitterMobile" name="nar_remitterMobile" value="6798112040"class="m-2"/>
-								<input type="hidden" id="nar_cardType" name="nar_cardType" value="EX"class="m-2"/> 
-								<input type="hidden"
-								id="nar_checkSum" name="nar_checkSum"
-								value="2151CF6C22A3D0E035FEFAD70B52D77DB23F1ECDB4B45D8FB701F3DDE257664A3C232E09AB
-								CF12E5D2D0C7A760AA63580DC9E68F61669DD10B53C3C662711D7682F5FFC4A9E0C0A9BC9121CBC
-								9913200BB2F46FC1247D66B01F2E1AA76BE35CD5FB965AE7E998D334A0544FA1480FF18AA78C1D6E
-								D2390CA3851AAB5DC75A36C6019588AF6F5948D446BAAD67FC904E3195D6B6F727A143C07A8995BF
-								73DF1D9F977240B93BE6DF6AF5F74475EC7F9BCE54204A4AB47B2E30377F6F560BA0513925D84BCB
-								00183FD6137E560B1732565A811B66690EEC2A461567239EB28A50AB8AC61255E0FAAF8454F578A0B
-								DD5B49EDB757CAC69A14BC983DF67EAB118F07"class="m-2"/>
-								<input type="hidden" id="nar_paymentDesc" name="nar_paymentDesc" value="TestPayment"class="m-2"/>
-								<input type="hidden" id="nar_version" name="nar_version" value="1.0"class="m-2"/>
-								<input type="hidden" id="nar_mcccode" name="nar_mcccode" value="4112"class="m-2"/>
-								<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="http://127.0.0.1:8000/pay"class="m-2"/>
-								<input type="hidden" id="nar_Secure" name="nar_Secure" value="IPGSECURE"class="m-2"/>
-								<div class="d-grid gap-2 col-4 mx-auto">
-									<input type="submit" value="Pay" class="btn btn-lg btn-success m-3 ">
-								</div>	
-								{{-- <input type="hidden" id="Referral_Url" name="Referral_Url" value="	https://uat2.yalamanchili.in/pgsim/sandtest.html" class="m-2"/>
-								<input type="hidden" id="req_source_string" name="req_source_string" value="" class="m-2"/>
-								<input type="hidden" id="req_status" name="req_status" value="" class="m-2"/>
-								<input type="hidden" id="Referral_Url_validation" name="Referral_Url_validation" value="" class="m-2"/>
-								<input type="hidden" id="checksum_valid" name="nar_returnUrl" value="" class="m-2"/> --}}
+								<input type="hidden" id="nar_msgType" name="nar_msgType" value="AR" />
+		<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="" />
+		<input type="hidden" id="nar_merBankCode" name="nar_merBankCode" value="01" />
+		<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="" />
+		<!-- <input type="hidden" id="nar_merId" name="nar_merId" value="842700008427001" />	-->
+		<input type="hidden" id="nar_merId" name="nar_merId" value="853000008530001" />
+		<input type="hidden" id="nar_txnCurrency" name="nar_txnCurrency" value="242" />
+		<input type="hidden" id="nar_txnAmount" name="nar_txnAmount" value="20.00" />
+		<input type="hidden" id="nar_AcquirerPaymentReferenceNumber" name="nar_AcquirerPaymentReferenceNumber" value="99YYYXXXXXXXXXXX" />
+		<input type="hidden" id="nar_PrivateData1" name="nar_PrivateData1" value="" />
+		<input type="hidden" id="nar_PrivateData2" name="nar_PrivateData2" value="" />
+		<input type="hidden" id="nar_PrivateData3" name="nar_PrivateData3" value="" />
+		<input type="hidden" id="nar_remitterEmail" name="nar_remitterEmail" value="anand.m@yalamanchili.in" />
+		<input type="hidden" id="nar_remitterMobile" name="nar_remitterMobile" value="8879873728" />
+		<input type="hidden" id="nar_cardType" name="nar_cardType" value="EX" />
+		<input type="hidden" id="nar_checkSum" name="nar_checkSum" value="" />
+		<input type="hidden" id="nar_paymentDesc" name="nar_paymentDesc" value="Merchant Simulator Test Txn" />
+		<input type="hidden" id="nar_version" name="nar_version" value="1.0" />
+		<input type="hidden" id="nar_merflag" name="nar_merflag" value="S" />
+		<input type="hidden" id="nar_mcccode" name="nar_mcccode" value="4112" />
+                <input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="https://uat2.yalamanchili.in/pgsim/testout.jsp" />
+		<input type="hidden" id="Referral_Url" name="Referral_Url" value="" />
+<input type="hidden" id="req_source_string" name="req_source_string" value="" />
+<input type="hidden" id="req_status" name="req_status" value="" />
+<input type="hidden" id="Referral_Url_validation" name="Referral_Url_validation" value="" />
+<input type="hidden" id="checksum_valid" name="nar_returnUrl" value="" />
+
+	<div class="row pt-3 pb-5 mb-2">
+        
+        <div class="col-sm-6 mb-3">
+            <button id="btnpage" class="btn btn-style-1 btn-primary btn-block" >
+            <i class="fe-icon-credit-card"></i>&nbsp;Checkout</button>
+          </div>
+    </div>
 
 
+    </div>
+							
 							</form>
 								
 					</div>
-
+					
                 </div>
             </div>
         </div>

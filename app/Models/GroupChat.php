@@ -10,4 +10,10 @@ class GroupChat extends Model
     public $table = "group_chat";
     public $timestamps = false;
     use HasFactory;
+
+    public function employee()
+    {
+        return $this->belongsTo(User::class, 'admin_id');
+    }
 }
+

@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h6 class="card-title">Bonus</h6>
                     <div class="table-responsive">
-                        <a class="btn btn-success" href="{{route('employer.bonus.create')}}">ADD Bonus</a>
+                        {{-- <a class="btn btn-success" href="{{route('employer.bonus.create')}}">ADD Bonus</a> --}}
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
@@ -39,7 +39,7 @@
                                         @endif
 
                                         @if($bonus->type == 0)
-                                            <td>{{ $bonus->employer->name }}</td>
+                                            <td>{{ $bonus->employee->first_name }}</td>
                                         @elseif($bonus->type == 1)
                                             <td>{{ $bonus->department->dep_name }}</td>
                                         @elseif($bonus->type == 2)

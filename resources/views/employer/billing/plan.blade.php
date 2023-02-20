@@ -24,21 +24,24 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                        
                     <h6 class="card-title">Plans</h6>
-                    
-                    <div class="col-md-4">
-                        <div class="card-price-blue white-bg rounded border mt-3">
-                            <div class="p-lg-4 p-3" >
-                                <h3 class="text-center fw-600">Small</h3>
+                    <div class="row ">
+                        
+                    <div class="col ">
+                        @foreach ($subscriptions as $subscription)
+                        <div class="card-price-blue white-bg rounded border mt-3 ">
+                            <div class="p-lg-4 p-3 " >
+                                <h3 class="text-center fw-600">{{$subscription->plan}}</h3>
                                 <hr> 
                                 <h4 class="text-center d-flex flex-column align-items-center">
-                                    <strong>$<span>39 </span></strong>
+                                    <strong>$<span>{{$subscription->rate_per_month}}</span></strong>
                                     <span class="small-text">Per Month</span>
                                 </h4>
                                 <hr>
                                 <div class="card-body">
                                     <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
-                                        <strong>6 to 40</strong>
+                                        <strong>{{$subscription->range_from}} to {{$subscription->range_to}}</strong>
                                         <span>employees</span>
                                         {{-- <span>Free</span> --}}
                                     </div>
@@ -51,8 +54,67 @@
                                     </form>
                                 </div>
                             </div>
+                            @endforeach
+                        </div>
+                        
+                    </div>
+                    
+                    {{-- <div class="col-md-4">
+                        <div class="card-price-blue white-bg rounded border mt-3">
+                            <div class="p-lg-4 p-3" >
+                                <h3 class="text-center fw-600">Medium</h3>
+                                <hr> 
+                                <h4 class="text-center d-flex flex-column align-items-center">
+                                    <strong>$<span>59 </span></strong>
+                                    <span class="small-text">Per Month</span>
+                                </h4>
+                                <hr>
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                        <strong>41 to 100</strong>
+                                        <span>employees</span>
+                                        
+                                    </div>
+                                    <form action="{{route('employer.billing')}}" method="get">
+                                        <div class="btn-started text-center">
+                                            <button class="btn" type="submit">
+                                                Get Started
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="card-price-blue white-bg rounded border mt-3">
+                            <div class="p-lg-4 p-3" >
+                                <h3 class="text-center fw-600">Enterprise</h3>
+                                <hr> 
+                                <h4 class="text-center d-flex flex-column align-items-center">
+                                    <strong>$<span>99 </span></strong>
+                                    <span class="small-text">Per Month</span>
+                                </h4>
+                                <hr>
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center text-center justify-content-center mb-md-4 mb-1">
+                                        <strong>101 to 200</strong>
+                                        <span>employees</span>
+                                        
+                                    </div>
+                                    <form action="{{route('employer.billing')}}" method="get">
+                                        <div class="btn-started text-center">
+                                            <button class="btn" type="submit">
+                                                Get Started
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div> --}}
                     
                     {{-- <div>
                         <!-- pricing-plan section -->
