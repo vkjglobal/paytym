@@ -13,7 +13,8 @@ class HomeController extends Controller
 {
     public function show(){
         $subscription = Subscription::where('status', '1')->get();
-        $banner = Banner::get();
+        $banner = Banner::where('status', '1')->get();
+        //dd($banner);
         $cms = Cms::get();
        
     $about = Cms::where('cms_type','like','%about%') -> first();

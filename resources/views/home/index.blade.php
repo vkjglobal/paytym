@@ -87,16 +87,17 @@
 
 
     <!-- Banner Section -->
+   
     <section class="header-section hero-section" id="home">
         <div class="container">
             <div class="row ">
                 <div class="col-md-6 text-white  " data-aos="fade-up"    data-aos-duration="2000">
-                    <div class="text">
+                    <div class="text"> 
                         <!-- <h1 class="first-text">Creative <br>Solutions to</h1>
                         <h1 class="sub-text"> Improve your <br>Business.</h1> -->
                         <div class="banner-txt">
                             Are you looking for an advanced and
-                            innovative <strong class="fw-600">HR management and
+                            innovative <strong class="fw-600"> HR management and
                             Payroll software system?</strong>
                             If YES, then we have the perfect
                             solution for you!
@@ -111,23 +112,9 @@
          </div>
         </div>
     </section>
-
+    
     <!-- Banner End -->
-   <!--  <section id="home">
-    <div class="container" data-aos="fade-down"    data-aos-duration="2000">
-            <div class="row justify-content-center">
-                <div class="col-lg-7">
-                    <div class="owl-carousel banner-carousel owl-theme owl-loaded">
-                        <div class="owl-stage-outer">
-                            <div class="owl-stage">
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            
-                                    <img src="{{ asset('storage/' . $banner[0]->image) }}" alt="" srcset="">
-
-</div></div></div></div></div></div></div></div></div>
-</section> -->
+   
 
     <!-- about-section -->
     <section class="about-section" id="about">

@@ -39,6 +39,7 @@ class HomeController extends Controller
         $departments= Department::where('employer_id', Auth::guard('employer')->user()->id)->count();
         $today = Carbon::today();
         $formatted_date = $today->format('Y-m-d');
+       
         $checked_in = Attendance::whereNotNull('check_in')->where('date',$formatted_date)->count();
         $checked_out = Attendance::whereNotNull('check_out')->where('date',$formatted_date)->count();
         $on_annual_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','annual')->count();
@@ -46,13 +47,17 @@ class HomeController extends Controller
         //dd($on_sick_leave);
         $absentees = $user - $checked_in;
         $totaldayoffs = $user - $checked_in;
+        
         $loan= Deduction::where('employer_id', Auth::guard('employer')->user()->id)->where('name','loan')->get();
         $loanid= $loan->pluck('id');
+        if(isset($totalloans))
         $totalloans = AssignDeduction::where('deduction_id',$loanid)->count();
+        else
+        $totalloans = 0;
         $lwop = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','LWOP')->count();
-
+        $mia = 0;
         //dd($checked_in);
         return view('employer.home',compact('employer','annualLeaves','user','branches','departments','checked_in',
-                                            'checked_out','on_annual_leave','on_sick_leave','absentees','totaldayoffs','lwop','totalloans'));
+                                            'checked_out','on_annual_leave','on_sick_leave','absentees','totaldayoffs','lwop','totalloans','mia'));
     }
 }

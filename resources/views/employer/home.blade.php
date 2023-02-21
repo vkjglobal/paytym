@@ -242,7 +242,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">{{$on_sick_leave}}</h3>
+                                    <h3 class="mb-2">{{$mia}}</h3>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
                                     <div id="" class="mt-md-3 mt-xl-0"></div>
