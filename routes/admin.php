@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\SupportTicketController;
+use App\Http\Controllers\TwilioSMSController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
@@ -76,7 +77,7 @@ Route::middleware('admin.auth')->group(function () {
     Route::resource('banner', BannerController::class)->except(['show']);
 
     // Contacts
-    
+
     Route::get('contact', [ContactController::class, 'index'])->name('contact');
     Route::post('contact', [ContactController::class, 'sendReply']);
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
@@ -87,7 +88,10 @@ Route::middleware('admin.auth')->group(function () {
     //Route::post('supportticket', [SupportTicketController::class, 'sendReply']);
     Route::delete('supportticket/{id}', [SupportTicketController::class, 'destroy'])->name('supportticket.destroy');
 
-     //Country
-     Route::resource('country', CountryController::class)->except(['show']);
-     Route::get('country-change-status', [CountryController::class, 'changeStatus'])->name('country.change.status');
+    //Country
+    Route::resource('country', CountryController::class)->except(['show']);
+    Route::get('country-change-status', [CountryController::class, 'changeStatus'])->name('country.change.status');
+
+    //Twilio Route Robin 22-02-23
+    Route::get('sendSMS', [TwilioSMSController::class, 'index']);
 });
