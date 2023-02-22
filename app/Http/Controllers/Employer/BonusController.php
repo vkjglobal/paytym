@@ -35,7 +35,7 @@ class BonusController extends Controller
      */
     public function create()
     {
-        $employees = User::all(); 
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
         $departments = Department::all(); 
         $branches = Branch::all(); 
         $businesses = EmployerBusiness::all(); 
@@ -94,7 +94,7 @@ class BonusController extends Controller
     {
         $bonus = Bonus::find($id);
         // dd($bonus);
-        $employees = User::all(); 
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->get(); 
         $departments = Department::all(); 
         $branches = Branch::all(); 
         $businesses = EmployerBusiness::all(); 
