@@ -8,7 +8,7 @@
     <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">Add Provident fund</h6>
+                <h6 class="card-title">Create Group Chat</h6>
                 <form method="POST" action="{{ route('employer.groupchat.store') }}" enctype="multipart/form-data">
                     @csrf
                     
@@ -19,7 +19,7 @@
                                 <label class="control-label">Group Name<span class="text-danger">*</span></label>
                                 <input type="text"
                                     class="form-control @if ($errors->has('group_name]')) is-invalid @endif"
-                                    name="group_name" value="" placeholder="Enter Rate" >
+                                    name="group_name" value="" placeholder="Enter name" >
                                 <div class="invalid-feedback">{{ $errors->first('group_name') }}</div>
                             </div>
                         </div><!-- Col --> 

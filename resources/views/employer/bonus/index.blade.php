@@ -1,7 +1,7 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -9,7 +9,6 @@
                 <div class="card-body">
                     <h6 class="card-title">Bonus</h6>
                     <div class="table-responsive">
-                        {{-- <a class="btn btn-success" href="{{route('employer.bonus.create')}}">ADD Bonus</a> --}}
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
@@ -102,7 +101,7 @@
     </div>
 
     @endsection
-    @push('custom_css')
+@push('custom_css')
     <link rel="stylesheet" href="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 @endpush
@@ -111,26 +110,4 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    {{-- <script>
-        $(function() {
-            $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var branch_id = $(this).data('id');
-                console.log(branch_id);
-
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: '{{ route('employer.branch.change.status') }}',
-                    data: {
-                        'status': status,
-                        'branch_id': branch_id
-                    },
-                    success: function(data) {
-                        console.log(data.success)
-                    }
-                });
-            })
-        })
-    </script> --}}
 @endpush

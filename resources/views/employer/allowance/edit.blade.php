@@ -6,7 +6,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title"> Create Allowance</h6>
+                    <h6 class="card-title"> Edit Allowance</h6>
                     <form method="POST" action="{{ route('employer.allowance.update',$allowance->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -25,7 +25,7 @@
                            
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label">Rate <span class="text-danger">*</span></label>
+                                    <label class="control-label">Amount <span class="text-danger">*</span></label>
                                     <input type="number"
                                         class="form-control @if ($errors->has('rate')) is-invalid @endif"
                                         name="rate" value="{{ old('rate',$allowance->rate) }}" placeholder="Enter Business Name" required>

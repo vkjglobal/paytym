@@ -19,7 +19,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add Commission</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Add Deduction</h5>
                                             <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -47,7 +47,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="reply_message">Deduction Rate</label>
+                                                    <label for="reply_message">Deduction Amount</label>
                                                     <input type="number" class="form-control" name="rate"  required>
                                                 </div>
                                             </div>
@@ -68,7 +68,7 @@
                                     <th>Sl #</th>
                                     <th>Name</th>   
                                     <th>Deduction Type</th>
-                                    <th>Rate</th>
+                                    <th>Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,7 +94,7 @@
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Update assign_deduction</h5>
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Update Deduction</h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
@@ -125,7 +125,7 @@
                                                                             </select>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="reply_message">assign_deduction Rate</label>
+                                                                            <label for="reply_message">Deduction Amount</label>
                                                                             <input type="number" class="form-control" name="rate"  
                                                                             value="{{old('rate', $assign_deduction->rate)}}" required>
                                                                         </div>

@@ -60,7 +60,7 @@ class GroupChatController extends Controller
             }else{
                 $res = $data->save();
                 if($res){
-                    notify()->success(__('FNPF Created.'));
+                    notify()->success(__('Group Created Successfully.'));
                 }else{
                     notify()->error(__('Failed to Create.'));
                 }

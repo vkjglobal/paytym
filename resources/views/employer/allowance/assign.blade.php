@@ -7,7 +7,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title float-left m-2">assign_allowance</h6>
+                    <h6 class="card-title float-left m-2">Assign Allowance</h6>
                         <button name="reject" type="submit" value="" class="btn btn-success m-3 float-right" title="Reject"
                              data-toggle="modal" data-target="#assignallowance">
                                 ADD
@@ -19,7 +19,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add Commission</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Add Allowance</h5>
                                             <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -47,7 +47,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="reply_message">Allowance Rate</label>
+                                                    <label for="reply_message">Allowance Amount</label>
                                                     <input type="number" class="form-control" name="rate"  required>
                                                 </div>
                                             </div>
@@ -68,7 +68,7 @@
                                     <th>Sl #</th>
                                     <th>Name</th>   
                                     <th>Allowance Type</th>
-                                    <th>Rate</th>
+                                    <th>Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,7 +92,7 @@
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Update assign_allowance</h5>
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Update Allowance</h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
@@ -104,7 +104,7 @@
                                                                     <div class="modal-body">
                                                                         <div class="form-group">
                                                                             <label for="reply_message">User</label>
-                                                                            <select name="employee_id" required>
+                                                                            <select name="employee_id" required disabled>
                                                                                 <datalist>
                                                                                 <option disabled="disabled">Select User</option>
                                                                                 @foreach($users as $user)
@@ -125,7 +125,7 @@
                                                                             </select>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="reply_message">assign_allowance Rate</label>
+                                                                            <label for="reply_message">Allowance Amount</label>
                                                                             <input type="number" class="form-control" name="rate"  
                                                                             value="{{old('rate', $assign_allowance->rate)}}" required>
                                                                         </div>

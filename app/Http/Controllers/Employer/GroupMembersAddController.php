@@ -35,7 +35,7 @@ class GroupMembersAddController extends Controller
             [(__('Dashboard')), route('employer.project.index')],
             [(__('Chat')), null],
         ];
-        $groups = GroupChat::all();
+        $groups = GroupChat::where('employer_id', Auth::guard('employer')->id())->get();
         $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
         return view('employer.chat.addmemberscreate', compact('breadcrumbs','employees','groups'));
     }
@@ -64,7 +64,7 @@ class GroupMembersAddController extends Controller
             }else{
                 $res = $data->save();
                 if($res){
-                    notify()->success(__('FNPF Created.'));
+                    notify()->success(__('Group Member Created.'));
                 }else{
                     notify()->error(__('Failed to Create.'));
                 }
@@ -126,7 +126,7 @@ class GroupMembersAddController extends Controller
             }else{
                 $res = $data->save();
                 if($res){
-                    notify()->success(__('Group chat Updated.'));
+                    notify()->success(__('Group member Updated.'));
                 }else{
                     notify()->error(__('Failed to Update.'));
                 }
