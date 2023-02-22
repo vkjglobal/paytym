@@ -16,7 +16,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Type<span class="text-danger">*</span></label>
-                                <select name="type" id="type" class="@if ($errors->has('type')) is-invalid @endif">
+                                <select name="type" id="type" class="@if ($errors->has('type')) is-invalid @endif" disabled>
                                     <option selected="true" disabled="disabled" value="">Select Type</option>
                                     <option {{ old('type', $bonus->type) == '0' ? "selected" : "" }} value="0">Employee</option>
                                     <option {{ old('type', $bonus->type) == "1" ? "selected" : "" }} value="1">Department</option>

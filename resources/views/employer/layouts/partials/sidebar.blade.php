@@ -687,7 +687,7 @@
              <li class="nav-item  {{ request()->is('employer/providentfund*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#providentfund" role="button" aria-expanded="false"
                     aria-controls="requests">
-                    <i class="link-icon" data-feather="users"></i>
+                    <i class="link-icon" data-feather="user-plus"></i>
                     <span class="link-title">FNPF</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -796,7 +796,7 @@
             <!-- Commission -->
             <li class="nav-item {{ request()->is('employer/commission*') ? 'active' : '' }}">
                 <a href="{{ route('employer.commission.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="box"></i>
+                    <i class="link-icon" data-feather="user-plus"></i>
                     <span class="link-title">Commission</span>
                 </a>
             </li>
@@ -806,7 +806,7 @@
             <li class="nav-item  {{ request()->is('employer/bonus*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#bonus" role="button" aria-expanded="false"
                     aria-controls="requests">
-                    <i class="link-icon" data-feather="users"></i>
+                    <i class="link-icon" data-feather="user-plus"></i>
                     <span class="link-title">Bonus</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -888,7 +888,7 @@
             <li class="nav-item  {{ request()->is('employer/billing*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#payment" role="button" aria-expanded="false"
                     aria-controls="requests">
-                    <i class="link-icon" data-feather="users"></i>
+                    <i class="link-icon" data-feather="dollar-sign"></i>
                     <span class="link-title">Payment</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>

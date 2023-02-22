@@ -99,8 +99,17 @@ class BillingController extends Controller
 
         // return ($base64Data);
 
-        return Http::post('https://uat2.yalamanchili.in/pgsim/GenCksum', [
-            'nar_checkSum' => $data,
-        ]);
-    }
+        // return Http::post('https://uat2.yalamanchili.in/pgsim/GenCksum', [
+        //     'nar_checkSum' => $data,
+        // ]);
+            $binary_signature = "";
+            $fp=fopen("private.key","r");
+            $priv_key=fread($fp,8192); fclose($fp);
+            $passphrase="1234"; //this will be the passphrase used to sign the key
+            $res = openssl_get_privatekey($priv_key,$passphrase); 
+            openssl_sign($data, $binary_signature, $res, OPENSSL_ALGO_SHA1); 
+            openssl_free_key($res);
+            echo "Generate CheckSUM: ";
+            var_dump(bin2hex($binary_signature)); //Convert Binary Signature Value to HEX
+            }
 }
