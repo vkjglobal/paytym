@@ -64,4 +64,16 @@ class Employer extends Authenticatable
         return $this->belongsTo(Country::class);
     }
 
+    public function get_active_employees()
+    {
+        $active_employees = User::where('employer_id', $this->id)->where('status', 'like', '1')->count();
+        return $active_employees;
+    }
+
+    public function get_inactive_employees()
+    {
+        $inactive_employees = User::where('employer_id', $this->id)->where('status', 'like', '0')->count();
+        return $inactive_employees;
+    }
+
 }

@@ -192,6 +192,32 @@
                 </a>
             </li>
 
+
+            <!---Reports--->
+            <li class="nav-item {{ request()->is('admin/reports*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#report" role="button" aria-expanded="false" aria-controls="banner">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Country</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/report*') ? 'show' : '' }}" id="report">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.main_report') }}" class="nav-link {{ request()->is('admin/report/main_report') ? 'active' : '' }}">
+                                Employers
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <a href="{{ route('admin.country.create') }}" class="nav-link {{ request()->is('admin/country/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li> --}}
+                    </ul>
+                </div>
+            </li> 
+
+            <!----End Country----->
+
         </ul>
     </div>
 </nav>

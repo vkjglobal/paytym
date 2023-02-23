@@ -47,7 +47,7 @@ class BillingController extends Controller
         $nar_paymentDesc.'|'.$nar_remitterEmail.'|'.$nar_remitterMobile.'|'.$nar_txnAmount.'|'.$nar_txnCurrency.'|'.
         $nar_version.'|'.$nar_returnUrl;
 
-        $signed_string = $this->checkSum($nar_checkSum);
+        // $signed_string = $this->checkSum($nar_checkSum);
 
         // $signed_string=Crypt::encryptString($nar_checkSum);
 
@@ -60,7 +60,7 @@ class BillingController extends Controller
             'nar_merTxnTime' => $nar_merTxnTime,
             'nar_merBankCode' => $nar_merBankCode,
             'nar_orderNo' => $nar_orderNo,
-            // 'nar_merId' => $nar_merId,
+            'nar_merId' => $nar_merId,
             'nar_txnCurrency' => $nar_txnCurrency,
             'nar_txnAmount' => $nar_txnAmount,
             'nar_remitterEmail' => $nar_remitterEmail,
@@ -69,11 +69,12 @@ class BillingController extends Controller
             'nar_paymentDesc' => $nar_paymentDesc,
             'nar_version' => $nar_version,
             'nar_mcccode' => $nar_mcccode,
-            'nar_returnUrl' => $nar_returnUrl,
+            'nar_returnUrl' => 'http://127.0.0.1:8000/employer/billing/plan',
             'nar_Secure' => $nar_Secure,
-            'nar_checkSum' => $signed_string,
+            'nar_checkSum' => $nar_checkSum,
             // 'Referral_Url' => $request->Referral_Url,
         ]);
+        return $response;
 
         if ($response->successful()){
             return view('employer.payment.success');

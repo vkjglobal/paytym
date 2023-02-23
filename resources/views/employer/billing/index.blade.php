@@ -40,15 +40,15 @@
 		<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="" />
 		<input type="hidden" id="nar_merBankCode" name="nar_merBankCode" value="01" />
 		<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="" />
-		<!-- <input type="hidden" id="nar_merId" name="nar_merId" value="842700008427001" />	-->
-		<input type="hidden" id="nar_merId" name="nar_merId" value="853000008530001" />
+		<input type="hidden" id="nar_merId" name="nar_merId" value="842700008427001" />
+		{{-- <input type="hidden" id="nar_merId" name="nar_merId" value="853000008530001" /> --}}
 		<input type="hidden" id="nar_txnCurrency" name="nar_txnCurrency" value="242" />
 		<input type="hidden" id="nar_txnAmount" name="nar_txnAmount" value="20.00" />
 		<input type="hidden" id="nar_AcquirerPaymentReferenceNumber" name="nar_AcquirerPaymentReferenceNumber" value="99YYYXXXXXXXXXXX" />
 		<input type="hidden" id="nar_PrivateData1" name="nar_PrivateData1" value="" />
 		<input type="hidden" id="nar_PrivateData2" name="nar_PrivateData2" value="" />
 		<input type="hidden" id="nar_PrivateData3" name="nar_PrivateData3" value="" />
-		<input type="hidden" id="nar_remitterEmail" name="nar_remitterEmail" value="anand.m@yalamanchili.in" />
+		<input type="hidden" id="nar_remitterEmail" name="nar_remitterEmail" value="paytym@gmail.in" />
 		<input type="hidden" id="nar_remitterMobile" name="nar_remitterMobile" value="8879873728" />
 		<input type="hidden" id="nar_cardType" name="nar_cardType" value="EX" />
 		<input type="hidden" id="nar_checkSum" name="nar_checkSum" value="" />
@@ -56,14 +56,15 @@
 		<input type="hidden" id="nar_version" name="nar_version" value="1.0" />
 		<input type="hidden" id="nar_merflag" name="nar_merflag" value="S" />
 		<input type="hidden" id="nar_mcccode" name="nar_mcccode" value="4112" />
-                <input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="https://uat2.yalamanchili.in/pgsim/testout.jsp" />
+        <input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="http://127.0.0.1:8000/employer/billing/plan" />
 		<input type="hidden" id="Referral_Url" name="Referral_Url" value="" />
-<input type="hidden" id="req_source_string" name="req_source_string" value="" />
-<input type="hidden" id="req_status" name="req_status" value="" />
-<input type="hidden" id="Referral_Url_validation" name="Referral_Url_validation" value="" />
-<input type="hidden" id="checksum_valid" name="nar_returnUrl" value="" />
 
-	<div class="row pt-3 pb-5 mb-2">
+		<input type="hidden" id="req_source_string" name="req_source_string" value="" />
+		<input type="hidden" id="req_status" name="req_status" value="" />
+		<input type="hidden" id="Referral_Url_validation" name="Referral_Url_validation" value="" />
+		<input type="hidden" id="checksum_valid" name="nar_returnUrl" value="" />
+
+		<div class="row pt-3 pb-5 mb-2">
         
         <div class="col-sm-6 mb-3">
             <button id="btnpage" class="btn btn-style-1 btn-primary btn-block" >
@@ -74,7 +75,7 @@
 
     </div>
 							
-							</form>
+	</form>
 								
 					</div>
 					
