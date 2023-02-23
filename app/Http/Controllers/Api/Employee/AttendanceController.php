@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Validator;
 
 class AttendanceController extends Controller
 {
-    //
     public function check_in(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
         ]);
