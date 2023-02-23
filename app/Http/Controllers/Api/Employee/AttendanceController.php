@@ -12,9 +12,23 @@ class AttendanceController extends Controller
     //
     public function check_in(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+        ]);
+    
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+
+
         $now = new \DateTime();
         $attendance = new Attendance();
         $attendance->user_id = Auth::user()->id;
+        $attendance->employer_id = $request->employer_id;
         $attendance->check_in = $now;
         $attendance->date = $now;
 
@@ -34,6 +48,19 @@ class AttendanceController extends Controller
 
     public function check_out(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+        ]);
+    
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+
+
         $now = new \DateTime();
         $date = date('Y-m-d');
         $user_id = Auth::user()->id;
@@ -44,6 +71,7 @@ class AttendanceController extends Controller
             // $total_time=$now - $check_in;
             $attendance->check_out=$now;
             $attendance->date = $now;
+            $attendance->employer_id = $request->employer_id;
             $attendance->status='1'; // need to do the status check 
             $res = $attendance->save();
         if ($res) {
@@ -78,9 +106,20 @@ class AttendanceController extends Controller
 
     public function check_in_by_scan(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+        ]);
+    
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
         $now = new \DateTime();
         $attendance = new Attendance();
         $attendance->user_id = Auth::user()->id;
+        $attendance->employer_id = $request->employer_id;
         $attendance->check_in = $now;
         $attendance->date = $now;
 
@@ -100,6 +139,16 @@ class AttendanceController extends Controller
 
     public function check_out_by_scan(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+        ]);
+    
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
         $now = new \DateTime();
         $date = date('Y-m-d');
         $user_id = Auth::user()->id;
@@ -110,6 +159,7 @@ class AttendanceController extends Controller
             // $total_time=$now - $check_in;
             $attendance->check_out=$now;
             $attendance->date = $now;
+            $attendance->employer_id = $request->employer_id;
             $attendance->status='1'; // need to do the status check 
             $res = $attendance->save();
         if ($res) {
