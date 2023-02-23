@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Api\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Api\Admin\DeductionsController as AdminDeductionsController;
 use App\Http\Controllers\Api\Admin\GeneralController;
@@ -155,6 +156,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('list_file_types', [UploadsController::class, 'list_file_types']);
     Route::post('upload_files', [UploadsController::class, 'upload_files']);
 
+    //23-02-23
+    Route::post('list_files', [FileController::class, 'list_files']);
     //
     //create_chat_groups
 

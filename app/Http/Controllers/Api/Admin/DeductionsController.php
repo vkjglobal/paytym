@@ -24,7 +24,7 @@ class DeductionsController extends Controller
         }
 
         $employer_id = $request->employer_id;
-        $deductions = Deduction::where('employer_id', $employer_id)->first();
+        $deductions = Deduction::where('employer_id', $employer_id)->get();
         if ($deductions) {
             return response()->json([
                 'message' => "Deductions Listed Successfuly",
