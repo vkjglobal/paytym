@@ -30,37 +30,36 @@ class FixedPayroll extends Command
      */
     public function handle()
     {
-        $employees = User::where('salary_type','0')->where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $employees = User::where('salary_type','0')->get();
         $today = Carbon::today()->toDateString();
         foreach($employees as $employee){
             $payrollcontroller = new PayrollController;
             $pay_period = $employee->pay_period;
 
-
             if($employee->pay_date != Null){    
                 if($employee->pay_date == $today){
                     $paydate = $employee->pay_date;
-                    if($employee->last_payed_date != Null){
-                        $from_date = $employee->last_payed_date;
+                    if($employee->payed_date != Null){
+                        $from_date = $employee->payed_date;
                     } else{
                         $from_date = $employee->start_employment_date;
                     }
                     $payrollcontroller->generate_fixed_payroll($employee,$paydate,$from_date);
 
                 }
-            }else if($employee->last_payed_date != Null){    //If last payed date is present
+            }else if($employee->payed_date != Null){    //If last payed date is present
                         if($employee->pay_period == 0 ){  //Weekly
-                        $employee->pay_date = $employee->last_payed_date->copy()->addWeek();
+                        $employee->pay_date = $employee->payed_date->copy()->addWeek();
                         $employee->save();
                         }else if($employee->pay_period == 1 ){  //Fortnightly
-                        $employee->pay_date = $employee->last_payed_date->copy()->addWeek(2);
+                        $employee->pay_date = $employee->payed_date->copy()->addWeek(2);
                         $employee->save();
                         }else if($employee->pay_period == 2 ){  //Monthly
-                        $employee->pay_date = $employee->last_payed_date->copy()->addMonth();
+                        $employee->pay_date = $employee->payed_date->copy()->addMonth();
                         $employee->save();
                         }
                         $paydate = $employee->pay_date;
-                        $from_date= $employee->last_payed_date;
+                        $from_date= $employee->payed_date;
                         if($paydate == $today){
                                 $payrollcontroller->generate_fixed_payroll($employee,$paydate,$from_date);
                         }

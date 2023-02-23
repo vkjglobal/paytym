@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\Employee\QuitCompanyController;
 use App\Http\Controllers\Api\Employee\EventController;
 use App\Http\Controllers\Api\Employee\LeaveController;
 use App\Http\Controllers\Employer\ReportController;
+use App\Http\Controllers\Api\Employee\PayrollCalculationController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
@@ -144,6 +145,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('create_meetings', [AdminMeetingsController::class, 'create_meetings']);
     Route::post('meetings_delete', [AdminMeetingsController::class, 'meetings_delete']);
 
+    //20-02-23
+    Route::post('payroll-calculation', [PayrollCalculationController::class,'payroll']);
+    
+    //
     //21-02-23
     Route::post('list_overtime', [OverTimeController::class, 'list_overtime']);
     Route::post('overtime_request_approve_decline_edit', [OverTimeController::class, 'overtime_request_approve_decline_edit']);

@@ -36,22 +36,30 @@ class HourlyPayroll extends Command
             if($employee->pay_date != Null){
                 if($employee->pay_date == $today){
                     $payDate = $employee->pay_date;
-                    $payrollcontroller->generate_hourly_payroll($employee,$payDate);
+                    if($employee->payed_date != Null){
+                        $fromDate = $employee->payed_date ;
+                    }else{
+                        $fromDate = $employee->employment_start_date;
+                    }
+                    $payrollcontroller->generate_hourly_payroll($employee,$fromDate,$payDate);
                 }
             }
-            else if($employee->last_payed_date != Null){
-                $employee->pay_date = Carbon::parse($employee->last_payed_date)->copy()->addWeek();
+            else if($employee->payed_date != Null){
+                
+                $employee->pay_date = Carbon::parse($employee->payed_date)->copy()->addWeek();
                 $employee->save();
+                $fromDate = $employee->payed_date;
                 if($employee->pay_date == $today){
                     $payDate = $employee->pay_date;
-                    $payrollcontroller->generate_hourly_payroll($employee,$payDate);
+                    $payrollcontroller->generate_hourly_payroll($employee,$fromDate,$payDate);
                 }
             }else{
                 $employee->pay_date = Carbon::parse($employee->employment_start_date)->copy()->addWeek();
                 $employee->save();
+                $fromDate = $employee->employment_start_date;
                 if($employee->pay_date == $today){
                     $payDate = $employee->pay_date;
-                    $payrollcontroller->generate_hourly_payroll($employee,$payDate);
+                    $payrollcontroller->generate_hourly_payroll($employee,$fromDate,$payDate);
                 }
             }
 
