@@ -17,12 +17,13 @@
                             <div class="form-group">
                                 <label class="control-label">User Role<span class="text-danger">*</span></label>
                                 <select class="form-control"  class="form-control @if ($errors->has('role_name')) is-invalid @endif" name="role_name" value="{{ old('role_name', $usercapability->role_name) }}" required>
-                                    <option value="">--SELECT--</option>
+                                    <option disabled="disabled">--SELECT--</option>
                                     @foreach ($roles as $key => $value)
-                                    <option value="{{$value['id']}}" @if ($value['id']==$usercapability->role_id)
+                                    <option  value="{{$value['id']}}" @if ($value['id']==$usercapability->role_id)
                                         selected
-                                    @endif>{{$value['role_name']}}</option>
+                                    @endif disabled="disabled">{{$value['role_name']}}</option>
                                     @endforeach
+                           <!--  -->  <input type="hidden" name="role_name" value="{{$usercapability->role_id}}">
                                 </select>
                                 
                                 <div class="invalid-feedback">{{ $errors->first('role_name') }}</div>
@@ -61,7 +62,7 @@
                             <div class="form-group">
                                 <label class="control-label">Attendance<span class="text-danger"></span></label>
                                 <input type="hidden" name="attendance" value="0">
-                                <input type="checkbox" id="attendance" name="attendance" value="{{ ($usercapability->attendance) }}"{{ ($usercapability->attendance == 1 ? 'checked' : '')}} >
+                                <input type="checkbox" id="atten" name="attendance" value="{{ ($usercapability->attendance) }}"{{ ($usercapability->attendance == 1 ? 'checked' : '')}} >
                                 <div class="invalid-feedback">{{ $errors->first('attendance') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -206,7 +207,7 @@
      
   const wages = document.getElementById("wages"); 
   const projects = document.getElementById("projects");
-  const attendance = document.getElementById("attendance");
+  const attendance = document.getElementById("atten");
   const approve_attendance = document.getElementById("approve_attendance");
   const medical = document.getElementById("medical");
   const contract_period = document.getElementById("contract_period");
@@ -221,7 +222,7 @@
  
 
   wages.addEventListener("change", function() {
-    this.value = this.checked ? 1 : 0;
+    this.value = this.checked ? 1 : 0; alert(this.value);
    
   });
   projects.addEventListener("change", function() {
@@ -230,7 +231,7 @@
   });
   attendance.addEventListener("change", function() {
     this.value = this.checked ? 1 : 0;
-    alert(this.value);
+    
   });
   approve_attendance.addEventListener("change", function() {
     this.value = this.checked ? 1 : 0;

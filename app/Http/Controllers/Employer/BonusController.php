@@ -20,8 +20,12 @@ class BonusController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.project.index')],
+            [(__('Bonus')), null],
+        ];
         $bonuses = Bonus::where('employer_id', Auth::guard('employer')->id())->get();
-        return view('employer.bonus.index', compact('bonuses'));
+        return view('employer.bonus.index', compact('breadcrumbs','bonuses'));
     }
 
     /**
@@ -31,7 +35,7 @@ class BonusController extends Controller
      */
     public function create()
     {
-        $employees = User::all(); 
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
         $departments = Department::all(); 
         $branches = Branch::all(); 
         $businesses = EmployerBusiness::all(); 
@@ -90,7 +94,7 @@ class BonusController extends Controller
     {
         $bonus = Bonus::find($id);
         // dd($bonus);
-        $employees = User::all(); 
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->get(); 
         $departments = Department::all(); 
         $branches = Branch::all(); 
         $businesses = EmployerBusiness::all(); 
@@ -120,7 +124,7 @@ class BonusController extends Controller
     {
         $data = Bonus::find($id);
         $data->employer_id = Auth::guard('employer')->id();
-        $data->type = $request->type;
+        // $data->type = $request->type;
         $data->type_id = $request->type_id;
         $data->rate_type = $request->rate_type;
         $data->rate = $request->rate;

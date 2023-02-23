@@ -62,7 +62,7 @@
                             <div class="form-group">
                                 <label class="control-label">Attendance<span class="text-danger"></span></label>
                                 <input type="hidden" name="attendance" value="0">
-  <input type="checkbox" id="attendance" name="attendance" value="0">
+  <input type="checkbox" id="atten" name="attendance" value="0">
                             </div>
                         </div><!-- Col -->
                     </div>
@@ -200,7 +200,7 @@
      
   const wages = document.getElementById("wages");
   const projects = document.getElementById("projects");
-  const attendance = document.getElementById("attendance");
+  const attendance = document.getElementById("atten");
   const approve_attendance = document.getElementById("approve_attendance");
   const medical = document.getElementById("medical");
   const contract_period = document.getElementById("contract_period");
@@ -228,6 +228,7 @@
   });
   approve_attendance.addEventListener("change", function() {
     this.value = this.checked ? 1 : 0;
+    
   });
   medical.addEventListener("change", function() {
     this.value = this.checked ? 1 : 0;

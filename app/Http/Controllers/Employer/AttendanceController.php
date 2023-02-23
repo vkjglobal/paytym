@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 // use Excel;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\AttendanceImport;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
@@ -22,7 +24,7 @@ class AttendanceController extends Controller
 
     public function create()
     {
-        $users = User::all();
+        $users = User::where('employer_id', Auth::guard('employer')->id())->get();
         return view('employer.attendance.create', compact('users'));
     }
 
@@ -37,6 +39,7 @@ class AttendanceController extends Controller
             'status' => 'required',
         ]);
         $stor = new Attendance();
+        $stor->employer_id = Auth::guard('employer')->id();
         $stor->user_id = $request->name;
         $stor->date = $request->date;
         $stor->check_in = $request->date1;
@@ -98,11 +101,12 @@ class AttendanceController extends Controller
 
     public function csvfile(Request $request)
     {
-        $res=Excel::import(new AttendanceImport, request()->file('csvfile'));
-        if ($res) {
+        try{
+            Excel::import(new AttendanceImport, request()->file('csvfile'));
             notify()->success(__('Upload file successfully'));
-        } else {
-            notify()->error(__('Failed to upload file. Please try again'));
+        }
+        catch(Exception $e){
+            notify()->error(__('Failed to upload file. Wrong csv format. Please try again'));
         }
         return redirect()->back();
     }

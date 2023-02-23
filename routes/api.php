@@ -4,7 +4,9 @@ use App\Http\Controllers\Api\Admin\AttendanceController as AdminAttendanceContro
 use App\Http\Controllers\Api\Admin\DeductionsController as AdminDeductionsController;
 use App\Http\Controllers\Api\Admin\GeneralController;
 use App\Http\Controllers\Api\Admin\MeetingsController as AdminMeetingsController;
+use App\Http\Controllers\Api\Admin\OverTimeController;
 use App\Http\Controllers\Api\Admin\ReportsController;
+use App\Http\Controllers\Api\Admin\UploadsController;
 use App\Http\Controllers\Api\Employee\AuthController;
 use App\Http\Controllers\Api\Employee\ChatController;
 use App\Http\Controllers\Api\Employee\LeaveRequestController;
@@ -147,10 +149,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('payroll-calculation', [PayrollCalculationController::class,'payroll']);
     
     //
+    //21-02-23
+    Route::post('list_overtime', [OverTimeController::class, 'list_overtime']);
+    Route::post('overtime_request_approve_decline_edit', [OverTimeController::class, 'overtime_request_approve_decline_edit']);
+    Route::post('list_file_types', [UploadsController::class, 'list_file_types']);
+    Route::post('upload_files', [UploadsController::class, 'upload_files']);
+
     //
     //create_chat_groups
 
-    //   Route::post('medical_reports', [ReportsController::class, 'medical_reports']);
 
 
 });

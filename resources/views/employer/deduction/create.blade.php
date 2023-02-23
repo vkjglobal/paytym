@@ -38,11 +38,11 @@
                                         placeholder="Enter Percentage" required>
                                     <div class="invalid-feedback">{{ $errors->first('percentage') }}</div>
                                 </div>
-                            </div><!-- Col -->
+                            </div><!-- Col -->--}}
                         </div><!-- Row -->
 
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Description <span class="text-danger">*</span></label>
                                     <input type="text"
@@ -50,13 +50,19 @@
                                         name="description" value="{{ old('description') }}" placeholder="Enter Description">
                                     <div class="invalid-feedback">{{ $errors->first('description') }}</div>
                                 </div>
-                            </div><!-- Col --> --}}
+                            </div><!-- Col --> 
                             
                         </div><!-- Row -->
                     
-
-
+                        <div class="row">
+                            <div class="col-md-12 m-3">
+                                <div class="form-group">
+                                <label class="control-label"> <span class="text-danger"><br></span></label>
                         <button type="submit" class="btn btn-primary submit">Submit</button>
+                    </div>
+                    </div><!-- Col --> 
+                            
+                </div><!-- Row -->
                     </form>
 
                 </div>

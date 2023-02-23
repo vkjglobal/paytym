@@ -29,7 +29,9 @@ class BannerController extends Controller
             [(__('Banner')), route('admin.banner.index')],
             [(__('Create')), null]
         ];
-        return view('admin.banners.create', compact('breadcrumbs'));
+        $bannercount = Banner::get()->count();
+
+        return view('admin.banners.create', compact('breadcrumbs','bannercount'));
     }
 
     public function store(StoreBannerRequest $request)

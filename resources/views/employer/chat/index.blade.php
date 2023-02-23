@@ -3,9 +3,6 @@
     {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
     @endcomponent --}}
 
-
-
-
     <div class="container">
         <div class="row clearfix">
             <div class="col-lg-12">

@@ -87,16 +87,17 @@
 
 
     <!-- Banner Section -->
+   
     <section class="header-section hero-section" id="home">
         <div class="container">
             <div class="row ">
                 <div class="col-md-6 text-white  " data-aos="fade-up"    data-aos-duration="2000">
-                    <div class="text">
+                    <div class="text"> 
                         <!-- <h1 class="first-text">Creative <br>Solutions to</h1>
                         <h1 class="sub-text"> Improve your <br>Business.</h1> -->
                         <div class="banner-txt">
                             Are you looking for an advanced and
-                            innovative <strong class="fw-600">HR management and
+                            innovative <strong class="fw-600"> HR management and
                             Payroll software system?</strong>
                             If YES, then we have the perfect
                             solution for you!
@@ -106,28 +107,19 @@
                 </div>
                 <div class="col-md-6 pt-3">
                     <div class="right-img"  data-aos="fade-down"    data-aos-duration="2000">
-                        <img src="{{asset('home_assets/images/Group 82.png')}}" alt="" srcset="">
+                    @if($bannercount == 0)
+                    <img src="{{asset('home_assets/images/Group 82.png')}}" alt="" srcset="">
+                    @else
+                        <img src="{{ asset('storage/' . $banner[0]->image) }}" alt="" srcset="">
+                    @endif
+
                   </div>
          </div>
         </div>
     </section>
-
+    
     <!-- Banner End -->
-   <!--  <section id="home">
-    <div class="container" data-aos="fade-down"    data-aos-duration="2000">
-            <div class="row justify-content-center">
-                <div class="col-lg-7">
-                    <div class="owl-carousel banner-carousel owl-theme owl-loaded">
-                        <div class="owl-stage-outer">
-                            <div class="owl-stage">
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            
-                                    <img src="{{ asset('storage/' . $banner[0]->image) }}" alt="" srcset="">
-
-</div></div></div></div></div></div></div></div></div>
-</section> -->
+   
 
     <!-- about-section -->
     <section class="about-section" id="about">
@@ -803,9 +795,10 @@
                                 <span>${{ $sub->rate_per_employee }}/employee</span>
                             </div>
                             <div class="btn-started text-center">
-                                <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
+                            <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
                                     Get Started
                                 </button>
+                               <!--  <button class="btn" type="button" onclick="window.location='{{ route('paytym.home.subplan', $sub->id) }}'">Get Started </button> -->
                             </div>
                         </div>
                     </div>
