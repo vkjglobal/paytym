@@ -96,7 +96,7 @@ class MeetingsController extends Controller
             ], 200);
         } else {
             return response()->json([
-                'message' => "Something went Wrong"
+                'message' => "No Records"
             ], 200);
         }
     }
