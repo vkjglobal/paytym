@@ -50,6 +50,7 @@ class HomeController extends Controller
         
         $loan= Deduction::where('employer_id', Auth::guard('employer')->user()->id)->where('name','loan')->get();
         $loanid= $loan->pluck('id');
+        // $totalloans = AssignDeduction::where('deduction_id',$loanid)->count();
         if(isset($totalloans))
         $totalloans = AssignDeduction::where('deduction_id',$loanid)->count();
         else

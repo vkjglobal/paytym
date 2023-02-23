@@ -75,8 +75,11 @@
                             </div>
                         </div>
                     </div> --><!-- Row -->
-
+                    @if($bannercount == 0)
                     <input type="submit" class="btn btn-primary submit" value="Submit">
+                    @else
+                    <input type="submit" class="btn btn-primary submit" value="Submit" disabled="disabled">
+                    @endif
                 </form>
 
             </div>

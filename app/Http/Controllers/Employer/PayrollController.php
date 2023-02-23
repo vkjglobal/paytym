@@ -127,18 +127,12 @@ class PayrollController extends Controller
         return view('employer.payroll.generate');
     }
 
-    public function generate_hourly_payroll($employee,$payDate){
-        dd($employee->pay_date);
-            if($employee->last_payed_date != Null){
-                $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$employee->last_payed_date ,$payDate])->get();
-                $attendance_dup=$attendances;
-                $holidays = Leaves::whereBetween('date',[$employee->last_payed_date ,$payDate])->get();
-            }
-            else{
-                $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$employee->start_date ,$payDate])->get();
-                $attendance_dup=$attendances;
-                $holidays = Leaves::whereBetween('date',[$employee->start_date ,$payDate])->get();
-            }
+    public function generate_hourly_payroll($employee,$fromDate,$payDate){
+            
+            $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$payDate])->get();
+            $attendance_dup = $attendances; 
+            $holidays = Leaves::whereBetween('date',[$fromDate ,$payDate])->get();
+            
             $holidayArray = $holidays->pluck('date')->toArray();
             $totalHours = 0;
             $attendancesWithoutHoliday = $attendances->reject(function ($attendance) use ($holidayArray) {
@@ -150,11 +144,11 @@ class PayrollController extends Controller
                 $checkOut = Carbon::parse($attendance->check_out);
                 // calculate the number of hours worked for this day
                 $hoursWorked = $checkIn->diffInHours($checkOut);
-                $totalHours += $hoursWorked;   
-            }
+                $totalHours += $hoursWorked;
+            } 
+           
 
             //Extra hours at base rate and over time rate calculation
-            dd($totalHours);
             $overtimerate = $employee->business->payrollsetting->over_time_rate;
             if($totalHours > $employee->total_hours_per_week){
                 $extraHours = $totalHours - ($employee->total_hours_per_week);
@@ -192,6 +186,7 @@ class PayrollController extends Controller
             foreach($allowances as $allowance){
                 $totalAllowance += $allowance->rate;
             }
+            
 
             //Deduction Calculation
 
@@ -200,33 +195,75 @@ class PayrollController extends Controller
             foreach($deductions as $deduction){
                 $totalDeduction += ($employee->rate * ($deduction->rate/100));
             }
-
+            
             $base_pay = ($employee->rate * ($totalHours - $extraHours)); 
             $totalEarnings = $base_pay + $total_pay + $doubleTimeRate ;
            
             $totalEarnings += $totalAllowance - $totalDeduction;
             
             //Payroll Entry
+            $user = User::where('id',$employee->id)->first();
+            $date = Carbon::parse($payDate);
+            $formattedDate = $date->format('Y-m-d');
+            $user->pay_date = $formattedDate;
+            $user->save();
             $payroll = new Payroll();
             $payroll->paid_salary = $totalEarnings;
             $payroll->fund_deduction = $totalDeduction;
+            $payroll->total_deduction = $totalDeduction;
+            $payroll->fund_deduction = "50";
             $payroll->user_id = $employee->id;
-            $payroll->save();
+            $payroll->salary = $totalEarnings;
+            
+            $res=$payroll->save();
+
+            if($res){
+                return "success";
+            }
+        
         }
         
 
     
     }
 
-    // public function generate_fixed_payroll($employee,$paydate,$from_date){
-    //     $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$from_date,$payDate])->get();
-    //     foreach($attandences as $attendance){
-
-
-    //     }
+    public function generate_fixed_payroll($employee,$payDate,$fromDate){
+        $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$payDate])->get();
         
+         //Allowance Calculation
+
+         $allowances = AssignAllowance::where('user_id',$employee->id)->get();
+         $totalAllowance = 0;
+         foreach($allowances as $allowance){
+             $totalAllowance += $allowance->rate;
+         }
+
+         //Deduction Calculation
+
+         $deductions = AssignDeduction::where('user_id',$employee->id)->get();
+         $totalDeduction = 0;
+         foreach($deductions as $deduction){
+             $totalDeduction += ($employee->rate * ($deduction->rate/100));
+         }
+         
+
+         //Total salary calculation
+         $baseSalary = $employee->rate;
+         $totalEarnings = ($baseSalary + $totalAllowance) - $totalDeduction;
+         
+
+           //Payroll Entry
+           $payroll = new Payroll();
+           $payroll->paid_salary = $totalEarnings;
+           $payroll->fund_deduction = $totalDeduction;
+           $payroll->total_deduction = $totalDeduction;
+           $payroll->fund_deduction = "50";
+           $payroll->user_id = $employee->id;
+           $payroll->salary = $totalEarnings;
+           $res=$payroll->save();
+           
         
 
-    // }
+     }
 }
 
