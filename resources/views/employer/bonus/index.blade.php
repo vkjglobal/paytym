@@ -38,13 +38,24 @@
                                         @endif
 
                                         @if($bonus->type == 0)
-                                            <td>{{ $bonus->employee->first_name }}</td>
+                                            <td>@isset($bonus->employee->first_name)
+                                                {{ $bonus->employee->first_name }}
+                                            @endisset</td>
+
                                         @elseif($bonus->type == 1)
-                                            <td>{{ $bonus->department->dep_name }}</td>
+                                            <td>@isset($bonus->department->dep_name)
+                                                {{ $bonus->department->dep_name }}
+                                            @endisset</td>
+
                                         @elseif($bonus->type == 2)
-                                            <td>{{ $bonus->branch->name }}</td>
+                                            <td>@isset($bonus->branch->name)
+                                                {{ $bonus->branch->name }}
+                                            @endisset</td>
+
                                         @else
-                                            <td>{{ $bonus->business->name }}</td>
+                                            <td>@isset($bonus->business->name)
+                                                {{ $bonus->business->name }}
+                                            @endisset</td>
                                         @endif
 
                                         @if($bonus->rate_type == 0)

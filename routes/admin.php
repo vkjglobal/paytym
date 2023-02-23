@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\SupportTicketController;
 use App\Http\Controllers\TwilioSMSController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
@@ -94,4 +95,8 @@ Route::middleware('admin.auth')->group(function () {
 
     //Twilio Route Robin 22-02-23
     Route::get('sendSMS', [TwilioSMSController::class, 'index']);
+     
+     //Report
+     Route::get('report/main_report',[ReportController::class, 'index'])->name('main_report');
+     Route::get('report/main_report/export/', [ReportController::class, 'export'])->name('main_report.download');
 });
