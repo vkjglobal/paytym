@@ -107,7 +107,12 @@
                 </div>
                 <div class="col-md-6 pt-3">
                     <div class="right-img"  data-aos="fade-down"    data-aos-duration="2000">
-                        <img src="{{asset('home_assets/images/Group 82.png')}}" alt="" srcset="">
+                    @if($bannercount == 0)
+                    <img src="{{asset('home_assets/images/Group 82.png')}}" alt="" srcset="">
+                    @else
+                        <img src="{{ asset('storage/' . $banner[0]->image) }}" alt="" srcset="">
+                    @endif
+
                   </div>
          </div>
         </div>
@@ -790,9 +795,10 @@
                                 <span>${{ $sub->rate_per_employee }}/employee</span>
                             </div>
                             <div class="btn-started text-center">
-                                <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
+                            <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
                                     Get Started
                                 </button>
+                               <!--  <button class="btn" type="button" onclick="window.location='{{ route('paytym.home.subplan', $sub->id) }}'">Get Started </button> -->
                             </div>
                         </div>
                     </div>

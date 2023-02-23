@@ -651,7 +651,6 @@
                     </ul>
                 </div>
             </li>
-<!-- Support Tickets -->
 
 <li class="nav-item {{ request()->is('employer/support-tickets*') ? 'active' : '' }}">
                 <a class="nav-link"  data-toggle="collapse" href="#supportticket"  role="button" aria-expanded="false" aria-controls="requests">
@@ -659,17 +658,17 @@
                     <span class="link-title">Support Tickets</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/support-tickets*') ? 'show' : '' }}" id="supportticket">
+                <div class="collapse {{ request()->is('employer/supportticket*') ? 'show' : '' }}" id="supportticket">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
                             <a href="{{route('employer.supportticket.create')}}"
-                                class="nav-link {{ request()->is('employer/support-tickets/create') ? 'active' : '' }}">
+                                class="nav-link {{ request()->is('employer/supportticket/create') ? 'active' : '' }}">
                                 Create
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('employer.supportticket.index')}}"
-                                class="nav-link {{ request()->is('employer/support-tickets') ? 'active' : '' }}">
+                                class="nav-link {{ request()->is('employer/supportticket') ? 'active' : '' }}">
                                 List
                             </a>
                         </li>
@@ -677,6 +676,8 @@
                 </div>
                 
             </li>
+
+            <!-- Support Tickets End -->
 
             <!-- Support Tickets End -->
 
