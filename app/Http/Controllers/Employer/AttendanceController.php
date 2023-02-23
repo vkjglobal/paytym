@@ -106,7 +106,7 @@ class AttendanceController extends Controller
             notify()->success(__('Upload file successfully'));
         }
         catch(Exception $e){
-            notify()->error(__('Failed to upload file. Please try again '));
+            notify()->error(__('Failed to upload file. Wrong csv format. Please try again'));
         }
         return redirect()->back();
     }

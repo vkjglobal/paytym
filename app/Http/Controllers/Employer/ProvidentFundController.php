@@ -51,8 +51,8 @@ class ProvidentFundController extends Controller
     {
         $validated = $request->validate([
         'employee' => 'required',
-        'user_rate' => 'required|numeric|max:20',
-        'employer_rate' => 'required|numeric|max:20',
+        'user_rate' => 'numeric|max:20',
+        'employer_rate' => 'numeric|max:20',
     ]);
         $data = new ProvidentFund();
         $data->employer_id = Auth::guard('employer')->id();
@@ -104,8 +104,8 @@ class ProvidentFundController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'userrate' => 'required|numeric|max:20',
-            'employerrate' => 'required|numeric|max:20',
+            'userrate' => 'numeric|max:20',
+            'employerrate' => 'numeric|max:20',
         ]);
         $data = ProvidentFund::find($id);
         $data->user_rate = $request->userrate;
