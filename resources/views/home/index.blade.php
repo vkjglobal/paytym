@@ -768,9 +768,9 @@
                                 <span>${{ $sub->rate_per_employee }}/employee</span>
                             </div>
                             <div class="btn-started text-center">
-                                <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
-                                    Get Started
-                                </button>
+                            <button class="btn" type="button" onclick="window.location='{{ route('paytym.home.subplan', $sub->id) }}'">Get Started </button> 
+
+                                
                             </div>
                         </div>
                     </div>
@@ -795,10 +795,7 @@
                                 <span>${{ $sub->rate_per_employee }}/employee</span>
                             </div>
                             <div class="btn-started text-center">
-                            <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
-                                    Get Started
-                                </button>
-                               <!--  <button class="btn" type="button" onclick="window.location='{{ route('paytym.home.subplan', $sub->id) }}'">Get Started </button> -->
+                                <button class="btn" type="button" onclick="window.location='{{ route('paytym.home.subplan', $sub->id) }}'">Get Started </button> 
                             </div>
                         </div>
                     </div>
@@ -823,9 +820,8 @@
                                 <span>${{ $sub->rate_per_employee }}/employee</span>
                             </div>
                             <div class="btn-started text-center">
-                                <button class="btn" type="button"><!--  onclick="window.location='{{Route('employer.login')}}'" -->
-                                    Get Started
-                                </button>
+                            <button class="btn" type="button" onclick="window.location='{{ route('paytym.home.subplan', $sub->id) }}'">Get Started </button> 
+
                             </div>
                         </div>
                     </div>

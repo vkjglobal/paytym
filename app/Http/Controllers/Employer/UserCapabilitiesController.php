@@ -8,6 +8,7 @@ use App\Http\Requests\Employer\StoreUserCapabilitiesRequest;
 use App\Http\Requests\Employer\UpdateUserCapabilitiesRequest;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Auth;
 
 class UserCapabilitiesController extends Controller
 {
@@ -24,7 +25,7 @@ class UserCapabilitiesController extends Controller
                 [(__('User Capabilities')), null],
             ];
     
-            $usercapability = UserCapabilities::with('role')->latest()->get();
+            $usercapability = UserCapabilities::with('role')->where('employer_id',Auth::guard('employer')->user()->id)->latest()->get();
     
             return view('employer.user-capabilities.index', compact('breadcrumbs', 'usercapability'));
         }
@@ -74,7 +75,8 @@ class UserCapabilitiesController extends Controller
         $usercapability->approve_payroll = $validated['approve_payroll'];
         $usercapability->calculate_payroll = $validated['calculate_payroll'];
         $usercapability->edit_deduction = $validated['edit_deduction'];
-        $role_id = UserCapabilities::where('role_id', '=', $request->input('role_name'))->first();
+        $usercapability->employer_id = Auth::guard('employer')->user()->id;
+        $role_id = UserCapabilities::where('role_id', '=', $request->input('role_name'))->where('employer_id',$usercapability->employer_id)->first();
          if($role_id)
          {
             notify()->error(__('User Capabilities already created for this role')); 
@@ -145,6 +147,8 @@ class UserCapabilitiesController extends Controller
         $usercapability->approve_payroll = $validated['approve_payroll'];
         $usercapability->calculate_payroll = $validated['calculate_payroll'];
         $usercapability->edit_deduction = $validated['edit_deduction'];
+        $usercapability->employer_id = Auth::guard('employer')->user()->id;
+
         $issave = $usercapability->save();
         if ($issave) {
             notify()->success(__('Updated successfully'));
@@ -155,7 +159,8 @@ class UserCapabilitiesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remo
+     * ve the specified resource from storage.
      *
      * @param  \App\Models\UserCapabilities  $userCapabilities
      * @return \Illuminate\Http\Response
