@@ -8,6 +8,7 @@ use App\Notifications\AdminContact;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\ContactRequest;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
+use Mail;
 
 class ContactController extends Controller
 {
@@ -36,6 +37,19 @@ class ContactController extends Controller
             'email' => $request['email'],
             'message' => $request['message']
         ]);
+         \Mail::send('mail.send-contactusmsg',
+             array(
+                 'name' => $request->get('name'),
+                 'email' => $request->get('email'),
+                 'msg' => $request->get('message'),
+             ), function($msg) use ($request)
+               {
+                  $msg->from($request->email);
+                  $msg->to('contact@paytym.net');
+                  $msg->subject('New Customer Enquiry');
+               }); 
+        //Mail::to('neena.reubro@gmail.com')->send(new SendMail($result));
+        //dd($result);
         if ($result) {
             return redirect()->back()->with('success', 'Send successfully!');
 

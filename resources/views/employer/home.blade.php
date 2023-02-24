@@ -206,7 +206,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2"></h3>
+                                    <h3 class="mb-2">{{ $totalloans }}</h3>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
                                     <div id="apexChart1" class="mt-md-3 mt-xl-0"></div>
@@ -257,33 +257,42 @@
         </div>
     </div> <!-- row -->
   
-    <!-- <div id="piechart" style="width: 900px; height: 500px;"></div>
+  <!--    <div id="piechart" style="width: 900px; height: 500px;"></div>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+         var checked_in = <?php echo $checked_in; ?>;
+         var checked_out = <?php echo $checked_out; ?>;
+         var on_annual_leave = <?php echo $on_annual_leave; ?>;
+         var lwop = <?php echo $lwop; ?>;
+         var totaldayoffs = <?php echo $totaldayoffs; ?>;
+         var on_sick_leave = <?php echo $on_sick_leave; ?>;
+         var absentees = <?php echo $absentees; ?>;
+         var loans = <?php echo $totalloans; ?>;
+
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
 
         var data = google.visualization.arrayToDataTable([
-          ['Checked In', 'Hours per Day'],
-          ['Checked Out',     11],
-          ['On Annual Leave',      2],
-          ['On Loss of Pay',  2],
-          ['On Day Off', 2],
-          ['On Sick Leave',    7]
+          
+           ['Status','Count'],
+        ['Checked In',checked_in],
+        ['Checked_out',checked_out],
+        ['On Annual Leave',      on_annual_leave],
+        ['On Day Off', totaldayoffs],
+        ['Absentees',absentees],
+        ['Loans',loans]
+       
         ]);
-
         var options = {
-          title: 'My Daily Activities'
+          title: 'Count of Employees by Status'
         };
-
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
         chart.draw(data, options);
       }
-    </script>
+    </script> 
   -->
 
 

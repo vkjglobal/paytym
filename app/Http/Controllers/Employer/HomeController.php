@@ -33,29 +33,30 @@ class HomeController extends Controller
      */
     public function index() {
         $employer = Auth::guard('employer')->user();
-        $annualLeaves = LeaveRequest::where('type','annual')->where('status','1')->count();
-        $user = User::where('status','1')->count();
+        //dd($employer->id);
+        $annualLeaves = LeaveRequest::where('type','annual')->where('status','1')->where('employer_id',$employer->id)->count();
+        //dd($annualLeaves);
+        $user = User::where('status','1')->where('employer_id',$employer->id)->count();
         $branches= Branch::where('employer_id', Auth::guard('employer')->user()->id)->count();
         $departments= Department::where('employer_id', Auth::guard('employer')->user()->id)->count();
         $today = Carbon::today();
         $formatted_date = $today->format('Y-m-d');
        
-        $checked_in = Attendance::whereNotNull('check_in')->where('date',$formatted_date)->count();
-        $checked_out = Attendance::whereNotNull('check_out')->where('date',$formatted_date)->count();
-        $on_annual_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','annual')->count();
-        $on_sick_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','sick')->count();
+        $checked_in = Attendance::whereNotNull('check_in')->where('date',$formatted_date)->where('employer_id',$employer->id)->count();;
+        $checked_out = Attendance::whereNotNull('check_out')->where('date',$formatted_date)->where('employer_id',$employer->id)->count();
+        $on_annual_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','annual')->where('status','1')->where('employer_id',$employer->id)->count();
+        $on_sick_leave = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','sick')->where('status','1')->where('employer_id',$employer->id)->count();
         //dd($on_sick_leave);
         $absentees = $user - $checked_in;
         $totaldayoffs = $user - $checked_in;
         
-        $loan= Deduction::where('employer_id', Auth::guard('employer')->user()->id)->where('name','loan')->get();
+        $loan= Deduction::where('name','loans')->where('employer_id', $employer->id)->get();
         $loanid= $loan->pluck('id');
-        // $totalloans = AssignDeduction::where('deduction_id',$loanid)->count();
-        if(isset($totalloans))
-        $totalloans = AssignDeduction::where('deduction_id',$loanid)->count();
-        else
+        if($loan->isEmpty())
         $totalloans = 0;
-        $lwop = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','LWOP')->count();
+        else
+        $totalloans = AssignDeduction::where('deduction_id',$loanid)->where('employer_id', $employer->id)->count();
+        $lwop = LeaveRequest::where('start_date', '<=', $today)->where('end_date', '>=', $today)->where('type','LWOP')->where('status','1')->where('employer_id', $employer->id)->count();
         $mia = 0;
         //dd($checked_in);
         return view('employer.home',compact('employer','annualLeaves','user','branches','departments','checked_in',
