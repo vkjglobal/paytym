@@ -781,12 +781,41 @@
                </a>
                <div class="collapse {{ request()->is('employer/report*') ? 'show' : '' }}" id="report">
                    <ul class="nav sub-menu">
-                       <li class="nav-item">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.employee') }}"
+                                class="nav-link {{ request()->is('employer/report/employee') ? 'active' : '' }}">
+                                Employees
+                            </a>
+                        </li>
+                        <li class="nav-item">
                            <a href="{{ route('employer.report.attendance.search') }}"
-                               class="nav-link {{ request()->is('employer/report') ? 'active' : '' }}">
+                               class="nav-link {{ request()->is('employer/report/attendance') ? 'active' : '' }}">
                                 Attendance
                            </a>
                        </li>
+                       <li class="nav-item">
+                        <a href="{{ route('employer.report.employment_period') }}"
+                            class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
+                             Employment Periods
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.status') }}"
+                            class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
+                             Status Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.allowance') }}"
+                            class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
+                             Allowance Reports
+                        </a>
+                    </li><li class="nav-item">
+                        <a href="{{ route('employer.report.deduction') }}"
+                            class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
+                             Deduction Reports
+                        </a>
+                    </li>
                        
                    </ul>
                </div>
