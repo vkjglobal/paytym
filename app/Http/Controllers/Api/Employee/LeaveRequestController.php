@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeaveRequest;
+use App\Models\Attendance;
 use App\Models\LeaveRequest;
+use App\Models\Meeting;
+use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,13 +62,13 @@ class LeaveRequestController extends Controller
         $user_id = Auth::user()->id;
         $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
         if ($leave) {
-            $casual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'casual')->get();
+            $casual = $leave->where('type', 'casual')->get();
             $casual = $casual->count();
-            $absence = LeaveRequest::where('status', '1')->where('user_id', $user_id)->get();
+            $absence = $leave->get();
             $absence = $absence->count();
-            $annual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'annual')->get();
+            $annual = $leave->where('type', 'annual')->get();
             $annual = $annual->count();
-            $halfday = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'halfday')->get();
+            $halfday = $leave->where('type', 'halfday')->get();
             $halfday = $halfday->count();
             return response()->json([
                 'message' => "Dash Board details listed",
@@ -79,6 +82,39 @@ class LeaveRequestController extends Controller
                 'message' => "Failed to check in"
             ], 400);
         }
+    }
+
+
+
+    public function admin_dashboard(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+        ]);
+
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        $leave=[];
+        $projects=[];
+        $meetings=[];
+        $attendance=[];
+        $leave = LeaveRequest::where('status', '1')->where('employer_id', $request->employer_id)->get();
+        $projects = Project::where('employer_id', $request->employer_id)->get();
+        $meetings=Meeting::where('employer_id',$request->employer_id)->get();
+        $attendance=Attendance::where('employer_id',$request->employer_id)->get();
+
+        return response()->json([
+            'message' => "Dash Board details listed",
+            'leave' => $leave,
+            'projects' => $projects,
+            'meetings' => $meetings,
+            'attendance' => $attendance,
+        ], 200);
+
     }
 
 
@@ -132,9 +168,9 @@ class LeaveRequestController extends Controller
 
         $employee_id = $request->employee_id;
         $approval_status = $request->approval_status;
-        $start_date=$request->start_date;
-        $leave_request = LeaveRequest::where('user_id', $employee_id)->where('status','0')
-        ->whereDate('start_date',date($start_date))->first();
+        $start_date = $request->start_date;
+        $leave_request = LeaveRequest::where('user_id', $employee_id)->where('status', '0')
+            ->whereDate('start_date', date($start_date))->first();
         if ($leave_request) {
             if ($approval_status == '0') {
                 $leave_request->status = '0';
