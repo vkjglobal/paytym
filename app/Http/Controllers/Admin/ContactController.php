@@ -45,7 +45,7 @@ class ContactController extends Controller
              ), function($msg) use ($request)
                {
                   $msg->from($request->email);
-                  $msg->to('contact@paytym.net');
+                  $msg->to('neena.reubro@gmail.com');
                   $msg->subject('New Customer Enquiry');
                }); 
         //Mail::to('neena.reubro@gmail.com')->send(new SendMail($result));
