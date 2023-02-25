@@ -161,6 +161,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
      Route::post('list_files', [UploadsController::class, 'list_files']);
      Route::post('list_projects', [ProjectsController::class, 'list_projects']);
      Route::post('project_details', [ProjectsController::class, 'project_details']);
+
+     //25-02-23
+     Route::post('admin_dashboard', [LeaveRequestController::class, 'admin_dashboard']);
+     
      
 
 
