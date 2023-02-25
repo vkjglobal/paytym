@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title">Banner Edit</h6>
-                <form method="POST" action="{{ route('admin.banner.update', $banner->id) }}" enctype="multipart/form-data">
+                <form method="POST" onsubmit = "return validateForm()" action="{{ route('admin.banner.update', $banner->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -38,7 +38,7 @@
                                             class="form-control @if ($errors->has('image')) is-invalid @endif"
                                             name="image" value="{{old('image', $banner->image) }}" placeholder="Enter Image">
                                     <div class="invalid-feedback">{{ $errors->first('image') }}</div>
-                                    {{ $banner->image }}
+                                   
                                 </div>
                             </div><!-- Col -->
                         </div><!-- Row -->

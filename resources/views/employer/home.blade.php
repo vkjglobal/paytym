@@ -257,7 +257,7 @@
         </div>
     </div> <!-- row -->
   
-  <!--    <div id="piechart" style="width: 900px; height: 500px;"></div>
+     <div id="piechart" style="width: 900px; height: 500px;"></div>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -281,19 +281,29 @@
         ['Checked In',checked_in],
         ['Checked_out',checked_out],
         ['On Annual Leave',      on_annual_leave],
+        ['On Loss of Pay', lwop],
         ['On Day Off', totaldayoffs],
+        ['On Sick Leave',on_sick_leave],
         ['Absentees',absentees],
         ['Loans',loans]
        
         ]);
+        if(checked_in ==0 && checked_out==0 && on_annual_leave ==0 && lwop ==0 && on_sick_leave==0 && totaldayoffs ==0 && absentees ==0 && loans==0)
+        {
+            $("#piechart").append("Sorry! There is no data to display in pie chart.")
+        }
+        else
+        {
         var options = {
           title: 'Count of Employees by Status'
         };
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
+    }
+        
       }
     </script> 
-  -->
+ 
 
 
 @endsection

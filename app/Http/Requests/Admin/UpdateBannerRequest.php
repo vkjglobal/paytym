@@ -25,7 +25,7 @@ class UpdateBannerRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image' => 'nullable',
+            'image' => 'nullable|mimes:png,jpg,jpeg|max:5048',
             
         ];
     }
