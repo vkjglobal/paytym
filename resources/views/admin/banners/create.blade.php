@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title">Banner Create</h6>
-                <form method="POST" action="{{ route('admin.banner.store') }}" enctype="multipart/form-data">
+                <form method="POST" onsubmit = "return validateForm()" action="{{ route('admin.banner.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">
@@ -23,13 +23,10 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Image<span class="text-danger">*</span></label>
-                                <!-- <select class="form-control" id="file_type" name="file_type">
-                                    <option value="0">--SELECT--</option>
-
-                                </select> -->
+                               
                                 <input type="file"
                                         class="form-control @if ($errors->has('image')) is-invalid @endif"
-                                        name="image" value="{{ old('image') }}" placeholder="Choose Image">
+                                        name="image" value="{{ old('image') }}" placeholder="Choose Image" required>
                                     <div class="invalid-feedback">{{ $errors->first('image') }}</div>
                                
                             </div>
