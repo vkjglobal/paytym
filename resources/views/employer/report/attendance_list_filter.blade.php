@@ -19,8 +19,8 @@
                                         <label class="control-label">Employee<span class="text-danger">*</span></label>
                                         <select name="employee" class="@if ($errors->has('employee')) is-invalid @endif" >
                                             <option selected="true" >All User</option>
-                                            @foreach($employees as $employee)
-                                                <option value="{{$employee->id}}">{{$employee->first_name}}</option>
+                                            @foreach($users as $user)
+                                                <option value="{{$user->id}}">{{$user->first_name}}</option>
                                             @endforeach
                                         </select>                                
                                         <div class="invalid-feedback">{{ $errors->first('employee') }}</div>
@@ -49,18 +49,53 @@
                                             name="date_to" value="" placeholder="Enter Rate" >
                                         <div class="invalid-feedback">{{ $errors->first('date_to') }}</div>
                                     </div>
-                                </div><!-- Col --> 
+                                </div><!-- Col -->
                                 <div class="col-sm-2"> 
-                                    <button class="btn btn-info mt-4 p-2  ">Filter</button>
+                                <button class="btn btn-info mt-4 p-2  ">Filter</button>
                                 </div>
                             </div><!-- Row -->
         
-
+                            {{-- <input type="submit" class="btn btn-info submit float-right" value="Filter"> --}}
                             
                         </form>
                     </div>
                     
-                   
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sl #</th>
+                                    <th>Name</th>
+                                    <th>Hours worked</th>
+                                    {{-- <th>Check-in time</th>
+                                    <th>Check-out time</th>
+                                    <th>Status</th>
+                                </tr> --}}
+                            </thead>
+                            <tbody>
+                                @foreach ($employees as $employee)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>@isset($employee->first_name)
+                                            {{ $employee->first_name }}
+                                        @endisset</td>
+                                        <td>{{ $employee->attendanceReport($date_from, $date_to) }}</td>
+                                        {{-- <td>{{ $employee->attendance->attendanceReport($employee->id, $date_from, $date_to) }}</td> --}}
+                                        {{-- <td>@isset($attendance->check_in)
+                                            {{ \Carbon\Carbon::parse($attendance->check_in)->format('H:i:s') }}
+                                        @endisset</td>
+                                        <td>@if($attendance->check_out)
+                                            {{ \Carbon\Carbon::parse($attendance->check_out)->format('H:i:s') }}
+                                            @else
+                                            <span class="text-center">{{'-'}}</span>
+                                        @endif</td>
+                                        <td>{{ $attendance->status }}</td> --}}
+                                        {{-- <td>{{ $attendances }}</td> --}}
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

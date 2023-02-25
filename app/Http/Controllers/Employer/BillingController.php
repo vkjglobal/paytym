@@ -25,7 +25,7 @@ class BillingController extends Controller
         return view('employer.payment.plan', compact('subscription', 'pricing'));
     }
     
-    public function pay(Request $request)
+    public function pay(Request $request,Client $client)
     {
         $nar_msgType = $request->nar_msgType;
         $nar_merTxnTime = now()->format('YmdHis');
@@ -74,14 +74,14 @@ class BillingController extends Controller
             'nar_checkSum' => $nar_checkSum,
             // 'Referral_Url' => $request->Referral_Url,
         ]);
-        return $response;
+        // return $response;
 
-        if ($response->successful()){
-            return view('employer.payment.success');
-        }
-        else{
-            return view('employer.payment.failed');
-        }
+        // if ($response->successful()){
+        //     return view('employer.payment.success');
+        // }
+        // else{
+        //     return view('employer.payment.failed');
+        // }
     }
 
     public function checkSum($data){
