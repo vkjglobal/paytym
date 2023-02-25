@@ -59,7 +59,6 @@ class RosterController extends Controller
         $roster = new Roster();
         $roster->user_id = $request['employee'];
         $roster->project_id = $request['project'];
-        $roster->job_id = $request['job_type'];
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
         $roster->start_time = $request['start_time'];
@@ -115,7 +114,6 @@ class RosterController extends Controller
         $request = $request->validated();
         $roster->user_id = $request['employee'];
         $roster->project_id = $request['project'];
-        $roster->job_id = $request['job_type'];
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
         $roster->start_time = $request['start_time'];

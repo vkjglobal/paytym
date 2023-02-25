@@ -25,73 +25,106 @@ class PayrollCalculationController extends Controller
                 'message' => $validator->errors()->first(),
             ],400);
         }
-        $payrollDate = Carbon::now();
             $EmployerId = $request->employer_id;
             $employees = User::where('employer_id', $EmployerId)->get();
-            $today = Carbon::today()->toDateString();
+            $today = Carbon::today();
+            foreach($employees as $employee){
+                if($employee->salary_type == "1"){
 
-            foreach($employees as $employee){         //Taking each employees 
-                if($employee->pay_date != Null){
-                        $payDate = $employee->pay_date;
-                        $payPeriod = CarbonPeriod::since($payDate)->until($today);
-                        $subPeriodLength = CarbonInterval::days(7);
+                       //Taking each employees 
+                if($employee->payed_date != Null){  
+                        $LastPayedDate = $employee->payed_date;
+
+                }else{
+                    $LastPayedDate = $employee->employment_start_date;
+                }
+                        $payPeriod = CarbonPeriod::since($LastPayedDate)->until($today);
+                        if($employee->pay_period == "1"){
+                            $subPeriodLength = CarbonInterval::days(14);
+                        }else{
+                            $subPeriodLength = CarbonInterval::days(7);
+                        }
+                        
                         $subPeriods = [];
-
+                        
                         $startDate = $payPeriod->getStartDate();
 
                     while ($startDate->lessThan($payPeriod->getEndDate())) {
                         $endDate = $startDate->copy()->add($subPeriodLength)->subDay(); // Subtract one day from the end date
+                        if ($endDate->gt($today)) {
+                            $endDate = $today->copy(); // Adjust the end date to be equal to today's date
+                        }
                         $subPeriod = CarbonPeriod::since($startDate)->until($endDate);
                         $subPeriods[] = $subPeriod;
                         $startDate = $endDate->copy()->addDay(); // Add one day to the start date for the next sub-period
-                    }
-
+                    } 
             foreach ($subPeriods as $week) {
+
+                if($employee->pay_period == "1"){
+                    if(count($week) < 14){
+                        break;
+                    }
+                    }else{
+                        if(count($week) < 7){
+                            break;
+                        }
+                    }
+                
                 $payrollcontroller = new PayrollController;
                 $fromDate = $week->getStartDate();
                 $endDate = $week->getEndDate();
                 $s=$payrollcontroller->generate_hourly_payroll($employee,$fromDate,$endDate);
-                // $hoursWorked = $this->getHoursWorkedForWeek($employee, $week);
-                // $salary = $hoursWorked * $employee->hourly_rate;
-                // $totalSalary += $salary;
+                $LastPayedDate = $endDate;
+                
             }
-            
-            return response()->json(['message' => 'Payroll calculated successfully.']);
+            $employee->payed_date = $LastPayedDate;
+            $employee->save();          
+           }
            
-            
-        
         }
+        return response()->json(['message' => 'Payroll calculated successfully.']);
 
 
 
+        
+    // For fixed salary type
 
+    // if($employee->salary_type == "0"){
+    //     if($employee->payed_date != Null){
+    //         $LastPayedDate = Carbon::parse($employee->payed_date);
+    //     }else{
+    //         $LastPayedDate = Carbon::parse($employee->start_date);
+    //     }
+    //     $payPeriod = CarbonPeriod::since($LastPayedDate)->until($today);
+    //     // return($payPeriod );
+    //     // Split the pay period into smaller periods based on frequency
+    //     if ($employee->pay_period == '2') {
+    //         $subPeriods = $payPeriod->split(CarbonInterval::divide(2));
+    //         // $LastPayedDate = Carbon::parse($LastPayedDate);
+    //         // $period = $LastPayedDate->diffInMonths($today);
+    //         return($subPeriods );
 
+            
 
+    //     } else if($employee->pay_period === '1') {
+    //         $subPeriods = $payPeriod->split(CarbonInterval::weeks(2));
+    //     } else{
+    //         $subPeriods = $payPeriod->split(CarbonInterval::weeks(1));
+    //     }
 
+    //     // Calculate payroll for each sub period
+    //     foreach ($subPeriods as $subPeriod) {
+    //         $startDate = $subPeriod->getStartDate();
+    //         $endDate = $subPeriod->getEndDate();
 
+    //         // Calculate payroll for this sub period
+    //         $s = $payrollcontroller->generate_fixed_payroll($employee,$fromDate,$endDate);
+    //     }
 
+    // }
 
-
-                // else if($employee->payed_date != Null){
-                    
-                //     $employee->pay_date = Carbon::parse($employee->payed_date)->copy()->addWeek();
-                //     $employee->save();
-                //     $fromDate = $employee->payed_date;
-                //     if($employee->pay_date == $today){
-                //         $payDate = $employee->pay_date;
-                //         $payrollcontroller->generate_hourly_payroll($employee,$fromDate,$payDate);
-                //     }
-                // }else{
-                //     $employee->pay_date = Carbon::parse($employee->employment_start_date)->copy()->addWeek();
-                //     $employee->save();
-                //     $fromDate = $employee->employment_start_date;
-                //     if($employee->pay_date == $today){
-                //         $payDate = $employee->pay_date;
-                //         $payrollcontroller->generate_hourly_payroll($employee,$fromDate,$payDate);
-                //     }
-                // }
     
-            }
+            
 
     }
     

@@ -116,7 +116,7 @@
                                     <label class="control-label">QR Code <span class="text-danger">*</span></label>
                                     <input type="file"
                                         class="form-control @if ($errors->has('logo')) is-invalid @endif"
-                                        name="qr_code" value="{{ old('qr_code') }}" placeholder="Enter logo" required>
+                                        name="qr_code" value="{{ old('qr_code') }}" placeholder="Enter logo">
                                     <div class="invalid-feedback">{{ $errors->first('qr_code') }}</div>
                                 </div>
                             </div><!-- Col -->

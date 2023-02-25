@@ -65,6 +65,10 @@ class User extends Authenticatable
     public function business(){
         return $this->belongsTo(EmployerBusiness::class,'business_id');
     }
+
+    public function country(){
+        return $this->belongsTo(EmployerBusiness::class,'country');
+    }
     public function role(){
 
         return $this->belongsTo(Role::class);

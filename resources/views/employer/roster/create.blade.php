@@ -11,7 +11,7 @@
                         @csrf
                         
                         <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6    ">
                             <div class="form-group">
                                 <label class="control-label">Employee<span class="text-danger">*</span></label>
                                 <select class="form-control"  class="form-control @if ($errors->has('employee')) is-invalid @endif" name="employee" value="{{ old('employee') }}">
@@ -23,7 +23,7 @@
                                 <div class="invalid-feedback">{{ $errors->first('employee') }}</div>
                                 </div>
                             </div><!-- Col -->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Project<span class="text-danger">*</span></label>
                                 <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="project" value="{{ old('project') }}">
@@ -37,18 +37,7 @@
                             </div><!-- Col -->
 
 
-                            <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Job Type<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="job_type" value="{{ old('job_type') }}">
-                                    <option value="">--SELECT--</option>
-                                    @foreach ($job_types as $job_type )
-                                    <option value="{{$job_type['id']}}">{{$job_type['name']}}</option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">{{ $errors->first('job_type') }}</div>
-                                </div>
-                            </div><!-- Col -->
+                    
                         </div><!-- Row -->
 
                         <div class="row">
