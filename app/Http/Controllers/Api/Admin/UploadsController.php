@@ -36,7 +36,7 @@ class UploadsController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-   
+
         $status = $request->status;   // 0->upload1->delete 
         if ($status == '0') {
             $validator = Validator::make($request->all(), [
@@ -45,7 +45,7 @@ class UploadsController extends Controller
                 'user_id' =>  'required',
                 'file' =>  'required',
                 'status' => 'required'
-    
+
             ]);
             // if validation fails
             if ($validator->fails()) {
@@ -81,21 +81,67 @@ class UploadsController extends Controller
                 ], 400);
             }
 
-            $upload_delete=Upload::where('id', $request->id)->delete();
-            if($upload_delete)
-            {
+            $upload_delete = Upload::where('id', $request->id)->delete();
+            if ($upload_delete) {
                 return response()->json([
                     'message' => "Deleted Successfully"
                 ], 200);
-            }
-            else{
+            } else {
                 return response()->json([
                     'message' => "Something went Wrong"
                 ], 200);
             }
+        }
+    }
 
 
+    public function list_files(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'status' =>  'required',   // 0->employee only,1->for HR 
+        ]);
 
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        $status = $request->status;
+        if ($status == '0') {
+            $validator = Validator::make($request->all(), [
+                'employee_id' =>  'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => $validator->errors()->first()
+                ], 400);
+            }
+
+            $files = Upload::where('user_id', $request->employee_id)->get();
+        } else {
+            $validator = Validator::make($request->all(), [
+                'employer_id' =>  'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => $validator->errors()->first()
+                ], 400);
+            }
+            $files = Upload::where('employer_id', $request->employer_id)->get();
+        }
+
+        if ($files) {
+            return response()->json([
+                'message' => "files listed Successfully",
+                'files' => $files,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "No records"
+            ], 400);
         }
     }
 }

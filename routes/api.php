@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Admin\DeductionsController as AdminDeductionsContro
 use App\Http\Controllers\Api\Admin\GeneralController;
 use App\Http\Controllers\Api\Admin\MeetingsController as AdminMeetingsController;
 use App\Http\Controllers\Api\Admin\OverTimeController;
+use App\Http\Controllers\Api\Admin\ProjectsController;
 use App\Http\Controllers\Api\Admin\ReportsController;
 use App\Http\Controllers\Api\Admin\UploadsController;
 use App\Http\Controllers\Api\Employee\AuthController;
@@ -156,11 +157,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('list_file_types', [UploadsController::class, 'list_file_types']);
     Route::post('upload_files', [UploadsController::class, 'upload_files']);
 
-    //23-02-23
-    Route::post('list_files', [FileController::class, 'list_files']);
-    //
-    //create_chat_groups
-
+    //24-02-23
+     Route::post('list_files', [UploadsController::class, 'list_files']);
+     Route::post('list_projects', [ProjectsController::class, 'list_projects']);
+     Route::post('project_details', [ProjectsController::class, 'project_details']);
+     
 
 
 });
