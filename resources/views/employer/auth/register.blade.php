@@ -86,11 +86,18 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Country <span class="text-danger">*</span></label>
-                                        <input type="text"
+                                        <!-- <input type="text"
                                             class="form-control @if ($errors->has('country')) is-invalid @endif"
                                             name="country" value="{{ old('country') }}" placeholder="Enter Country"
                                             required>
-                                        <div class="invalid-feedback">{{ $errors->first('country') }}</div>
+                                        <div class="invalid-feedback">{{ $errors->first('country') }}</div> -->
+                                        <select class="form-control"  class="form-control @if ($errors->has('country')) is-invalid @endif" name="country" value="{{ old('country') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($country as $key => $value)
+                                    <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('country') }}</div>
                                     </div>
                                 </div><!-- Col -->
                             </div><!-- Row -->
@@ -118,7 +125,7 @@
                         
                         
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="control-label">Registration Certificate</label>
                                         <input type="file"
@@ -127,7 +134,7 @@
                                         <div class="invalid-feedback">{{ $errors->first('registration_certificate') }}</div>
                                     </div>
                                 </div><!-- Col -->
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="control-label">logo</label>
                                         <input type="file"
@@ -137,6 +144,9 @@
                                     </div>
                                 </div>
                             </div><!-- Row -->
+
+                          
+                            
                             <button type="submit" class="btn btn-primary submit">Register</button>
                         </form>
                 </div>

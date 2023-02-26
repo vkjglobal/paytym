@@ -6,8 +6,14 @@ use App\Models\Employer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Mail\SendEmployerPassword;
+use Swift_TransportException;
+use App\Models\Country;
+use SwiftTransportException;
 
 class RegisterController extends Controller
 {
@@ -87,17 +93,26 @@ class RegisterController extends Controller
         $employer = new Employer();
         $employer->name = $data['name'];
         $employer->company = $data['company_name'];
-        $employer->email = $data['email'];
-        $employer->password = Hash::make($data['email']);
+        $email = $data['email'];
+        $employer->email = $email;
         $employer->phone = $data['phone'];
         $employer->company_phone = $data['company_phone'];
         $employer->tin = $data['tin'];
-        $employer->country = $data['country'];
+        $employer->country_id = $data['country'];
         $employer->street = $data['street'];
         $employer->city = $data['city'];
         $employer->website = $data['website'];
         $employer->user_type = "Employer"; 
-
+        $rand_pass =  Str::random(8);
+        $employer->password = Hash::make($rand_pass);
+        try {
+            $issend =Mail::to($email)->send(new SendEmployerPassword($rand_pass));
+            if (!$issend) {
+                return redirect()->back()->with('error', 'Email not sent. Please try again later.');
+            }
+        } catch (Swift_TransportException $e) {
+            return redirect()->back()->with('error', 'Invalid email address');
+        }
         if (isset($data['registration_certificate'])) {
             $path =  $data['registration_certificate']->storeAs(
                 'uploads/certificate',
@@ -115,9 +130,11 @@ class RegisterController extends Controller
             );
             $employer->logo = $path;
         }
+        if($issend){
         $res = $employer->save();
+        }
         if ($res) {
-            notify()->success(__('Register successfull'));
+            notify()->success(__('Password sent to your registered email'));
             return $employer;
         } else {
             notify()->error(__('Failed to Register. Please try again'));
@@ -132,7 +149,8 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('employer.auth.register');
+        $country = Country::get();
+        return view('employer.auth.register', compact('country'));
     }
 
     /**

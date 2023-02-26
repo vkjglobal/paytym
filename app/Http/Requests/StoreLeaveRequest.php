@@ -27,7 +27,8 @@ class StoreLeaveRequest extends FormRequest
             'title' => 'nullable',
             'start_date' => 'required|date_format:d-m-Y',
             'end_date' => 'required|date_format:d-m-Y',
-            'type' => 'required'
+            'type' => 'required',
+            'employer_id' => 'required'
         ];
     }
 }

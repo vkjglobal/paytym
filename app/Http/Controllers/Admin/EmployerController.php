@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreEmployerRequest;
 use App\Http\Requests\Admin\UpdateEmployerRequest;
 use App\Models\Employer;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -25,8 +26,8 @@ class EmployerController extends Controller
             [(__('Employers')), null],
         ];
 
-        $employers = Employer::latest()->get();
-
+        //$employers = Employer::latest()->get();
+        $employers = Employer::with('country')->latest()->get();
         return view('admin.employers.index', compact('breadcrumbs', 'employers'));
     }
 
@@ -42,7 +43,10 @@ class EmployerController extends Controller
             [(__('Employers')), route('admin.employers.index')],
             [(__('Create')), null]
         ];
-        return view('admin.employers.create', compact('breadcrumbs'));
+        $country = Country::get();
+        //dd($country);
+
+        return view('admin.employers.create', compact('breadcrumbs','country'));
     }
 
     /**
@@ -55,19 +59,18 @@ class EmployerController extends Controller
     {
         $validated = $request->validated();
 
-        $password = Str::random(8);
 
         $employer = new Employer();
         $employer->company = $validated['company'];
         $employer->name = $validated['name'];
         $employer->email = $validated['email'];
-        $employer->password = Hash::make($password);
+        $employer->password = Hash::make($employer->email);
         $employer->phone = $validated['phone'];
         $employer->company_phone = $validated['company_phone'];
         $employer->street = $validated['street'];
         $employer->city = $validated['city'];
         $employer->postcode = $validated['postcode'];
-        $employer->country = $validated['country'];
+        $employer->country_id = $validated['country'];
         $employer->tin = $validated['tin'];
         $employer->website = $validated['website'];
 
@@ -121,8 +124,8 @@ class EmployerController extends Controller
             [(__('Employers')), route('admin.employers.index')],
             [(__('Edit')), null]
         ];
-
-        return view('admin.employers.edit', compact('breadcrumbs', 'employer'));
+        $country = Country::get();
+        return view('admin.employers.edit', compact('breadcrumbs', 'employer','country'));
     }
 
     /**
@@ -144,9 +147,12 @@ class EmployerController extends Controller
         $employer->street = $validated['street'];
         $employer->city = $validated['city'];
         $employer->postcode = $validated['postcode'];
-        $employer->country = $validated['country'];
+        $employer->country_id = $validated['country'];
         $employer->tin = $validated['tin'];
         $employer->website = $validated['website'];
+        $registration_certificate = $employer->registration_certificate;
+        $tin_letter = $employer->tin_letter;
+        $logo = $employer->logo;
 
         if ($request->hasFile('registration_certificate')) {
             $path =  $request->file('registration_certificate')->storeAs(
@@ -155,7 +161,10 @@ class EmployerController extends Controller
                 'public'
             );
 
-            Storage::delete($employer->registration_certificate);
+            if (Storage::exists('public/'. $registration_certificate))  {
+                $del=Storage::delete('public/'.$registration_certificate);
+               
+            } 
             $employer->registration_certificate = $path;
         }
 
@@ -166,7 +175,10 @@ class EmployerController extends Controller
                 'public'
             );
 
-            Storage::delete($employer->tin_letter);
+            if (Storage::exists('public/'. $tin_letter))  {
+                $del=Storage::delete('public/'.$tin_letter);
+               
+            } 
             $employer->tin_letter = $path;
         }
 
@@ -177,10 +189,13 @@ class EmployerController extends Controller
                 'public'
             );
 
-            Storage::delete($employer->logo);
+            if (Storage::exists('public/'. $logo))  {
+                $del=Storage::delete('public/'.$logo);
+               
+            } 
             $employer->logo = $path;
         }
-
+//dd($employer);
         $res = $employer->save();
 
         if ($res) {

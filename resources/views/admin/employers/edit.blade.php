@@ -104,10 +104,19 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Country <span class="text-danger">*</span></label>
-                                    <input type="text"
+                                    <!-- <input type="text"
                                         class="form-control @if ($errors->has('country')) is-invalid @endif"
                                         name="country" value="{{ old('country', $employer->country) }}"
-                                        placeholder="Enter Country" required>
+                                        placeholder="Enter Country" required> -->
+                                        <!-- <select class="form-control"  class="form-control @if ($errors->has('country_id')) is-invalid @endif" name="country" value="{{ old('country_id')}}"> -->
+                                        <select class="form-control"  class="form-control @if ($errors->has('country')) is-invalid @endif" name="country" value="{{ old('country')}}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($country as $key => $value)
+                                    <option value="{{$value['id']}}" @if ($value['id']==$employer->country_id)
+                                        selected
+                                    @endif>{{$value['name']}}</option>
+                                    @endforeach
+                                </select>
                                     <div class="invalid-feedback">{{ $errors->first('country') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -139,10 +148,10 @@
                                     <label class="control-label">Registration Certificate</label>
                                     <input type="file"
                                         class="form-control @if ($errors->has('registration_certificate')) is-invalid @endif"
-                                        name="registration_certificate" value="{{ old('registration_certificate') }}"
+                                        name="registration_certificate" value="{{ old('registration_certificate',$employer->registration_certificate) }}"
                                         placeholder="Enter registration certificate">
 
-                                    <img src="{{ asset('storage/' . $employer->registration_certificate) }}" class="img-thumbnail mt-2" width="500"
+                                    <img src="{{ asset('storage/' . $employer->registration_certificate) }}" class="img-thumbnail mt-2" width="100"
                                         alt="">
 
                                     <div class="invalid-feedback">{{ $errors->first('registration_certificate') }}</div>
@@ -153,10 +162,10 @@
                                     <label class="control-label">Tin Letter</label>
                                     <input type="file"
                                         class="form-control @if ($errors->has('tin_letter')) is-invalid @endif"
-                                        name="tin_letter" value="{{ old('tin_letter') }}"
+                                        name="tin_letter" value="{{ old('tin_letter',$employer->tin_letter) }}"
                                         placeholder="Enter tin letter">
 
-                                    <img src="{{ asset('storage/' . $employer->tin_letter) }}" class="img-thumbnail mt-2" width="500" alt="">
+                                    <img src="{{ asset('storage/' . $employer->tin_letter) }}" class="img-thumbnail mt-2" width="100" alt="">
                                     <div class="invalid-feedback">{{ $errors->first('tin_letter') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -168,9 +177,9 @@
                                     <label class="control-label">logo</label>
                                     <input type="file"
                                         class="form-control @if ($errors->has('logo')) is-invalid @endif"
-                                        name="logo" value="{{ old('logo') }}" placeholder="Enter logo">
+                                        name="logo" value="{{ old('logo',$employer->logo) }}" placeholder="Enter logo">
 
-                                    <img src="{{ asset('storage/' . $employer->logo) }}" class="img-thumbnail mt-2" width="500" alt="">
+                                    <img src="{{ asset('storage/' . $employer->logo) }}" class="img-thumbnail mt-2" width="100" alt="">
                                     <div class="invalid-feedback">{{ $errors->first('logo') }}</div>
                                 </div>
                             </div><!-- Col -->

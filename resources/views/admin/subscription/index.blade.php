@@ -16,6 +16,7 @@
                                     <th>Plan</th>
                                     <th>Employee Range</th>
                                     <th>Rate Per Employee</th>
+                                    <th>Rate Per Month</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -25,8 +26,13 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $subscription->plan }}</td>
-                                        <td>{{ $subscription->range_from }}-{{$subscription->range_to}}</td>
+                                        <td>{{ $subscription->range_from }} - {{$subscription->range_to}}</td>
                                         <td>{{ $subscription->rate_per_employee }}</td>
+                                        <td>@if (isset($subscription->rate_per_month ))
+                                        {{ $subscription->rate_per_month }}
+                                        @else
+                                            -
+                                        @endif</td>
                                         <td>
                                             <input data-id="{{ $subscription->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
@@ -37,25 +43,25 @@
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
                                                 <!-- Edit button -->
-                                                <a href="{{ route('admin.subscription.edit', $subscription->id) }}"
+                                                <a href="{{ route('admin.subscriptions.edit', $subscription->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
                                                     title="Edit">
                                                     <i data-feather="edit"></i>
                                                 </a>
 
                                                 <!-- Delete button -->
-                                                <button type="button" class="text-danger"
+                                                <!-- <button type="button" class="text-danger"
                                                     onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
                                                         document.getElementById('delete-data-{{ $subscription->id }}').submit();}"
                                                     data-toggle="tooltip" data-placement="top" title="Delete">
                                                     <i data-feather="trash"></i>
                                                 </button>
-                                                <form id="delete-data-{{ $employer->id }}"
-                                                    action="{{ route('admin.subscription.destroy', $subscription->id) }}"
+                                                <form id="delete-data-{{ $subscription->id }}"
+                                                    action="{{ route('admin.subscriptions.destroy', $subscription->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                </form>
+                                                </form> -->
 
                                             </div>
                                         </td>
@@ -82,8 +88,8 @@
         $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
-                var employer_id = $(this).data('id');
-                console.log(employer_id);
+                var subscription_id = $(this).data('id');
+                console.log(subscription_id);
 
                 $.ajax({
                     type: "GET",
@@ -91,7 +97,7 @@
                     url: '{{ route('admin.subscriptions.change.status') }}',
                     data: {
                         'status': status,
-                        'employer_id': employer_id
+                        'subscription_id': subscription_id
                     },
                     success: function(data) {
                         console.log(data.success)

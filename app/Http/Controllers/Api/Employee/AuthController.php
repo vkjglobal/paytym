@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Mail\SendOtp;
 use App\Models\LeaveRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -98,6 +100,7 @@ class AuthController extends Controller
     public function confirmOtp(Request $request)
     {
         $authUser = Auth::user();
+      
         if ($authUser->otp == $request->otp) {
             return response()->json([
                 'message' => 'Otp matched successfully.'
@@ -172,4 +175,96 @@ class AuthController extends Controller
             ], 400);
         }
     }
+
+    public function forgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' =>  'required|email',
+        ]);
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        } else {
+            $email = $request->email;
+            $otp = rand(1000, 9999);
+            Mail::to($email)->send(new SendOtp($otp));
+            // save otp to users table
+            $authUser = User::where('email', $email)->first();
+            $authUser->otp = $otp;
+            $authUser->update();
+            return response()->json([
+                'message' => 'Please find the email otp'
+            ], 200);
+        }
+    }
+
+    public function forgotPwd_confirmOtp(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' =>  'required|email',
+            'otp' => 'required'
+        ]);
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            $otp = $user->otp;
+        } else {
+            return response()->json([
+                'message' => 'No data Found'
+            ], 400);
+        }
+
+        if ($otp == $request->otp) {
+            return response()->json([
+                'message' => 'Otp matched successfully.'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Please enter correct OTP.'
+            ], 400);
+        }
+    }
+
+    public function forgotPwd_updatePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' =>  'required|email',
+            'password' => 'required|same:c_password'
+        ]);
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        } else {
+            $authUser=User::where('email',$request->email)->first();
+            if($authUser)
+            {
+                $authUser->password = Hash::make($request->password);
+                $authUser->isFirst = 0;
+                $authUser->update();
+            }
+            else
+            {
+                return response()->json([
+                    'message' => 'It is not a registered email'
+                ], 200);
+            }
+     
+
+            return response()->json([
+                'message' => 'Password changed successfully.'
+            ], 200);
+        }
+    }
+
+
 }

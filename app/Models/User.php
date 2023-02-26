@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -46,4 +47,28 @@ class User extends Authenticatable
     {
         return $this->hasMany(LeaveRequest::class);
     }
+    public function paymentAdvance()
+    {
+        return $this->hasMany(PaymentAdvance::class);
+    }
+
+    public function employer(){
+
+        return $this->belongsTo(Employer::class);
+    }
+
+    public function providentfund()
+    {
+        return $this->hasOne(ProvidentFund::class);
+    }
+
+    public function business(){
+        return $this->belongsTo(EmployerBusiness::class,'business_id');
+    }
+    public function role(){
+
+        return $this->belongsTo(Role::class);
+    }
+
+
 }

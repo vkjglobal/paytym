@@ -7,6 +7,11 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    protected $command = [
+        "App\Console\Commands\DbBackup",
+        "App\Console\Commands\CalculatePayroll"
+    ];
+    
     /**
      * Define the application's command schedule.
      *
@@ -16,6 +21,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('db:backup')->daily();
+        $schedule->command('payroll:hourly')->daily();
+        $schedule->command('payroll:fixed')->daily();
     }
 
     /**
