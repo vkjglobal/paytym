@@ -27,6 +27,7 @@ use App\Http\Controllers\Employer\BillingController;
 use App\Http\Controllers\Employer\SupportTicketController;
 use App\Http\Controllers\Employer\UserCapabilitiesController;
 use App\Http\Controllers\Employer\PayslipController;
+use App\Http\Controllers\Employer\PayrollSettingsController;
 use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Employer\GroupChatController;
 
@@ -215,5 +216,8 @@ Route::middleware('employer.auth')->group(function () {
     Route::post('/billing', [BillingController::class,'index'])->name('billing');
     Route::post('/billing/pay', [BillingController::class,'pay'])->name('billing.pay');
     Route::get('/billing/plan', [BillingController::class,'plan'])->name('billing.plan');
+
+    //Payroll settings 
+    Route::get('payroll-settings/hourly/show', [PayrollSettingsController::class,'index'])->name('payroll-settings.hourly.show');
     
 });

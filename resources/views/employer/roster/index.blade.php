@@ -15,7 +15,6 @@
                                     <th>Sl #</th>
                                     <th>Employee</th>
                                     <th>Project</th>
-                                    <th>Job Type</th>
                                     <th>Start Time</th>
                                     <th>End Time</th>
                                     <th>Start Date</th>
@@ -30,7 +29,6 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $roster->user->first_name." ".$roster->user->last_name}}</td>
                                         <td>{{ $roster->project->name }}</td>
-                                        <td>{{ $roster->job_type->name }}</td>
                                         <td>{{ $roster->start_time}}</td>
                                         <td>{{ $roster->end_time}}</td>
                                         <td>{{ $roster->start_date}}</td>
