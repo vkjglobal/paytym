@@ -203,7 +203,6 @@ class PayrollController extends Controller
 
             
             //Commissions Calculation
-          
             $commission_amount = 0 ;
             $commission = Commission::where('user_id',$employee->id)->first();
            if(isset($commission)){
@@ -212,7 +211,6 @@ class PayrollController extends Controller
 
 
             //Bonus calculation
-           
             $bonuses = Bonus::where('employer_id',$employee->employer_id)->get();
             $total_bonus = 0;
             foreach($bonuses as $bonus){
@@ -246,21 +244,20 @@ class PayrollController extends Controller
             }
 
             //Tax Calculation - Income tax , SRT , Ecal
-          
-            $tax_amount = 0;
-            $weeklySalary = $employee->rate * $employee->total_hours_per_week;
-            if($employee->pay_period == "0"){
-                  $annualIncome = $weeklySalary * 52; 
-                  $F = 52;      
-            }else{
-                $annualIncome = $weeklySalary * 26 ;  
-                $F =  26;    //C1
-            }
+            // $tax_amount = 0;
+            // $weeklySalary = $employee->rate * $employee->total_hours_per_week;
+            // if($employee->pay_period == "0"){
+            //       $annualIncome = $weeklySalary * 52; 
+            //       $F = 52;      
+            // }else{
+            //     $annualIncome = $weeklySalary * 26 ;  
+            //     $F =  26;    //C1
+            // }
 
-            $A1 = $annualIncome * ($employee->country->tax / 100);
-            $C2 = $annualIncome + $total_bonus;
-            $incomeTaxOnC2 = $C2 * ($employee->country->tax / 100);
-            $incomeTaxOnC1 = $A1;
+            // $A1 = $annualIncome * ($employee->country->tax / 100);
+            // $C2 = $annualIncome + $total_bonus;
+            // $incomeTaxOnC2 = $C2 * ($employee->country->tax / 100);
+            // $incomeTaxOnC1 = $A1;
             
             
 
