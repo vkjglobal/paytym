@@ -744,6 +744,32 @@
             </li>
 
             <!--User Capability end -->
+        
+
+                 <!-- Payslip Settings -->
+                 <li class="nav-item {{ request()->is('employer/payroll-settings') ? 'active' : '' }}">
+               
+                    <a class="nav-link" data-toggle="collapse" href="#payroll-setting" role="button" aria-expanded="false"
+                        aria-controls="requests">
+                        <i class="link-icon" data-feather="settings"></i>
+                        <span class="link-title">Payroll Settings</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse {{ request()->is('employer/payroll-settings*') ? 'show' : '' }}" id="payroll-setting">
+                        <ul class="nav sub-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('employer.payroll-settings.hourly.show') }}"
+                                    class="nav-link {{ request()->is('employer/payroll-settings') ? 'active' : '' }}">
+                                        Hourly
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+            <!--Payslip Settings End-->
+
+
 
 
             <!-- Payslip Settings -->

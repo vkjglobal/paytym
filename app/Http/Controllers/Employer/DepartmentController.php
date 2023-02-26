@@ -143,9 +143,7 @@ class DepartmentController extends Controller
     public function changeStatus(Request $request){
         $department = Department::find($request->department_id);
         $department->status = $request->status;
-        $res=$department->save();
-        if($res){
+        $res = $department->save();
         return response()->json(['success' => 'Status change successfully.']);
-        }
     }
 }

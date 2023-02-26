@@ -37,19 +37,6 @@
                                 </div>
                             </div><!-- Col -->
 
-
-                            <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Job Type<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="job_type" value="{{ old('job_type',$roster->job_type->name) }}">
-                                    <option value="">--SELECT--</option>
-                                    @foreach ($job_types as $job_type )
-                                    <option value="{{$job_type['id']}}" {{$roster->job_id == $job_type['id'] ? 'selected':''}}>{{$job_type['name']}}</option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">{{ $errors->first('job_type') }}</div>
-                                </div>
-                            </div><!-- Col -->
                         </div><!-- Row -->
 
                         <div class="row">
