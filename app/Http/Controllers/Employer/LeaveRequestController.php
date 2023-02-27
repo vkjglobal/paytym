@@ -40,7 +40,7 @@ class LeaveRequestController extends Controller
         $req = LeaveRequest::findOrFail($id);
         if($request->approve){
             $req->status = $request->approve;
-            $req->message = NULL;
+            $req->reason = NULL;
             $msg = 'Approved';
         }else{
             $req->status = $request->reject;
@@ -68,7 +68,7 @@ class LeaveRequestController extends Controller
     {
         $req = LeaveRequest::findOrFail($id);
         if($request->message){
-            $req->message = $request->message;
+            $req->reason = $request->message;
         }
         $res = $req->save();
 
