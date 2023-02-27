@@ -8,19 +8,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 
 class EmploymentOver extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $employee;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($employee)
     {
-        //
+        $this->employee = $employee;
     }
 
     /**
@@ -44,6 +45,10 @@ class EmploymentOver extends Mailable
     {
         return new Content(
             markdown: 'mail.send-employment-over',
+            with: [
+                'employee' => $this->employee,
+                'date' => Carbon::tomorrow()->format('Y-m-d'),
+            ],
         );
     }
 

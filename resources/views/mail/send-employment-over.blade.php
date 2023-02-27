@@ -1,11 +1,6 @@
 <x-mail::message>
-# Introduction
 
-The body of your message.
-
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+The Employement period for {{$employee->first_name.' '.$employee->last_name}} is ending tomorrow - {{$date}}.
 
 Thanks,<br>
 {{ config('app.name') }}
