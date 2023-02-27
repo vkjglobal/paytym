@@ -25,6 +25,11 @@ class BillingController extends Controller
         return view('employer.payment.plan', compact('subscription', 'pricing'));
     }
     
+    public function invoice()
+    {
+        return view('employer.payment.invoice');
+    }
+
     public function pay(Request $request,Client $client)
     {
         $nar_msgType = $request->nar_msgType;

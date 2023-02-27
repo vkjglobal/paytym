@@ -815,7 +815,7 @@
                         </li>
                         <li class="nav-item">
                            <a href="{{ route('employer.report.attendance.search') }}"
-                               class="nav-link {{ request()->is('employer/report/attendance') ? 'active' : '' }}">
+                               class="nav-link {{ request()->is('employer/report/attendance*') ? 'active' : '' }}">
                                 Attendance
                            </a>
                        </li>
@@ -836,10 +836,17 @@
                             class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
                              Allowance Reports
                         </a>
-                    </li><li class="nav-item">
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('employer.report.deduction') }}"
                             class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
                              Deduction Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.payroll') }}"
+                            class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
+                             Payroll Reports
                         </a>
                     </li>
                        

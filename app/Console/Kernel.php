@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('db:backup')->daily();
         $schedule->command('payroll:hourly')->daily();
         $schedule->command('payroll:fixed')->daily();
+        $schedule->command('send:employment-over-email')->daily();
     }
 
     /**

@@ -43,7 +43,7 @@
                             {{-- <div class="row"> --}}
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">To<span class="text-danger">*</span></label>
+                                        <label class="control-label">To<span class="text-danger"></span></label>
                                         <input type="date"
                                             class="form-control @if ($errors->has('date_to')) is-invalid @endif"
                                             name="date_to" value="" placeholder="Enter Rate" >

@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
 
 use App\Exports\Employer\EmployeePeriodExport;
 use App\Exports\Employer\EmployeeReportExport;
+use App\Exports\Employer\PayrollExport;
 use App\Exports\Employer\StatusBranchExport;
 use App\Exports\Employer\StatusBusinessExport;
 use App\Exports\Employer\StatusDepartmentExport;
@@ -24,6 +25,7 @@ use App\Models\Branch;
 use App\Models\Deduction;
 use App\Models\Department;
 use App\Models\EmployerBusiness;
+use App\Models\Payroll;
 use App\Models\Project;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -171,11 +173,14 @@ public function deduction_index()
     {
         return Excel::download(new DeductionExport, 'deduction_export-'.Carbon::now().'.xlsx');
     }
-////////fnpf
-    // public function fnpf_index() 
-    // {
-    //     $employees = User::where('employer_id', $this->employer_id())->get();
-    //     $allowances = Allowance::where('employer_id', $this->employer_id())->get();
-    //     return view('employer.report.allowance_list',compact('employees', 'allowances'));
-    // }
+/////payroll
+public function payroll_index()
+{
+    $payrolls = Payroll::where('employer_id', $this->employer_id())->get();
+    return view('employer.report.payroll_list',compact('payrolls'));
+}
+public function payroll_export() 
+{
+    return Excel::download(new PayrollExport, 'payroll_report_export-'.Carbon::now().'.xlsx');
+}
 }
