@@ -98,14 +98,14 @@ class LeaveRequestController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-        $leave=[];
-        $projects=[];
-        $meetings=[];
-        $attendance=[];
+        $leave = [];
+        $projects = [];
+        $meetings = [];
+        $attendance = [];
         $leave = LeaveRequest::where('status', '1')->where('employer_id', $request->employer_id)->get();
         $projects = Project::where('employer_id', $request->employer_id)->get();
-        $meetings=Meeting::where('employer_id',$request->employer_id)->get();
-        $attendance=Attendance::where('employer_id',$request->employer_id)->get();
+        $meetings = Meeting::where('employer_id', $request->employer_id)->get();
+        $attendance = Attendance::where('employer_id', $request->employer_id)->get();
 
         return response()->json([
             'message' => "Dash Board details listed",
@@ -114,7 +114,6 @@ class LeaveRequestController extends Controller
             'meetings' => $meetings,
             'attendance' => $attendance,
         ], 200);
-
     }
 
 
@@ -156,7 +155,8 @@ class LeaveRequestController extends Controller
         $validator = Validator::make($request->all(), [
             'employee_id' =>  'required',
             'approval_status' => 'required',
-            'start_date' => 'required'
+            'start_date' => 'required',
+            'reason' => 'required',
 
         ]);
         // if validation fails
@@ -177,6 +177,7 @@ class LeaveRequestController extends Controller
             } else {
                 $leave_request->status = '1';
             }
+            $leave_request->reason = $request->reason;
             $issave = $leave_request->save();
             if ($issave) {
                 return response()->json([

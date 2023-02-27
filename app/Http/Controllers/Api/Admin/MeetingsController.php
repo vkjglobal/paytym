@@ -45,6 +45,7 @@ class MeetingsController extends Controller
             'start_time' =>  'required',
             'end_time' => 'required',
             'location' => 'required',
+            'name' => 'required',
 
         ]);
         // if validation fails
@@ -60,6 +61,7 @@ class MeetingsController extends Controller
         $meetings->date = $request->date;
         $meetings->start_time = $request->start_time;
         $meetings->end_time = $request->end_time;
+        $meetings->name = $request->name;
         $meetings->location = $request->location;
 
         $issave = $meetings->save();
