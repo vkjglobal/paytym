@@ -258,6 +258,10 @@ class PayrollController extends Controller
             // $C2 = $annualIncome + $total_bonus;
             // $incomeTaxOnC2 = $C2 * ($employee->country->tax / 100);
             // $incomeTaxOnC1 = $A1;
+            // $G = 2;    //should be made dynamic - No of completed pay period including current
+            // $B1 = 0;   //should be made dynamic - tax witheheld to date 
+            // $IncomeTaxToWithhold = (($A1/$F * $G) - $B1 + ($incomeTaxOnC2 -$incomeTaxOnC1));
+
             
             
 

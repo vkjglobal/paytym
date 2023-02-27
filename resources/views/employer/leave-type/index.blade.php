@@ -7,13 +7,13 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">file_types</h6>
+                    <h6 class="card-title">Leave types</h6>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
-                                    <th>File Type</th>
+                                    <th>Leave Types</th>
                                     <th>No of days allowed</th>
                                     <th>Actions</th>
                                 </tr>

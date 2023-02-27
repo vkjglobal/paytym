@@ -147,8 +147,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('create_meetings', [AdminMeetingsController::class, 'create_meetings']);
     Route::post('meetings_delete', [AdminMeetingsController::class, 'meetings_delete']);
 
-    //20-02-23
-    Route::post('payroll-calculation', [PayrollCalculationController::class,'payroll']);
     
     //
     //21-02-23
@@ -164,6 +162,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
      //25-02-23
      Route::post('admin_dashboard', [LeaveRequestController::class, 'admin_dashboard']);
+
+         //20-02-23
+    Route::post('payroll-calculation', [PayrollCalculationController::class,'payroll']);
      
      
 
