@@ -744,6 +744,32 @@
             </li>
 
             <!--User Capability end -->
+        
+
+                 <!-- Payslip Settings -->
+                 <li class="nav-item {{ request()->is('employer/payroll-settings') ? 'active' : '' }}">
+               
+                    <a class="nav-link" data-toggle="collapse" href="#payroll-setting" role="button" aria-expanded="false"
+                        aria-controls="requests">
+                        <i class="link-icon" data-feather="settings"></i>
+                        <span class="link-title">Payroll Settings</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse {{ request()->is('employer/payroll-settings*') ? 'show' : '' }}" id="payroll-setting">
+                        <ul class="nav sub-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('employer.payroll-settings.hourly.show') }}"
+                                    class="nav-link {{ request()->is('employer/payroll-settings') ? 'active' : '' }}">
+                                        Hourly
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+            <!--Payslip Settings End-->
+
+
 
 
             <!-- Payslip Settings -->
@@ -781,12 +807,48 @@
                </a>
                <div class="collapse {{ request()->is('employer/report*') ? 'show' : '' }}" id="report">
                    <ul class="nav sub-menu">
-                       <li class="nav-item">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.employee') }}"
+                                class="nav-link {{ request()->is('employer/report/employee') ? 'active' : '' }}">
+                                Employees
+                            </a>
+                        </li>
+                        <li class="nav-item">
                            <a href="{{ route('employer.report.attendance.search') }}"
-                               class="nav-link {{ request()->is('employer/report') ? 'active' : '' }}">
+                               class="nav-link {{ request()->is('employer/report/attendance*') ? 'active' : '' }}">
                                 Attendance
                            </a>
                        </li>
+                       <li class="nav-item">
+                        <a href="{{ route('employer.report.employment_period') }}"
+                            class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
+                             Employment Periods
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.status') }}"
+                            class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
+                             Status Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.allowance') }}"
+                            class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
+                             Allowance Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.deduction') }}"
+                            class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
+                             Deduction Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.payroll') }}"
+                            class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
+                             Payroll Reports
+                        </a>
+                    </li>
                        
                    </ul>
                </div>

@@ -34,14 +34,14 @@
 						</div>	
 						
 						<form
-								name="myform" action="{{route('employer.billing.pay')}}" method="POST" class="m-4">
+								name="myform" action="https://uat2.yalamanchili.in/MPI_v1/sandboxtest" method="POST" class="m-4">
 								@csrf
 								<input type="hidden" id="nar_msgType" name="nar_msgType" value="AR" />
-		<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="" />
+		<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="202312323160" />
 		<input type="hidden" id="nar_merBankCode" name="nar_merBankCode" value="01" />
-		<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="" />
-		<input type="hidden" id="nar_merId" name="nar_merId" value="842700008427001" />
-		{{-- <input type="hidden" id="nar_merId" name="nar_merId" value="853000008530001" /> --}}
+		<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="ORD_202312323160" />
+		{{-- <input type="hidden" id="nar_merId" name="nar_merId" value="842700008427001" /> --}}
+		<input type="hidden" id="nar_merId" name="nar_merId" value="853000008530001" />
 		<input type="hidden" id="nar_txnCurrency" name="nar_txnCurrency" value="242" />
 		<input type="hidden" id="nar_txnAmount" name="nar_txnAmount" value="20.00" />
 		<input type="hidden" id="nar_AcquirerPaymentReferenceNumber" name="nar_AcquirerPaymentReferenceNumber" value="99YYYXXXXXXXXXXX" />

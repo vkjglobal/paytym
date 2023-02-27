@@ -10,10 +10,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Redirect;
 use App\Mail\SendEmployerPassword;
-use Swift_TransportException;
 use App\Models\Country;
-use SwiftTransportException;
+use Exception;
+use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class RegisterController extends Controller
 {
@@ -90,6 +91,7 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
+        $rand_pass =  Str::random(8);
         $employer = new Employer();
         $employer->name = $data['name'];
         $employer->company = $data['company_name'];
@@ -103,16 +105,19 @@ class RegisterController extends Controller
         $employer->city = $data['city'];
         $employer->website = $data['website'];
         $employer->user_type = "Employer"; 
-        $rand_pass =  Str::random(8);
+       
         $employer->password = Hash::make($rand_pass);
-        try {
-            $issend =Mail::to($email)->send(new SendEmployerPassword($rand_pass));
-            if (!$issend) {
-                return redirect()->back()->with('error', 'Email not sent. Please try again later.');
-            }
-        } catch (Swift_TransportException $e) {
-            return redirect()->back()->with('error', 'Invalid email address');
+        try{
+           $issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
+        } catch (TransportExceptionInterface $e){
+            return redirect()->route('employer.register',[],'get');
         }
+        // if(!$mail_res){
+        //     notify()->error(__('Failed to Register. Please try again'));
+        //     return Redirect::to('http://127.0.0.1:8000/employer/register?get');
+        // }
+            
+            
         if (isset($data['registration_certificate'])) {
             $path =  $data['registration_certificate']->storeAs(
                 'uploads/certificate',
@@ -130,9 +135,9 @@ class RegisterController extends Controller
             );
             $employer->logo = $path;
         }
-        if($issend){
+       
         $res = $employer->save();
-        }
+        
         if ($res) {
             notify()->success(__('Password sent to your registered email'));
             return $employer;

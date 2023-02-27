@@ -17,7 +17,7 @@ class LeaveRequestController extends Controller
             [(__('Leave Requests')), null],
         ];
 
-        $leaveRequests = LeaveRequest::with('user')->latest()->get();
+        $leaveRequests = LeaveRequest::with('user')->where('employer_id', Auth::guard('employer')->id())->latest()->get();
         // dd($leaveRequests);
         return view('employer.leave-requests.index', compact('breadcrumbs', 'leaveRequests'));
     }

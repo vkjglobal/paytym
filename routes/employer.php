@@ -27,8 +27,10 @@ use App\Http\Controllers\Employer\BillingController;
 use App\Http\Controllers\Employer\SupportTicketController;
 use App\Http\Controllers\Employer\UserCapabilitiesController;
 use App\Http\Controllers\Employer\PayslipController;
+use App\Http\Controllers\Employer\PayrollSettingsController;
 use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Employer\GroupChatController;
+
 
 
 use Illuminate\Support\Facades\Route;
@@ -178,13 +180,48 @@ Route::middleware('employer.auth')->group(function () {
     Route::post('payslip/store', [PayslipController::class,'store'])->name('payslip.store');
 
     //Report
-    Route::get('report/attendance/search-form',[ReportController::class,'attendance_search_form'])->name('report.attendance.search_form');
-    Route::get('report/attendance/search',[ReportController::class,'attendance_search'])->name('report.attendance.search');
+    Route::get('report/attendance',[ReportController::class,'attendance_index'])->name('report.attendance.search');
+    Route::post('report/attendance/filter',[ReportController::class,'attendance_filter'])->name('report.attendance.filter');
 
+    Route::get('report/employment_period',[ReportController::class,'employment_period_index'])->name('report.employment_period');
+    Route::get('report/employment_period/export',[ReportController::class,'employment_period_export'])->name('report.employment_period.export');
+
+    Route::get('report/employee',[ReportController::class,'employee_list_index'])->name('report.employee');
+    Route::get('report/employee/export',[ReportController::class,'employee_list_export'])->name('report.employee.export');
+
+    Route::get('report/status',[ReportController::class,'status_list_index'])->name('report.status');
+
+    Route::get('report/status/business',[ReportController::class,'status_business'])->name('report.status.business');
+    Route::get('report/status/business/export',[ReportController::class,'status_business_export'])->name('report.status.business.export');
+    Route::get('report/status/business/export/print',[ReportController::class,'status_business_export_print'])->name('report.status.business.export.print');
+
+    Route::get('report/status/branch',[ReportController::class,'status_branch'])->name('report.status.branch');
+    Route::get('report/status/branch/export',[ReportController::class,'status_branch_export'])->name('report.status.branch.export');
+    
+    Route::get('report/status/department',[ReportController::class,'status_department'])->name('report.status.department');
+    Route::get('report/status/department/export',[ReportController::class,'status_department_export'])->name('report.status.department.export');
+
+    Route::get('report/status/project',[ReportController::class,'status_project'])->name('report.status.project');
+    Route::get('report/status/project/export',[ReportController::class,'status_project_export'])->name('report.status.project.export');
+
+    Route::get('report/allowance',[ReportController::class,'allowane_index'])->name('report.allowance');
+    Route::get('report/allowance/view/{id}',[ReportController::class,'allowance_view'])->name('report.allowance.view');
+    Route::get('report/allowance/export',[ReportController::class,'allowance_export'])->name('report.allowance.export');
+
+    Route::get('report/deduction',[ReportController::class,'deduction_index'])->name('report.deduction');
+    Route::get('report/deduction/view/{id}',[ReportController::class,'deduction_view'])->name('report.deduction.view');
+    Route::get('report/deduction/export',[ReportController::class,'deduction_export'])->name('report.deduction.export');
+
+    Route::get('report/payroll',[ReportController::class,'payroll_index'])->name('report.payroll');
+    Route::get('report/payroll/export',[ReportController::class,'payroll_export'])->name('report.payroll.export');
 
     //Billing
     Route::post('/billing', [BillingController::class,'index'])->name('billing');
     Route::post('/billing/pay', [BillingController::class,'pay'])->name('billing.pay');
     Route::get('/billing/plan', [BillingController::class,'plan'])->name('billing.plan');
+    Route::get('/billing/invoice', [BillingController::class,'invoice'])->name('billing.invoice');
+
+    //Payroll settings 
+    Route::get('payroll-settings/hourly/show', [PayrollSettingsController::class,'index'])->name('payroll-settings.hourly.show');
     
 });

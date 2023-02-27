@@ -17,7 +17,7 @@ class AttendanceController extends Controller
 
     public function index()
     {
-        $attendances = Attendance::all();
+        $attendances = Attendance::where('employer_id', Auth::guard('employer')->id())->get();
         return view('employer.attendance.index', compact('attendances'));
     }
 
