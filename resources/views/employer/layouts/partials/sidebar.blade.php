@@ -746,7 +746,7 @@
             <!--User Capability end -->
         
 
-                 <!-- Payslip Settings -->
+                 <!-- Payroll Settings -->
                  <li class="nav-item {{ request()->is('employer/payroll-settings') ? 'active' : '' }}">
                
                     <a class="nav-link" data-toggle="collapse" href="#payroll-setting" role="button" aria-expanded="false"
@@ -758,7 +758,7 @@
                     <div class="collapse {{ request()->is('employer/payroll-settings*') ? 'show' : '' }}" id="payroll-setting">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
-                                <a href="{{ route('employer.payroll-settings.hourly.show') }}"
+                                <a href="{{ route('employer.payroll-setting-hourly.index') }}"
                                     class="nav-link {{ request()->is('employer/payroll-settings') ? 'active' : '' }}">
                                         Hourly
                                 </a>
@@ -767,7 +767,7 @@
                         </ul>
                     </div>
                 </li>
-            <!--Payslip Settings End-->
+            <!--Payroll Settings End-->
 
 
 

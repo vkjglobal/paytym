@@ -222,6 +222,7 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('/billing/invoice', [BillingController::class,'invoice'])->name('billing.invoice');
 
     //Payroll settings 
-    Route::get('payroll-settings/hourly/show', [PayrollSettingsController::class,'index'])->name('payroll-settings.hourly.show');
-    
+    Route::get('payroll-setting-hourly',[PayrollSettingsController::class,'index'])->name('payroll-setting-hourly.index');
+    Route::get('payroll-setting-hourly/create/{id}',[PayrollSettingsController::class,'create'])->name('payroll-setting-hourly.create');
+    Route::post('payroll-setting-hourly/store', [PayrollSettingsController::class,'store'])->name('payroll-setting-hourly.store');
 });

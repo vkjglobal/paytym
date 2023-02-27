@@ -16,7 +16,6 @@
                                     <th>Name</th>
                                     <th>Company</th>
                                     <th>Branch</th>
-                                    <th>Position</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -27,8 +26,8 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->first_name }}</td>
                                         <td>{{ $user->company }}</td>
-                                        <td>{{ $user->branch }}</td>
-                                        <td>{{ $user->position }}</td>
+                                        <td>{{ $user->branch->name }}</td>
+                                        
                                         <td>
                                             <input data-id="{{ $user->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"

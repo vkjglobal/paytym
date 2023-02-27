@@ -96,10 +96,18 @@ class UserController extends Controller
      $user->bank_branch_name = $validated['bank_branch'];
      $user->employment_start_date = $validated['start_date'];
      $user->employment_end_date = $validated['end_date'];
-     $user->pay_period = $validated['payperiod'];
+    //  $user->pay_period = $validated['payperiod'];
      
      if($validated['hourly-rate']){
         $user->rate = $validated['hourly-rate'];
+     }
+
+     if($validated['payperiod']){
+        $user->pay_period = $validated['payperiod'];
+     }
+     
+     if($validated['hourly_pay_period']){
+        $user->pay_period = $validated['hourly_pay_period'];
      }
      if($validated['fixed-rate']){
         $user->rate = $validated['fixed-rate'];
@@ -201,14 +209,20 @@ class UserController extends Controller
         $user->bank_branch_name = $validated['bank_branch'];
         $user->employment_start_date = $validated['start_date'];
         $user->employment_end_date = $validated['end_date'];
-        $user->pay_period = $validated['payperiod'];
+        // $user->pay_period = $validated['payperiod'];
         
         if($validated['hourly-rate']){
            $user->rate = $validated['hourly-rate'];
         }
+        if($validated['payperiod']){
+            $user->pay_period = $validated['payperiod'];
+         }
         if($validated['fixed-rate']){
            $user->rate = $validated['fixed-rate'];
         }
+        if($validated['hourly_pay_period']){
+            $user->pay_period = $validated['hourly_pay_period'];
+         }
         $user->employee_type = $validated['employeetype'];
         if( isset($validated['work_days_per_week'])){
            $user->workdays_per_week = $validated['work_days_per_week'];
