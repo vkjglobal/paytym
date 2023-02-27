@@ -212,10 +212,14 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('report/deduction/view/{id}',[ReportController::class,'deduction_view'])->name('report.deduction.view');
     Route::get('report/deduction/export',[ReportController::class,'deduction_export'])->name('report.deduction.export');
 
+    Route::get('report/payroll',[ReportController::class,'payroll_index'])->name('report.payroll');
+    Route::get('report/payroll/export',[ReportController::class,'payroll_export'])->name('report.payroll.export');
+
     //Billing
     Route::post('/billing', [BillingController::class,'index'])->name('billing');
     Route::post('/billing/pay', [BillingController::class,'pay'])->name('billing.pay');
     Route::get('/billing/plan', [BillingController::class,'plan'])->name('billing.plan');
+    Route::get('/billing/invoice', [BillingController::class,'invoice'])->name('billing.invoice');
 
     //Payroll settings 
     Route::get('payroll-settings/hourly/show', [PayrollSettingsController::class,'index'])->name('payroll-settings.hourly.show');

@@ -107,6 +107,11 @@ class User extends Authenticatable
         return $this->hasMany(AssignDeduction::class, 'user_id');
     }
 
+    public function payroll()
+    {
+        return $this->hasOne(Payroll::class, 'user_id');
+    }
+
     public function total_allowance()
     {
         $total = 0;
@@ -133,13 +138,36 @@ class User extends Authenticatable
     public function attendanceReport($date_from, $date_to)
     {
         (float)$hours = 0;
+        if(!$date_to && $date_from){
+            $user = User::where('user_id', $this->id)->first();
+            $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$user->employment_start_date, Carbon::now()])->get();
+            foreach($attendances as $attend){
+                $check_in = Carbon::parse($attend->check_in);
+                $check_out = Carbon::parse($attend->check_out);
+                if ($check_in != NULL && $check_out != NULL){
+                    $hours += $check_in->diffInHours($check_out);
+                }
+            }
+            return $hours;
+        }
+        if(!$date_to){
+            $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$date_from, Carbon::now()])->get();
+            foreach($attendances as $attend){
+                $check_in = Carbon::parse($attend->check_in);
+                $check_out = Carbon::parse($attend->check_out);
+                if ($check_in != NULL && $check_out != NULL){
+                    $hours += $check_in->diffInHours($check_out);
+                }
+            }
+            return $hours;
+        }
         $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$date_from, $date_to])->get();
         foreach($attendances as $attend){
             $check_in = Carbon::parse($attend->check_in);
             $check_out = Carbon::parse($attend->check_out);
             if ($check_in != NULL && $check_out != NULL){
                 $hours += $check_in->diffInHours($check_out);
-            } 
+            }
             // return $hours;
         }
         return $hours;
