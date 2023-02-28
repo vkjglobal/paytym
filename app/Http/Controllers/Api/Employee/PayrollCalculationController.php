@@ -121,67 +121,30 @@ class PayrollCalculationController extends Controller
                         $startDate = $endDate->copy()->addDay(); // start next pay period with next day after end date
                     // }
                 }
-                
-                // Calculate payroll for each pay period
-                    foreach ($payPeriods as $payPeriod) {
+                $lastPayPeriod = end($payPeriods);
+               if(count($payPeriods) != 0){
+                if(($now->toDateString()) < $lastPayPeriod['end_date']){
+                    array_pop($payPeriods);
+                   }
+                   foreach ($payPeriods as $payPeriod) {
 
-                        $salaryStartDate = $payPeriod['start_date'];
-                        $salaryEndDate = $payPeriod['end_date'];
-                        $payrollcontroller = new PayrollController;
-                        return($payrollcontroller->generate_fixed_payroll($employee,$salaryStartDate,$salaryEndDate));
-                        
-
-                        
-                        
-                
-           }
-           
-        }
-        // return response()->json(['message' => 'Payroll calculated successfully.']);
-
-
-
-        
-    // For fixed salary type
-
-    // if($employee->salary_type == "0"){
-    //     if($employee->payed_date != Null){
-    //         $LastPayedDate = Carbon::parse($employee->payed_date);
-    //     }else{
-    //         $LastPayedDate = Carbon::parse($employee->start_date);
-    //     }
-    //     $payPeriod = CarbonPeriod::since($LastPayedDate)->until($today);
-    //     // return($payPeriod );
-    //     // Split the pay period into smaller periods based on frequency
-    //     if ($employee->pay_period == '2') {
-    //         $subPeriods = $payPeriod->split(CarbonInterval::divide(2));
-    //         // $LastPayedDate = Carbon::parse($LastPayedDate);
-    //         // $period = $LastPayedDate->diffInMonths($today);
-    //         return($subPeriods );
-
+                    $salaryStartDate = $payPeriod['start_date'];
+                    $salaryEndDate = $payPeriod['end_date'];
+                    $payrollcontroller = new PayrollController;
+                    $payrollcontroller->generate_fixed_payroll($employee,$salaryStartDate,$salaryEndDate);                       
             
+                    }
+                    $employee->payed_date = $endDate;
+                    $employee->save();
+                            }
+                            
+                                // Calculate payroll for each pay period
+                                    
+                        }    
+                            
+                    }
+                    return response()->json(['message' => 'Payroll calculated successfully.']);
 
-    //     } else if($employee->pay_period === '1') {
-    //         $subPeriods = $payPeriod->split(CarbonInterval::weeks(2));
-    //     } else{
-    //         $subPeriods = $payPeriod->split(CarbonInterval::weeks(1));
-    //     }
-
-    //     // Calculate payroll for each sub period
-    //     foreach ($subPeriods as $subPeriod) {
-    //         $startDate = $subPeriod->getStartDate();
-    //         $endDate = $subPeriod->getEndDate();
-
-    //         // Calculate payroll for this sub period
-    //         $s = $payrollcontroller->generate_fixed_payroll($employee,$fromDate,$endDate);
-    //     }
-
-    // }
-
-    
-            
-
-    }
-    
-}
-}
+                    
+                }
+                }

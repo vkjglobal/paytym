@@ -30,7 +30,26 @@ class PayrollSettingsController extends Controller
     }
 
     public function store(Request $request){
-        $setting = PayrollSetting::where('employer_business_id', $request->business_id)->first();
-        dd($setting->over_time_rate);
+        
+        $request = $request->validate([
+            'over_time_rate' => 'numeric|nullable',
+            'double_time_rate' => 'numeric|nullable',
+            'business_id' => 'numeric',
+        ]);
+
+        $setting = PayrollSetting::where('employer_business_id', $request['business_id'])->first();
+        if(!$setting){
+            $setting = new PayrollSetting();
+            $setting->employer_business_id = $request['business_id'];
+        }
+        $setting->over_time_rate = $request['over_time_rate'];
+        $setting->double_time_rate = $request['double_time_rate'];
+        $issave = $setting->save();
+        if($issave){
+            notify()->success(__('Payslip settings added successfully'));
+        } else {
+            notify()->error(__('Failed to add Payslip settings. Please try again'));
+        }
+        return redirect()->back();
     }
 }
