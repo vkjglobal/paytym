@@ -244,8 +244,9 @@ class PayrollController extends Controller
             }
 
             //Tax Calculation - Income tax 
-            $tax_amount = 0;
+            $taxRate = $employee->country->tax ;
             $weeklySalary = $employee->rate * $employee->total_hours_per_week;
+            if(isset($taxRate)){
             if($employee->pay_period == "0"){
                   $annualIncome = $weeklySalary * 52; 
                   $F = 52;      
@@ -261,15 +262,27 @@ class PayrollController extends Controller
             $G = 2;    //should be made dynamic - No of completed pay period including current
             $B1 = 0;   //should be made dynamic - tax witheheld to date 
             $IncomeTaxToWithhold = (($A1/$F * $G) - $B1 + ($incomeTaxOnC2 -$incomeTaxOnC1));
-
-            // $A1 = $annualIncome * ($employee->country->tax / 100);
-            // $C2 = $annualIncome + $total_bonus;
-            // $incomeTaxOnC2 = $C2 * ($employee->country->tax / 100);
-            // $incomeTaxOnC1 = $A1;
-            // $G = 2;    //should be made dynamic - No of completed pay period including current
-            // $B1 = 0;   //should be made dynamic - tax witheheld to date 
-            // $IncomeTaxToWithhold = (($A1/$F * $G) - $B1 + ($incomeTaxOnC2 -$incomeTaxOnC1));
-
+            }
+            
+             //Tax Calculation - SRT  
+             $srtRate =  $employee->country->srt_tax ;
+             $weeklySalary = $employee->rate * $employee->total_hours_per_week;
+             if(isset($srtRate)){
+             if($employee->pay_period == "0"){
+                   $annualIncome = $weeklySalary * 52; 
+                   $F = 52;      
+             }else{
+                 $annualIncome = $weeklySalary * 26 ;  
+                 $F =  26;    //C1
+             }
+             $A2 = $annualIncome * ($srtRate/ 100);
+             $G = 5;
+             $B2 = 4;
+             $srtToWithhold = (($A2/$F * $G) - $B2 );
+             if($srtToWithhold < 0){
+                $srtToWithhold = 0;
+             }
+            }
             
             
 
@@ -287,10 +300,10 @@ class PayrollController extends Controller
             
             //Payroll Entry
             $user = User::where('id',$employee->id)->first();
-            $date = Carbon::parse($payDate);
-            $formattedDate = $date->format('Y-m-d');
+            $payDate = Carbon::now();
+            $formattedDate = $payDate->format('Y-m-d');
             $user->pay_date = $formattedDate;
-            $user->save();
+            $issave = $user->save();
             $payroll = new Payroll();
             $payroll -> user_id = $employee->id;
             $payroll -> employer_id = $employee->employer_id;
@@ -376,13 +389,13 @@ class PayrollController extends Controller
             $salary = $employee->rate;
             if(isset($taxRate)){
             if($employee->pay_period == "0"){
-                  $annualIncome = $weeklySalary * 52; 
+                  $annualIncome = $salary * 52; 
                   $F = 52;      
             }else if($employee->pay_period == "1"){
-                $annualIncome = $weeklySalary * 26 ;  
+                $annualIncome = $salary * 26 ;  
                 $F =  26;    //C1
             }else{
-                $annualIncome = $weeklySalary * 12 ;  
+                $annualIncome = $salary * 12 ;  
                 $F =  12;    //C1
             }
 
@@ -396,6 +409,8 @@ class PayrollController extends Controller
             if($incomeTaxToWithhold < 0){
                 $incomeTaxToWithhold = 0;
             }
+        }
+
 
             //Tax calculation - SRT
             $srtTaxAmount = 0;
@@ -403,13 +418,13 @@ class PayrollController extends Controller
             $srtRate = $employee->country->srt_tax;
             if(isset($srtRate)){
             if($employee->pay_period == "0"){
-                $annualIncome = $weeklySalary * 52; 
+                $annualIncome = $salary * 52; 
                 $F = 52;      
             }else if($employee->pay_period == "1"){
-                $annualIncome = $weeklySalary * 26 ;  
+                $annualIncome = $salary * 26 ;  
                 $F =  26;    //C1
             }else{
-                $annualIncome = $weeklySalary * 12 ;  
+                $annualIncome = $salary * 12 ;  
                 $F =  12;    //C1
             }
             $A2 = $annualIncome * ($srtRate/ 100);
@@ -420,7 +435,10 @@ class PayrollController extends Controller
                 $srtToWithhold = 0;
             }
         }
-    }
+
+        $totalTaxAmount = $srtToWithhold + $incomeTaxToWithhold ;
+
+    
 
 
         
@@ -433,21 +451,21 @@ class PayrollController extends Controller
             $netSalary = $grossSalary - 60; //net salary= Gross Pay – (Superannuation + All Taxes)
            
             $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay = Net pay + Allowances - Deductions
-            return($totalSalary);
          
 
             //Payroll Entry
             $user = User::where('id',$employee->id)->first();
-            $date = Carbon::parse($payDate);
-            $formattedDate = $date->format('Y-m-d');
+            $payDate = Carbon::now();
+            $formattedDate = $payDate->format('Y-m-d');
             $user->pay_date = $formattedDate;
-            $user->save();
+            $issave = $user->save();
             $payroll = new Payroll();
             $payroll -> user_id = $employee->id;
             $payroll -> employer_id = $employee->employer_id;
             $payroll -> base_salary = $employee->rate;
             $payroll -> paid_salary = $totalSalary;
             $payroll -> net_salary = $netSalary;
+            $payroll -> total_tax = $totalTaxAmount;
             $payroll -> gross_salary = $grossSalary;
             $payroll -> total_deduction = $totalDeduction;
             $payroll -> total_allowance = $totalAllowance;
@@ -455,6 +473,7 @@ class PayrollController extends Controller
             $payroll -> total_bonus = $total_bonus;
             
             $res = $payroll->save();
+
            
         
 
