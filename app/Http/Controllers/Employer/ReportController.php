@@ -31,6 +31,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
+    public $successStatus = 200;
     public function employer_id()
     {
         return Auth::guard('employer')->id();
@@ -63,22 +64,78 @@ class ReportController extends Controller
         return view('employer.report.attendance_list_filter',compact( 'attendances', 'employees', 'users', 'date_from', 'date_to'));
         // return redirect()->route('employer.report.attendance.search')->with([ 'attendances' => $attendances, 'employees' => $employees]);
     }
-/////employment_period
+//////////////////employment_period
     public function employment_period_index()
     {
         $employees = User::where('employer_id', $this->employer_id())->get()->sortBy('employment_end_date');
-        return view('employer.report.employee_period_list',compact('employees'));
+        $users = User::where('employer_id', $this->employer_id())->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        return view('employer.report.employee_period_list',compact('employees','branches','users', 'departments', 'businesses'));
+    }
+    public function employee_period_get_branch($business_id=0)
+    {
+        $branchData['data'] = Branch::orderby("name","asc")->select('id','name')
+        ->where('employer_id', $this->employer_id())->where('employer_business_id', $business_id)->get();
+        return response()->json($branchData);
+    }
+    public function employee_period_get_department($branch_id=0)
+    {
+        $departmentData['data'] = Department::orderby("dep_name","asc")->select('id','dep_name')
+        ->where('employer_id', $this->employer_id())->where('branch_id', $branch_id)->get();
+        return response()->json($departmentData);
+    }
+    public function employee_period_get_user($department_id=0)
+    {
+        $userData['data'] = User::orderby("first_name","asc")->select('id','first_name')
+        ->where('employer_id', $this->employer_id())->where('department_id', $department_id)->get();
+        return response()->json($userData);
+    }
+    public function employee_period_filter(Request $request)
+    {
+        // dd($request);
+    if ($request->ajax()){
+        $employees = $this->report_filter($request);
+        $users = User::where('employer_id', $this->employer_id())->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        $emp = User::find($request->employee);
+        return view('employer.report.table.employee_period_table',compact('employees', 'businesses', 'users', 'branches', 'departments', 'emp'));
+    }else {
+        return response()->json(['success' => 0, 'message' => 'No data found'], $this->successStatus);
+    } 
     }
     public function employment_period_export() 
     {
         return Excel::download(new EmployeePeriodExport, 'employment_period_export-'.Carbon::now().'.xlsx');
     }
 
-/////employee_list
+//////////////employee_list
     public function employee_list_index()
     {
-        $employees = User::where('employer_id', $this->employer_id())->get()->sortBy('employment_end_date');
-        return view('employer.report.employee_list',compact('employees'));
+        $employees = User::where('employer_id', $this->employer_id())->get();
+        $users = User::where('employer_id', $this->employer_id())->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        return view('employer.report.employee_list',compact('employees','branches','users', 'departments', 'businesses'));
+    }
+    public function employee_list_filter(Request $request)
+    {
+        // dd($request);
+    if ($request->ajax()){
+        $employees = $this->report_filter($request);
+        $users = User::where('employer_id', $this->employer_id())->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        $emp = User::find($request->employee);
+        return view('employer.report.table.employee_list_table',compact('employees', 'businesses', 'users', 'branches', 'departments', 'emp'));
+    }else {
+        return response()->json(['success' => 0, 'message' => 'No data found'], $this->successStatus);
+    } 
     }
     public function employee_list_export() 
     {
@@ -88,7 +145,7 @@ class ReportController extends Controller
 /////status_list
     public function status_list_index()
     {
-        $employees = User::where('employer_id', $this->employer_id())->get()->sortBy('employment_end_date');
+        $employees = User::where('employer_id', $this->employer_id())->get();
         return view('employer.report.status_index',compact('employees'));
     }
     
@@ -183,4 +240,72 @@ public function payroll_export()
 {
     return Excel::download(new PayrollExport, 'payroll_report_export-'.Carbon::now().'.xlsx');
 }
+
+public function report_filter($request)
+{
+        if($request->business == null && $request->user != null && $request->branch != null && $request->department != null){
+            $employees = User::where('employer_id', $this->employer_id())->where('id', $request->user)
+            ->where('branch_id', $request->branch)->where('department_id', $request->department)->get();
+        }else if($request->business != null && $request->user == null && $request->branch != null && $request->department != null){
+            $employees = User::where('employer_id', $this->employer_id())
+            ->where('business_id', $request->business)->where('branch_id', $request->branch)
+            ->where('department_id', $request->department)->get();
+        }elseif($request->business != null && $request->user != null && $request->branch == null && $request->department != null){
+            $employees = User::where('employer_id', $this->employer_id())->where('id', $request->user)
+            ->where('business_id', $request->business)
+            ->where('department_id', $request->department)->get();
+        }elseif($request->business != null && $request->user != null && $request->branch != null && $request->department == null){
+            $employees = User::where('employer_id', $this->employer_id())->where('id', $request->user)
+            ->where('business_id', $request->business)->where('branch_id', $request->branch)->get();
+        }
+        //////
+        elseif($request->user == null && $request->business == null && $request->branch != null && $request->department != null){
+            $employees = User::where('employer_id', $this->employer_id())->where('branch_id', $request->branch)
+            ->where('department_id', $request->department)->get();
+        }elseif($request->user == null && $request->business != null && $request->branch == null && $request->department != null){
+            $employees = User::where('employer_id', $this->employer_id())
+            ->where('business_id', $request->business)
+            ->where('department_id', $request->department)->get();
+        }elseif($request->user == null && $request->business != null && $request->branch != null && $request->department == null){
+            $employees = User::where('employer_id', $this->employer_id())
+            ->where('business_id', $request->business)->where('branch_id', $request->branch)->get();
+        }elseif($request->user != null && $request->business == null && $request->branch == null && $request->department != null){
+            $employees = User::where('employer_id', $this->employer_id())->where('id', $request->user)
+            ->where('department_id', $request->department)->get();
+        }elseif($request->user != null && $request->business == null && $request->branch != null && $request->department == null){
+            $employees = User::where('employer_id', $this->employer_id())->where('id', $request->user)
+            ->where('branch_id', $request->branch)->get();
+        }elseif($request->user != null && $request->business != null && $request->branch == null && $request->department == null){
+            $employees = User::where('employer_id', $this->employer_id())->where('id', $request->user)
+            ->where('business_id', $request->business)->get();
+        }
+        /////
+        elseif($request->user == null && $request->business == null && $request->branch == null && $request->department != null){
+            $employees = User::where('employer_id', $this->employer_id())
+            ->where('department_id', $request->department)->get();
+        }
+        elseif($request->user == null && $request->business == null && $request->branch != null && $request->department == null){
+            $employees = User::where('employer_id', $this->employer_id())->where('branch_id', $request->branch)
+            ->get();
+        }
+        elseif($request->user == null && $request->business != null && $request->branch == null && $request->department == null){
+            $employees = User::where('employer_id', $this->employer_id())
+            ->where('business_id', $request->business)->get();
+        }
+        elseif($request->user != null && $request->business == null && $request->branch == null && $request->department == null){
+            $employees = User::where('employer_id', $this->employer_id())->where('id', $request->user)->get();
+        }
+        //////
+        elseif($request->user == null && $request->business == null && $request->branch == null && $request->department == null){
+            $employees = User::where('employer_id', $this->employer_id())->get();
+        }
+        ///////
+        else{
+            $employees = User::where('employer_id', $this->employer_id())->where('id', $request->user)
+            ->where('business_id', $request->business)->where('branch_id', $request->branch)
+            ->where('department_id', $request->department)->get();
+        }
+         return $employees;
+}
+
 }
