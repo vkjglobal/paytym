@@ -16,7 +16,6 @@
                                     <th>Name</th>
                                     <th>Overtime rate</th>
                                     <th>Double time rate</th>
-                                    <th>Over time at base rate</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -27,25 +26,7 @@
                                         <td>{{ $business->name}}</td>
                                         <td> {{ optional($business->payrollsetting)->over_time_rate ?? 'Not added' }}</td>
                                         <td> {{ optional($business->payrollsetting)->double_time_rate ?? 'Not added' }}</td>
-                                        <td>
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-
-                                                <!-- Add button -->
-
-
-
-                                                <form method="GET" action="">
-                
-                                                    <button  type="submit"  class="mr-3"><span class="btn btn-success">Add</span></button>
-
-                                                </form>
-
-
-
-                                                <!-- Add ends -->
-
-                                            </div>
-                                        </td>
+                                        
 
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
@@ -54,7 +35,7 @@
 
 
 
-                                                <form method="GET" action="">
+                                                <form method="GET" action ="{{route('employer.payroll-setting-hourly.create',$business->id)}}">
                 
                                                     <button  type="submit"  class="mr-3"><span class="btn btn-success">MANAGE</span></button>
 

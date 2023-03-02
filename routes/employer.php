@@ -184,9 +184,14 @@ Route::middleware('employer.auth')->group(function () {
     Route::post('report/attendance/filter',[ReportController::class,'attendance_filter'])->name('report.attendance.filter');
 
     Route::get('report/employment_period',[ReportController::class,'employment_period_index'])->name('report.employment_period');
+    Route::get('report/employment_period/filter',[ReportController::class,'employee_period_filter'])->name('report.employment_period.filter');
+    Route::get('report/employment_period/get_branch/{id}',[ReportController::class,'employee_period_get_branch'])->name('report.employment_period.get_branch');
+    Route::get('report/employment_period/get_department/{id}',[ReportController::class,'employee_period_get_department'])->name('report.employment_period.get_department');
+    Route::get('report/employment_period/get_user/{id}',[ReportController::class,'employee_period_get_user'])->name('report.employment_period.get_user');
     Route::get('report/employment_period/export',[ReportController::class,'employment_period_export'])->name('report.employment_period.export');
-
+    
     Route::get('report/employee',[ReportController::class,'employee_list_index'])->name('report.employee');
+    Route::get('report/employee/filter',[ReportController::class,'employee_list_filter'])->name('report.employee.filter');
     Route::get('report/employee/export',[ReportController::class,'employee_list_export'])->name('report.employee.export');
 
     Route::get('report/status',[ReportController::class,'status_list_index'])->name('report.status');
@@ -222,6 +227,7 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('/billing/invoice', [BillingController::class,'invoice'])->name('billing.invoice');
 
     //Payroll settings 
-    Route::get('payroll-settings/hourly/show', [PayrollSettingsController::class,'index'])->name('payroll-settings.hourly.show');
-    
+    Route::get('payroll-setting-hourly',[PayrollSettingsController::class,'index'])->name('payroll-setting-hourly.index');
+    Route::get('payroll-setting-hourly/create/{id}',[PayrollSettingsController::class,'create'])->name('payroll-setting-hourly.create');
+    Route::post('payroll-setting-hourly/store', [PayrollSettingsController::class,'store'])->name('payroll-setting-hourly.store');
 });

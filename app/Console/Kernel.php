@@ -9,7 +9,8 @@ class Kernel extends ConsoleKernel
 {
     protected $command = [
         "App\Console\Commands\DbBackup",
-        "App\Console\Commands\CalculatePayroll"
+        "App\Console\Commands\CalculatePayroll",
+        "App\Console\Commands\EmploymentOverEmails"
     ];
     
     /**

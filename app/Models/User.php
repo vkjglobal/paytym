@@ -70,10 +70,12 @@ class User extends Authenticatable
     }
 
  
+
+ 
   
 
     public function country(){
-        return $this->belongsTo(EmployerBusiness::class,'country');
+        return $this->belongsTo(Country::class);
     }
 
 
@@ -89,7 +91,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->hasOne(Role::class);
     }
 
     public function attendance()

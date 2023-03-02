@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\Employee\LeaveController;
 use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Api\Employee\PayrollCalculationController;
 use App\Http\Controllers\TwilioSMSController;
+use App\Http\Controllers\Api\Employee\EmployeeDashboardController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
@@ -149,8 +150,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('create_meetings', [AdminMeetingsController::class, 'create_meetings']);
     Route::post('meetings_delete', [AdminMeetingsController::class, 'meetings_delete']);
 
-    //20-02-23
-    Route::post('payroll-calculation', [PayrollCalculationController::class, 'payroll']);
+    
 
     //
     //21-02-23
@@ -163,6 +163,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('list_files', [UploadsController::class, 'list_files']);
     Route::post('list_projects', [ProjectsController::class, 'list_projects']);
     Route::post('project_details', [ProjectsController::class, 'project_details']);
+     Route::post('list_files', [UploadsController::class, 'list_files']);
+     Route::post('list_projects', [ProjectsController::class, 'list_projects']);
+     Route::post('project_details', [ProjectsController::class, 'project_details']);
+
+     //25-02-23
+     Route::post('admin_dashboard', [LeaveRequestController::class, 'admin_dashboard']);
+
+         //20-02-23
+    Route::post('payroll-calculation', [PayrollCalculationController::class,'payroll']);
+     
+     
 
     //25-02-23
     Route::post('admin_dashboard', [LeaveRequestController::class, 'admin_dashboard']);

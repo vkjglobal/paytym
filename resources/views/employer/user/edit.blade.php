@@ -327,6 +327,18 @@
                                         <div class="tab-pane fade" id="hourly" role="tabpanel" aria-labelledby="hourly-tab">
                                             <div class="row">
                                             <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Branch<span class="text-danger">*</span></label>
+                                                    <select class="form-control"  class="form-control @if ($errors->has('hourly_pay_period')) is-invalid @endif" name="hourly_pay_period" value="">
+                                                        <option value="">--SELECT--</option>
+                                                        <option value="0" >Weekly</option>
+                                                        <option value="1" >Fortnightly</option>
+                                                        
+                                                    </select>
+                                                    <div class="invalid-feedback">{{ $errors->first('branch') }}</div>
+                                                </div>
+                                            </div><!-- Col -->
+                                            <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">work days per Week <span class="text-danger"> *</span></label>
                                                         <input type="number" class="form-control" name="work_days_per_week" value="{{ old('work_days_per_week', $user->workdays_per_week) }}" placeholder="work days per Week">

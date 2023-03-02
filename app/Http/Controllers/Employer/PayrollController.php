@@ -243,21 +243,46 @@ class PayrollController extends Controller
                 }
             }
 
-            //Tax Calculation - Income tax , SRT , Ecal
-            // $tax_amount = 0;
-            // $weeklySalary = $employee->rate * $employee->total_hours_per_week;
-            // if($employee->pay_period == "0"){
-            //       $annualIncome = $weeklySalary * 52; 
-            //       $F = 52;      
-            // }else{
-            //     $annualIncome = $weeklySalary * 26 ;  
-            //     $F =  26;    //C1
-            // }
+            //Tax Calculation - Income tax 
+            $taxRate = $employee->country->tax ;
+            $weeklySalary = $employee->rate * $employee->total_hours_per_week;
+            if(isset($taxRate)){
+            if($employee->pay_period == "0"){
+                  $annualIncome = $weeklySalary * 52; 
+                  $F = 52;      
+            }else{
+                $annualIncome = $weeklySalary * 26 ;  
+                $F =  26;    //C1
+            }
 
-            // $A1 = $annualIncome * ($employee->country->tax / 100);
-            // $C2 = $annualIncome + $total_bonus;
-            // $incomeTaxOnC2 = $C2 * ($employee->country->tax / 100);
-            // $incomeTaxOnC1 = $A1;
+            $A1 = $annualIncome * ($employee->country->tax / 100);
+            $C2 = $annualIncome + $total_bonus;
+            $incomeTaxOnC2 = $C2 * ($employee->country->tax / 100);
+            $incomeTaxOnC1 = $A1;
+            $G = 2;    //should be made dynamic - No of completed pay period including current
+            $B1 = 0;   //should be made dynamic - tax witheheld to date 
+            $IncomeTaxToWithhold = (($A1/$F * $G) - $B1 + ($incomeTaxOnC2 -$incomeTaxOnC1));
+            }
+            
+             //Tax Calculation - SRT  
+             $srtRate =  $employee->country->srt_tax ;
+             $weeklySalary = $employee->rate * $employee->total_hours_per_week;
+             if(isset($srtRate)){
+             if($employee->pay_period == "0"){
+                   $annualIncome = $weeklySalary * 52; 
+                   $F = 52;      
+             }else{
+                 $annualIncome = $weeklySalary * 26 ;  
+                 $F =  26;    //C1
+             }
+             $A2 = $annualIncome * ($srtRate/ 100);
+             $G = 5;
+             $B2 = 4;
+             $srtToWithhold = (($A2/$F * $G) - $B2 );
+             if($srtToWithhold < 0){
+                $srtToWithhold = 0;
+             }
+            }
             
             
 
@@ -275,10 +300,10 @@ class PayrollController extends Controller
             
             //Payroll Entry
             $user = User::where('id',$employee->id)->first();
-            $date = Carbon::parse($payDate);
-            $formattedDate = $date->format('Y-m-d');
+            $payDate = Carbon::now();
+            $formattedDate = $payDate->format('Y-m-d');
             $user->pay_date = $formattedDate;
-            $user->save();
+            $issave = $user->save();
             $payroll = new Payroll();
             $payroll -> user_id = $employee->id;
             $payroll -> employer_id = $employee->employer_id;
@@ -296,7 +321,7 @@ class PayrollController extends Controller
     }
 
     public function generate_fixed_payroll($employee,$fromDate,$endDate){
-        $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$payDate])->get();
+        $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$endDate])->get();
         
          //Allowance Calculation
 
@@ -313,22 +338,142 @@ class PayrollController extends Controller
          foreach($deductions as $deduction){
              $totalDeduction += ($employee->rate * ($deduction->rate/100));
          }
+
+        //Commissions Calculation
+        $commission_amount = 0 ;
+        $commission = Commission::where('user_id',$employee->id)->first();
+         if(isset($commission)){
+        $commission_amount += $commission->rate;
+        } 
+
+         //Bonus calculation
+         $bonuses = Bonus::where('employer_id',$employee->employer_id)->get();
+         $total_bonus = 0;
+         if(isset($bonuses)){
+            
+         foreach($bonuses as $bonus){
+             if($bonus->type == 0 && $employee->id == $bonus->type_id){
+                 if($bonus->rate_type == 0){
+                     $total_bonus += ( $employee->rate * ($bonus->rate / 100 ));
+
+                 }else{
+                     $total_bonus += $bonus->rate;
+
+                 }
+             }else if($bonus->type == 1 && $employee->department_id == $bonus->type_id){
+                 if($bonus->rate_type == 0){
+                     $total_bonus +=( $employee->rate * ($bonus->rate / 100 ));
+                 }else{
+                     $total_bonus += $bonus->rate;
+                 }
+             }else if($bonus->type == 2 && $employee->branch_id == $bonus->type_id){
+                 if($bonus->rate_type == 0){
+                     $total_bonus +=( $employee->rate * ($bonus->rate / 100 ));
+                 }else{
+                     $total_bonus += $bonus->rate;
+                 }
+             }else if($bonus->type == 3 && $employee->business_id == $bonus->type_id){
+                 if($bonus->rate_type == 0){
+                     $total_bonus +=( $employee->rate * ($bonus->rate / 100 ));
+                 }else{
+                     $total_bonus += $bonus->rate;
+                 }
+             }else{
+                 continue;
+             }
+         }
+        }
+
+            //Tax Calculation - Income tax 
+            $taxRate = $employee->country->tax ;
+            $salary = $employee->rate;
+            if(isset($taxRate)){
+            if($employee->pay_period == "0"){
+                  $annualIncome = $salary * 52; 
+                  $F = 52;      
+            }else if($employee->pay_period == "1"){
+                $annualIncome = $salary * 26 ;  
+                $F =  26;    //C1
+            }else{
+                $annualIncome = $salary * 12 ;  
+                $F =  12;    //C1
+            }
+
+            $A1 = $annualIncome * ($taxRate/ 100);
+            $C2 = $annualIncome + $total_bonus;
+            $incomeTaxOnC2 = $C2 * ($taxRate / 100);
+            $incomeTaxOnC1 = $A1;
+            $G = 2;    //should be made dynamic - No of completed pay period including current
+            $B1 = 0;   //should be made dynamic - tax witheheld to date 
+            $incomeTaxToWithhold = (($A1/$F * $G) - $B1 + ($incomeTaxOnC2 -$incomeTaxOnC1));
+            if($incomeTaxToWithhold < 0){
+                $incomeTaxToWithhold = 0;
+            }
+        }
+
+
+            //Tax calculation - SRT
+            $srtTaxAmount = 0;
+            $salary = $employee->rate;
+            $srtRate = $employee->country->srt_tax;
+            if(isset($srtRate)){
+            if($employee->pay_period == "0"){
+                $annualIncome = $salary * 52; 
+                $F = 52;      
+            }else if($employee->pay_period == "1"){
+                $annualIncome = $salary * 26 ;  
+                $F =  26;    //C1
+            }else{
+                $annualIncome = $salary * 12 ;  
+                $F =  12;    //C1
+            }
+            $A2 = $annualIncome * ($srtRate/ 100);
+            $G = 5;
+            $B2 = 4;
+            $srtToWithhold = (($A2/$F * $G) - $B2 );
+            if($srtToWithhold < 0){
+                $srtToWithhold = 0;
+            }
+        }
+
+        $totalTaxAmount = $srtToWithhold + $incomeTaxToWithhold ;
+
+    
+
+
+        
+
+
+            //Total salary calculation
+            $base_pay = ($employee->rate * 22); 
+            $totalEarnings = $base_pay ;
+            $grossSalary = $totalEarnings + $commission_amount + $total_bonus;   //gross pay =  Base Pay + Overtime Pay + Double Pay + Bonus + Commission 
+            $netSalary = $grossSalary - 60; //net salary= Gross Pay – (Superannuation + All Taxes)
+           
+            $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay = Net pay + Allowances - Deductions
          
 
-         //Total salary calculation
-         $baseSalary = $employee->rate;
-         $totalEarnings = ($baseSalary + $totalAllowance) - $totalDeduction;
-         
+            //Payroll Entry
+            $user = User::where('id',$employee->id)->first();
+            $payDate = Carbon::now();
+            $formattedDate = $payDate->format('Y-m-d');
+            $user->pay_date = $formattedDate;
+            $issave = $user->save();
+            $payroll = new Payroll();
+            $payroll -> user_id = $employee->id;
+            $payroll -> employer_id = $employee->employer_id;
+            $payroll -> base_salary = $employee->rate;
+            $payroll -> paid_salary = $totalSalary;
+            $payroll -> net_salary = $netSalary;
+            $payroll -> total_tax = $totalTaxAmount;
+            $payroll -> gross_salary = $grossSalary;
+            $payroll -> total_deduction = $totalDeduction;
+            $payroll -> total_allowance = $totalAllowance;
+            $payroll -> total_commission = $commission_amount;
+            $payroll -> total_bonus = $total_bonus;
+            
+            $res = $payroll->save();
 
-           //Payroll Entry
-           $payroll = new Payroll();
-           $payroll->paid_salary = $totalEarnings;
-           $payroll->fund_deduction = $totalDeduction;
-           $payroll->total_deduction = $totalDeduction;
-           $payroll->fund_deduction = "50";
-           $payroll->user_id = $employee->id;
-           $payroll->salary = $totalEarnings;
-           $res=$payroll->save();
            
         
 
