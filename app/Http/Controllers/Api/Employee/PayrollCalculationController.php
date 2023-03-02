@@ -155,7 +155,6 @@ class PayrollCalculationController extends Controller
         }
         return response()->json([
             'message' => 'Payroll calculated successfully.',
-            'payroll_details' => $payrollcontroller
         ]);
     }
 }
