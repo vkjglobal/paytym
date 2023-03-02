@@ -27,7 +27,7 @@ class ProjectsController extends Controller
         if ($projects) {
             return response()->json([
                 'message' => "Success",
-                'projects liste' => $projects,
+                'projects lists' => $projects,
             ], 200);
         } else {
             return response()->json([
@@ -50,7 +50,7 @@ class ProjectsController extends Controller
             ], 400);
         }
 
-        $projects = EmployeeProject::with('user')->where('id', $request->project_id)->first();
+        $projects = EmployeeProject::with('user')->where('id', $request->project_id)->get();
 
         if ($projects) {
             return response()->json([
