@@ -24,7 +24,7 @@ class OverTimeController extends Controller
         }
 
         $employer_id = $request->employer_id;
-        $overtime_requests = Overtime::where('employer_id', $employer_id)->get();
+        $overtime_requests = Overtime::with('user')->with('branch')->where('employer_id', $employer_id)->get();
         if ($overtime_requests) {
             return response()->json([
                 'message' => "Listed Successfully",
