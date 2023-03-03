@@ -21,8 +21,8 @@ class ProjectController extends Controller
     {
         {
             $breadcrumbs = [
-                [(__('Dashboard')), route('employer.project.index')],
-                [(__('departments')), null],
+                [(__('Dashboard')), route('employer.home')],
+                [(__('Projects')), null],
             ];
             $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
             $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
@@ -40,7 +40,8 @@ class ProjectController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.create')],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Projects')), route('employer.project.index')],
             [(__('Create')), null]
         ];
         //Employer $employer
@@ -93,7 +94,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.create')],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Projects')), route('employer.project.index')],
             [(__('Edit')), null]
         ];
         //Employer $employer
@@ -117,6 +119,7 @@ class ProjectController extends Controller
         $project->department_id = $request['department'];
         $project->description = $request['description'];
         $project->employer_id = Auth::guard('employer')->user()->id;
+
         $issave = $project->save();
         if($issave){
             notify()->success(__('Updated successfully'));
@@ -141,5 +144,12 @@ class ProjectController extends Controller
             notify()->error(__('Failed to Delete. Please try again'));
         }
         return redirect()->back();
+    }
+    public function changeStatus(Request $request)
+    {
+        $project = Project::find($request->project_id);
+        $project->status = $request->status;
+        $res = $project->save();
+        return response()->json(['success' => 'Status change successfully.']);
     }
 }

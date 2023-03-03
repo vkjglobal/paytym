@@ -26,7 +26,9 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->first_name }}</td>
                                         <td>{{ $user->company }}</td>
-                                        <td>{{ $user->branch->name }}</td>
+                                        <td>@isset($user->branch->name)
+                                            {{ $user->branch->name }}
+                                        @endisset</td>
                                         
                                         <td>
                                             <input data-id="{{ $user->id }}" class="toggle-class" type="checkbox"

@@ -69,15 +69,10 @@ class User extends Authenticatable
         return $this->belongsTo(EmployerBusiness::class,'business_id');
     }
 
- 
-
- 
-  
-
-    public function country(){
+    public function country()
+    {
         return $this->belongsTo(Country::class);
     }
-
 
     public function department()
     {
@@ -140,8 +135,8 @@ class User extends Authenticatable
     public function attendanceReport($date_from, $date_to)
     {
         (float)$hours = 0;
-        if(!$date_to && $date_from){
-            $user = User::where('user_id', $this->id)->first();
+        if(!$date_to && !$date_from){
+            $user = User::where('id', $this->id)->first();
             $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$user->employment_start_date, Carbon::now()])->get();
             foreach($attendances as $attend){
                 $check_in = Carbon::parse($attend->check_in);

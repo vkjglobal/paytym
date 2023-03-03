@@ -19,7 +19,7 @@ class BranchController extends Controller
             [(__('Branches')), route('employer.branch.list')],
             [(__('Create')), null],
         ];
-        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->where('status', '1')->get();
         $admin = Auth::guard('employer')->user();
         return view('employer.branch.index', compact('breadcrumbs', 'admin','businesses'));
     }
@@ -79,7 +79,7 @@ class BranchController extends Controller
                 [(__('Branches')), route('employer.branch.list')],
                 [(__('Edit')), null],
             ];
-            $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
+            $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->where('status', '1')->get();
             $branch = Branch::findOrFail($id);   
             return view('employer.branch.edit',compact('breadcrumbs','branch','businesses'));
         

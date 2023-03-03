@@ -35,10 +35,10 @@ class BonusController extends Controller
      */
     public function create()
     {
-        $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
-        $departments = Department::all(); 
-        $branches = Branch::all(); 
-        $businesses = EmployerBusiness::all(); 
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
         return view('employer.bonus.create', compact('employees','departments','branches','businesses'));
     }
 
@@ -94,10 +94,10 @@ class BonusController extends Controller
     {
         $bonus = Bonus::find($id);
         // dd($bonus);
-        $employees = User::where('employer_id', Auth::guard('employer')->id())->get(); 
-        $departments = Department::all(); 
-        $branches = Branch::all(); 
-        $businesses = EmployerBusiness::all(); 
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
 
         if($bonus->type == 0){
             return view('employer.bonus.edit1', compact('employees','departments','branches','businesses','bonus'));

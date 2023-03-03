@@ -19,7 +19,7 @@ class BusinessController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.department.index')],
-            [(__('departments')), null],
+            [(__('Business')), null],
         ];
 
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();

@@ -24,7 +24,7 @@ class AttendanceController extends Controller
 
     public function create()
     {
-        $users = User::where('employer_id', Auth::guard('employer')->id())->get();
+        $users = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
         return view('employer.attendance.create', compact('users'));
     }
 
