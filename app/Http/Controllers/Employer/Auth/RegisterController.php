@@ -105,6 +105,7 @@ class RegisterController extends Controller
         $employer->city = $data['city'];
         $employer->website = $data['website'];
         $employer->user_type = "Employer"; 
+        $employer->status = 1;
        
         $employer->password = Hash::make($rand_pass);
         try{

@@ -59,6 +59,7 @@ class EventController extends Controller
         $event->start_time = $request['start_time'];
         $event->end_time = $request['end_time'];
         $event->description = $request['description'];
+        $event->status = 1;
         $issave = $event->save();
         if($issave){
             notify()->success(__('Created successfully'));

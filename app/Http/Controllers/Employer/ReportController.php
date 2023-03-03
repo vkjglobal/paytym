@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Exports\Employer\AllowanceExport;
+use App\Exports\Employer\AttendanceReportExport;
 use App\Exports\Employer\DeductionExport;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
@@ -10,7 +11,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
-
 use App\Exports\Employer\EmployeePeriodExport;
 use App\Exports\Employer\EmployeeReportExport;
 use App\Exports\Employer\PayrollExport;
@@ -45,24 +45,32 @@ class ReportController extends Controller
 
         $attendances = Attendance::where('employer_id', $this->employer_id())->get();
         $employees = User::where('employer_id', Auth::guard('employer')->id())->get(); 
-        // $date_from = Carbon::now();
-        // $date_to = Carbon::now();
-        // $attendances = Attendance::attendanceReport('John', '2023-02-01', '2023-02-28'); 
-        // return($attendances);
-        return view('employer.report.attendace_list',compact('breadcrumbs', 'attendances', 'employees'));
+        $users = User::where('employer_id', $this->employer_id())->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        return view('employer.report.attendace_list',compact('breadcrumbs', 'attendances', 'employees', 'branches','users', 'departments', 'businesses'));
     }
 
     public function attendance_filter(Request $request){
         $users = User::where('employer_id', Auth::guard('employer')->id())->get(); 
 
-        $employee = $request->employee;
+        // $employee = $request->user;
         $date_from = $request->date_from;
         $date_to = $request->date_to;
-        $employees = User::where('employer_id', Auth::guard('employer')->id())->where('id', $employee)->get(); 
-
-        $attendances = Attendance::where('user_id', $employee)->whereBetween('date',[$date_from, $date_to])->get();
-        return view('employer.report.attendance_list_filter',compact( 'attendances', 'employees', 'users', 'date_from', 'date_to'));
+        $employees = $this->report_filter($request); 
+        $employeesId = $employees->pluck('id');
+        // return ($employeesId);
+        $attendances = Attendance::whereIn('user_id', $employeesId)->whereBetween('date',[$date_from, $date_to])->get();
+        return view('employer.report.attendance_list_filter',compact( 'employees', 'users', 'date_from', 'date_to', 'employeesId'));
         // return redirect()->route('employer.report.attendance.search')->with([ 'attendances' => $attendances, 'employees' => $employees]);
+    }
+    public function attendance_filter_export($employees) 
+    {
+        (object)$employees;
+        // return(gettype((object)$employees));
+        // return($employees);
+        return Excel::download(new AttendanceReportExport($employees), 'attendance_filter_export-'.Carbon::now().'.xlsx');
     }
 //////////////////employment_period
     public function employment_period_index()
@@ -74,6 +82,7 @@ class ReportController extends Controller
         $departments = Department::where('employer_id', $this->employer_id())->get();
         return view('employer.report.employee_period_list',compact('employees','branches','users', 'departments', 'businesses'));
     }
+    //////ajax get branch department business user//////
     public function employee_period_get_branch($business_id=0)
     {
         $branchData['data'] = Branch::orderby("name","asc")->select('id','name')
@@ -92,6 +101,7 @@ class ReportController extends Controller
         ->where('employer_id', $this->employer_id())->where('department_id', $department_id)->get();
         return response()->json($userData);
     }
+    /////////////////////////////////////////////////////
     public function employee_period_filter(Request $request)
     {
         // dd($request);

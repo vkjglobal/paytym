@@ -53,10 +53,10 @@ class UserController extends Controller
             [(__('Dashboard')), route('employer.user.create')],
             [(__('Users')), null],
         ];
-        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        // $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
         $countries = Country::get();
         $roles = Role::get();
         return view('employer.user.create',compact('breadcrumbs','branches','roles','departments','businesses','countries'));
@@ -166,9 +166,9 @@ class UserController extends Controller
             [(__('Dashboard')), route('employer.branch.create')],
             [(__('Branch')), null],
         ];
-        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
         $countries = Country::get();
         $roles = Role::get();
         

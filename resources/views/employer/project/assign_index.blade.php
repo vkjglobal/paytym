@@ -10,7 +10,7 @@
                     <h6 class="card-title">Assigned Projects</h6>
                     <div class="table-responsive">
                     
-                                    <table id="dataTableExample" class="table">
+                    <table id="dataTableExample" class="table">
                             
                             <thead>
                                 <tr>
@@ -24,8 +24,12 @@
                                 @foreach ($assign_projects as $assign_project)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $assign_project->user->first_name .' '. $assign_project->user->last_name }}</td>
-                                        <td>{{ $assign_project->project->name }}</td>
+                                        <td>@isset($assign_project->user->first_name,$assign_project->user->last_name )
+                                            {{ $assign_project->user->first_name .' '. $assign_project->user->last_name }}
+                                        @endisset</td>
+                                        <td>@isset($assign_project->project->name)
+                                            {{ $assign_project->project->name }}
+                                        @endisset</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 

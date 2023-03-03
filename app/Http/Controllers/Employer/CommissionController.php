@@ -18,7 +18,7 @@ class CommissionController extends Controller
             [(__('Commission')), null],
         ];
         $employer_id = Auth::guard('employer')->id();
-        $users = User::where('employer_id', $employer_id)->get();
+        $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
         $commissions = Commission::where('employer_id', $employer_id)->get();
         return view('employer.commission.index', compact('breadcrumbs','commissions', 'users'));
     }

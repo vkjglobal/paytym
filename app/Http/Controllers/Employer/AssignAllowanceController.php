@@ -20,7 +20,7 @@ class AssignAllowanceController extends Controller
     {
         $employer_id = Auth::guard('employer')->id();
         $assign_allowances = AssignAllowance::where('employer_id', $employer_id)->get();
-        $users = User::where('employer_id', $employer_id)->get();
+        $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
         $allowances = Allowance::where('employer_id', $employer_id)->get();
         // return($assign_allowances);
         return view('employer.allowance.assign', compact('assign_allowances',  'users', 'allowances'));

@@ -182,7 +182,7 @@
             $('#filter_employee').on('click', function(e) {
                 $.ajax({
                     type: "get",
-                    url: "{{url('employer/report/employee/filter')}}",
+                    url: "{{url('/employer/report/employee/filter')}}",
                     // url: '/fetch_brandwise_rx',
                     async: true,
                     data: {
@@ -202,10 +202,6 @@
                     }
                 });
             });
-
-
-
-
         })(jQuery);
     </script>
 @endpush

@@ -37,7 +37,7 @@ class ProvidentFundController extends Controller
             [(__('Dashboard')), route('employer.project.index')],
             [(__('FNPF')), null],
         ];
-        $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
         return view('employer.providentfund.create', compact('breadcrumbs','employees'));
     }
 

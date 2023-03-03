@@ -21,7 +21,7 @@ class AssignDeductionController extends Controller
     {
         $employer_id = Auth::guard('employer')->id();
         $assign_deductions = AssignDeduction::where('employer_id', $employer_id)->get();
-        $users = User::where('employer_id', $employer_id)->get();
+        $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
         $deductions = Deduction::where('employer_id', $employer_id)->get();
         // return($assign_allowances);
         return view('employer.deduction.assign', compact('assign_deductions',  'users', 'deductions'));

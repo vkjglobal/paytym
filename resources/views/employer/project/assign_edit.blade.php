@@ -6,7 +6,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title"> Edit</h6>
+                    <h6 class="card-title">Edit Assigned Projects</h6>
                     <form method="POST" action="{{ route('employer.assign.update', $assign_project->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
