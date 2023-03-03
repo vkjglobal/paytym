@@ -58,7 +58,7 @@ class GroupMembersAddController extends Controller
             $data->group_chat_id = $request->group;
             $data->member_id = $request->employee;
             
-            $user = GroupChatMembers::where('member_id',  $request->employee)->first();  
+            $user = GroupChatMembers::where('group_chat_id',$request->group)->where('member_id',  $request->employee)->first();  
             if($user){
                 notify()->error(__('Already exists'));
             }else{
@@ -96,7 +96,7 @@ class GroupMembersAddController extends Controller
             [(__('Dashboard')), route('employer.project.index')],
             [(__('Chat')), null],
         ];
-        $groups = GroupChat::all();
+        $groups = GroupChat::where('employer_id', Auth::guard('employer')->id())->get();
         $groupmembers = GroupChatMembers::find($id);
         $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
         return view('employer.chat.addmembersedit', compact('breadcrumbs','employees','groupmembers','groups'));
@@ -112,25 +112,25 @@ class GroupMembersAddController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'employee' => 'required',
-            'group' => 'required',
+            'employee' => 'required'
+            //'group' => 'required',
         ]);
             $data = GroupChatMembers::where('id', $id)->first();
             // $data->employer_id = Auth::guard('employer')->id();
             $data->group_chat_id = $request->group;
             $data->member_id = $request->employee;
             
-            $user = GroupChatMembers::where('member_id',  $request->employee)->first(); 
-            if($user){
-                notify()->error(__('Already exists'));
-            }else{
+            // $user = GroupChatMembers::where('member_id',  $request->employee)->first(); 
+            // if($user){
+            //     notify()->error(__('Already exists'));
+            // }else{
                 $res = $data->save();
                 if($res){
                     notify()->success(__('Group member Updated.'));
                 }else{
                     notify()->error(__('Failed to Update.'));
                 }
-            }
+           // }
              
             return redirect()->back();
     }

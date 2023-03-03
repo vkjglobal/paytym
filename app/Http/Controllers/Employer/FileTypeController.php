@@ -20,8 +20,8 @@ class FileTypeController extends Controller
             [(__('Dashboard')), route('employer.home')],
             [(__('File Types')), null],
         ];
-
-        $filetypes = FileType::get();
+        $employer = Auth::guard('employer')->id();
+        $filetypes = FileType::where('employer_id',$employer)->get();
 
         return view('employer.filetype.index', compact('breadcrumbs', 'filetypes'));
     }
@@ -54,6 +54,7 @@ class FileTypeController extends Controller
         ]);
         $filetype = new FileType();
         $filetype->file_type = $request['filetype'];
+        $filetype->employer_id = Auth::guard('employer')->user()->id;
         $issave = $filetype->save();
         if($issave){
             notify()->success(__('Created successfully'));
@@ -103,6 +104,7 @@ class FileTypeController extends Controller
             'filetype' => 'required'
         ]);
         $file_type->file_type = $request['filetype'];
+        $file_type->employer_id = Auth::guard('employer')->user()->id;
         $issave = $file_type->save();
         if($issave){
             notify()->success(__('Updated successfully'));

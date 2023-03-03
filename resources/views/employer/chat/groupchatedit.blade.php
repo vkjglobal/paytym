@@ -19,8 +19,9 @@
                                 <label class="control-label">Group Name<span class="text-danger">*</span></label>
                                 <input type="text"
                                     class="form-control @if ($errors->has('group_name]')) is-invalid @endif"
-                                    name="group_name" value="{{old('group_name', $groupchat->group_name)}}" placeholder="Enter Group name" >
-                                <div class="invalid-feedback">{{ $errors->first('group_name') }}</div>
+                                    name="group_name" value="{{old('group_name', $groupchat->group_name)}}" placeholder="Enter Group name" disabled="disabled">
+                                    <input type="hidden" name="group_name" value="{{$groupchat->group_name}}">
+                                    <div class="invalid-feedback">{{ $errors->first('group_name') }}</div>
                             </div>
                         </div><!-- Col --> 
                     </div><!-- Row -->

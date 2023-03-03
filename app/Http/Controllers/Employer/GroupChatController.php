@@ -54,9 +54,9 @@ class GroupChatController extends Controller
             $data->admin_id = $request->employee;
             $data->group_name = $request->group_name;
             
-            $user = GroupChat::where('group_name', 'like',  $request->group_name)->first();  
+            $user = GroupChat::where('group_name', 'like',  $request->group_name)->where('employer_id',Auth::guard('employer')->id())->first();  
             if($user){
-                notify()->error(__('Already exists'));
+                notify()->error(__('This group already exists'));
             }else{
                 $res = $data->save();
                 if($res){
@@ -115,17 +115,17 @@ class GroupChatController extends Controller
             $data->admin_id = $request->employee;
             $data->group_name = $request->group_name;
             
-            $user = GroupChat::where('group_name', 'like',  $request->group_name)->first();  
-            if($user){
-                notify()->error(__('Already exists'));
-            }else{
+            //$user = GroupChat::where('group_name', $request->group_name)->where('employer_id',Auth::guard('employer')->id())->first();  
+            //if($user){
+                //notify()->error(__('Already exists'));
+            //}else{
                 $res = $data->save();
                 if($res){
                     notify()->success(__('Group chat Updated.'));
                 }else{
                     notify()->error(__('Failed to Update.'));
                 }
-            }
+            //}
              
             return redirect()->back();
     }
