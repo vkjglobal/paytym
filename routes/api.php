@@ -180,4 +180,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('sms_send_api', [TwilioSMSController::class, 'sms_send_api']);
     Route::post('split_payment', [SplitpaymentController::class, 'split_payment']);
+
+    //06-02-23
+    //Route::post('split_payment', [SplitpaymentController::class, 'split_payment']);
 });
