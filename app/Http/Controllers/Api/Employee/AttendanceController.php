@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Api\Employee;
+
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
+use App\Models\Employer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +16,7 @@ class AttendanceController extends Controller
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
         ]);
-    
+
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
@@ -50,7 +52,7 @@ class AttendanceController extends Controller
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
         ]);
-    
+
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
@@ -62,28 +64,25 @@ class AttendanceController extends Controller
         $now = new \DateTime();
         $date = date('Y-m-d');
         $user_id = Auth::user()->id;
-        $attendance =  Attendance::where('user_id',$user_id)->where('date',$date)->first();
-        if($attendance)
-        {
+        $attendance =  Attendance::where('user_id', $user_id)->where('date', $date)->first();
+        if ($attendance) {
             // $check_in=$attendance->check_in;
             // $total_time=$now - $check_in;
-            $attendance->check_out=$now;
+            $attendance->check_out = $now;
             $attendance->date = $now;
             $attendance->employer_id = $request->employer_id;
-            $attendance->status='1'; // need to do the status check 
+            $attendance->status = '1'; // need to do the status check 
             $res = $attendance->save();
-        if ($res) {
-            return response()->json([
-                'message' => "Checked Out Successfully",
-            ], 200);
+            if ($res) {
+                return response()->json([
+                    'message' => "Checked Out Successfully",
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => "Failed to check in"
+                ], 400);
+            }
         } else {
-            return response()->json([
-                'message' => "Failed to check in"
-            ], 400);
-        }
-        }
-        else
-        {
             return response()->json([
                 'message' => "user doesn't  checked in"
             ], 400);
@@ -106,31 +105,45 @@ class AttendanceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
+            'qr_code' => 'required'
         ]);
-    
+
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
                 'message' => $validator->errors()->first()
             ], 400);
         }
-        $now = new \DateTime();
-        $attendance = new Attendance();
-        $attendance->user_id = Auth::user()->id;
-        $attendance->employer_id = $request->employer_id;
-        $attendance->check_in = $now;
-        $attendance->date = $now;
-
-        $res = $attendance->save();
-
-        if ($res) {
-            return response()->json([
-                'message' => "Checked in Successfully",
-            ], 200);
+        $qr_code = $request->qr_code;
+        $employer_qr_code = Employer::where('id', $request->employer_id)->value('qr_code');
+        if ($employer_qr_code) {
+            if ($employer_qr_code == $qr_code) {
+                $now = new \DateTime();
+                $attendance = new Attendance();
+                $attendance->user_id = Auth::user()->id;
+                $attendance->employer_id = $request->employer_id;
+                $attendance->approve_reject = '1';
+                $attendance->check_in = $now;
+                $attendance->date = $now;
+                $res = $attendance->save();
+                if ($res) {
+                    return response()->json([
+                        'message' => "Checked in Successfully",
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => "Failed to check in"
+                    ], 400);
+                }
+            } else {
+                return response()->json([
+                    'message' => "Not Verified the Qr Code"
+                ], 200);
+            }
         } else {
             return response()->json([
-                'message' => "Failed to check in"
-            ], 400);
+                'message' => "Not Verified the Qr Code"
+            ], 200);
         }
     }
 
@@ -140,52 +153,65 @@ class AttendanceController extends Controller
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
         ]);
-    
+
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
                 'message' => $validator->errors()->first()
             ], 400);
         }
-        $now = new \DateTime();
-        $date = date('Y-m-d');
-        $user_id = Auth::user()->id;
-        $attendance =  Attendance::where('user_id',$user_id)->where('date',$date)->first();
-        if($attendance)
-        {
-            // $check_in=$attendance->check_in;
-            // $total_time=$now - $check_in;
-            $attendance->check_out=$now;
-            $attendance->date = $now;
-            $attendance->employer_id = $request->employer_id;
-            $attendance->status='1'; // need to do the status check 
-            $res = $attendance->save();
-        if ($res) {
-            return response()->json([
-                'message' => "Checked Out Successfully",
-            ], 200);
+
+        $qr_code = $request->qr_code;
+        $employer_qr_code = Employer::where('id', $request->employer_id)->value('qr_code');
+        if ($employer_qr_code) {
+            if ($employer_qr_code == $qr_code) {
+                $now = new \DateTime();
+                $date = date('Y-m-d');
+                $user_id = Auth::user()->id;
+                $attendance =  Attendance::where('user_id', $user_id)->where('date', $date)->first();
+                if ($attendance) {
+                    // $check_in=$attendance->check_in;
+                    // $total_time=$now - $check_in;
+                    $attendance->check_out = $now;
+                    $attendance->date = $now;
+                    $attendance->employer_id = $request->employer_id;
+                    $attendance->approve_reject = '1';
+                    $attendance->status = '1'; // need to do the status check 
+                    $res = $attendance->save();
+                    if ($res) {
+                        return response()->json([
+                            'message' => "Checked Out Successfully",
+                        ], 200);
+                    } else {
+                        return response()->json([
+                            'message' => "Failed to check in"
+                        ], 400);
+                    }
+                } else {
+                    return response()->json([
+                        'message' => "user doesn't  checked out"
+                    ], 400);
+                }
+                //$attendance->check_out = $now;
+                $res = $attendance->save();
+                if ($res) {
+                    return response()->json([
+                        'message' => "Checked in Successfully",
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => "Failed to check Out"
+                    ], 400);
+                }
+            } else {
+                return response()->json([
+                    'message' => "Not Verified the Qr Code"
+                ], 200);
+            }
         } else {
             return response()->json([
-                'message' => "Failed to check in"
-            ], 400);
-        }
-        }
-        else
-        {
-            return response()->json([
-                'message' => "user doesn't  checked in"
-            ], 400);
-        }
-        //$attendance->check_out = $now;
-        $res = $attendance->save();
-        if ($res) {
-            return response()->json([
-                'message' => "Checked in Successfully",
+                'message' => "Not Verified the Qr Code"
             ], 200);
-        } else {
-            return response()->json([
-                'message' => "Failed to check in"
-            ], 400);
         }
     }
 
@@ -193,17 +219,16 @@ class AttendanceController extends Controller
     public function attendance(Request $request)
     {
         $now = new \DateTime();
-        $year=date("Y");
+        $year = date("Y");
         $user_id = Auth::user()->id;
-        $history=[];
-        $history=Attendance::where('user_id',$user_id)
-        ->whereYear('created_at', '=',$year)->get();
+        $history = [];
+        $history = Attendance::where('user_id', $user_id)
+            ->whereYear('created_at', '=', $year)->get();
 
         return response()->json([
             'message' => "Attendence Details Listed Below",
-            'history'=>$history,
+            'history' => $history,
         ], 200);
-
     }
 
 
@@ -212,27 +237,21 @@ class AttendanceController extends Controller
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
         ]);
-    
+
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
                 'message' => $validator->errors()->first()
             ], 400);
         }
-        $year=date("Y");
+        $year = date("Y");
         $user_id = Auth::user()->id;
-        $history=[];
-        $history=Attendance::with('user')->where('employer_id',$request->employer_id)
-        ->whereYear('created_at', '=',$year)->get();
+        $history = [];
+        $history = Attendance::with('user')->where('employer_id', $request->employer_id)
+            ->whereYear('created_at', '=', $year)->get();
         return response()->json([
             'message' => "Checkin- Checkout  Details Listed Below",
-            'history'=>$history,
+            'history' => $history,
         ], 200);
     }
-    
-
-
-
-
-
 }
