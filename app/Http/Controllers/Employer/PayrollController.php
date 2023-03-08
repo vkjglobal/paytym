@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Employer;
 use App\Http\Controllers\Controller;
 use App\Models\Payroll;
 use App\Models\User;
+use App\Models\Country;
 use App\Models\Attendance;
 use App\Models\AssignAllowance;
+use App\Models\ProvidentFund;
 use App\Models\Leaves;
 use App\Models\Commission;
 use App\Models\AssignDeduction;
@@ -244,7 +246,8 @@ class PayrollController extends Controller
             }
 
             //Tax Calculation - Income tax 
-            $taxRate = $employee->country->tax ;
+            $IncomeTaxToWithhold = 0;
+            $taxRate = $employee->country?->tax ?? 0 ;
             $weeklySalary = $employee->rate * $employee->total_hours_per_week;
             if(isset($taxRate)){
             if($employee->pay_period == "0"){
@@ -255,9 +258,9 @@ class PayrollController extends Controller
                 $F =  26;    //C1
             }
 
-            $A1 = $annualIncome * ($employee->country->tax / 100);
+            $A1 = $annualIncome * ($taxRate / 100);
             $C2 = $annualIncome + $total_bonus;
-            $incomeTaxOnC2 = $C2 * ($employee->country->tax / 100);
+            $incomeTaxOnC2 = $C2 * ($taxRate / 100);
             $incomeTaxOnC1 = $A1;
             $G = 2;    //should be made dynamic - No of completed pay period including current
             $B1 = 0;   //should be made dynamic - tax witheheld to date 
@@ -265,7 +268,8 @@ class PayrollController extends Controller
             }
             
              //Tax Calculation - SRT  
-             $srtRate =  $employee->country->srt_tax ;
+             $srtToWithhold = 0;
+             $srtRate =  $employee->country?->srt_tax ?? 0;
              $weeklySalary = $employee->rate * $employee->total_hours_per_week;
              if(isset($srtRate)){
              if($employee->pay_period == "0"){
@@ -282,6 +286,27 @@ class PayrollController extends Controller
              if($srtToWithhold < 0){
                 $srtToWithhold = 0;
              }
+            }
+            $total_tax = $srtToWithhold + $IncomeTaxToWithhold;
+
+                //FNPF calculation
+            $empTotalSalary = $employee->total_hours_per_week * $employee->rate;
+            $fnpf_amount = 0;
+            $country = Country::where('id',$employee->country_id)->first();
+            $fnpf = ProvidentFund::where('user_id',$employee->id)->first();
+            if(!empty($fnpf)){
+                if(!empty($fnpf->user_rate)){
+                    $fnpf_amount += $empTotalSalary * (($fnpf->user_rate)/100); 
+                }
+                if(!empty($fnpf->employer_rate)){
+                    $fnpf_amount += $empTotalSalary * (($fnpf->employer_rate)/100); 
+                }
+            }
+        
+            if(!empty($country)){
+                if(!empty($country->fnpf)){
+                $fnpf_amount += $empTotalSalary * (($country->fnpf)/100);               
+                }
             }
             
             
@@ -310,11 +335,14 @@ class PayrollController extends Controller
             $payroll -> base_salary = $employee->rate;
             $payroll -> paid_salary = $totalSalary;
             $payroll -> net_salary = $netSalary;
+            $payroll -> total_tax = $total_tax;
             $payroll -> gross_salary = $grossSalary;
             $payroll -> total_deduction = $totalDeduction;
             $payroll -> total_allowance = $totalAllowance;
             $payroll -> total_commission = $commission_amount;
             $payroll -> total_bonus = $total_bonus;
+            $payroll -> total_fnpf = $fnpf_amount;
+
             
             $res = $payroll->save();
     
@@ -385,7 +413,7 @@ class PayrollController extends Controller
         }
 
             //Tax Calculation - Income tax 
-            $taxRate = $employee->country->tax ;
+            $taxRate = $employee->country?->tax ?? 0 ;
             $salary = $employee->rate;
             if(isset($taxRate)){
             if($employee->pay_period == "0"){
@@ -413,30 +441,50 @@ class PayrollController extends Controller
 
 
             //Tax calculation - SRT
-            $srtTaxAmount = 0;
-            $salary = $employee->rate;
-            $srtRate = $employee->country->srt_tax;
-            if(isset($srtRate)){
-            if($employee->pay_period == "0"){
-                $annualIncome = $salary * 52; 
-                $F = 52;      
-            }else if($employee->pay_period == "1"){
-                $annualIncome = $salary * 26 ;  
-                $F =  26;    //C1
-            }else{
-                $annualIncome = $salary * 12 ;  
-                $F =  12;    //C1
+            $srtToWithhold = 0;
+            $salary = $employee->rate; 
+            $srt_rate = $employee->country?->srt_tax ?? 0;
+                    if($employee->pay_period == "0"){
+                        $annualIncome = $salary * 52; 
+                        $F = 52;      
+                    }else if($employee->pay_period == "1"){
+                        $annualIncome = $salary * 26 ;  
+                        $F =  26;    //C1
+                    }else{
+                        $annualIncome = $salary * 12 ;  
+                        $F =  12;    //C1
+                    }
+                    $A2 = $annualIncome * ($srt_rate/ 100);
+                    $G = 5;
+                    $B2 = 4;
+                    $srtToWithhold = (($A2/$F * $G) - $B2 );
+                    if($srtToWithhold < 0){
+                        $srtToWithhold = 0;
+                    
             }
-            $A2 = $annualIncome * ($srtRate/ 100);
-            $G = 5;
-            $B2 = 4;
-            $srtToWithhold = (($A2/$F * $G) - $B2 );
-            if($srtToWithhold < 0){
-                $srtToWithhold = 0;
+
+        $totalTaxAmount = $srtToWithhold + $incomeTaxToWithhold ;
+
+        //FNPF calculation
+        $fnpf_amount = 0;
+        $country = Country::where('id',$employee->country_id)->first();
+        $fnpf = ProvidentFund::where('user_id',$employee->id)->first();
+        if(!empty($fnpf)){
+            if(!empty($fnpf->user_rate)){
+                $fnpf_amount += $employee->rate * (($fnpf->user_rate)/100); 
+            }
+            if(!empty($fnpf->employer_rate)){
+                $fnpf_amount += $employee->rate * (($fnpf->employer_rate)/100); 
+            }
+        }
+       
+        if(!empty($country)){
+            if(!empty($country->fnpf)){
+            $fnpf_amount += $employee->rate * (($country->fnpf)/100);               
             }
         }
 
-        $totalTaxAmount = $srtToWithhold + $incomeTaxToWithhold ;
+
 
     
 
@@ -445,10 +493,10 @@ class PayrollController extends Controller
 
 
             //Total salary calculation
-            $base_pay = ($employee->rate * 22); 
+            $base_pay = ($employee->rate); 
             $totalEarnings = $base_pay ;
             $grossSalary = $totalEarnings + $commission_amount + $total_bonus;   //gross pay =  Base Pay + Overtime Pay + Double Pay + Bonus + Commission 
-            $netSalary = $grossSalary - 60; //net salary= Gross Pay – (Superannuation + All Taxes)
+            $netSalary = $grossSalary - ($totalTaxAmount + $fnpf_amount); //net salary= Gross Pay – (Superannuation + All Taxes)
            
             $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay = Net pay + Allowances - Deductions
          
@@ -471,6 +519,7 @@ class PayrollController extends Controller
             $payroll -> total_allowance = $totalAllowance;
             $payroll -> total_commission = $commission_amount;
             $payroll -> total_bonus = $total_bonus;
+            $payroll -> total_fnpf = $fnpf_amount;
             
             $res = $payroll->save();
 

@@ -19,7 +19,7 @@ class PayrollCalculationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'employer_id' => 'required',
-            'payroll_status' => 'required',
+            // 'payroll_status' => 'required',
         ]);
 
         //if validation fails
@@ -139,13 +139,15 @@ class PayrollCalculationController extends Controller
                         array_pop($payPeriods);
                     }
                     foreach ($payPeriods as $payPeriod) {
-
                         $salaryStartDate = $payPeriod['start_date'];
                         $salaryEndDate = $payPeriod['end_date'];
                         $payrollcontroller = new PayrollController;
                         $payrollcontroller->generate_fixed_payroll($employee, $salaryStartDate, $salaryEndDate);
                     }
-                    $employee->payed_date = $endDate;
+
+
+                    $employee->payed_date = $salaryEndDate;
+
                     $employee->save();
                 }
 

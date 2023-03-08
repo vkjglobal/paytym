@@ -249,10 +249,10 @@
                             </div><!-- Col -->
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label">End date of employment  <span class="text-danger"> *</span></label>
+                                    <label class="control-label">End date of employment</label>
                                     <input type="date"
                                         class="form-control @if ($errors->has('end_date')) is-invalid @endif"
-                                        name="end_date" value="{{ old('end_date') }}" placeholder="Enter Image" required>
+                                        name="end_date" value="{{ old('end_date') }}" placeholder="Enter Image">
                                     <div class="invalid-feedback">{{ $errors->first('end_date') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -287,91 +287,61 @@
                         </div><!-- Col -->
                         </div><!-- Row -->
 
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="">
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" id="fixed-tab" data-toggle="tab" href="#fixed" role="tab" aria-controls="fixed" aria-selected="true" onclick="setSalaryType(0)">Fixed</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="hourly-tab" data-toggle="tab" href="#hourly" role="tab" aria-controls="hourly" aria-selected="false" onclick="setSalaryType(1)">Hourly</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content tab-wrp" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="fixed" role="tabpanel" aria-labelledby="fixed-tab">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Pay Period<span class="text-danger">*</span></label>
-                                                        <select class="form-control" name="payperiod" value="{{ old('payperiod') }}">
-                                                            <option value="">--SELECT--</option>
-                                                            <option value="0">Weekly</option>
-                                                            <option value="1">Fortnightly</option>
-                                                            <option value="2">Monthly</option>
-                                                            <option value="3">Yearly</option>
-                                                        </select>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                </div><!-- Col -->    
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Rate <span class="text-danger"> *</span></label>
-                                                        <input type="number" class="form-control " name="fixed-rate" value="{{ old('fixed-rate') }}" placeholder="Enter Rate">
-                                                        <div class="invalid-feedback">{{ $errors->first('fixed-rate') }}</div>
-                                                    </div>
-                                                </div><!-- Col -->
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="hourly" role="tabpanel" aria-labelledby="hourly-tab">
-                                            <div class="row">
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Branch<span class="text-danger">*</span></label>
-                                                    <select class="form-control"  class="form-control @if ($errors->has('hourly_pay_period')) is-invalid @endif" name="hourly_pay_period" value="">
-                                                        <option value="">--SELECT--</option>
-                                                        <option value="0" >Weekly</option>
-                                                        <option value="1" >Fortnightly</option>
-                                                        
-                                                    </select>
-                                                    <div class="invalid-feedback">{{ $errors->first('branch') }}</div>
-                                                </div>
-                                            </div><!-- Col -->
-                                            <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">work days per Week <span class="text-danger"> *</span></label>
-                                                        <input type="number" class="form-control" name="work_days_per_week" value="{{ old('work_days_per_week') }}" placeholder="work days per Week">
-                                                        <div class="invalid-feedback">{{ $errors->first('work_days_per_week') }}</div>
-                                                    </div>
-                                                </div><!-- Col -->
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Total hours per week <span class="text-danger"> *</span></label>
-                                                        <input type="number" class="form-control " name="total_hours_per_week" value="" value="{{ old('Total_hours_per_week') }}" placeholder="Total hours per week">
-                                                        <div class="invalid-feedback">{{ $errors->first('Total_hours_per_week') }}</div>
-                                                    </div>
-                                                </div><!-- Col -->
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Extra hours at base rate <span class="text-danger"> *</span></label>
-                                                        <input type="number" class="form-control " name="extra_hours_at_base_rate" value="{{ old('Extra_hours_at_base_rate') }}" placeholder="Extra hours at base rate">
-                                                        <div class="invalid-feedback">{{ $errors->first('Extra_hours_at_base_rate') }}</div>
-                                                    </div>
-                                                </div><!-- Col -->
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Rate <span class="text-danger"> *</span></label>
-                                                        <input type="number" class="form-control " name="hourly-rate" value="{{ old('hourly-rate') }}" placeholder="Enter Rate">
-                                                        <div class="invalid-feedback">{{ $errors->first('hourly-rate') }}</div>
-                                                    </div>
-                                                </div><!-- Col -->
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="form-group">
+                            <label for="salary-type">Salary Type</label>
+                            <select name="salary_type" id="salary-type">
+                                <option value="">--SELECT--</option>
+                                <option value="1">Hourly</option>
+                                <option value="0">Fixed</option>
+                            </select>
+                        </div>
+                        <div class="hourly-section row">
+                        <div class="col-md-6">
+                            <label for="hourly-salary">Hourly Salary</label>
+                            <input type="number" name="hourly_rate" id="hourly-salary" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="total-hours-per-week">Total Hours per Week</label>
+                            <input type="number" name="total_hours_per_week" id="total-hours-per-week" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="total-workdays-per-week">Total Workdays per Week</label>
+                            <input type="number" name="work_days_per_week" id="total-workdays-per-week" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="extra-hours-at-base-rate">Extra Hours at Base Rate</label>
+                            <input type="number" name="extra_hours_at_base_rate" id="extra-hours-at-base-rate" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="pay-period">Pay Period</label>
+                            <select name="hourly_pay_period" id="pay-period" class="form-control">
+                                <option value="0">Weekly</option>
+                                <option value="1">Fortnightly</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                        <div class="row fixed-section">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="salary-amount">Salary Amount</label>
+                                    <input type="number" id="salary-amount" name="fixed-rate" class="form-control">
                                 </div>
                             </div>
-                        </div><!-- Row -->
-                        <input type="hidden" name="salary_type" id="salary_type" value="0">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="pay-period">Pay Period</label>
+                                    <select id="pay-period" name="payperiod" class="form-control">
+                                        <option value="0">Weekly</option>
+                                        <option value="1">Fortnightly</option>
+                                        <option value="2">Monthly</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         
                         <div class="row">
                         
@@ -423,13 +393,30 @@
     } // Password Validation End
 </script>
 <script>
-    var salary_type;
-     function setSalaryType(num) {
-        salary_type = num; 
-        document.getElementById("salary_type").value = salary_type;
-        console.log(document.getElementById("salary_type").value);
-    }
+    $(function() {
+        $('.hourly-section, .fixed-section').hide();
+        $('#salary-type').on('change', function () {
+            var selectedValue = $(this).val();
+            
+            if (selectedValue === '1') {
+                $('.hourly-section').show();
+                $('.fixed-section').hide();
+                $('.fixed-section :input').attr('disabled', true);
+                $('.hourly-section :input').attr('disabled', false);
+            } else if (selectedValue === '0') {
+                $('.fixed-section').show();
+                $('.hourly-section').hide();
+                $('.hourly-section :input').attr('disabled', true);
+                $('.hourly-section :input').attr('disabled', true);
+                $('.fixed-section :input').attr('disabled', false);
+            } else {
+                // Handle other cases here
+            }
+        });
+    });
 </script>
+
+
     <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
 @endpush
