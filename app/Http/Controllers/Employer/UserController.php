@@ -78,7 +78,7 @@ class UserController extends Controller
      $user->last_name = $validated['last_name'];
      $user->email = $validated['email'];
      $user->branch_id = $validated['branch'];
-     $user->country = $validated['country'];
+     $user->country_id = $validated['country'];
      $user->position = $validated['position'];
      $user->phone = $validated['phone'];
      $user->date_of_birth = $validated['date_of_birth'];
@@ -98,18 +98,17 @@ class UserController extends Controller
      $user->employment_end_date = $validated['end_date'];
     //  $user->pay_period = $validated['payperiod'];
      
-     if($validated['hourly-rate']){
-        $user->rate = $validated['hourly-rate'];
+     if(!empty($validated['hourly_rate'])){
+        $user->rate = $validated['hourly_rate'];
      }
 
-     if($validated['payperiod']){
+     if(!empty($validated['payperiod'])){
         $user->pay_period = $validated['payperiod'];
      }
-     
-     if($validated['hourly_pay_period']){
+     if(!empty($validated['hourly_pay_period'])){
         $user->pay_period = $validated['hourly_pay_period'];
      }
-     if($validated['fixed-rate']){
+     if(!empty($validated['fixed-rate'])){
         $user->rate = $validated['fixed-rate'];
      }
      $user->employee_type = $validated['employeetype'];
@@ -123,7 +122,7 @@ class UserController extends Controller
         $user->extra_hours_at_base_rate = $validated['extra_hours_at_base_rate'];
      }
      
-     $user->password = Hash::make($validated['password']);
+    //  $user->password = Hash::make($validated['password']);
 
      if ($request->hasFile('image')) {
         $path =  $request->file('image')->storeAs(  

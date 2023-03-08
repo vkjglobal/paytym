@@ -23,6 +23,7 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
+        
         return [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -41,17 +42,17 @@ class StoreUserRequest extends FormRequest
             'city' => 'required',
             'account_number' => 'required', 
             'image' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
-            'password' => 'required',
+            'password' => 'nullable',
 
             'business' => 'required',
             'department' => 'required',
             'bank_branch' => 'required',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'end_date' => 'nullable|date',
             'payperiod' => 'nullable|numeric',
             'hourly_pay_period' => 'nullable|numeric',
             'fixed-rate' => 'nullable|numeric',
-            'hourly-rate' => 'nullable|numeric',
+            'hourly_rate' => 'nullable|numeric',
             'employeetype' => 'required',
             'work_days_per_week' => 'nullable|numeric',
             'total_hours_per_week' => 'nullable|numeric',

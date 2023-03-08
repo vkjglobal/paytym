@@ -41,7 +41,7 @@ class UpdateUserRequest extends FormRequest
             'city' => 'required',
             'account_number' => 'required', 
             'image' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
-            'password' => 'nullable',
+            'password' => 'required',
 
             'business' => 'required',
             'department' => 'required',
@@ -51,7 +51,7 @@ class UpdateUserRequest extends FormRequest
             'payperiod' => 'nullable|numeric',
             'hourly_pay_period' => 'nullable|numeric',
             'fixed-rate' => 'nullable|numeric',
-            'hourly-rate' => 'nullable|numeric',
+            'hourly_rate' => 'nullable|numeric',
             'employeetype' => 'required',
             'work_days_per_week' => 'nullable|numeric',
             'total_hours_per_week' => 'nullable|numeric',
