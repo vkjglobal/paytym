@@ -119,7 +119,7 @@ class LeaveRequestController extends Controller
 
 
         return response()->json([
-            'message' => "Dash Board details listed",
+            'message' => "Dashboard details listed",
             // 'leave' => $leave,
             // 'projects' => $projects,
             // 'meetings' => $meetings,
@@ -152,9 +152,10 @@ class LeaveRequestController extends Controller
         $status = $request->status;
         $year = date("Y");
         $now = new \DateTime();
-        $leaveRequest = LeaveRequest::with(['user' => function ($query) {
-            $query->select('name');
-        }])->where('employer_id', $employer_id);
+        // $leaveRequest = LeaveRequest::with(['user' => function ($query) {
+        //     $query->select('name');
+        // }])->where('employer_id', $employer_id);
+        $leaveRequest = LeaveRequest::with('user:id,first_name')->where('employer_id', $employer_id);
         if ($status == '1') {
             $leaveRequest = $leaveRequest->whereMonth('created_at', Carbon::now()->month)->get();
         } elseif ($status == '2') {

@@ -28,6 +28,7 @@ class StoreProjectRequest extends FormRequest
             'branch' => 'required',
             'department' => 'required',
             'description' => 'required',
+            'budget' => 'required',
         ];
     }
 }

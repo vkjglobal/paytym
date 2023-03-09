@@ -29,6 +29,9 @@
                                         <td>{{ $project->branch->name  }}</td>
                                         <td>{{ $project->department->dep_name  }}</td>
                                         <td>{{ $project->description}}</td>
+                                        <td>@isset($project->budget)
+                                            {{ $project->budget}}
+                                        @endisset</td>
                                         
                                        
                                         

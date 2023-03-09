@@ -21,8 +21,9 @@ class Project extends Model
         return $this->belongsTo(Department::class);
     }
 
-    
-
-   
+    public function employeeproject()
+    {
+        return $this->hasMany(EmployeeProject::class);
+    }
 
 }

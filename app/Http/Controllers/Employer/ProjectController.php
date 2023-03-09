@@ -64,6 +64,7 @@ class ProjectController extends Controller
         $project->branch_id = $request['branch'];
         $project->department_id = $request['department'];
         $project->description = $request['description'];
+        $project->budget = $request['budget'];
         $project->employer_id = Auth::guard('employer')->user()->id;
         $issave = $project->save();
         if($issave){
@@ -118,6 +119,7 @@ class ProjectController extends Controller
         $project->branch_id = $request['branch'];
         $project->department_id = $request['department'];
         $project->description = $request['description'];
+        $project->budget = $request['budget'];
         $project->employer_id = Auth::guard('employer')->user()->id;
 
         $issave = $project->save();
