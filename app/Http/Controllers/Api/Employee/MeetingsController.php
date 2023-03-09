@@ -12,11 +12,11 @@ class MeetingsController extends Controller
     public function meetings()
     {
         $user_id = Auth::user()->id;
-        $meetings = Meeting::with('user')->where('user_id', $user_id)->get();
+        $meetings = Meeting::with('user.position')->where('user_id', $user_id)->get();
         if ($meetings) {
             return response()->json([
                 'message' => "Success",
-                "payroll" => $meetings,
+                "meetings" => $meetings,
             ], 200);
         } else {
             return response()->json([

@@ -124,7 +124,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('leave_requests_lists', [LeaveRequestController::class, 'leave_requests_lists']);
     Route::post('leave_requests_accept_reject', [LeaveRequestController::class, 'leave_requests_accept_reject']);
     Route::post('create_leaves', [LeaveController::class, 'create_leaves']);
-    Route::post('list_leaves', [LeaveController::class, 'list_leaves']);
+    Route::post('
+    ', [LeaveController::class, 'list_leaves']);
     Route::post('delete_leave', [LeaveController::class, 'delete_leave']);
     Route::post('events_list', [EventController::class, 'list_events']);
     Route::post('create_event', [EventController::class, 'create_event']);

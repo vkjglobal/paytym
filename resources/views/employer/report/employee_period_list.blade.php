@@ -10,16 +10,24 @@
                     <h6 class="card-title">Employment Period</h6>
                     
                     <div class="float-right mb-3">
-                        {{-- <button type="button" class="btn btn-outline-primary btn-icon-text">
-                            <i class="btn-icon-prepend" data-feather="printer"></i>
-                            Print
-                          </button> --}}
                           <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.report.employment_period.export")}}'">
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                             Download Report
                           </button> 
-                    
                     </div>
+                    {{-- <div class="float-right mb-3">
+                        <form action="{{route("employer.report.employment_period.export")}}" method="get">
+                            <input type="hidden" name="business" value="{{$request->business}}">
+                            <input type="hidden" name="branch" value="{{$request->branch}}">
+                            <input type="hidden" name="department" value="{{$request->department}}">
+                            <input type="hidden" name="user" value="{{$request->user}}">
+                            <input type="hidden" name="employer_id" value="{{$employer_id}}">
+                            <button type="submit" class="btn btn-primary btn-icon-text">
+                                <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                                Download Report
+                              </button> 
+                        </form>
+                    </div> --}}
                     {{-- ///// --}}
                         {{-- <form method="GET" action="{{ route('employer.report.employee.filter') }}" enctype="multipart/form-data">
                         @csrf --}}
