@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\SendOtp;
 use App\Models\LeaveRequest;
 use App\Models\User;
+use App\Models\UserCapabilities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -50,6 +51,7 @@ class AuthController extends Controller
                 $halfday = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'halfday')->get();
                 $halfday = $halfday->count();
             }
+            $capabilities = UserCapabilities::with('role')->where('role_id', $authUser->position)->get();
 
             return response()->json([
                 'message' => "You have successfully logged in!",
@@ -59,6 +61,7 @@ class AuthController extends Controller
                 'absence' => $absence,
                 'annual' => $annual,
                 'halfday' => $halfday,
+                'capabilities' => $capabilities,
             ], 200);
         } else {
             return response()->json([

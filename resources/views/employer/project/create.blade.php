@@ -46,15 +46,24 @@
                         </div><!-- Col -->
 
                         <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="control-label">Description <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                        class="form-control @if ($errors->has('description')) is-invalid @endif"
-                                        name="description" value="{{ old('description') }}" placeholder="Enter description" required>
-                                    <div class="invalid-feedback">{{ $errors->first('description') }}</div>
-                                </div>
-                            </div><!-- Col -->
+                            <div class="form-group">
+                                <label class="control-label">Description <span class="text-danger">*</span></label>
+                                <input type="text"
+                                    class="form-control @if ($errors->has('description')) is-invalid @endif"
+                                    name="description" value="{{ old('description') }}" placeholder="Enter description" required>
+                                <div class="invalid-feedback">{{ $errors->first('description') }}</div>
+                            </div>
+                        </div><!-- Col -->
 
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Budget <span class="text-danger">*</span></label>
+                                <input type="number"
+                                    class="form-control @if ($errors->has('budget')) is-invalid @endif"
+                                    name="budget" value="{{ old('budget') }}" placeholder="Enter Budget" required>
+                                <div class="invalid-feedback">{{ $errors->first('budget') }}</div>
+                            </div>
+                        </div><!-- Col -->
             
 
                         
