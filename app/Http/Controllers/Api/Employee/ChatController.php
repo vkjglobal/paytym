@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Models\Employer;
 use App\Models\GroupChat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +19,7 @@ class ChatController extends Controller
     {
         $user = Auth::user();
         $employer_id = $user->employer_id;
-        $chats = Chat::where('user_id', $user->id)->get();
+        $chats = Chat::with('employee:id,first_name,last_name')->where('user_id', $user->id)->get();
         $hod = Employer::where('id', $employer_id)->first();
         $chat_history = Chat::with('employer')->where(['user_id' => Auth::user()->id, 'employer_id' => $employer_id])->get();
 
@@ -60,7 +61,8 @@ class ChatController extends Controller
         $res = $chat->save();
 
         $hod = Employer::where('id', $request->employer_id)->first();
-        $chats = Chat::with('employer')->where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id])->get();
+        $chats = Chat::with('employer', 'employee:id,first_name,last_name')->where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id])->get();
+        // $employee = User::where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id])->get();
 
         if ($res) {
             return response()->json([
@@ -68,6 +70,8 @@ class ChatController extends Controller
                 'hod' => $hod->name,
                 'hod_image' => $hod->logo,
                 'chats' => $chats,
+                // 'employee' => $employee,
+
             ], 200);
         } else {
             return response()->json([

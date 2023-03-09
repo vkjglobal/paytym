@@ -30,9 +30,9 @@ use App\Http\Controllers\Employer\PayslipController;
 use App\Http\Controllers\Employer\PayrollSettingsController;
 use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Employer\GroupChatController;
-
-
-
+use App\Models\Employer;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -183,7 +183,7 @@ Route::middleware('employer.auth')->group(function () {
     //Report
     Route::get('report/attendance',[ReportController::class,'attendance_index'])->name('report.attendance.search');
     Route::post('report/attendance/filter',[ReportController::class,'attendance_filter'])->name('report.attendance.filter');
-    Route::get('report/attendance/export/{employees}',[ReportController::class,'attendance_filter_export'])->name('report.attendance.export');
+    Route::get('report/attendance/export',[ReportController::class,'attendance_filter_export'])->name('report.attendance.export');
 
     Route::get('report/employment_period',[ReportController::class,'employment_period_index'])->name('report.employment_period');
     Route::get('report/employment_period/filter',[ReportController::class,'employee_period_filter'])->name('report.employment_period.filter');
@@ -233,4 +233,7 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('payroll-setting-hourly',[PayrollSettingsController::class,'index'])->name('payroll-setting-hourly.index');
     Route::get('payroll-setting-hourly/create/{id}',[PayrollSettingsController::class,'create'])->name('payroll-setting-hourly.create');
     Route::post('payroll-setting-hourly/store', [PayrollSettingsController::class,'store'])->name('payroll-setting-hourly.store');
-});
+
+
+  });
+

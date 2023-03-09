@@ -8,6 +8,7 @@ use App\Models\Attendance;
 use App\Models\LeaveRequest;
 use App\Models\Meeting;
 use App\Models\Project;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,21 +99,37 @@ class LeaveRequestController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-        $leave = [];
-        $projects = [];
-        $meetings = [];
-        $attendance = [];
-        $leave = LeaveRequest::where('status', '1')->where('employer_id', $request->employer_id)->get();
-        $projects = Project::where('employer_id', $request->employer_id)->get();
-        $meetings = Meeting::where('employer_id', $request->employer_id)->get();
-        $attendance = Attendance::where('employer_id', $request->employer_id)->get();
+        // $leave = [];
+        // $projects = [];
+        // $meetings = [];
+        // $attendance = [];
+        // $leave = LeaveRequest::where('status', '1')->where('employer_id', $request->employer_id)->get();
+        // $projects = Project::where('employer_id', $request->employer_id)->get();
+        // $meetings = Meeting::where('employer_id', $request->employer_id)->get();
+        // $attendance = Attendance::where('employer_id', $request->employer_id)->get();
+        
+        $today = Carbon::today();
+        $projects_count = Project::where('employer_id', $request->employer_id)->count();
+        $employees_count = User::where('employer_id', $request->employer_id)->count();
+        $attendance_count = Attendance::where('employer_id', $request->employer_id)->where('date', '=', $today)->count();
+        $absentees_count = $employees_count - $attendance_count;
+        // $absentees_count = Attendance::where('employer_id', $request->employer_id)->where('check_in', '=', null)->where('date', '=', $today)->count();
+        $meetings_count = Meeting::where('employer_id', $request->employer_id)->where('date', '=', $today)->count();
+
+
 
         return response()->json([
             'message' => "Dash Board details listed",
-            'leave' => $leave,
-            'projects' => $projects,
-            'meetings' => $meetings,
-            'attendance' => $attendance,
+            // 'leave' => $leave,
+            // 'projects' => $projects,
+            // 'meetings' => $meetings,
+            // 'attendance' => $attendance,
+            'projects_count' => $projects_count,
+            'attendance_count' => $attendance_count,
+            'absentees_count' => $absentees_count,
+            'employees_count' => $employees_count,
+            'meetings_count' => $meetings_count,
+
         ], 200);
     }
 

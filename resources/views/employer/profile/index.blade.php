@@ -54,4 +54,28 @@
         </div><!-- Col -->
 
     </div><!-- Row -->
+    @endsection
+    {{-- {!!QrCode::size(250)->format('png')->generate('1')!!}
+    {!! $qr_code->qr_code !!}
+    <div id='qr_code'>{!! $qr_code->qr_code !!}</div>
+    <button onclick="downloadSvg()">Download SVG</button>
 @endsection
+@push('custom_js')
+    <script>
+        function downloadSvg() {
+            const svg = document.getElementById('qr_code');
+            const svgString = new XMLSerializer().serializeToString(svg);
+            const blob = new Blob([svgString], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.download = 'my-svg.svg';
+            link.href = url;
+            link.click();
+
+            URL.revokeObjectURL(url);
+            }
+
+
+    </script>
+@endpush --}}

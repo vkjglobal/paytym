@@ -11,12 +11,27 @@
                 <div class="card-body">
                     <h6 class="card-title">Attendance Report</h6>
                     {{-- <div class="float-right mb-3">
-                          <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.report.attendance.export", ['employees' => $employeesId])}}'">
+                          <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.report.attendance.export", $request)}}'">
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                             Download Report
                           </button> 
-                    
                     </div> --}}
+
+                    <div class="float-right mb-3">
+                        <form action="{{route("employer.report.attendance.export")}}" method="get">
+                            <input type="hidden" name="business" value="{{$request->business}}">
+                            <input type="hidden" name="branch" value="{{$request->branch}}">
+                            <input type="hidden" name="department" value="{{$request->department}}">
+                            <input type="hidden" name="user" value="{{$request->user}}">
+                            <input type="hidden" name="date_from" value="{{$request->date_from}}">
+                            <input type="hidden" name="date_to" value="{{$request->date_to}}">
+                            <input type="hidden" name="employer_id" value="{{$employer_id}}">
+                            <button type="submit" class="btn btn-primary btn-icon-text">
+                                <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                                Download Report
+                              </button> 
+                        </form>
+                    </div>
                     
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">

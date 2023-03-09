@@ -10,29 +10,27 @@ use Countable;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use App\Traits\EmployeeFilter;
 
 class AttendanceReportExport implements FromView
 {   
-    protected $employeesid;
-    protected $date_from;
-    protected $date_to;
+    use EmployeeFilter;
+    protected $request;
 
-    public function __construct($employees, $date_from = null, $date_to = null)
+    public function __construct($request)
     {
-        $this->employeesid = $employees;
-        $this->date_from = $date_from;
-        $this->date_to = $date_to;
+        $this->request = $request;
+    }
+    public function employer_id()
+    {
+        return $this->request->employer_id;
     }
     public function view(): View
     {
-        // $report_controller = new ReportController();
-        // $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
-        $employees = User::where('employer_id', Auth::guard('employer')->id())->whereIn('id', $this->employeesid)->get();
-        return view('employer.report.export.attendance_list_filter', [
-            'employees' => $employees,
-            'date_from' => $this->date_from,
-            'date_to' => $this->date_to,
-            'today' => Carbon::now()->format('Y-m-d'),
-        ]);
+        $today = Carbon::now()->format('Y-m-d');
+        $date_from = $this->request->date_from;
+        $date_to = $this->request->date_to;
+        $employees = $this->report_filter($this->request); 
+        return view('employer.report.export.attendance_list_filter', compact('employees', 'date_from', 'date_to', 'today'));
     }
 }

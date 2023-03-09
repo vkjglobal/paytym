@@ -109,6 +109,11 @@ class User extends Authenticatable
         return $this->hasOne(Payroll::class, 'user_id');
     }
 
+    public function position()
+    {
+        return $this->belongsTo(Role::class, 'position');
+    }
+
     public function total_allowance()
     {
         $total = 0;

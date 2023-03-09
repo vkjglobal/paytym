@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Redirect;
 use App\Mail\SendEmployerPassword;
 use App\Models\Country;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RegisterController extends Controller
 {
@@ -106,7 +108,8 @@ class RegisterController extends Controller
         $employer->website = $data['website'];
         $employer->user_type = "Employer"; 
         $employer->status = 1;
-       
+        // $employer->qr_code = QrCode::size(250)->generate($employer->company);
+
         $employer->password = Hash::make($rand_pass);
         try{
            $issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
@@ -140,6 +143,8 @@ class RegisterController extends Controller
         $res = $employer->save();
         
         if ($res) {
+            $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
+            $employer->save();
             notify()->success(__('Password sent to your registered email'));
             return $employer;
         } else {
