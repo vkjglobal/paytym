@@ -301,11 +301,11 @@
                             <input type="number" name="hourly_rate" id="hourly-salary" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="total-hours-per-week">Total Hours per Week</label>
+                            <label for="total-hours-per-week">Total Hours per period</label>
                             <input type="number" name="total_hours_per_week" id="total-hours-per-week" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="total-workdays-per-week">Total Workdays per Week</label>
+                            <label for="total-workdays-per-week">Total Workdays per period</label>
                             <input type="number" name="work_days_per_week" id="total-workdays-per-week" class="form-control">
                         </div>
                         <div class="col-md-6">
@@ -341,9 +341,8 @@
                                 </div>
                             </div>
                         </div>
-
-                        
-                        <div class="row">
+<br>
+                        <!-- <div class="row">
                         
                        
                             <div class="col-sm-4">
@@ -353,10 +352,11 @@
                                         class="form-control @if ($errors->has('street')) is-invalid @endif" id="pswd1"
                                         name="password" value="{{ old('password') }}" placeholder="Ente Password">
                                     <div class="invalid-feedback">{{ $errors->first('password') }}</div>
-                                </div>
+                                </div> -->
                                
-                            </div><!-- Col -->
-                            <div class="col-sm-4">
+                            <!-- </div> -->
+                            <!-- Col -->
+                            <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Confirm Password<span class="text-danger"> *</span></label>
                                     <input type="password"
@@ -364,9 +364,11 @@
                                         id="pswd2" name="" value="{{ old('password') }}" placeholder="Confirm Password">
                                    <span id = "message1" style="color:red"> </span> <br><br>
                                 </div>
-                            </div><!-- Col -->
+                            </div> -->
+                            <!-- Col -->
                          
-                        </div><!-- Row -->
+                        <!-- </div> -->
+                        <!-- Row -->
 
                         
 

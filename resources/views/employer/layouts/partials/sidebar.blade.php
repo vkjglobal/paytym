@@ -548,14 +548,6 @@
                 </a>
                 <div class="collapse {{ request()->is('employer/payroll*') ? 'show' : '' }}" id="payroll">
                     <ul class="nav sub-menu">
-
-
-                        <li class="nav-item">
-                            <a href="{{ route('employer.payroll.generate.form') }}"
-                                class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
-                                Generate 
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a href="{{ route('employer.payroll.index') }}"
                                 class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">

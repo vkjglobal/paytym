@@ -142,7 +142,7 @@ class PayrollCalculationController extends Controller
                         $salaryStartDate = $payPeriod['start_date'];
                         $salaryEndDate = $payPeriod['end_date'];
                         $payrollcontroller = new PayrollController;
-                        $payrollcontroller->generate_fixed_payroll($employee, $salaryStartDate, $salaryEndDate);
+                        return($payrollcontroller->generate_fixed_payroll($employee, $salaryStartDate, $salaryEndDate));
                     }
 
 
