@@ -111,7 +111,7 @@ class RegisterController extends Controller
         try{
            $issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
         } catch (TransportExceptionInterface $e){
-            return redirect()->route('employer.register',[],'get');
+            return redirect('employer/commission/create');
         }
         // if(!$mail_res){
         //     notify()->error(__('Failed to Register. Please try again'));

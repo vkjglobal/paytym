@@ -9,11 +9,13 @@ use App\Models\Attendance;
 use App\Models\AssignAllowance;
 use App\Models\ProvidentFund;
 use App\Models\Leaves;
+use App\Models\LeaveRequest;
 use App\Models\Commission;
 use App\Models\AssignDeduction;
 use App\Models\Bonus;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Auth;
 
 class PayrollController extends Controller
@@ -25,7 +27,7 @@ class PayrollController extends Controller
      */
     public function index()
     {
-        $payrolls = Payroll::all();
+        $payrolls = Payroll::where('employer_id',Auth::guard('employer')->user()->id);
 
         return view('employer.Payroll.index', compact('payrolls'));
     }
@@ -349,6 +351,14 @@ class PayrollController extends Controller
     }
 
     public function generate_fixed_payroll($employee,$fromDate,$endDate){
+        if($employee->pay_period == '0'){
+            $perDaySalary = ($employee->rate / 7);
+        }
+        if($employee->pay_period == '1'){
+            $perDaySalary = ($employee->rate / 14);
+        }else{
+            $perDaySalary = ($employee->rate / ($fromDate->daysInMonth));
+        }
         $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$endDate])->get();
         
          //Allowance Calculation
@@ -484,16 +494,63 @@ class PayrollController extends Controller
             }
         }
 
+            //Absent calculation
+        $holidays = Leaves::where('employer_id',$employee->employer_id)->whereBetween('date',[$fromDate ,$endDate])->get();
+        $period = CarbonPeriod::create($fromDate, $endDate)->toArray();
+        $dates = [];
+        foreach ($period as $date) {
+            $dates[] = $date->format('Y-m-d');
+        }
+        $holidayArray = $holidays->pluck('date')->toArray();
+        $nonHolidayDates = array_diff($dates, $holidayArray);
+        $approvedLeaves  = []; // array of allowed leaves for each leave type
+        $lwop = 0;
+        foreach($nonHolidayDates as $date){
+            $attendance = Attendance::where('employer_id',$employee->employer_id)->where('user_id',$employee->id)->where('date',$date)->get();
+            if(count($attendance)>0){
+                continue;
+            }else{
+                $leave = $leave_request = LeaveRequest::where('user_id', $employee->id)
+                ->where(function ($query) use ($date) {
+                    $query->where('start_date', '<=', $date)
+                        ->where('end_date', '>=', $date);
+                })
+                ->orWhere(function ($query) use ($date) {
+                    $query->where('start_date', '>=', $date)
+                        ->where('end_date', '<=', $date);
+                })
+                ->orWhere(function ($query) use ($date) {
+                    $query->where('start_date', '<=', $date)
+                        ->where('end_date', '>=', $date);
+                })
+                ->first();
+                if($leave && $leave->status == "1"){
+                    $leaveType = $leave->type;
+                    $leaveTypeId = $leaveType->id;
+                    if(!isset($leaveDaysTaken[$leaveTypeId])){ // If this is the first leave day for this leave type, create a new array
+                        $leaveDaysTaken[$leaveTypeId] = [];
+                    }
+                    array_push($leaveDaysTaken[$leaveTypeId], $date); // Add this leave day to the array for this leave type
+                }else{
 
+                    $lwop++;
+                }
+                
+            }
+        }
+        foreach($leaveDaysTaken as $leaveTypeId => $leaveDays){ // Loop through each leave type
+        $leaveType = LeaveType::find($leaveTypeId);
+        $leaveTypeAllowed = $leaveType->allowed_leaves;
+        if(count($leaveDays) > $leaveTypeAllowed){ // If the employee has taken more leave days than allowed for this leave type, increase the lwop counter
+            $lwop += count($leaveDays) - $leaveTypeAllowed;
+        }
+        }
 
-    
-
+            $lwopAmount = $lwop * $perDaySalary ;
 
         
-
-
             //Total salary calculation
-            $base_pay = ($employee->rate); 
+            $base_pay = (($employee->rate) - ($lwopAmount)); 
             $totalEarnings = $base_pay ;
             $grossSalary = $totalEarnings + $commission_amount + $total_bonus;   //gross pay =  Base Pay + Overtime Pay + Double Pay + Bonus + Commission 
             $netSalary = $grossSalary - ($totalTaxAmount + $fnpf_amount); //net salary= Gross Pay – (Superannuation + All Taxes)

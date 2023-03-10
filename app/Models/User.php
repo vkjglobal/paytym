@@ -190,4 +190,5 @@ class User extends Authenticatable
         return EmployeeProject::where('employee_id', $this->id)->count();
     }
 
+
 }
