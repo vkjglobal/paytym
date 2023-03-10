@@ -42,8 +42,8 @@ class LeaveRequestController extends Controller
         $leaveRequest->user_id = Auth::user()->id;
         $leaveRequest->employer_id = $validated['employer_id'];
         $leaveRequest->title = $validated['title'] ?? null;
-        $leaveRequest->start_date = date('Y-m-d', strtotime($validated['start_date']));
-        $leaveRequest->end_date = date('Y-m-d', strtotime($validated['end_date']));
+        $leaveRequest->start_date = date('Y-m-d H:i:s', strtotime($validated['start_date']));
+        $leaveRequest->end_date = date('Y-m-d H:i:s', strtotime($validated['end_date']));
         $leaveRequest->type = $validated['type'];
         $res = $leaveRequest->save();
 
@@ -152,10 +152,7 @@ class LeaveRequestController extends Controller
         $status = $request->status;
         $year = date("Y");
         $now = new \DateTime();
-        // $leaveRequest = LeaveRequest::with(['user' => function ($query) {
-        //     $query->select('name');
-        // }])->where('employer_id', $employer_id);
-        $leaveRequest = LeaveRequest::with('user:id,first_name')->where('employer_id', $employer_id);
+        $leaveRequest = LeaveRequest::with('user:id,first_name,last_name')->where('employer_id', $employer_id);
         if ($status == '1') {
             $leaveRequest = $leaveRequest->whereMonth('created_at', Carbon::now()->month)->get();
         } elseif ($status == '2') {
