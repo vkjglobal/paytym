@@ -50,7 +50,7 @@ class ProjectsController extends Controller
             ], 400);
         }
 
-        $projects = EmployeeProject::with('user')->where('id', $request->project_id)->get();
+        $projects = EmployeeProject::with('user')->where('id', $request->project_id)->first();
 
         if ($projects) {
             return response()->json([
