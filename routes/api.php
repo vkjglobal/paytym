@@ -181,4 +181,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //06-02-23
     //Route::post('split_payment', [SplitpaymentController::class, 'split_payment']);
+
+    //
+    Route::post('apply_device_id', [AuthController::class, 'apply_device_id']);
 });

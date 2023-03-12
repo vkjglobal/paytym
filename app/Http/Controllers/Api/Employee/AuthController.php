@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -103,7 +104,7 @@ class AuthController extends Controller
     public function confirmOtp(Request $request)
     {
         $authUser = Auth::user();
-      
+
         if ($authUser->otp == $request->otp) {
             return response()->json([
                 'message' => 'Otp matched successfully.'
@@ -248,20 +249,17 @@ class AuthController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         } else {
-            $authUser=User::where('email',$request->email)->first();
-            if($authUser)
-            {
+            $authUser = User::where('email', $request->email)->first();
+            if ($authUser) {
                 $authUser->password = Hash::make($request->password);
                 $authUser->isFirst = 0;
                 $authUser->update();
-            }
-            else
-            {
+            } else {
                 return response()->json([
                     'message' => 'It is not a registered email'
                 ], 200);
             }
-     
+
 
             return response()->json([
                 'message' => 'Password changed successfully.'
@@ -270,4 +268,68 @@ class AuthController extends Controller
     }
 
 
+    public function apply_device_id(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' =>  'required',
+            'device_id' => 'required'
+        ]);
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        } else {
+            //
+            $user = User::find($request->user_id);
+            if ($user) {
+                $user->device_id = $request->device_id;
+                $issave = $user->save();
+                if ($issave) {
+                    return response()->json([
+                        'message' => 'device id updated'
+                    ], 200);
+                }
+            } else {
+                return response()->json([
+                    'message' => 'something went wrong'
+                ], 200);
+            }
+        }
+    }
+
+
+    public function push_notification(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employee_id' => 'required',
+            'message' => 'required'
+        ]);
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        } else {
+            $accessToken = $request->bearerToken();
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $accessToken
+            ])->post('https://fcm.googleapis.com/fcm/send', [
+                'to' => $request->device_id,
+                'notification' => $request->message,
+            ]);
+
+            return response()->json([
+                'message' => 'device id updated'
+            ], 200);
+
+
+
+
+
+        }
+
+
+    }
 }
