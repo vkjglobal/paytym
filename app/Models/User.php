@@ -108,6 +108,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Payroll::class, 'user_id');
     }
+    public function advance()
+    {
+        return $this->hasMany(PaymentAdvance::class, 'user_id');
+    }
 
     public function position()
     {

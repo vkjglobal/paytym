@@ -23,7 +23,7 @@ class MeetingsController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-        $meetings = Meeting::with('user')->where('employer_id', $request->employer_id)->get();
+        $meetings = Meeting::with('user.position')->where('employer_id', $request->employer_id)->get();
         if ($meetings) {
             return response()->json([
                 'message' => "Success",

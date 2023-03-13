@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeaveRequest;
 use App\Models\Attendance;
+use App\Models\Employer;
 use App\Models\LeaveRequest;
+use App\Models\LeaveType;
 use App\Models\Meeting;
 use App\Models\Project;
 use App\Models\User;
@@ -20,12 +22,15 @@ class LeaveRequestController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $employer_id = $user->employer_id;
         $leaveRequests = LeaveRequest::where('user_id', $user->id)->get();
+        $leave_types = LeaveType::select('leave_type')->where('employer_id', $employer_id)->get();
 
         if (count($leaveRequests) > 0) {
             return response()->json([
                 'message' => "Leave Requests List",
                 'leaveRequests' => $leaveRequests,
+                'leave_types' => $leave_types,
             ], 200);
         } else {
             return response()->json([
@@ -61,6 +66,8 @@ class LeaveRequestController extends Controller
     public function dashboard()
     {
         $user_id = Auth::user()->id;
+        $user = Auth::user();
+        $employer_id = $user->employer_id;
         $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
         if ($leave) {
             $casual = $leave->where('type', 'casual')->get();
@@ -71,12 +78,35 @@ class LeaveRequestController extends Controller
             $annual = $annual->count();
             $halfday = $leave->where('type', 'halfday')->get();
             $halfday = $halfday->count();
+            $sick = $leave->where('type', 'sick')->count();
+
+            $check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');
+            $late_arrival = Attendance::where('user_id', $user_id)
+                                        ->whereTime('check_in', '>', $check_in_time)->count();
+            $total_work_days = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::now()->format('Y'))->count();
+            // $total_work_hours = ;
+            (float)$hours = 0;
+                $attendances = Attendance::where('user_id', $user_id)->whereBetween('date',[$user->employment_start_date, Carbon::now()])->get();
+                foreach($attendances as $attend){
+                    $check_in = Carbon::parse($attend->check_in);
+                    $check_out = Carbon::parse($attend->check_out);
+                    if ($check_in != NULL && $check_out != NULL){
+                        $hours += $check_in->diffInHours($check_out);
+                    }
+                }
+
+                     
+
             return response()->json([
                 'message' => "Dash Board details listed",
                 'casual' => $casual,
                 'absence' => $absence,
                 'annual' => $annual,
                 'halfday' => $halfday,
+                'sick' => $sick,
+                'late_arrival' => $late_arrival,
+                'total_work_days' => $total_work_days,
+                'hours' => $hours,
             ], 200);
         } else {
             return response()->json([
