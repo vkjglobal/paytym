@@ -7,6 +7,7 @@ use App\Mail\SendOtp;
 use App\Models\LeaveRequest;
 use App\Models\User;
 use App\Models\UserCapabilities;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
 
 class AuthController extends Controller
 {
@@ -299,37 +301,98 @@ class AuthController extends Controller
     }
 
 
-    public function push_notification(Request $request)
+    public function push_notification(Request $request, $employee_id, $message)
     {
-        $validator = Validator::make($request->all(), [
-            'employee_id' => 'required',
-            'message' => 'required'
-        ]);
-        // if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()->first()
-            ], 400);
-        } else {
-            $accessToken = $request->bearerToken();
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $accessToken
-            ])->post('https://fcm.googleapis.com/fcm/send', [
-                'to' => $request->device_id,
-                'notification' => $request->message,
-            ]);
 
+        $user = User::find($employee_id);
+        if ($user->device_id) {
+            //$deviceToken = $user->device_id;
+            $deviceToken ="dhHuifm_TwyPGGHeBcdGge:APA91bGl9CAyrpMCyifrPSfurBn-2rWA7IKKWEBYJhnEPfHW4FaXIYYEktFDjlqeELX_gucKghv4TZwIb2pBP4NrdULOlDMRiMi244ww1eppPJwBueHLmSNWUlF32_HdVz8plQqmmwt0";
+           
+           
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $headers = [
+                'Authorization' => 'key=AAAAmB77ark:APA91bFXkWwXAW_cKzE_dRmc9efC0pHD4R-6tUXArCht88ABJi-50ug3pvDVcxs6Obe_Qj58D_jrJcCuKqkvja7BcVBqCQy_solhOb-1H1KzzCRvFTyicc3wrEJqBmF68mRMDwFR52h3',
+                'Content-Type' => 'application/json'
+            ];
+            $data = [
+                'to' => $deviceToken,
+                'notification' => [
+                    'title' => 'You have a new notification',
+                    'body' => $message
+                ],
+            ];
+            $response = Http::withHeaders($headers)->post($url, $data);
+            
+            // Check for HTTP errors
+            if ($response->failed()) {
+                throw new Exception('Failed to send FCM notification: ' . $response->body());
+            }
+            
+            // Parse the response body
+            $responseBody = $response->json();
+           dd($responseBody);
+           
+           
+           
+           
+           
+           
+           
+            // $client = new Client([
+            //     'headers' => [
+            //         'Authorization' => 'key=AAAA4cDCVvc:APA91bEcUocR-KUherx0YW48Yv5mdZBKBnW7ZMQnPynTMw-JOddqTeXwo5bc3zwC4IIJ_Pd5UEyDGB0hb5lFAszrk0y5q_gvwbekWUHKJweB-aFiRdIssliYTwCZED__RmEARtnXl1Wx',
+            //         'Content-Type' => 'application/json',
+            //     ],
+            // ]);
+
+            // $response = $client->post('https://fcm.googleapis.com/fcm/send', [
+            //     'json' => [
+            //         'to' => $deviceToken,
+            //         'notification' => [
+            //             'title' => 'Title',
+            //             'body' => $message
+            //         ],
+            //     ],
+            // ]);
+     
+
+            // if ($response->getStatusCode() == 200) {
+            //     dd($response);
+            //     dd("Notification sent successfully");
+            // } else {
+            // dd("Failed to send notification");
+            // }
+
+
+
+
+
+            // $accessToken = "key=AAAA4cDCVvc:APA91bEcUocR-KUherx0YW48Yv5mdZBKBnW7ZMQnPynTMw-JOddqTeXwo5bc3zwC4IIJ_Pd5UEyDGB0hb5lFAszrk0y5q_gvwbekWUHKJweB-aFiRdIssliYTwCZED__RmEARtnXl1Wx";
+            // //$accessToken = $request->bearerToken();
+            // $data = array(
+            //     'body' => 'Hello',
+            //     'title' => $message
+            // );
+            // $json_data = json_encode($data);
+            // //dd($json_data);
+            // $response = Http::withHeaders([
+            //     'Content-Type' => 'application/json',
+            //     'Authorization' => $accessToken
+            // ])->post('https://fcm.googleapis.com/fcm/send', [
+            //     'to' => $device_id,
+            //     'notification' => $json_data,
+            // ]);
+            // dd($response);
             return response()->json([
                 'message' => 'device id updated'
             ], 200);
-
-
-
-
-
+        } else {
+            return response()->json([
+                'message' => 'Sorry'
+            ], 200);
         }
 
-
+        //}
     }
 }
