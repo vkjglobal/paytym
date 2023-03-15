@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Employee\AuthController;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -37,6 +38,8 @@ class AttendanceController extends Controller
             }
             $issave = $attendance->save();
             if ($issave) {
+                $otherController = new AuthController();
+                $result = $otherController->push_notification($request,$request->employee_id,$request->reason);
                 return response()->json([
                     'message' => "Action done successfully"
                 ], 200);

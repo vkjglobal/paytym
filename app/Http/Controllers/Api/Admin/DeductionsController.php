@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Deduction;
+use App\Models\Payroll;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,16 +25,16 @@ class DeductionsController extends Controller
         }
 
         $employer_id = $request->employer_id;
-        $deductions = Deduction::where('employer_id', $employer_id)->get();
-        if ($deductions) {
+        $deduction = Payroll::where('employer_id', $employer_id)->get();
+        if ($deduction) {
             return response()->json([
-                'message' => "Deductions Listed Successfuly",
-                'Details' =>  $deductions,
+                'message' => "Success",
+                'deductions'=>$deduction
             ], 200);
         } else {
             return response()->json([
-                'message' => "No Records",
-            ], 200);
+                'message' => "Fail"
+            ], 400);
         }
     }
 
@@ -94,7 +95,7 @@ class DeductionsController extends Controller
         }
 
         $id = $request->id;
-        $deduction = Deduction::where('id', $id)->delete();
+        $deduction = Payroll::where('id', $id)->delete();
         if ($deduction) {
             return response()->json([
                 'message' => "Deleted Successfully"
