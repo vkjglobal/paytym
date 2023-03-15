@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Mail\SendEmployerPassword;
 use App\Models\Country;
@@ -31,7 +32,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    
 
     /**
      * Where to redirect employers after registration.
@@ -53,27 +54,27 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param array $data
+     * @param array request
      *
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|string',
-            'company_name' => 'required|string',
-            'email' => 'required|email|unique:employers,email',
-            'phone' => 'required',
-            'company_phone' => 'required',
-            'street' => 'required|string',
-            'city' => 'required|string',
-            'country' => 'required|string',
-            'tin' => 'required|string',
-            'website' => 'nullable|url',
-            'registration_certificate' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
-            'logo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
-        ]);
-    }
+    // protected function validator(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'name' => 'required|string',
+    //         'company_name' => 'required|string',
+    //         'email' => 'required|email|unique:employers,email',
+    //         'phone' => 'required',
+    //         'company_phone' => 'required',
+    //         'street' => 'required|string',
+    //         'city' => 'required|string',
+    //         'country' => 'required|string',
+    //         'tin' => 'required|string',
+    //         'website' => 'nullable|url',
+    //         'registration_certificate' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
+    //         'logo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
+    //     ]);
+    // }
 
     /**
      * Create a new employer instance after a valid registration.
@@ -91,21 +92,37 @@ class RegisterController extends Controller
     //     ]);
     // }
 
-    protected function create(array $data)
+    protected function register(Request $request)
     {
+        $request = $request->validate([
+            'name' => 'required|string',
+            'company_name' => 'required|string',
+            'email' => 'required|email|unique:employers,email',
+            'phone' => 'required',
+            'company_phone' => 'required',
+            'street' => 'required|string',
+            'city' => 'required|string',
+            'country' => 'required|string',
+            'tin' => 'required|string',
+            'website' => 'nullable|url',
+            'registration_certificate' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
+            'logo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+            
+
         $rand_pass =  Str::random(8);
         $employer = new Employer();
-        $employer->name = $data['name'];
-        $employer->company = $data['company_name'];
-        $email = $data['email'];
+        $employer->name = $request['name'];
+        $employer->company = $request['company_name'];
+        $email = $request['email'];
         $employer->email = $email;
-        $employer->phone = $data['phone'];
-        $employer->company_phone = $data['company_phone'];
-        $employer->tin = $data['tin'];
-        $employer->country_id = $data['country'];
-        $employer->street = $data['street'];
-        $employer->city = $data['city'];
-        $employer->website = $data['website'];
+        $employer->phone = $request['phone'];
+        $employer->company_phone = $request['company_phone'];
+        $employer->tin = $request['tin'];
+        $employer->country_id = $request['country'];
+        $employer->street = $request['street'];
+        $employer->city = $request['city'];
+        $employer->website = $request['website'];
         $employer->user_type = "Employer"; 
         $employer->status = 1;
         // $employer->qr_code = QrCode::size(250)->generate($employer->company);
@@ -114,27 +131,27 @@ class RegisterController extends Controller
         try{
            $issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
         } catch (TransportExceptionInterface $e){
-            return redirect('employer/commission/create');
+            notify()->error(__('Failed to Register. Please check the email again'));
+            return redirect()->back();
         }
         // if(!$mail_res){
-        //     notify()->error(__('Failed to Register. Please try again'));
-        //     return Redirect::to('http://127.0.0.1:8000/employer/register?get');
+            
         // }
             
             
-        if (isset($data['registration_certificate'])) {
-            $path =  $data['registration_certificate']->storeAs(
+        if (isset($request['registration_certificate'])) {
+            $path =  $request['registration_certificate']->storeAs(
                 'uploads/certificate',
-                urlencode(time()) . '_' . uniqid() . '_' . $data['registration_certificate']->getClientOriginalName(),
+                urlencode(time()) . '_' . uniqid() . '_' . $request['registration_certificate']->getClientOriginalName(),
                 'public'
             );
             $employer->registration_certificate = $path;
         }
 
-        if (isset($data['logo'])) {
-            $path =  $data['logo']->storeAs(
+        if (isset($request['logo'])) {
+            $path =  $request['logo']->storeAs(
                 'uploads/logo',
-                urlencode(time()) . '_' . uniqid() . '_' . $data['logo']->getClientOriginalName(),
+                urlencode(time()) . '_' . uniqid() . '_' . $request['logo']->getClientOriginalName(),
                 'public'
             );
             $employer->logo = $path;
@@ -145,11 +162,13 @@ class RegisterController extends Controller
         if ($res) {
             $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
             $employer->save();
+            Auth::guard('employer')->login($employer);
             notify()->success(__('Password sent to your registered email'));
-            return $employer;
+            return redirect('/employer');
         } else {
             notify()->error(__('Failed to Register. Please try again'));
             return redirect()->back();
+
         }
     }
 
