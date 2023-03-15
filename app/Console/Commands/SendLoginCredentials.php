@@ -38,7 +38,7 @@ class SendLoginCredentials extends Command
         $today = Carbon::now()->toDateString();
         $employees = User::where('status','0')->get();
         foreach($employees as $employee){
-            if($employee->employment_start_date == $today){
+            if($employee->employment_start_date <= $today ){
                 $password =  Str::random(8);
                 $email = new EmployeeCredentialsMail($employee,$password);
                 try{

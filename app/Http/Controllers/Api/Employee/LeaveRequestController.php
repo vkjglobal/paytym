@@ -12,6 +12,7 @@ use App\Models\Meeting;
 use App\Models\Project;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -68,8 +69,9 @@ class LeaveRequestController extends Controller
         $user_id = Auth::user()->id;
         $user = Auth::user();
         $employer_id = $user->employer_id;
-        $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
-        if ($leave) {
+        
+        if ($user) {
+            $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
             $casual = $leave->where('type', 'casual')->get();
             $casual = $casual->count();
             $absence = $leave->get();
@@ -81,12 +83,18 @@ class LeaveRequestController extends Controller
             $sick = $leave->where('type', 'sick')->count();
 
             $check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');
-            $late_arrival = Attendance::where('user_id', $user_id)
+
+            try{
+                $late_arrival = Attendance::where('user_id', $user_id)
                                         ->whereTime('check_in', '>', $check_in_time)->count();
+            }catch(Exception $e){
+                $late_arrival = 0;
+            }
+
             $total_work_days = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::now()->format('Y'))->count();
             // $total_work_hours = ;
             (float)$hours = 0;
-                $attendances = Attendance::where('user_id', $user_id)->whereBetween('date',[$user->employment_start_date, Carbon::now()])->get();
+                $attendances = Attendance::where('user_id', $user_id)->whereBetween('date',[$user->employment_start_date, Carbon::today()])->get();
                 foreach($attendances as $attend){
                     $check_in = Carbon::parse($attend->check_in);
                     $check_out = Carbon::parse($attend->check_out);
@@ -98,7 +106,7 @@ class LeaveRequestController extends Controller
                      
 
             return response()->json([
-                'message' => "Dash Board details listed",
+                'message' => "Dashboard details listed",
                 'casual' => $casual,
                 'absence' => $absence,
                 'annual' => $annual,
@@ -239,6 +247,30 @@ class LeaveRequestController extends Controller
             return response()->json([
                 'message' => "No Record Found",
             ], 200);
+        }
+    }
+
+    public function get_leave_types(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+        ]);
+
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        $leaveTypes = LeaveType::where('employer_id',$request->employer_id)->get();
+        if(count($leaveTypes)>0){
+            return response()->json([
+                'leave-types' => $leaveTypes
+            ],200);
+        }else{
+            return response()->json([
+                'message' => "No Record Found",
+            ], 400);
         }
     }
 }

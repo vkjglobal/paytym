@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
-        $schedule->command('send:login_crendentials')->daily();
+        $schedule->command('send:login_crendentials')->twiceDaily(24 ,18);
     }
 
     /**

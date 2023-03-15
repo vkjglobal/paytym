@@ -172,6 +172,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('payroll-calculation', [PayrollCalculationController::class,'payroll']);
     Route::post('payroll-list', [DeductionsController::class,'payroll_list']);
      
+    Route::post('get-leave-types',[LeaveRequestController::class,'get_leave_types']) ;
      
 
     //25-02-23

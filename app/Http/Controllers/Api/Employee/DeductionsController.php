@@ -15,10 +15,12 @@ class DeductionsController extends Controller
        
         $user = Auth::user();
         $deduction = Payroll::with(['user:id,branch_id','user.branch:id,name', 'employer:id', 'employer.surcharge'])->where('user_id', $user->id)->get();
+        $totad_deductions = Payroll::where('user_id', $user->id)->sum('total_deduction');
         if ($deduction) {
             return response()->json([
                 'message' => "Success",
-                'deductions'=>$deduction
+                'deductions'=>$deduction,
+                'totad_deductions'=>$totad_deductions,
             ], 200);
         } else {
             return response()->json([
