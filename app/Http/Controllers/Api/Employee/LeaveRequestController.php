@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeaveRequest;
 use App\Models\Attendance;
 use App\Models\LeaveRequest;
+use App\Models\LeaveType;
 use App\Models\Meeting;
 use App\Models\Project;
 use App\Models\User;
@@ -209,6 +210,30 @@ class LeaveRequestController extends Controller
             return response()->json([
                 'message' => "No Record Found",
             ], 200);
+        }
+    }
+
+    public function get_leave_types(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+        ]);
+
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        $leaveTypes = LeaveType::where('employer_id',$request->employer_id)->get();
+        if(count($leaveTypes)>0){
+            return response()->json([
+                'leave-types' => $leaveTypes
+            ],200);
+        }else{
+            return response()->json([
+                'message' => "No Record Found",
+            ], 400);
         }
     }
 }
