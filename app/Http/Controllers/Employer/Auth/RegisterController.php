@@ -131,7 +131,7 @@ class RegisterController extends Controller
         try{
            $issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
         } catch (TransportExceptionInterface $e){
-            notify()->error(__('Failed to Register. Please check the email again'));
+            notify()->error(__('Failed to Register. Please check the email and try again'));
             return redirect()->back();
         }
         // if(!$mail_res){
