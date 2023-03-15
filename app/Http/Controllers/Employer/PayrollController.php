@@ -9,6 +9,7 @@ use App\Models\Attendance;
 use App\Models\AssignAllowance;
 use App\Models\ProvidentFund;
 use App\Models\Leaves;
+use App\Models\LeaveType;
 use App\Models\LeaveRequest;
 use App\Models\Commission;
 use App\Models\AssignDeduction;
@@ -133,7 +134,6 @@ class PayrollController extends Controller
     }
 
     public function generate_hourly_payroll($employee,$fromDate,$payDate){
-
             $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$payDate])->get();
             $attendance_dup = $attendances; 
             $holidays = Leaves::whereBetween('date',[$fromDate ,$payDate])->get();
@@ -144,14 +144,17 @@ class PayrollController extends Controller
                 return in_array($attendance->date, $holidayArray);
             });
 
+
             foreach($attendances as $attendance){
                 $checkIn = Carbon::parse($attendance->check_in);
                 $checkOut = Carbon::parse($attendance->check_out);
                 // calculate the number of hours worked for this day
                 $hoursWorked = $checkIn->diffInHours($checkOut);
                 $totalHours += $hoursWorked;
+
             } 
 
+            
             //Extra hours at base rate and over time rate calculation
             $overtimerate = $employee->business->payrollsetting->over_time_rate;
             if($totalHours > $employee->total_hours_per_week){
@@ -164,8 +167,7 @@ class PayrollController extends Controller
                 }else{
                     $total_pay = ($extraHours * $employee->rate); //over time base salary
             }
-        }
-
+            }
             //Double time calculation
             $doubletimerate = $employee->business->payrollsetting->double_time_rate;
             foreach($holidays as $holiday){
@@ -213,7 +215,6 @@ class PayrollController extends Controller
             $commission_amount += $commission->rate;
            } 
 
-
             //Bonus calculation
             $bonuses = Bonus::where('employer_id',$employee->employer_id)->get();
             $total_bonus = 0;
@@ -246,6 +247,7 @@ class PayrollController extends Controller
                     continue;
                 }
             }
+            
 
             //Tax Calculation - Income tax 
             $IncomeTaxToWithhold = 0;
@@ -291,6 +293,8 @@ class PayrollController extends Controller
             }
             $total_tax = $srtToWithhold + $IncomeTaxToWithhold;
 
+
+
                 //FNPF calculation
             $empTotalSalary = $employee->total_hours_per_week * $employee->rate;
             $fnpf_amount = 0;
@@ -311,7 +315,6 @@ class PayrollController extends Controller
                 }
             }
             
-            
 
 
 
@@ -319,12 +322,11 @@ class PayrollController extends Controller
             //pending
             
             $base_pay = ($employee->rate * ($employee->total_hours_per_week)); 
-            $totalEarnings = $base_pay + isset($total_pay) + isset($doubleTimeRate) ;
+            $totalEarnings = $base_pay + isset($total_pay) + isset($doubleTimeRate) ?? 0 ;
             $grossSalary = $totalEarnings + $commission_amount + $total_bonus;   //gross pay =  Base Pay + Overtime Pay + Double Pay + Bonus + Commission 
-            $netSalary = $grossSalary - 60; //net salary= Gross Pay – (Superannuation + All Taxes)
+            $netSalary = $grossSalary - ($fnpf_amount + $total_tax) ; //net salary= Gross Pay – (Superannuation + All Taxes)
            
             $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay = Net pay + Allowances - Deductions
-            
             //Payroll Entry
             $user = User::where('id',$employee->id)->first();
             $payDate = Carbon::now();
@@ -344,6 +346,8 @@ class PayrollController extends Controller
             $payroll -> total_commission = $commission_amount;
             $payroll -> total_bonus = $total_bonus;
             $payroll -> total_fnpf = $fnpf_amount;
+            $payroll -> start_date = $fromDate;
+            $payroll -> end_date = $payDate;
 
             
             $res = $payroll->save();
@@ -360,7 +364,7 @@ class PayrollController extends Controller
             $perDaySalary = ($employee->rate / ($fromDate->daysInMonth));
         }
         $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$endDate])->get();
-        
+
          //Allowance Calculation
 
          $allowances = AssignAllowance::where('user_id',$employee->id)->get();
@@ -494,6 +498,7 @@ class PayrollController extends Controller
             }
         }
 
+
             //Absent calculation
         $holidays = Leaves::where('employer_id',$employee->employer_id)->whereBetween('date',[$fromDate ,$endDate])->get();
         $period = CarbonPeriod::create($fromDate, $endDate)->toArray();
@@ -501,12 +506,16 @@ class PayrollController extends Controller
         foreach ($period as $date) {
             $dates[] = $date->format('Y-m-d');
         }
+
         $holidayArray = $holidays->pluck('date')->toArray();
         $nonHolidayDates = array_diff($dates, $holidayArray);
+
+
         $approvedLeaves  = []; // array of allowed leaves for each leave type
         $lwop = 0;
         foreach($nonHolidayDates as $date){
             $attendance = Attendance::where('employer_id',$employee->employer_id)->where('user_id',$employee->id)->where('date',$date)->get();
+
             if(count($attendance)>0){
                 continue;
             }else{
@@ -525,8 +534,7 @@ class PayrollController extends Controller
                 })
                 ->first();
                 if($leave && $leave->status == "1"){
-                    $leaveType = $leave->type;
-                    $leaveTypeId = $leaveType->id;
+                    $leaveTypeId = $leave->type;
                     if(!isset($leaveDaysTaken[$leaveTypeId])){ // If this is the first leave day for this leave type, create a new array
                         $leaveDaysTaken[$leaveTypeId] = [];
                     }
@@ -538,25 +546,26 @@ class PayrollController extends Controller
                 
             }
         }
-        foreach($leaveDaysTaken as $leaveTypeId => $leaveDays){ // Loop through each leave type
-        $leaveType = LeaveType::find($leaveTypeId);
-        $leaveTypeAllowed = $leaveType->allowed_leaves;
-        if(count($leaveDays) > $leaveTypeAllowed){ // If the employee has taken more leave days than allowed for this leave type, increase the lwop counter
-            $lwop += count($leaveDays) - $leaveTypeAllowed;
+        if(isset($leaveDaysTaken)){
+            foreach($leaveDaysTaken as $leaveTypeId => $leaveDays){ // Loop through each leave type
+                $leaveType = LeaveType::find($leaveTypeId);
+                $leaveTypeAllowed = $leaveType->allowed_leaves;
+                if(count($leaveDays) > $leaveTypeAllowed){ // If the employee has taken more leave days than allowed for this leave type, increase the lwop counter
+                    $lwop += count($leaveDays) - $leaveTypeAllowed;
+                }
+                }
         }
-        }
+        
 
             $lwopAmount = $lwop * $perDaySalary ;
 
-        
             //Total salary calculation
-            $base_pay = (($employee->rate) - ($lwopAmount)); 
-            $totalEarnings = $base_pay ;
+            $base_pay = $employee->rate; 
+            $totalEarnings = $base_pay;
             $grossSalary = $totalEarnings + $commission_amount + $total_bonus;   //gross pay =  Base Pay + Overtime Pay + Double Pay + Bonus + Commission 
             $netSalary = $grossSalary - ($totalTaxAmount + $fnpf_amount); //net salary= Gross Pay – (Superannuation + All Taxes)
            
             $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay = Net pay + Allowances - Deductions
-         
 
             //Payroll Entry
             $user = User::where('id',$employee->id)->first();
@@ -577,6 +586,8 @@ class PayrollController extends Controller
             $payroll -> total_commission = $commission_amount;
             $payroll -> total_bonus = $total_bonus;
             $payroll -> total_fnpf = $fnpf_amount;
+            $payroll -> start_date = $fromDate;
+            $payroll -> end_date = $endDate;
             
             $res = $payroll->save();
 
