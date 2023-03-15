@@ -26,8 +26,12 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $project->name  }}</td>
-                                        <td>{{ $project->branch->name  }}</td>
-                                        <td>{{ $project->department->dep_name  }}</td>
+                                        <td>@isset($project->branch->name)
+                                            {{ $project->branch->name  }}
+                                        @endisset</td>
+                                        <td>@isset( $project->department->dep_name)
+                                            {{ $project->department->dep_name  }}
+                                        @endisset</td>
                                         <td>{{ $project->description}}</td>
                                         <td>@isset($project->budget)
                                             {{ $project->budget}}

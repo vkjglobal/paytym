@@ -78,7 +78,9 @@
                                         <td>@isset($assign_deduction->employee->first_name)
                                             {{ $assign_deduction->employee->first_name }}
                                         @endisset</td>
-                                        <td>{{ $assign_deduction->deduction->name }}</td>
+                                        <td>@isset($assign_deduction->deduction->name)
+                                            {{ $assign_deduction->deduction->name }}
+                                        @endisset</td>
                                         <td>{{ $assign_deduction->rate }}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">

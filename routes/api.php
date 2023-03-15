@@ -170,6 +170,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
          //20-02-23
     Route::post('payroll-calculation', [PayrollCalculationController::class,'payroll']);
+    Route::post('payroll-list', [DeductionsController::class,'payroll_list']);
+     
     Route::post('get-leave-types',[LeaveRequestController::class,'get_leave_types']) ;
      
 
@@ -178,6 +180,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('sms_send_api', [TwilioSMSController::class, 'sms_send_api']);
     Route::post('split_payment', [SplitpaymentController::class, 'split_payment']);
+    Route::post('split_payment_list', [SplitpaymentController::class, 'split_payment_list']);
+
 
     //06-02-23
     //Route::post('split_payment', [SplitpaymentController::class, 'split_payment']);

@@ -29,4 +29,5 @@ class Branch extends Model
     public function business(){
         return $this->belongsTo(EmployerBusiness::class, 'employer_business_id');
     }
+
 }

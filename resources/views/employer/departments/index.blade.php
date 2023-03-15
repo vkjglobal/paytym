@@ -24,7 +24,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $department->dep_name }}</td>
-                                        <td>{{ $department->branch->name }}</td>
+                                        <td>@isset($department->branch->name)
+                                            {{ $department->branch->name }}
+                                        @endisset</td>
                                         <td>
                                             <input data-id="{{ $department->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"

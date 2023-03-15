@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Employer;
+use App\Models\LeaveRequest;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -219,15 +222,30 @@ class AttendanceController extends Controller
     public function attendance(Request $request)
     {
         $now = new \DateTime();
+        $user = Auth::user();
+        $employer_id = $user->employer_id;
         $year = date("Y");
         $user_id = Auth::user()->id;
         $history = [];
         $history = Attendance::where('user_id', $user_id)
             ->whereYear('created_at', '=', $year)->get();
+        $check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');
+        $check_out_time = Employer::select('check_out_time')->where('id', $employer_id)->value('check_out_time');
+        $ontime = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::today()->format('Y'))
+                            ->whereTime('check_in', '<=', $check_in_time)->count();
+        $late = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::today()->format('Y'))
+                            ->whereTime('check_in', '>', $check_in_time)->count(); 
+        $earlyout = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::today()->format('Y'))
+                            ->whereTime('check_out', '<', $check_out_time)->count(); 
+        $leaves = LeaveRequest::where('user_id', $user_id)->where('status', 1)->count();
 
         return response()->json([
             'message' => "Attendence Details Listed Below",
             'history' => $history,
+            'ontime' => $ontime,
+            'late' => $late,
+            'earlyout' => $earlyout,
+            'leaves' => $leaves,
         ], 200);
     }
 
@@ -236,6 +254,7 @@ class AttendanceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
+            'date' => 'required'
         ]);
 
         // if validation fails
@@ -246,12 +265,29 @@ class AttendanceController extends Controller
         }
         $year = date("Y");
         $user_id = Auth::user()->id;
+        $user = Auth::user();
+        $employer_id = $user->employer_id;
+        $check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');
         $history = [];
         $history = Attendance::with('user')->where('employer_id', $request->employer_id)
-            ->whereYear('created_at', '=', $year)->get();
+                                ->whereDate('date', $request->date)->get();
+        $present = Attendance::where('employer_id', $request->employer_id)->whereNotNull('check_in')
+                                ->whereDate('date', $request->date)->count();
+        // $absent = Attendance::where('employer_id', $request->employer_id)->whereNull('check_in')
+        //                      ->whereDate('date', $request->date)->count();
+        // $absent = LeaveRequest::where('employer_id', $request->employer_id)->where('status', 1)
+        //                         ->whereBetween('start_date','end_date', $request->date)->count();
+        $late = Attendance::where('employer_id', $request->employer_id)->whereDate('date', $request->date)
+                                ->whereTime('check_in', '>', $check_in_time)->count();
+        $total_count = User::where('employer_id', $request->employer_id)->count();
+        $absent = $total_count - $present;
         return response()->json([
             'message' => "Checkin- Checkout  Details Listed Below",
             'history' => $history,
+            'present' => $present,
+            'absent' => $absent,
+            'late' => $late,
+            'total_count' => $total_count,
         ], 200);
     }
 }

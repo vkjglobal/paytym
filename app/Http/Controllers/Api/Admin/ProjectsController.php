@@ -23,7 +23,11 @@ class ProjectsController extends Controller
             ], 400);
         }
 
-        $projects = Project::with(['branch:id,name','employeeproject.user:id,first_name,last_name,image,branch_id','employeeproject.user.branch:id,name'])->where('employer_id', $request->employer_id)->get();
+        $projects = Project::
+        with(['branch:id,name','employeeproject.user:id,first_name,last_name,image,branch_id','employeeproject.user.branch:id,name'])
+        ->where('employer_id', $request->employer_id)->get();
+
+
         if ($projects) {
             return response()->json([
                 'message' => "Success",
