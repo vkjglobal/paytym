@@ -123,7 +123,7 @@ class AssignEmployerController extends Controller
         } else {
             notify()->error(__('Failed to Update. Please try again'));
         }
-        return redirect()->back();
+        return redirect()->route('employer.assign.index');
     }
 
     /**

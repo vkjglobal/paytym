@@ -45,7 +45,7 @@ class SendLoginCredentials extends Command
                     Mail::to($employee->email)->send($email);
                 }
                 catch(Exception $e){
-                    return Command::FAILURE;
+                    continue;
                 }
                 $employee->password = Hash::make($password);
                 $employee->status = "1";

@@ -85,12 +85,15 @@
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
-        $(function() {
-            $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var employer_id = $(this).data('id');
-                console.log(employer_id);
+    $(function() {
+        $('.toggle-class').change(function(event) {
+            event.preventDefault(); // prevent default action
 
+            var status = $(this).prop('checked') == true ? 1 : 0;
+            var employer_id = $(this).data('id');
+
+            var confirmed = confirm("Are you sure you want to change the status?");
+            if (confirmed) {
                 $.ajax({
                     type: "GET",
                     dataType: "json",
@@ -103,7 +106,11 @@
                         console.log(data.success)
                     }
                 });
-            })
+            } else {
+                $(this).prop('checked', !status); // restore previous state
+            }
         })
-    </script>
+    })
+</script>
+
 @endpush

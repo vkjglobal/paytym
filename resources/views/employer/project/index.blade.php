@@ -15,7 +15,8 @@
                                     <th>Sl #</th>
                                     <th>Project</th>
                                     <th>Branch</th>
-                                    <th>Department</th>
+                                    <th>Business</th>
+                                    <th>Budget</th>
                                     <th>Description</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -26,13 +27,12 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $project->name  }}</td>
-                                        <td>@isset($project->branch->name)
-                                            {{ $project->branch->name  }}
-                                        @endisset</td>
-                                        <td>@isset( $project->department->dep_name)
-                                            {{ $project->department->dep_name  }}
-                                        @endisset</td>
+                                        <td>{{ optional($project->branch)->name ?? 'no data' }}</td>
+                                        <td>{{ optional($project->business)->name ?? 'no data' }}</td>
+                                        <td>{{ $project->budget }}</td>
                                         <td>{{ $project->description}}</td>
+                        
+                                        
                                         <td>@isset($project->budget)
                                             {{ $project->budget}}
                                         @endisset</td>

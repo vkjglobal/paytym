@@ -136,7 +136,7 @@ class BonusController extends Controller
             notify()->error(__('Failed to update bonus. Please try again'));
         }
 
-        return redirect()->back();
+        return redirect()->route('employer.bonus.index');
     }
 
     /**

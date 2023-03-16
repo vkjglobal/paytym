@@ -127,7 +127,7 @@ class GroupChatController extends Controller
                 }
             }
              
-            return redirect()->back();
+            return redirect()->route('employer.groupchat.index');
     }
 
     /**
