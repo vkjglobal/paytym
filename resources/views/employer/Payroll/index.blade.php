@@ -14,13 +14,20 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Name</th>
-                                    <th>Salary</th>
-                                    <th>Payed Salary</th>
-                                    <th>Fund Deduction</th>
-                                    <th>P-tax</th>
+                                    <th>Start date</th>
+                                    <th>End date</th>
+                                    <th>Base salary</th>
+                                    <th>Net salary</th>
+                                    <th>Gross salary</th>
+                                    <th>Paid salary</th>
+                                    <th>Total tax</th>
                                     <th>Total Deduction</th>
+                                    <th>Total allowance</th>
+                                    <th>Total bonus</th>
+                                    <th>Total commission</th>
+                                    <th>Total FNPF</th>
                                     <th>Status</th>
-                                    <td>Payslip</td>
+                                    <th>Payslip</th>
                                     {{-- <td>Actions</td> --}}
 
                                 </tr>
@@ -29,12 +36,19 @@
                                 @foreach ($payrolls as $payroll)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>@isset($payroll->user->first_name) {{ $payroll->user->first_name }}@endisset</td>
-                                        <td>{{ $payroll->salary }}</td>
+                                        <td>{{ optional($payroll->user)->first_name ?? 'Not added' }}</td>
+                                        <td>{{ $payroll->start_date }}</td>
+                                        <td>{{ $payroll->end_date }}</td>
+                                        <td>{{ $payroll->base_salary }}</td>
+                                        <td>{{ $payroll->net_salary }}</td>
+                                        <td>{{ $payroll->gross_salary }}</td>
                                         <td>{{ $payroll->paid_salary }}</td>
-                                        <td>{{ $payroll->fund_deduction }}</td>
-                                        <td>{{ $payroll->p_tax }}</td>
+                                        <td>{{ $payroll->total_tax }}</td>
                                         <td>{{ $payroll->total_deduction }}</td>
+                                        <td>{{ $payroll->total_allowance }}</td>
+                                        <td>{{ $payroll->total_bonus }}</td>
+                                        <td>{{ $payroll->total_commission }}</td>
+                                        <td>{{ $payroll->total_fnpf }}</td>
                                         <td>
                                             @if($payroll->salary - $payroll->total_deduction == $payroll->paid_salary)
                                                 <a href="#" class="btn btn-success">Completed</a>

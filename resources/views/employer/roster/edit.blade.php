@@ -6,7 +6,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title"> Create Roster</h6>
+                    <h6 class="card-title"> Update Roster</h6>
                     <form method="POST" action="{{ route('employer.roster.update',$roster->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

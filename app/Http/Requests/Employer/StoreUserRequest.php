@@ -42,7 +42,7 @@ class StoreUserRequest extends FormRequest
             'city' => 'required',
             'account_number' => 'required', 
             'image' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
-            'password' => 'nullable',
+            'password' => 'nullable|min:6',
 
             'business' => 'required',
             'department' => 'required',

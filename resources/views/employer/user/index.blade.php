@@ -91,7 +91,7 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
         $(function() {
-            $('.toggle-class').change(function() {
+            $('.toggle-class').change(function() {z
                 var status = $(this).prop('checked') == true ? 1 : 0;
                 var user_id = $(this).data('id');
                 console.log(user_id);

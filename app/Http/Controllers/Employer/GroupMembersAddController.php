@@ -132,7 +132,7 @@ class GroupMembersAddController extends Controller
                 }
             }
              
-            return redirect()->back();
+            return redirect()->route(' employer.groupmember.index');
     }
 
     /**

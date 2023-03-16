@@ -26,7 +26,7 @@ class StoreProjectRequest extends FormRequest
         return [
             'name' => 'required',
             'branch' => 'required',
-            'department' => 'required',
+            'business' => 'required',
             'description' => 'required',
             'budget' => 'required',
         ];

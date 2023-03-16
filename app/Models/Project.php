@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Branch;
 use App\Models\Department;
+use App\Models\EmployerBusiness;
 
 class Project extends Model
 {
@@ -19,6 +20,11 @@ class Project extends Model
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function business()
+    {
+        return $this->belongsTo(EmployerBusiness::class);
     }
 
     public function employeeproject()

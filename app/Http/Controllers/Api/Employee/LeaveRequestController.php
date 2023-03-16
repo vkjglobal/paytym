@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeaveRequest;
+use App\Http\Controllers\Api\Employee\AuthController;
 use App\Models\Attendance;
 use App\Models\Employer;
 use App\Models\LeaveRequest;
@@ -235,6 +236,8 @@ class LeaveRequestController extends Controller
             $leave_request->reason = $request->reason;
             $issave = $leave_request->save();
             if ($issave) {
+                $otherController = new AuthController();
+                $result = $otherController->push_notification($request,$request->employee_id,$request->reason);
                 return response()->json([
                     'message' => "Leave Request Status Updated",
                 ], 200);

@@ -253,7 +253,7 @@
                                     <label class="control-label">End date of employment  <span class="text-danger"> *</span></label>
                                     <input type="date"
                                         class="form-control @if ($errors->has('end_date')) is-invalid @endif"
-                                        name="end_date" value="{{ old('end_date',$user->employment_end_date) }}" placeholder="Enter Image" required>
+                                        name="end_date" value="{{ old('end_date',$user->employment_end_date) }}" placeholder="Enter Image">
                                     <div class="invalid-feedback">{{ $errors->first('end_date') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -270,6 +270,8 @@
                                     <input type="file"
                                         class="form-control @if ($errors->has('image')) is-invalid @endif"
                                         name="image"  placeholder="Enter Image">
+                                        <img src="{{ asset('storage/' . $user->image) }}" class="img-thumbnail mt-2" width="100"
+                                        alt="">
                                     <div class="invalid-feedback">{{ $errors->first('image') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -362,6 +364,7 @@
                                     <input type="password"
                                         class="form-control @if ($errors->has('password')) is-invalid @endif"
                                         id="pswd2" name="" value="{{ old('password') }}" placeholder="Confirm Password">
+                                        <div class="invalid-feedback">{{ $errors->first('password') }}</div>
                                    <span id = "message1" style="color:red"> </span> <br><br>
                                 </div>
                             </div><!-- Col -->
@@ -381,6 +384,19 @@
     </div>
 @endsection
 @push('custom_js')
+
+<script> 
+    //Password Validation
+    function validateForm(){
+            var psw1 = document.getElementById("pswd1").value;
+            var psw2 = document.getElementById("pswd2").value;
+            if(psw1 != psw2){
+                document.getElementById("message1").innerHTML ="** Passwords are not same";
+                return false;
+            }
+    } // Password Validation End
+</script>
+
     <script>
         $(function() {
             $('.hourly-section, .fixed-section').hide();

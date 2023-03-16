@@ -122,7 +122,7 @@ class EventController extends Controller
         } else {
             notify()->error(__('Failed to Update. Please try again'));
         }
-        return redirect()->back();
+        return redirect('employer/event');
     }
 
     /**
@@ -140,5 +140,12 @@ class EventController extends Controller
             notify()->error(__('Failed to Delete. Please try again'));
         }
         return redirect()->back();
+    }
+
+    public function changeStatus(Request $request){
+        $event = Event::findOrFail($request->event_id);
+        $event->status = $request->status;
+        $res = $event->save();
+        return response()->json(['success' => 'Status change successfully.']);
     }
 }

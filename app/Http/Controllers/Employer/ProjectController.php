@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Employer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Branch;
-use App\Models\Department;
+use App\Models\EmployerBusiness;
 use App\Models\Project;
 use App\Http\Requests\Employer\StoreProjectRequest;
 use Auth;
@@ -25,10 +25,10 @@ class ProjectController extends Controller
                 [(__('Projects')), null],
             ];
             $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
-            $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+            $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
             $projects = Project::where('employer_id',Auth::guard('employer')->user()->id)->get();
     
-            return view('employer.project.index', compact('breadcrumbs', 'projects','branches','departments'));
+            return view('employer.project.index', compact('breadcrumbs', 'projects','branches','businesses'));
         }
     }
 
@@ -46,8 +46,8 @@ class ProjectController extends Controller
         ];
         //Employer $employer
         $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $departments=Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        return view('employer.project.create', compact('breadcrumbs','branches','departments'));
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.project.create', compact('breadcrumbs','branches','businesses'));
     }
 
     /**
@@ -62,8 +62,8 @@ class ProjectController extends Controller
         $project = new Project();
         $project->name = $request['name'];
         $project->branch_id = $request['branch'];
-        $project->department_id = $request['department'];
-        $project->description = $request['description'];
+        $project->business_id = $request['business'];
+        $project->description = $request['description'];    
         $project->budget = $request['budget'];
         $project->employer_id = Auth::guard('employer')->user()->id;
         $issave = $project->save();
@@ -101,8 +101,8 @@ class ProjectController extends Controller
         ];
         //Employer $employer
         $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $departments=Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        return view('employer.project.edit', compact('breadcrumbs','project','branches','departments'));
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.project.edit', compact('breadcrumbs','project','branches','businesses'));
     }
 
     /**
@@ -117,7 +117,7 @@ class ProjectController extends Controller
         $request = $request->validated();
         $project->name = $request['name'];
         $project->branch_id = $request['branch'];
-        $project->department_id = $request['department'];
+        $project->business_id = $request['business'];
         $project->description = $request['description'];
         $project->budget = $request['budget'];
         $project->employer_id = Auth::guard('employer')->user()->id;
@@ -128,7 +128,7 @@ class ProjectController extends Controller
         } else {
             notify()->error(__('Failed to Update. Please try again'));
         }
-        return redirect()->back();
+        return redirect()->route('employer.project.index');
     }
 
     /**

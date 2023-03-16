@@ -28,8 +28,7 @@ class PayrollController extends Controller
      */
     public function index()
     {
-        $payrolls = Payroll::where('employer_id',Auth::guard('employer')->user()->id);
-
+        $payrolls = Payroll::where('employer_id',Auth::guard('employer')->user()->id)->get();
         return view('employer.Payroll.index', compact('payrolls'));
     }
 

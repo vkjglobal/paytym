@@ -30,6 +30,7 @@ use App\Http\Controllers\Employer\PayslipController;
 use App\Http\Controllers\Employer\PayrollSettingsController;
 use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Employer\GroupChatController;
+use App\Http\Controllers\Employer\EventController;
 use App\Models\Employer;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Auth;
@@ -106,6 +107,7 @@ Route::middleware('employer.auth')->group(function () {
     
     //Events
     Route::resource('event', EventController::class)->except(['show']);
+    Route::get('event-change-status', [EventController::class, 'changeStatus'])->name('event.change.status');
    
     //Benefits
     Route::resource('benefit', BenefitController::class)->except(['show']);
