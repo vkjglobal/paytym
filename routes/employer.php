@@ -24,6 +24,7 @@ use App\Http\Controllers\Employer\LeaveTypeController;
 use App\Http\Controllers\Employer\FileTypeController;
 use App\Http\Controllers\Employer\BenefitController;
 use App\Http\Controllers\Employer\BillingController;
+use App\Http\Controllers\Employer\CheckInOutTime;
 use App\Http\Controllers\Employer\SupportTicketController;
 use App\Http\Controllers\Employer\UserCapabilitiesController;
 use App\Http\Controllers\Employer\PayslipController;
@@ -31,7 +32,9 @@ use App\Http\Controllers\Employer\PayrollSettingsController;
 use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Employer\GroupChatController;
 use App\Http\Controllers\Employer\EventController;
+use App\Http\Controllers\Employer\PayrollBudgetController;
 use App\Models\Employer;
+use App\Models\PayrollBudget;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -236,6 +239,13 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('payroll-setting-hourly/create/{id}',[PayrollSettingsController::class,'create'])->name('payroll-setting-hourly.create');
     Route::post('payroll-setting-hourly/store', [PayrollSettingsController::class,'store'])->name('payroll-setting-hourly.store');
 
+
+    // checkin checkout time
+    Route::get('check-in-out-time',[CheckInOutTime::class,'index'])->name('checkinout');
+    Route::post('check-in-out-time/update/{id}',[CheckInOutTime::class,'update'])->name('checkinout.update');
+
+    //payroll budget
+    Route::resource('payroll-budget', PayrollBudgetController::class);
 
   });
 

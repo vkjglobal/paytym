@@ -55,6 +55,10 @@ class ReportController extends Controller
     }
 
     public function attendance_filter(Request $request){
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null],
+        ];
         $users = User::where('employer_id', Auth::guard('employer')->id())->get(); 
         $date_from = $request->date_from;
         $date_to = $request->date_to;
@@ -62,7 +66,7 @@ class ReportController extends Controller
         $employees = $this->report_filter($request); 
         $employeesId = $employees->pluck('id');
         $attendances = Attendance::whereIn('user_id', $employeesId)->whereBetween('date',[$date_from, $date_to])->get();
-        return view('employer.report.attendance_list_filter',compact( 'employees', 'users', 'date_from', 'date_to', 'request','employer_id'));
+        return view('employer.report.attendance_list_filter',compact( 'breadcrumbs','employees', 'users', 'date_from', 'date_to', 'request','employer_id'));
     }
     public function attendance_filter_export(Request $request) 
     {
@@ -74,12 +78,16 @@ class ReportController extends Controller
 //////////////////employment_period
     public function employment_period_index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $employees = User::where('employer_id', $this->employer_id())->get()->sortBy('employment_end_date');
         $users = User::where('employer_id', $this->employer_id())->get();
         $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
         $branches = Branch::where('employer_id', $this->employer_id())->get();
         $departments = Department::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.employee_period_list',compact('employees','branches','users', 'departments', 'businesses'));
+        return view('employer.report.employee_period_list',compact('breadcrumbs','employees','branches','users', 'departments', 'businesses'));
     }
     //////ajax get branch department business user//////
     public function employee_period_get_branch($business_id=0)
@@ -124,12 +132,16 @@ class ReportController extends Controller
 //////////////employee_list
     public function employee_list_index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null],
+        ];
         $employees = User::where('employer_id', $this->employer_id())->get();
         $users = User::where('employer_id', $this->employer_id())->get();
         $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
         $branches = Branch::where('employer_id', $this->employer_id())->get();
         $departments = Department::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.employee_list',compact('employees','branches','users', 'departments', 'businesses'));
+        return view('employer.report.employee_list',compact('breadcrumbs','employees','branches','users', 'departments', 'businesses'));
     }
     public function employee_list_filter(Request $request)
     {
@@ -154,15 +166,23 @@ class ReportController extends Controller
 /////status_list
     public function status_list_index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $employees = User::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.status_index',compact('employees'));
+        return view('employer.report.status_index',compact('breadcrumbs','employees'));
     }
     
     
     public function status_business()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $business = EmployerBusiness::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.status_business',compact('business'));
+        return view('employer.report.status_business',compact('breadcrumbs','business'));
     }
     public function status_business_export() 
     {
@@ -176,8 +196,12 @@ class ReportController extends Controller
 
     public function status_branch()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $branches = Branch::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.status_branch',compact('branches'));
+        return view('employer.report.status_branch',compact('breadcrumbs','branches'));
     }
     public function status_branch_export() 
     {
@@ -186,8 +210,12 @@ class ReportController extends Controller
 
     public function status_department()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $departments = Department::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.status_department',compact('departments'));
+        return view('employer.report.status_department',compact('breadcrumbs','departments'));
     }
     public function status_department_export() 
     {
@@ -196,8 +224,12 @@ class ReportController extends Controller
 
     public function status_project()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $projects = Project::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.status_project',compact('projects'));
+        return view('employer.report.status_project',compact('breadcrumbs','projects'));
     }
     public function status_project_export() 
     {
@@ -206,16 +238,24 @@ class ReportController extends Controller
 ///////allowance
     public function allowane_index() 
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $employees = User::where('employer_id', $this->employer_id())->get();
         $allowances = Allowance::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.allowance_list',compact('employees', 'allowances'));
+        return view('employer.report.allowance_list',compact('breadcrumbs','employees', 'allowances'));
     }
     public function allowance_view($id) 
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $employees = User::where('employer_id', $this->employer_id())->where('id', $id)->first();
         $allowances = Allowance::where('employer_id', $this->employer_id())->get();
         $assign_allowances = AssignAllowance::where('employer_id', $this->employer_id())->where('user_id', $id)->get();
-        return view('employer.report.allowance_view',compact('employees', 'allowances','assign_allowances'));
+        return view('employer.report.allowance_view',compact('breadcrumbs','employees', 'allowances','assign_allowances'));
     }
     public function allowance_export() 
     {
@@ -224,16 +264,24 @@ class ReportController extends Controller
 ////////deduction
 public function deduction_index() 
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $employees = User::where('employer_id', $this->employer_id())->get();
         $deductions = Deduction::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.deduction_list',compact('employees', 'deductions'));
+        return view('employer.report.deduction_list',compact('breadcrumbs','employees', 'deductions'));
     }
     public function deduction_view($id) 
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $employees = User::where('employer_id', $this->employer_id())->where('id', $id)->first();
         $deductions = Deduction::where('employer_id', $this->employer_id())->get();
         $assign_deductions = AssignDeduction::where('employer_id', $this->employer_id())->where('user_id', $id)->get();
-        return view('employer.report.deduction_view',compact('employees', 'deductions','assign_deductions'));
+        return view('employer.report.deduction_view',compact('breadcrumbs','employees', 'deductions','assign_deductions'));
     }
     public function deduction_export() 
     {
@@ -242,8 +290,12 @@ public function deduction_index()
     /////payroll
     public function payroll_index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
         $payrolls = Payroll::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.payroll_list',compact('payrolls'));
+        return view('employer.report.payroll_list',compact('breadcrumbs','payrolls'));
     }
     public function payroll_export() 
     {

@@ -25,7 +25,7 @@ class LeaveRequestController extends Controller
     {
         $user = Auth::user();
         $employer_id = $user->employer_id;
-        $leaveRequests = LeaveRequest::where('user_id', $user->id)->get();
+        $leaveRequests = LeaveRequest::with('leaveType')->where('user_id', $user->id)->get();
         $leave_types = LeaveType::select('leave_type')->where('employer_id', $employer_id)->get();
 
         if (count($leaveRequests) > 0) {

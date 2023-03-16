@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Schema;
 
 class AuthController extends Controller
 {
@@ -55,6 +56,7 @@ class AuthController extends Controller
                 $halfday = $halfday->count();
             }
             $capabilities = UserCapabilities::with('role')->where('role_id', $authUser->position)->get();
+            $capabilities_list = Schema::getColumnListing('user_capabilities');
 
             return response()->json([
                 'message' => "You have successfully logged in!",
@@ -65,6 +67,7 @@ class AuthController extends Controller
                 'annual' => $annual,
                 'halfday' => $halfday,
                 'capabilities' => $capabilities,
+                'capabilities_list' => $capabilities_list,
             ], 200);
         } else {
             return response()->json([

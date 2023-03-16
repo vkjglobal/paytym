@@ -1,14 +1,14 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title float-left m-2">Assign Deduction</h6>
-                        <button name="reject" type="submit" value="" class="btn btn-success m-3 float-right" title="Reject"
+                        <button name="reject" type="submit" value="" class="btn btn-success m-3 float-right" title="ADD"
                              data-toggle="modal" data-target="#assigndeduction">
                                 ADD
                         </button>

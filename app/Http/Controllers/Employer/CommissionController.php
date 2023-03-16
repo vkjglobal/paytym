@@ -14,7 +14,7 @@ class CommissionController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
+            [(__('Dashboard')), route('employer.home')],
             [(__('Commission')), null],
         ];
         $employer_id = Auth::guard('employer')->id();
@@ -90,13 +90,7 @@ class CommissionController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         // $employee = Commission::where('user_id', $request->employee_id)->first();

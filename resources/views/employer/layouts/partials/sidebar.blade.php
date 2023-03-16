@@ -546,7 +546,7 @@
                     <span class="link-title">Payroll</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/payroll*') ? 'show' : '' }}" id="payroll">
+                <div class="collapse {{ request()->is('employer/payroll') ? 'show' : '' }}" id="payroll">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
                             <a href="{{ route('employer.payroll.index') }}"
@@ -560,6 +560,37 @@
             </li>
 
             <!-- Payroll end -->
+            <!-- Payroll budget -->
+
+            <li class="nav-item  {{ request()->is('employer/payroll-budget*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#payroll-budget" role="button" aria-expanded="false"
+                    aria-controls="requests">
+                    <i class="link-icon" data-feather="user-plus"></i>
+                    <span class="link-title">Payroll Budget</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/payroll-budget*') ? 'show' : '' }}" id="payroll-budget">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payroll-budget.create') }}"
+                                class="nav-link {{ request()->is('employer/payroll-budget/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payroll-budget.index') }}"
+                                class="nav-link {{ request()->is('employer/payroll-budget') ? 'active' : '' }}">
+                                List 
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+
+            
+            <!-- Payroll budget end -->
 
              <!-- Uploads -->
 
@@ -681,7 +712,7 @@
                 <a class="nav-link" data-toggle="collapse" href="#providentfund" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="user-plus"></i>
-                    <span class="link-title">FNPF</span>
+                    <span class="link-title">Provident Fund</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse {{ request()->is('employer/providentfund*') ? 'show' : '' }}" id="providentfund">
@@ -765,7 +796,7 @@
 
 
             <!-- Payslip Settings -->
-            <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('employer/payslip') ? 'active' : '' }}">
                
                <a class="nav-link" data-toggle="collapse" href="#payslip" role="button" aria-expanded="false"
                    aria-controls="requests">
@@ -777,7 +808,7 @@
                    <ul class="nav sub-menu">
                        <li class="nav-item">
                            <a href="{{ route('employer.payslip.show') }}"
-                               class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                               class="nav-link {{ request()->is('employer/payslip/show') ? 'active' : '' }}">
                                 Template
                            </a>
                        </li>
@@ -968,6 +999,15 @@
             </li>
 
             <!--payment -->
+
+            <!--check in and check out time -->
+            <li class="nav-item {{ request()->is('employer/check-in-out-time*') ? 'active' : '' }}">
+                <a href="{{ route('employer.checkinout') }}" class="nav-link">
+                    <i class="link-icon" data-feather="clock"></i>
+                    <span class="link-title">Checkin-Checkout time</span>
+                </a>
+            </li>
+            <!--check in and check out time end -->
 
 
 
