@@ -14,7 +14,7 @@ class PayrollSettingsController extends Controller
     {
                 $breadcrumbs = [
                 [(__('Dashboard')), route('employer.home')],
-                [(__('Index')), null],
+                [(__('Payroll Settings')), null],
             ];
             $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
             return view('employer.payroll_settings.show_business',compact('businesses','breadcrumbs'));
@@ -24,7 +24,7 @@ class PayrollSettingsController extends Controller
     public function create($id){
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('Index')), null],
+            [(__('Payroll Settings')), null],
         ];
         return view('employer.payroll_settings.create',compact('breadcrumbs','id'));
     }

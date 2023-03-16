@@ -17,9 +17,13 @@ class GroupChatController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Group Chat')), null],
+        ];
         $employer_id = Auth::guard('employer')->id();
         $groupchats = GroupChat::where('employer_id', $employer_id)->get();
-        return view('employer.chat.groupchatindex', compact('groupchats'));
+        return view('employer.chat.groupchatindex', compact('breadcrumbs','groupchats'));
     }
 
     /**
@@ -30,8 +34,9 @@ class GroupChatController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('Chat')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Group Chat')), route('employer.groupchat.index')],
+            [(__('Create')), null],
         ];
         $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
         return view('employer.chat.groupchatcreate', compact('breadcrumbs','employees'));
@@ -89,8 +94,9 @@ class GroupChatController extends Controller
     public function edit($id)
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('Chat')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Group Chat')), route('employer.groupchat.index')],
+            [(__('Create')), null],
         ];
         $groupchat = GroupChat::find($id);
         $employees = User::where('employer_id', Auth::guard('employer')->id())->get();

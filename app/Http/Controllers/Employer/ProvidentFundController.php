@@ -19,8 +19,8 @@ class ProvidentFundController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('FNPF')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Provident Fund')), null],
         ];
         $employees = ProvidentFund::where('employer_id', Auth::guard('employer')->id())->get();
         return view('employer.providentfund.index', compact('breadcrumbs','employees'));
@@ -34,8 +34,9 @@ class ProvidentFundController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('FNPF')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Provident Fund')), route('employer.providentfund.index')],
+            [(__('Create')), null],
         ];
         $employees = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
         return view('employer.providentfund.create', compact('breadcrumbs','employees'));

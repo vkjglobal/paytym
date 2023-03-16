@@ -13,7 +13,7 @@ class LeaveRequestController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('admin.home')],
+            [(__('Dashboard')), route('employer.home')],
             [(__('Leave Requests')), null],
         ];
 

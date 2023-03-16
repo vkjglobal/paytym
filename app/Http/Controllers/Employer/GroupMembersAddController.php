@@ -18,10 +18,14 @@ class GroupMembersAddController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Group Members')), null],
+        ];
         // $employer_id = Auth::guard('employer')->id();
         // $groupmembers = GroupChatMembers::where('employer_id', $employer_id)->get();
         $groupmembers = GroupChatMembers::get();
-        return view('employer.chat.addmembersindex', compact('groupmembers'));
+        return view('employer.chat.addmembersindex', compact('breadcrumbs','groupmembers'));
     }
 
     /**
@@ -32,8 +36,9 @@ class GroupMembersAddController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('Chat')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Group Members')), route('employer.groupmember.index')],
+            [(__('Create')), null],
         ];
         $groups = GroupChat::where('employer_id', Auth::guard('employer')->id())->get();
         $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
@@ -58,7 +63,7 @@ class GroupMembersAddController extends Controller
             $data->group_chat_id = $request->group;
             $data->member_id = $request->employee;
             
-            $user = GroupChatMembers::where('member_id',  $request->employee)->first();  
+            $user = GroupChatMembers::where('member_id',  $request->employee)->where('group_chat_id', $request->group)->first();  
             if($user){
                 notify()->error(__('Already exists'));
             }else{
@@ -93,10 +98,11 @@ class GroupMembersAddController extends Controller
     public function edit($id)
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('Chat')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Group Members')), route('employer.groupmember.index')],
+            [(__('Edit')), null],
         ];
-        $groups = GroupChat::all();
+        $groups =  GroupChat::where('employer_id', Auth::guard('employer')->id())->get();
         $groupmembers = GroupChatMembers::find($id);
         $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
         return view('employer.chat.addmembersedit', compact('breadcrumbs','employees','groupmembers','groups'));
@@ -120,7 +126,7 @@ class GroupMembersAddController extends Controller
             $data->group_chat_id = $request->group;
             $data->member_id = $request->employee;
             
-            $user = GroupChatMembers::where('member_id',  $request->employee)->first(); 
+            $user = GroupChatMembers::where('member_id',  $request->employee)->where('group_chat_id', $request->group)->first(); 
             if($user){
                 notify()->error(__('Already exists'));
             }else{

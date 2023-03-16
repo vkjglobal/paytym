@@ -28,8 +28,15 @@ class PayrollController extends Controller
      */
     public function index()
     {
-        $payrolls = Payroll::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        return view('employer.Payroll.index', compact('payrolls'));
+        // $payrolls = Payroll::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        // return view('employer.Payroll.index', compact('payrolls'));
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Payroll')), null],
+        ];
+        $payrolls = Payroll::where('employer_id',Auth::guard('employer')->user()->id)->latest()->get();
+
+        return view('employer.Payroll.index', compact('breadcrumbs','payrolls'));
     }
 
     /**
@@ -39,6 +46,7 @@ class PayrollController extends Controller
      */
     public function create()
     {
+        
         $users = User::all();
         return view('employer.Payroll.create', compact('users'));
     }

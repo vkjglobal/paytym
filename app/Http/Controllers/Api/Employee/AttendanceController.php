@@ -267,9 +267,9 @@ class AttendanceController extends Controller
         $user_id = Auth::user()->id;
         $user = Auth::user();
         $employer_id = $user->employer_id;
-        $check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');
+        $check_in_time = Employer::select('check_in_time')->where('id', $request->employer_id)->value('check_in_time');
         $history = [];
-        $history = Attendance::with('user')->where('employer_id', $request->employer_id)
+        $history = Attendance::with('user.branch:id,name')->where('employer_id', $request->employer_id)
                                 ->whereDate('date', $request->date)->get();
         $present = Attendance::where('employer_id', $request->employer_id)->whereNotNull('check_in')
                                 ->whereDate('date', $request->date)->count();
