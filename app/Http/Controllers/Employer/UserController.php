@@ -19,6 +19,7 @@ use App\Models\Role;
 use App\Models\LeaveRequest;
 use Auth,Hash;
 use Barryvdh\DomPDF\Facade\Pdf;
+use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Mail;
 
 class UserController extends Controller
@@ -239,8 +240,13 @@ class UserController extends Controller
      }
      
     //  $user->password = Hash::make($validated['password']);
-
+    
+    $image=$user->image;
      if ($request->hasFile('image')) {
+        if (Storage::exists('public/'. $image))  {
+            $del=Storage::delete('public/'.$image);
+           
+        } 
         $path =  $request->file('image')->storeAs(  
             'uploads/users',
             urlencode(time()) . '_' . uniqid() . '_' . $request->image->getClientOriginalName(),
@@ -293,33 +299,41 @@ class UserController extends Controller
         }
     }
 
-    public function SendMailWithPublicInfo(Request $request, $user_id)
+    public function SendMailWithPublicInfo(Request $request)
     {
+        $request = $request->validate([
+            'recipient_mail' => 'required|email',
+            'user_id'=> 'required'
+        ]);
+        $user_id = $request['user_id'];
         $user = User::findOrFail($user_id); 
         $role = Role::where('id',$user->position)->first();
         //dd($role);
         $rolename = $role->role_name;
         //return view('employer.user.publicinformation', compact('user','rolename'));
-       
+        $recipientMail = $request['recipient_mail'];
         $email = $user->email;
         $name = $user->first_name;
         $data=['user'=>$user,'rolename'=>$rolename];
         //dd($data);
-        $data["email"]= $email;
+        $data["email"]= $recipientMail;
         $data["name"] = $name;
        
         $pdf = PDF::LoadView('employer.user.publicinformation',$data, compact('user','rolename'));
-        Mail::send('employer.user.publicinformation',$data,function($message) use ($data, $pdf)
-       { 
-      
-        $message->to($data["email"])
-                ->subject('Employee Information of ' .$data["name"])
-                ->attachData($pdf->output(),"information.pdf");
-       });
-       notify()->success(__('User information shared successfully'));
-       return redirect()->back();
-       
-    
+        try{
+            Mail::send('employer.user.publicinformation',$data,function($message) use ($data, $pdf)
+            { 
+           
+             $message->to($data["email"])
+                     ->subject('Employee Information of ' .$data["name"])
+                     ->attachData($pdf->output(),"information.pdf");
+            }); 
+            notify()->success(__('User information shared successfully'));
+            return redirect()->route('employer.user.index');
+        }catch (TransportExceptionInterface $e){
+            notify()->error(__('Failed to Send. Please check the email and try again'));
+            return redirect()->route('employer.user.index');
+        }   
     }
     
     
