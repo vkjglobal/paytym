@@ -105,7 +105,7 @@ Route::middleware('employer.auth')->group(function () {
     //Users
     Route::resource('user', UserController::class)->except(['show']);
     Route::get('user-change-status', [UserController::class, 'changeStatus'])->name('user.changestatus');
-    Route::get('user-shareinfo/{id}',[UserController::class,'SendMailWithPublicInfo'])->name('user.user-shareinfo');
+    Route::post('user-shareinfo',[UserController::class,'SendMailWithPublicInfo'])->name('user.user-shareinfo');
     
     
     //Events

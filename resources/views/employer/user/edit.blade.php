@@ -280,10 +280,10 @@
                                 <label class="control-label">Employee type<span class="text-danger">*</span></label>
                                 <select class="form-control"  class="form-control @if ($errors->has('employeetype')) is-invalid @endif" name="employeetype" value="{{ old('employeetype') }}">
                                     <option value="">--SELECT--</option>
-                                    <option value="0" {{ $user->position == "0" ? 'selected': ''}}>Attachee</option>
-                                    <option value="1" {{ $user->position == "1" ? 'selected': ''}}>Apprenticeship</option>
-                                    <option value="2" {{ $user->position == "2" ? 'selected': ''}}>Probationary</option>
-                                    <option value="3" {{ $user->position == "3" ? 'selected': ''}}>Permanent</option>
+                                    <option value="0" {{ $user->employee_type == "0" ? 'selected': ''}}>Attachee</option>
+                                    <option value="1" {{ $user->employee_type == "1" ? 'selected': ''}}>Apprenticeship</option>
+                                    <option value="2" {{ $user->employee_type == "2" ? 'selected': ''}}>Probationary</option>
+                                    <option value="3" {{ $user->employee_type == "3" ? 'selected': ''}}>Permanent</option>
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('employeetype') }}</div>
                             </div>
@@ -318,8 +318,8 @@
                         <div class="col-md-6">
                             <label for="pay-period">Pay Period</label>
                             <select name="hourly_pay_period" id="pay-period" class="form-control">
-                                <option value="0">Weekly</option>
-                                <option value="1">Fortnightly</option>
+                                <option value="0" {{ $user->pay_period == '0' ? 'selected' : '' }}>Weekly</option>
+                                <option value="1" {{ $user->pay_period == '1' ? 'selected' : '' }}>Fortnightly</option>
                             </select>
                         </div>
                     </div>
@@ -337,9 +337,9 @@
                                 <div class="form-group">
                                     <label for="pay-period">Pay Period</label>
                                     <select id="pay-period" name="payperiod" class="form-control">
-                                        <option value="0" {{ $user->salary_type == '0' ? 'selected' : '' }}>Weekly</option>
-                                        <option value="1" {{ $user->salary_type == '1' ? 'selected' : '' }}>Fortnightly</option>
-                                        <option value="2" {{ $user->salary_type == '2' ? 'selected' : '' }}>Monthly</option>
+                                        <option value="0" {{ $user->pay_period == '0' ? 'selected' : '' }}>Weekly</option>
+                                        <option value="1" {{ $user->pay_period == '1' ? 'selected' : '' }}>Fortnightly</option>
+                                        <option value="2" {{ $user->pay_period == '2' ? 'selected' : '' }}>Monthly</option>
                                     </select>
                                 </div>
                             </div>

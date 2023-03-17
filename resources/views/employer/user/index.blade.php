@@ -25,7 +25,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->first_name }}</td>
-                                        <td>{{ $user->company }}</td>
+                                        <td>{{ optional($user->employer)->company ?? 'no data' }}</td>
                                         <td>@isset($user->branch->name)
                                             {{ $user->branch->name }}
                                         @endisset</td>
@@ -38,8 +38,8 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a href="{{ route('employer.user.user-shareinfo', $user->id) }}"
-                                                    class="mr-1 text-info" data-toggle="tooltip" data-placement="top"
+                                            <a data-toggle="modal" data-target="#sharePublicInfo" data-user-id="{{ $user->id }}"
+                                                    class="mr-1 text-info share-info-btn" data-toggle="tooltip" data-placement="top"
                                                     title="Share Information">
                                                   <!--   <a href="/employer/user-shareinfo/{{$user->id}}"
                                                     class="mr-1 text-info" data-toggle="tooltip" data-placement="top"
@@ -71,6 +71,7 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    
                                 @endforeach
                             </tbody>
                         </table>
@@ -79,6 +80,39 @@
             </div>
         </div>
     </div>
+    <!-- Add Modal -->
+    <div class="modal fade" id="sharePublicInfo" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Send info</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="POST" action="{{ route('employer.user.user-shareinfo',$user->id) }}">
+                                            @csrf
+                                            <div class="modal-body">
+                                                
+                                                <div class="form-group">
+                                                    <label for="reply_message">Recipient Mail</label>
+                                                    <input type="email" class="form-control" name="recipient_mail"  required>
+                                                </div>
+                                                <input type="hidden" name="user_id" id="share-info-user-id" value="">
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-success">Send</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Add Modal Ends -->
 @endsection
 @push('custom_css')
     <link rel="stylesheet" href="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
@@ -111,4 +145,12 @@
             })
         })
     </script>
+    <script>
+    $(document).ready(function() {
+        $('.share-info-btn').click(function() {
+            var userId = $(this).data('user-id');
+            $('#share-info-user-id').val(userId);
+        });
+    });
+</script>
 @endpush
