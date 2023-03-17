@@ -22,9 +22,12 @@ class GroupMembersAddController extends Controller
             [(__('Dashboard')), route('employer.home')],
             [(__('Group Members')), null],
         ];
-        // $employer_id = Auth::guard('employer')->id();
-        // $groupmembers = GroupChatMembers::where('employer_id', $employer_id)->get();
-        $groupmembers = GroupChatMembers::get();
+        $employer_id = Auth::guard('employer')->id();
+        $groupchats = GroupChat::where('employer_id', $employer_id)->get();
+        // $groupmembers = GroupChatMembers::get();
+        // $admins = GroupChat::select('admin_id')->where('employer_id', $employer_id)->get();
+        // return $admins;
+        $groupmembers = GroupChatMembers::whereBelongsTo($groupchats, 'group')->orderBy('group_chat_id', 'ASC')->get();
         return view('employer.chat.addmembersindex', compact('breadcrumbs','groupmembers'));
     }
 
@@ -138,7 +141,7 @@ class GroupMembersAddController extends Controller
                 }
             }
              
-            return redirect()->route(' employer.groupmember.index');
+            return redirect()->route('employer.groupmember.index');
     }
 
     /**

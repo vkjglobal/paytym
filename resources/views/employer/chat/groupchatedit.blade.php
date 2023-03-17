@@ -32,8 +32,8 @@
                                 <select name="employee" class="@if ($errors->has('employee')) is-invalid @endif" >
                                     <option selected="true" disabled="disabled" >Select Admin</option>
                                     @foreach($employees as $employee)
-                                        <option {{ old('employee', $employee->id) == $groupchat->admin_id ? "selected" : "" }}
-                                        value="{{$employee->id}}">{{$employee->first_name}}</option>
+                                        <option {{ old('employee', $employee->employee->id) == $groupchat->admin_id ? "selected" : "" }}
+                                        value="{{$employee->employee->id}}">{{$employee->employee->first_name}}</option>
                                     @endforeach
                                 </select>                                
                                 <div class="invalid-feedback">{{ $errors->first('employee') }}</div>
