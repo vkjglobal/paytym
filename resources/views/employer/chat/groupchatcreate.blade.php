@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label class="control-label">Admin<span class="text-danger">*</span></label>
                                 <select name="employee" class="@if ($errors->has('employee')) is-invalid @endif" >
-                                    <option selected="true" disabled="disabled" >Select User</option>
+                                    <option selected="true" disabled="disabled" >Select Admin</option>
                                     @foreach($employees as $employee)
                                         <option value="{{$employee->id}}">{{$employee->first_name}}</option>
                                     @endforeach

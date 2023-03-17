@@ -15,5 +15,9 @@ class GroupChat extends Model
     {
         return $this->belongsTo(User::class, 'admin_id');
     }
+    public function members()
+    {
+        return $this->hasMany(GroupChatMembers::class);
+    }
 }
 

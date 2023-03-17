@@ -88,18 +88,18 @@ class PayrollBudgetController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'year' => 'required',
+            // 'year' => 'required',
             'budget' => 'required',
         ]);
         
         $payroll_budget = PayrollBudget::findOrFail($id);
-        $payroll_budget->year = $request->year;
+        // $payroll_budget->year = $request->year;
         $payroll_budget->budget_amount = $request->budget;
         $payroll_budget->employer_id = Auth::guard('employer')->user()->id;
         $data = PayrollBudget::where('year', $request->year)->first();
-        if($data){
-            notify()->error(__('Failed to Create. Data already exists'));
-        } else {
+        // if($data){
+        //     notify()->error(__('Failed to Create. Data already exists'));
+        // } else {
             $res = $payroll_budget->save();
                 if($res){
                     notify()->success(__('Created successfully'));
@@ -107,7 +107,7 @@ class PayrollBudgetController extends Controller
                     notify()->error(__('Failed to Create. Please try again'));
             }
                 
-        }
+        // }
         return redirect()->back();
     }
 

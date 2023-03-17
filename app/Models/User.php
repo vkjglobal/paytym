@@ -112,6 +112,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(PaymentAdvance::class, 'user_id');
     }
+    public function members()
+    {
+        return $this->belongsTo(GroupChatMembers::class);
+    }
 
     public function position()
     {
@@ -137,6 +141,7 @@ class User extends Authenticatable
         }
         return $total;
     }
+
     
     
 

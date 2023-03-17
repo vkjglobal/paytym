@@ -18,7 +18,7 @@
                                     <label class="control-label">Year <span class="text-danger">*</span></label>
                                     <input type="number" min="2000" max="2099" step="1" 
                                         class="form-control @if ($errors->has('year')) is-invalid @endif"
-                                        name="year" value="{{ old('year', $payroll_budget->year) }}" placeholder="Enter Year" required>
+                                        name="year" value="{{ old('year', $payroll_budget->year) }}" placeholder="Enter Year" disabled>
                                     <div class="invalid-feedback">{{ $errors->first('year') }}</div>
                                 </div>
                             </div><!-- Col -->
