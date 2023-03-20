@@ -18,6 +18,7 @@ use App\Models\PayPeriod;
 use App\Models\Role;
 use App\Models\LeaveRequest;
 use Auth,Hash;
+use App\Jobs\SendEmployeeInfo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Mail;
@@ -318,22 +319,10 @@ class UserController extends Controller
         //dd($data);
         $data["email"]= $recipientMail;
         $data["name"] = $name;
+        SendEmployeeInfo::dispatch($data,$user,$rolename);
+        notify()->success(__('Mail Send'));
+        return redirect()->route('employer.user.index');
        
-        $pdf = PDF::LoadView('employer.user.publicinformation',$data, compact('user','rolename'));
-        try{
-            Mail::send('employer.user.publicinformation',$data,function($message) use ($data, $pdf)
-            { 
-           
-             $message->to($data["email"])
-                     ->subject('Employee Information of ' .$data["name"])
-                     ->attachData($pdf->output(),"information.pdf");
-            }); 
-            notify()->success(__('User information shared successfully'));
-            return redirect()->route('employer.user.index');
-        }catch (TransportExceptionInterface $e){
-            notify()->error(__('Failed to Send. Please check the email and try again'));
-            return redirect()->route('employer.user.index');
-        }   
     }
     
     
