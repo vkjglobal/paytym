@@ -17,6 +17,7 @@ use App\Models\Bonus;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use App\Jobs\PayslipGeneration;
 use Auth;
 
 class PayrollController extends Controller
@@ -597,6 +598,7 @@ class PayrollController extends Controller
             $payroll -> end_date = $endDate;
             
             $res = $payroll->save();
+            // PayslipGeneration::dispatch($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,$totalDeduction);
 
            
         
