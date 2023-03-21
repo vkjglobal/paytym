@@ -26,6 +26,7 @@ use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Api\Employee\PayrollCalculationController;
 use App\Http\Controllers\TwilioSMSController;
 use App\Http\Controllers\Api\Employee\EmployeeDashboardController;
+use App\Http\Controllers\Api\Employee\MpaisaController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
@@ -188,4 +189,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //
     Route::post('apply_device_id', [AuthController::class, 'apply_device_id']);
+
+    //mpaisa
+    Route::get('mpaisa', [MpaisaController::class, 'send_req']);
+
 });

@@ -1009,6 +1009,15 @@
             </li>
             <!--check in and check out time end -->
 
+            <!--Split Payment-->
+            <li class="nav-item {{ request()->is('employer/split_payment*') ? 'active' : '' }}">
+                <a href="{{ route('employer.split_payment.wallet') }}" class="nav-link">
+                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <span class="link-title">Split Payment</span>
+                </a>
+            </li>
+            <!--Split Payment-->
+
 
 
         </ul>

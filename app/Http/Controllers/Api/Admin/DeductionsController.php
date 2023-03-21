@@ -8,6 +8,7 @@ use App\Models\Deduction;
 use App\Models\Payroll;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class DeductionsController extends Controller
@@ -38,12 +39,14 @@ class DeductionsController extends Controller
         //     // $deduction->save();
         // }
         $deductions_types = Deduction::select(['id','employer_id','name','description'])->where('employer_id', $employer_id)->get();
-                
+          
+
+
         if ($deduction) {
             return response()->json([
                 'message' => "Success",
                 'deductions'=>$deduction,
-                'deductions types'=>$deductions_types,
+                // 'deductions types'=>$deductions_types,
             ], 200);
         } else {
             return response()->json([
@@ -118,7 +121,7 @@ class DeductionsController extends Controller
         }
 
         $id = $request->id;
-        $deduction = AssignDeduction::where('id', $id)->delete();
+        $deduction = AssignDeduction::where('user_id', $id)->delete();
         if ($deduction) {
             return response()->json([
                 'message' => "Deleted Successfully"
