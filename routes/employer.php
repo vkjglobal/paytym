@@ -33,6 +33,7 @@ use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Employer\GroupChatController;
 use App\Http\Controllers\Employer\EventController;
 use App\Http\Controllers\Employer\PayrollBudgetController;
+use App\Http\Controllers\Employer\SplitPaymentController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -246,6 +247,10 @@ Route::middleware('employer.auth')->group(function () {
 
     //payroll budget
     Route::resource('payroll-budget', PayrollBudgetController::class);
+
+
+    //splitpayment
+    Route::get('split_payment',[SplitPaymentController::class,'index'])->name('split_payment.wallet');
 
   });
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Employer;
 use App\Models\LeaveRequest;
+use App\Models\Roster;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -267,7 +268,15 @@ class AttendanceController extends Controller
         $user_id = Auth::user()->id;
         $user = Auth::user();
         $employer_id = $user->employer_id;
-        $check_in_time = Employer::select('check_in_time')->where('id', $request->employer_id)->value('check_in_time');
+
+        $roster = Roster::where('user_id', $user_id)->where('start_date', '<=', Carbon::today())
+                                ->where('end_date', '>=', Carbon::today())->get();
+        if(!$roster->isEmpty()){
+            $check_in_time = Roster::where('user_id', $user_id)->value('start_time');    
+        }else{
+            $check_in_time = Employer::select('check_in_time')->where('id', $request->employer_id)->value('check_in_time');    
+        }
+        
         $history = [];
         $history = Attendance::with('user.branch:id,name')->where('employer_id', $request->employer_id)
                                 ->whereDate('date', $request->date)->get();

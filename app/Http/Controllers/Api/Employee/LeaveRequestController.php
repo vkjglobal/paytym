@@ -11,6 +11,7 @@ use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\Meeting;
 use App\Models\Project;
+use App\Models\Roster;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -83,7 +84,13 @@ class LeaveRequestController extends Controller
             $halfday = $halfday->count();
             $sick = $leave->where('type', 'sick')->count();
 
-            $check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');
+            $roster = Roster::where('user_id', $user_id)->where('start_date', '<=', Carbon::today())
+                                ->where('end_date', '>=', Carbon::today())->get();
+            if(!$roster->isEmpty()){
+                $check_in_time = Roster::where('user_id', $user_id)->value('start_time');    
+            }else{
+                $check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');    
+            }
 
             try{
                 $late_arrival = Attendance::where('user_id', $user_id)
@@ -93,6 +100,8 @@ class LeaveRequestController extends Controller
             }
 
             $total_work_days = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::now()->format('Y'))->count();
+            $next_shift = Roster::where('user_id', $user_id)->where('start_date', '=', Carbon::today())
+                                ->first();
             // $total_work_hours = ;
             (float)$hours = 0;
                 $attendances = Attendance::where('user_id', $user_id)->whereBetween('date',[$user->employment_start_date, Carbon::today()])->get();
@@ -104,8 +113,6 @@ class LeaveRequestController extends Controller
                     }
                 }
 
-                     
-
             return response()->json([
                 'message' => "Dashboard details listed",
                 'casual' => $casual,
@@ -116,6 +123,8 @@ class LeaveRequestController extends Controller
                 'late_arrival' => $late_arrival,
                 'total_work_days' => $total_work_days,
                 'hours' => $hours,
+                'checkin time' => $check_in_time,
+                'next shift' => $next_shift,
             ], 200);
         } else {
             return response()->json([

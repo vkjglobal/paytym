@@ -9,4 +9,9 @@ class SplitPayment extends Model
 {
     public $table = "split_payment";
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'employee_id');
+    }
 }
