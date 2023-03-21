@@ -92,6 +92,10 @@ class AttendanceController extends Controller
             }
 
             $issave = $attendance->save();
+            if($issave){
+                
+
+            }
             if ($issave) {
                 return response()->json([
                     'message' => "Updated Successfully"

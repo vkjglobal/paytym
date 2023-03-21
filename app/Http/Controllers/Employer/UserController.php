@@ -21,6 +21,7 @@ use Auth,Hash;
 use App\Jobs\SendEmployeeInfo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use App\Jobs\EmployeeCreationPushNotification;
 use Mail;
 
 class UserController extends Controller
@@ -136,6 +137,10 @@ class UserController extends Controller
     }
     $issave = $user->save();
     if($issave){
+        $employeeName = $validated['first_name'];
+        $employeeBranch = Branch::where('id',$validated['branch'])->first()->name;
+        $position = Role::where('id', $validated['position'])->first()->role_name;
+        EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$position,$employeeName);
         notify()->success(__('Created successfully'));
             } else {
                 notify()->error(__('Failed to Create. Please try again'));
