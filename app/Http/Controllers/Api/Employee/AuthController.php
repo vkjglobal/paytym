@@ -7,6 +7,7 @@ use App\Mail\SendOtp;
 use App\Models\LeaveRequest;
 use App\Models\User;
 use App\Models\UserCapabilities;
+use App\Models\Attendance;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +45,14 @@ class AuthController extends Controller
             $halfday = 0;
 
             $user_id = Auth::user()->id;
+            $lastAttendance = Attendance::where('user_id',$authUser->id)->first();
+            if($lastAttendance){
+                if(is_null($lastAttendance->check_out)){
+                    $lastCheckedIn = $lastAttendance->check_in;
+                }else{
+                    $lastCheckedIn = Null ;
+                }
+            }
             $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
             if ($leave) {
                 $casual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'casual')->get();
@@ -68,6 +77,7 @@ class AuthController extends Controller
                 'halfday' => $halfday,
                 'capabilities' => $capabilities,
                 'capabilities_list' => $capabilities_list,
+                'last_checked_in' => $lastCheckedIn
             ], 200);
         } else {
             return response()->json([

@@ -598,7 +598,7 @@ class PayrollController extends Controller
             $payroll -> end_date = $endDate;
             
             $res = $payroll->save();
-            // PayslipGeneration::dispatch($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,$totalDeduction);
+            PayslipGeneration::dispatch($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,$totalDeduction);
 
            
         

@@ -52,14 +52,16 @@ class PayslipGeneration implements ShouldQueue
         $totalSalary = $this->totalSalary;
         $totalAllowance =  $this->totalAllowance;
         $totalDeduction = $this->totalDeduction;
-        $pdf = PDF::LoadView('employer.payslip.templates.default',compact('employee',
-                                                                'base_pay',
-                                                                'grossSalary',
-                                                                'netSalary',
-                                                                'totalSalary',
-                                                                'totalAllowance',
-                                                                'totalDeduction',
-                                                                ))->setPaper('legal', 'landscape');
+    
+        $pdf = PDF::loadView('employer.payslip.templates.default',compact('employee',
+        'base_pay',
+        'grossSalary',
+        'netSalary',
+        'totalSalary',
+        'totalAllowance',
+        'totalDeduction',
+))->setPaper('legal', 'landscape');
+
 
         $pdf->save(storage_path('app/public/pdfs/myfile.pdf'));
 
