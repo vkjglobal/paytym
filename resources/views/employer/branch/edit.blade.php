@@ -103,7 +103,7 @@
                                 </div>
                             </div><!-- Col -->
 
-                            <div class="col-sm-4">
+                            <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">QR Code <span class="text-danger">*</span></label>
                                     <input type="file"
@@ -113,7 +113,7 @@
                                         alt="">
                                     <div class="invalid-feedback">{{ $errors->first('qr_code') }}</div>
                                 </div>
-                            </div><!-- Col -->
+                            </div>Col -->
                         </div><!-- Row -->
 
 
