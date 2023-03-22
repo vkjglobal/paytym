@@ -46,7 +46,7 @@ class DeductionsController extends Controller
             return response()->json([
                 'message' => "Success",
                 'deductions'=>$deduction,
-                // 'deductions types'=>$deductions_types,
+                'deductions types'=>$deductions_types,
             ], 200);
         } else {
             return response()->json([
@@ -102,7 +102,7 @@ class DeductionsController extends Controller
         } else {
             return response()->json([
                 'message' => "Something went Wrong",
-            ], 200);
+            ], 400);
         }
     }
 
@@ -129,7 +129,7 @@ class DeductionsController extends Controller
         } else {
             return response()->json([
                 'message' => "Something went Wrong"
-            ], 200);
+            ], 400);
         }
     }
 
