@@ -26,8 +26,9 @@ class PayslipGeneration implements ShouldQueue
     protected $totalSalary;
     protected $totalAllowance;
     protected $totalDeduction;
+    protected $allowances;
 
-    public function __construct($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,$totalDeduction)
+    public function __construct($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,$totalDeduction,$allowances)
     {
         $this->employee = $employee;
         $this->base_pay = $base_pay;
@@ -36,6 +37,7 @@ class PayslipGeneration implements ShouldQueue
         $this->totalSalary = $totalSalary;
         $this->totalAllowance = $totalAllowance;
         $this->totalDeduction = $totalDeduction;
+        $this->allowances = $allowances;
     }
 
     /**
@@ -52,6 +54,7 @@ class PayslipGeneration implements ShouldQueue
         $totalSalary = $this->totalSalary;
         $totalAllowance =  $this->totalAllowance;
         $totalDeduction = $this->totalDeduction;
+        $allowances = $this->allowances;
     
         $pdf = PDF::loadView('employer.payslip.templates.default',compact('employee',
         'base_pay',
@@ -60,6 +63,7 @@ class PayslipGeneration implements ShouldQueue
         'totalSalary',
         'totalAllowance',
         'totalDeduction',
+        'allowances',
 ));
 
 

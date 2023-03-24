@@ -34,13 +34,13 @@
                                         <td valign="top">
                                             <table style="text-align: left;">
                                                 <tr>
-                                                    <td>Bank Name: <strong>SBI</strong></td>
+                                                    <td>Bank Name: <strong>{{$employee->bank}}</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Bank Branch: <strong>Ekm</strong></td>
+                                                    <td>Bank Branch: <strong>{{$employee->bank_branch_name}}</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Bank A/C No: <strong>12345678955</strong></td>
+                                                    <td>Bank A/C No: <strong>{{$employee->account_number}}</strong></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -68,25 +68,27 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach($allowances as $allowance)
                                                     <tr>
-                                                        <td style="width: 60%; text-align:left;">Allowance 1</td>
-                                                        <td style="width: 40%; text-align: right;">2000</td>
+                                                        <td style="width: 60%; text-align:left;">{{ $allowance->allowance->type}} </td>
+                                                        <td style="width: 40%; text-align: right;">{{ $allowance->rate}} </td>
                                                     </tr>
-                                                    <tr>
+                                                    @endforeach
+                                                    <!-- <tr>
                                                         <td style="width: 60%; text-align:left;">Allowance 2</td>
                                                         <td style="width: 40%; text-align: right;">1500</td>
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 60%; text-align:left;">Allowance 3</td>
                                                         <td style="width: 40%; text-align: right;">3000</td>
-                                                    </tr>
+                                                    </tr> -->
                                                     <tr>
                                                         <td>&nbsp;</td>
                                                         <td>&nbsp;</td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 60%;">Total</td>
-                                                        <td style="width: 40%; text-align: right;"><strong>6500</strong></td>
+                                                        <td style="width: 60%;"><strong>Total</strong></td>
+                                                        <td style="width: 40%; text-align: right;"><strong>{{$totalAllowance}}</strong></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

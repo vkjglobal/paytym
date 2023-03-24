@@ -43,7 +43,9 @@ class ChatController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
+            'group_chat_id' => 'required',
             'message' =>  'required',
+
         ]);
 
         // if validation fails
@@ -58,10 +60,11 @@ class ChatController extends Controller
         $chat->user_id = Auth::user()->id;
         $chat->employer_id = $request->employer_id;
         $chat->message = $request->message;
+        $chat->group_chat_id = $request->group_chat_id;
         $res = $chat->save();
 
         $hod = Employer::where('id', $request->employer_id)->first();
-        $chats = Chat::with('employer', 'employee:id,first_name,last_name')->where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id])->get();
+        $chats = Chat::with('employer', 'employee:id,first_name,last_name')->where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id , 'group_chat_id' => $request->group_chat_id])->get();
         // $employee = User::where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id])->get();
 
         if ($res) {
