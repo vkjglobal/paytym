@@ -76,7 +76,7 @@ class AuthController extends Controller
                 'annual' => $annual,
                 'halfday' => $halfday,
                 'capabilities' => $capabilities,
-                'capabilities_list' => $capabilities_list,
+                // 'capabilities_list' => $capabilities_list,
                 'last_checked_in' => $lastCheckedIn
             ], 200);
         } else {
