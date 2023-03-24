@@ -363,31 +363,29 @@ class PayrollController extends Controller
     }
 
     public function generate_fixed_payroll($employee,$fromDate,$endDate){
-        if($employee->pay_period == '0'){
-            $perDaySalary = ($employee->rate / 7);
-        }
-        if($employee->pay_period == '1'){
-            $perDaySalary = ($employee->rate / 14);
-        }else{
-            $perDaySalary = ($employee->rate / ($fromDate->daysInMonth));
-        }
+        $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) :
+                (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / ($fromDate->daysInMonth)));
+
         $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$endDate])->get();
 
          //Allowance Calculation
 
-         $allowances = AssignAllowance::where('user_id',$employee->id)->get();
+         $allowances = AssignAllowance::with('allowance')->where('user_id',$employee->id)->get();
          $totalAllowance = 0;
-         foreach($allowances as $allowance){
-             $totalAllowance += $allowance->rate;
+         if($allowances){
+            $totalAllowance = $allowances->sum('rate');
          }
 
          //Deduction Calculation
 
          $deductions = AssignDeduction::where('user_id',$employee->id)->get();
          $totalDeduction = 0;
-         foreach($deductions as $deduction){
-             $totalDeduction += ($employee->rate * ($deduction->rate/100));
+         if($deductions){
+            $totalDeduction = $deductions->sum(function($deduction) use ($employee) {
+                return $employee->rate * ($deduction->rate/100);
+            });
          }
+        
 
         //Commissions Calculation
         $commission_amount = 0 ;
@@ -598,7 +596,15 @@ class PayrollController extends Controller
             $payroll -> end_date = $endDate;
             
             $res = $payroll->save();
-            PayslipGeneration::dispatch($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,$totalDeduction);
+            PayslipGeneration::dispatch($employee,
+                                        $base_pay,
+                                        $grossSalary,
+                                        $netSalary,
+                                        $totalSalary,
+                                        $totalAllowance,
+                                        $totalDeduction,
+                                        $allowance,
+                                        );
 
            
         
