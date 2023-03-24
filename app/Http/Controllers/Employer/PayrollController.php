@@ -603,7 +603,7 @@ class PayrollController extends Controller
                                         $totalSalary,
                                         $totalAllowance,
                                         $totalDeduction,
-                                        $allowance,
+                                        $allowances
                                         );
 
            
