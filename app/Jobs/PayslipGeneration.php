@@ -60,7 +60,7 @@ class PayslipGeneration implements ShouldQueue
         'totalSalary',
         'totalAllowance',
         'totalDeduction',
-))->setPaper('legal', 'landscape');
+));
 
 
         $pdf->save(storage_path('app/public/pdfs/myfile.pdf'));
