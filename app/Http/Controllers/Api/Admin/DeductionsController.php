@@ -30,7 +30,7 @@ class DeductionsController extends Controller
         $employer_id = $request->employer_id;
         // $deduction = AssignDeduction::with(['employee:id,first_name,last_name,branch_id','employee.branch:id,name','deduction:id,name,description'])->where('employer_id', $employer_id)->get();
         // $total_deduction =  AssignDeduction::;
-        $deduction = User::select(['id', 'first_name', 'last_name', 'branch_id'])->with('assign_deduction.deduction:id,name,description')
+        $deduction = User::select(['id', 'first_name', 'last_name', 'branch_id','department_id'])->with('assign_deduction.deduction:id,name,description')
                     ->where('employer_id', $employer_id)->get();
         // $employees = User::where('employer_id', $employer_id)->get();
         // foreach($deduction as $employee){

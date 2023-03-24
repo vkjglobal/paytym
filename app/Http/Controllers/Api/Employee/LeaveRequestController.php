@@ -200,7 +200,7 @@ class LeaveRequestController extends Controller
         $status = $request->status;
         $year = date("Y");
         $now = new \DateTime();
-        $leaveRequest = LeaveRequest::with('user:id,first_name,last_name')->where('employer_id', $employer_id);
+        $leaveRequest = LeaveRequest::with('user:id,first_name,last_name,branch_id,department_id')->where('employer_id', $employer_id);
         if ($status == '1') {
             $leaveRequest = $leaveRequest->whereMonth('created_at', Carbon::now()->month)->get();
         } elseif ($status == '2') {
