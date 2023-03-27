@@ -84,12 +84,21 @@ class LeaveRequestController extends Controller
             $halfday = $halfday->count();
             $sick = $leave->where('type', 'sick')->count();
 
+            $lastAttendance = Attendance::where('user_id',$user->id)->first();
+            if($lastAttendance){
+                if(is_null($lastAttendance->check_out)){
+                    $lastCheckedIn = $lastAttendance->check_in;
+                }else{
+                    $lastCheckedIn = Null ;
+                }
+            }
+
             $roster = Roster::where('user_id', $user_id)->where('start_date', '<=', Carbon::today())
                                 ->where('end_date', '>=', Carbon::today())->get();
             if(!$roster->isEmpty()){
-                $check_in_time = Roster::where('user_id', $user_id)->value('start_time');    
+                $roster_check_in_time = Roster::where('user_id', $user_id)->value('start_time');    
             }else{
-                $check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');    
+                $roster_check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');    
             }
 
             try{
@@ -123,8 +132,9 @@ class LeaveRequestController extends Controller
                 'late_arrival' => $late_arrival,
                 'total_work_days' => $total_work_days,
                 'hours' => $hours,
-                'checkin time' => $check_in_time,
+                'roster_check_in_time' => $roster_check_in_time,
                 'next shift' => $next_shift,
+                'last_checked_in' => $lastCheckedIn
             ], 200);
         } else {
             return response()->json([

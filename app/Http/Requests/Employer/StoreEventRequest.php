@@ -31,6 +31,9 @@ class StoreEventRequest extends FormRequest
             'start_time' => 'required',
             'end_time' => 'required',
             'description' => 'required',
+            'business' => 'required',
+            'branch' => 'required',
+            'department' => 'required',
         ];
     }
 }

@@ -25,7 +25,8 @@ class StoreRosterRequest extends FormRequest
     {
         return [
             'employee' => 'required',
-            'project' => 'required',
+            'business' => 'required',
+            'department' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
             'start_date' => 'required',

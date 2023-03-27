@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Payroll;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class PayslipGeneration implements ShouldQueue
@@ -27,8 +28,15 @@ class PayslipGeneration implements ShouldQueue
     protected $totalAllowance;
     protected $totalDeduction;
     protected $allowances;
+    protected $deductions;
+    protected $incomeTax;
+    protected $fnpf;
+    protected $srt;
+    protected $payroll;
 
-    public function __construct($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,$totalDeduction,$allowances)
+    public function __construct($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,
+                                $totalDeduction,$allowances,$deductions,$incomeTaxToWithhold,$fnpf_amount,
+                                $srtToWithhold,$payroll)
     {
         $this->employee = $employee;
         $this->base_pay = $base_pay;
@@ -38,6 +46,11 @@ class PayslipGeneration implements ShouldQueue
         $this->totalAllowance = $totalAllowance;
         $this->totalDeduction = $totalDeduction;
         $this->allowances = $allowances;
+        $this->deductions = $deductions;
+        $this->incomeTax = $incomeTaxToWithhold;
+        $this->fnpf = $fnpf_amount;
+        $this->srt = $srtToWithhold;
+        $this->payroll = $payroll;
     }
 
     /**
@@ -55,6 +68,11 @@ class PayslipGeneration implements ShouldQueue
         $totalAllowance =  $this->totalAllowance;
         $totalDeduction = $this->totalDeduction;
         $allowances = $this->allowances;
+        $deductions = $this->deductions;
+        $income_tax = $this->incomeTax;
+        $fnpf = $this->fnpf;
+        $srt = $this->srt;
+        $payroll = $this->payroll;
     
         $pdf = PDF::loadView('employer.payslip.templates.default',compact('employee',
         'base_pay',
@@ -64,10 +82,19 @@ class PayslipGeneration implements ShouldQueue
         'totalAllowance',
         'totalDeduction',
         'allowances',
-));
+        'deductions',
+        'income_tax',
+        'fnpf',
+        'srt'
+         ));
+
+        $payslipCount = Payroll::where('employer_id',$employee->employer->id)->count();
+        $path = 'pdfs/EMP' . $employee->employer->id . '_PS' . time() . '_' . $employee->id . '.pdf';
+        $pdf->save(storage_path('app/public/pdfs/EMP' . $employee->employer->id . '_PS' . time() . '_' . $employee->id . '.pdf'));
+        $payroll->pay_slip = $path;
+        $payroll->save();
 
 
-        $pdf->save(storage_path('app/public/pdfs/myfile.pdf'));
 
     }
 }

@@ -378,7 +378,7 @@ class PayrollController extends Controller
 
          //Deduction Calculation
 
-         $deductions = AssignDeduction::where('user_id',$employee->id)->get();
+         $deductions = AssignDeduction::with('deduction')->where('user_id',$employee->id)->get();
          $totalDeduction = 0;
          if($deductions){
             $totalDeduction = $deductions->sum(function($deduction) use ($employee) {
@@ -603,7 +603,13 @@ class PayrollController extends Controller
                                         $totalSalary,
                                         $totalAllowance,
                                         $totalDeduction,
-                                        $allowances
+                                        $allowances,
+                                        $deductions,
+                                        $incomeTaxToWithhold,
+                                        $fnpf_amount,
+                                        $srtToWithhold,
+                                        $payroll
+
                                         );
 
            

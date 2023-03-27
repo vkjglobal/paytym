@@ -86,7 +86,6 @@ class UserController extends Controller
      $user->phone = $validated['phone'];
      $user->date_of_birth = $validated['date_of_birth'];
      $user->street = $validated['street'];
-     $user->town = $validated['town'];
      $user->postcode = $validated['postcode'];
      $user->tin = $validated['tin'];
      $user->fnpf = $validated['fnpf'];
@@ -202,7 +201,6 @@ class UserController extends Controller
      $user->phone = $validated['phone'];
      $user->date_of_birth = $validated['date_of_birth'];
      $user->street = $validated['street'];
-     $user->town = $validated['town'];
      $user->postcode = $validated['postcode'];
      $user->tin = $validated['tin'];
      $user->fnpf = $validated['fnpf'];

@@ -33,7 +33,6 @@ class StoreUserRequest extends FormRequest
             'phone' => 'required',
             'date_of_birth' => 'required',
             'street' => 'required',
-            'town' => 'required',
             'postcode' => 'required',
             'country' => 'required',
             'tin' => 'required',
