@@ -22,6 +22,7 @@ use App\Jobs\SendEmployeeInfo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use App\Jobs\EmployeeCreationPushNotification;
+use App\Models\EmployeeExtraDetails;
 use Mail;
 
 class UserController extends Controller
@@ -40,7 +41,7 @@ class UserController extends Controller
             ];
     
             $users = User::where('employer_id',Auth::guard('employer')->user()->id)->latest()->get();
-            $roles = Role::get();
+            $roles = Role::get();   
             return view('employer.user.index', compact('breadcrumbs', 'users','roles'));
         }
     }

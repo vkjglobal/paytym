@@ -103,14 +103,14 @@ class LeaveRequestController extends Controller
 
             try{
                 $late_arrival = Attendance::where('user_id', $user_id)
-                                        ->whereTime('check_in', '>', $check_in_time)->count();
+                                        ->whereTime('check_in', '>', $roster_check_in_time)->count();
             }catch(Exception $e){
                 $late_arrival = 0;
             }
 
             $total_work_days = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::now()->format('Y'))->count();
-            $next_shift = Roster::where('user_id', $user_id)->where('start_date', '=', Carbon::today())
-                                ->first();
+            $next_shift = Roster::where('user_id', $user_id)->whereDate('start_date','<=',Carbon::today())
+                                        ->whereDate('end_date','>=',Carbon::today())->orderBy('id', 'desc')->first();
             // $total_work_hours = ;
             (float)$hours = 0;
                 $attendances = Attendance::where('user_id', $user_id)->whereBetween('date',[$user->employment_start_date, Carbon::today()])->get();

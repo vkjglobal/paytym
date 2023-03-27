@@ -18,6 +18,7 @@
                                     <th>Branch</th>
                                     <th>Status</th>
                                     <th>Action</th>
+                                    <th>Medical</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,6 +70,16 @@
                                                 </form>
 
                                             </div>
+                                        </td>
+                                        <td>
+                                            {{-- @isset($user->extra_details)
+                                            {{$user->extra_details}}
+                                            @endisset --}}
+                                            @if($user->extra_details)
+                                            <a href="{{route('employer.medical.show', $user->id)}}"><i data-feather="eye"></i></a>
+                                            @else
+                                            <a href="{{route('employer.medical.add', $user->id)}}" class="text-success"><i data-feather="plus"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                     

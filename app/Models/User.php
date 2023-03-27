@@ -49,6 +49,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(LeaveRequest::class);
     }
+    public function extra_details()
+    {
+        return $this->hasOne(EmployeeExtraDetails::class, 'employee_id');
+    }
     public function paymentAdvance()
     {
         return $this->hasMany(PaymentAdvance::class);

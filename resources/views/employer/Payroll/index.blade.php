@@ -7,7 +7,12 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Payroll</h6>
+                    <div class="row">
+                    <h6 class="card-title col-md-9">Payroll</h6>
+                    <a class="btn btn-success float-right col-md-3 mb-3" href="{{route('employer.payroll.export')}}">
+                        Download Latest Payroll CSV
+                    </a>
+                    </div>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>

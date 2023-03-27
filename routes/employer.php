@@ -32,6 +32,7 @@ use App\Http\Controllers\Employer\PayrollSettingsController;
 use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Employer\GroupChatController;
 use App\Http\Controllers\Employer\EventController;
+use App\Http\Controllers\Employer\MedicalController;
 use App\Http\Controllers\Employer\PayrollBudgetController;
 use App\Http\Controllers\Employer\SplitPaymentController;
 use App\Models\Employer;
@@ -85,8 +86,12 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('leave-type', LeaveTypeController::class)->except(['show']);
 
 
+    //Employee Medical Information
+    Route::resource('medical', MedicalController::class);
+    Route::get('medical/add/{id}', [MedicalController::class, 'add'])->name('medical.add');
+    Route::get('payroll/export', [PayrollController::class, 'export'])->name('payroll.export');
 
-
+    
     Route::get('payment-requests', [PaymentRequestController::class, 'index'])->name('payment.requests');
 
 
