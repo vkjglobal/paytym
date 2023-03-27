@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Employer;
+
+use App\Exports\Employer\PaymentExport;
 use App\Http\Controllers\Controller;
 use App\Models\Payroll;
 use App\Models\User;
@@ -19,6 +21,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Jobs\PayslipGeneration;
 use Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PayrollController extends Controller
 {
@@ -616,5 +619,9 @@ class PayrollController extends Controller
         
 
      }
+    public function export() 
+    {
+        return Excel::download(new PaymentExport, ''.Carbon::today()->format('Y-m-d').'payroll.xlsx');
+    }
 }
 
