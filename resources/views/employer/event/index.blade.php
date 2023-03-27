@@ -14,6 +14,9 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Name</th>
+                                    <th>Business</th>
+                                    <th>Branch</th>
+                                    <th>Department</th>
                                     <th>Place</th>
                                     <th>Description</th>
                                     <th>Start Date</th>
@@ -29,6 +32,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $event->name }}</td>
+                                        <td>{{ optional($event->business)->name ?? 'no data' }}</td>
+                                        <td>{{ optional($event->branch)->name ?? 'no data' }}</td>
+                                        <td>{{ optional($event->department)->dep_name ?? 'no data' }}</td>
                                         <td>{{ $event->place }}</td>
                                         <td>{{ $event->description }}</td>
                                         <td>{{ $event->start_date }}</td>

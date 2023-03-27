@@ -75,22 +75,14 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="control-label">City <span class="text-danger"> *</span></label>
+                                    <label class="control-label">City / Town <span class="text-danger"> *</span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('city')) is-invalid @endif"
                                         name="city" value="{{ old('city',$user->city) }}" placeholder="Enter City">
                                     <div class="invalid-feedback">{{ $errors->first('city') }}</div>
                                 </div>
                             </div><!-- Col -->
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Town<span class="text-danger"> *</span></label>
-                                    <input type="text"
-                                        class="form-control @if ($errors->has('town')) is-invalid @endif"
-                                        name="town" value="{{ old('town',$user->town) }}" placeholder="Enter Town">
-                                    <div class="invalid-feedback">{{ $errors->first('town') }}</div>
-                                </div>
-                            </div><!-- Col -->
+
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Post Code <span class="text-danger"> *</span></label>

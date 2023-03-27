@@ -10,6 +10,50 @@
                     <form method="POST" action="{{ route('employer.event.update',$event->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+
+                        <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Business<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($businesses as $business)
+                                    <option value="{{$business->id}}" {{ $event->business_id == $business['id'] ? 'selected': ''}} >{{$business->name}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('business') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Branch<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="branch" value="{{ old('branch') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($branches as $key => $value)
+                                    <option value="{{$value['id']}}" {{ $event->branch_id == $value['id'] ? 'selected': ''}} >{{$value['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Department<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($departments as $key => $value)
+                                    <option value="{{$value['id']}}" {{ $event->department_id == $value['id'] ? 'selected': ''}}>{{$value['dep_name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('department') }}</div>
+                            </div>
+                        </div><!-- Col -->
+                            
+                           
+                        </div><!-- Row -->
+
                         
                         <div class="row">
                             <div class="col-sm-6">

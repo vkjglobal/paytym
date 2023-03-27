@@ -13,7 +13,7 @@
                 <table style="width: 100%; margin: 0 auto; border: 1px solid #000000; border-collapse: collapse;">
                     <thead>
                         <tr>
-                            <th style="font-size: 25px; line-height: 1.2; padding: 20px; border-bottom: 1px solid #000000;">Company</th>
+                            <th style="font-size: 25px; line-height: 1.2; padding: 20px; border-bottom: 1px solid #000000;">{{$employee->employer->company}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,25 +102,27 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>    
+                                                    @foreach($deductions as $deduction)
                                                     <tr>
-                                                        <td style="width: 60%; text-align:left;">Deduction 1</td>
-                                                        <td style="width: 40%; text-align: right;">500</td>
+                                                        <td style="width: 60%; text-align:left;">{{$deduction->deduction->name}}</td>
+                                                        <td style="width: 40%; text-align: right;">{{$employee->rate * ($deduction->rate/100) }}</td>
                                                     </tr>
-                                                    <tr>
+                                                    @endforeach
+                                                    <!-- <tr>
                                                         <td style="width: 60%; text-align:left;">Deduction 2</td>
                                                         <td style="width: 40%; text-align: right;">100</td>
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 60%; text-align:left;">Deduction 3</td>
                                                         <td style="width: 40%; text-align: right;">1000</td>
-                                                    </tr>
+                                                    </tr> -->
                                                     <tr>
                                                         <td>&nbsp;</td>
                                                         <td>&nbsp;</td>
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 60%;">Total</td>
-                                                        <td style="width: 40%; text-align: right;"><strong>1600</strong></td>
+                                                        <td style="width: 40%; text-align: right;"><strong>{{$totalDeduction}}</strong></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -137,26 +139,30 @@
                                             <table style="width: 100%;">
                                                 <thead>
                                                     <tr>
-                                                        <th style="width: 60%; text-align:left;">&nbsp;</th>
-                                                        <th style="width: 40%; text-align: right;">&nbsp;</th>
+                                                        <th style="width: 60%; text-align:left;">Tax:</th>
+                                                        <th style="width: 40%; text-align: right;">Amount</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td style="width: 60%; text-align:left;">Gross Salary:</td>
-                                                        <td style="width: 40%; text-align: right;">20000</td>
+                                                        <td style="width: 60%; text-align:left;">Income Tax:</td>
+                                                        <td style="width: 40%; text-align: right;">{{ $income_tax }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 60%; text-align:left;">Net Salary:</td>
-                                                        <td style="width: 40%; text-align: right;">30000</td>
+                                                        <td style="width: 60%; text-align:left;">FNPF</td>
+                                                        <td style="width: 40%; text-align: right;">{{$fnpf}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">SRT</td>
+                                                        <td style="width: 40%; text-align: right;">{{$srt}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>&nbsp;</td>
                                                         <td>&nbsp;</td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 60%; text-align:left;">Total Salary</td>
-                                                        <td style="width: 40%; text-align: right;"><strong>50000</strong></td>
+                                                        <td style="width: 60%; text-align:left;">Total</td>
+                                                        <td style="width: 40%; text-align: right;"><strong>{{ $income_tax + $fnpf + $srt }}</strong></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -165,26 +171,26 @@
                                             <table style="width: 100%;">
                                                 <thead>
                                                     <tr>
-                                                        <th style="width: 60%; text-align:left;">Tax:</th>
-                                                        <th style="width: 40%; text-align: right;">Amount</th>
+                                                        <th style="width: 60%; text-align:left;">&nbsp;</th>
+                                                        <th style="width: 40%; text-align: right;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td style="width: 60%; text-align:left;">Tax 1:</td>
-                                                        <td style="width: 40%; text-align: right;">5000</td>
+                                                        <td style="width: 60%; text-align:left;">Gross Salary:</td>
+                                                        <td style="width: 40%; text-align: right;">{{$grossSalary}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 60%; text-align:left;">Tax 2</td>
-                                                        <td style="width: 40%; text-align: right;">2500</td>
+                                                        <td style="width: 60%; text-align:left;">Net Salary:</td>
+                                                        <td style="width: 40%; text-align: right;">{{$netSalary}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>&nbsp;</td>
                                                         <td>&nbsp;</td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 60%; text-align:left;">Total</td>
-                                                        <td style="width: 40%; text-align: right;"><strong>7500</strong></td>
+                                                        <td style="width: 60%; text-align:left;">Total Salary</td>
+                                                        <td style="width: 40%; text-align: right;"><strong>{{$totalSalary}}</strong></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

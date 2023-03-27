@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Employer\StoreEventRequest;
 use App\Http\Requests\Employer\UpdateEventRequest;
 use App\Models\Event;
+use App\Models\Branch;
+use App\Models\EmployerBusiness;
+use App\Models\Department;
 use Auth;
 
 class EventController extends Controller
@@ -22,7 +25,7 @@ class EventController extends Controller
             [(__('Dashboard')), route('employer.event.index')],
             [(__('List')), null]
         ];
-        $events = Event::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $events = Event::where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
         return view('employer.event.index', compact('breadcrumbs','events'));
     }
 
@@ -38,7 +41,10 @@ class EventController extends Controller
             [(__('Create')), null]
         ];
         
-        return view('employer.event.create', compact('breadcrumbs'));
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.event.create', compact('breadcrumbs','branches','businesses','departments'));
     }
 
     /**
@@ -59,6 +65,9 @@ class EventController extends Controller
         $event->start_time = $request['start_time'];
         $event->end_time = $request['end_time'];
         $event->description = $request['description'];
+        $event->business_id = $request['business'];
+        $event->branch_id = $request['branch'];
+        $event->department_id = $request['department'];
         $event->status = 1;
         $issave = $event->save();
         if($issave){
@@ -95,7 +104,10 @@ class EventController extends Controller
             [(__('Event')), null],
         ]; 
         // $event = Event::findOrFail($id); 
-        return view('employer.event.edit',compact('breadcrumbs','event'));
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.event.edit',compact('breadcrumbs','event','branches','businesses','departments'));
     }
 
     /**
