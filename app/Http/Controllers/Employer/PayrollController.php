@@ -21,6 +21,8 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Jobs\PayslipGeneration;
 use Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PayrollController extends Controller
@@ -621,7 +623,8 @@ class PayrollController extends Controller
      }
     public function export() 
     {
-        return Excel::download(new PaymentExport, ''.Carbon::today()->format('Y-m-d').'payroll.xlsx');
+        return Excel::download(new PaymentExport, ''.Carbon::today()->format('Y-m-d').'payroll.csv',\Maatwebsite\Excel\Excel::CSV);
     }
 }
+// aswinjith.reubro@gmail.com
 

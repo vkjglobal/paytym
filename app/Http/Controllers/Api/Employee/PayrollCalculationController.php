@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Employee;
 
+use App\Exports\Employer\PaymentExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -11,7 +12,9 @@ use App\Http\Controllers\Employer\PayrollController;
 use App\Models\Payroll;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
-
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class PayrollCalculationController extends Controller
 {
@@ -168,6 +171,25 @@ class PayrollCalculationController extends Controller
 
             }
         }
+
+        //sending payroll csv file through email
+        $export = new PaymentExport();
+        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        $path = 'exports/payroll.csv';
+        Mail::send([], [], function ($message) use ($path, $EmployerId) {
+            $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
+            $finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
+            $to = [$hr->email, $finance->email];
+            $message->to($to)
+                    ->subject('Payroll csv file created on:'.Carbon::today())
+                    ->attach(Storage::path($path), [
+                        'as' => 'users.csv',
+                        'mime' => 'text/csv'
+                    ]);
+        });
+        Storage::delete($path); 
+        //end sending
+        
         return response()->json([
             'message' => 'Payroll calculated successfully.',
         ]);
