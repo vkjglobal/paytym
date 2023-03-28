@@ -31,12 +31,20 @@
                                             {{ $user->branch->name }}
                                         @endisset</td>
                                         
-                                        <td>
+
+                                        <!-- <td>
                                             <input data-id="{{ $user->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
                                                 data-on="Active" data-off="InActive"
                                                 {{ $user->status ? 'checked' : '' }}>
+                                        </td> -->
+                                        <td>
+                                        <button data-id="{{ $user->id }}" class="status-btn btn {{ $user->status ? 'btn-success' : 'btn-danger' }} btn-fixed-width">
+                                            {{ $user->status ? 'Active' : 'Inactive' }}
+                                        </button>
                                         </td>
+
+
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                             <a data-toggle="modal" data-target="#sharePublicInfo" data-user-id="{{ $user->id }}"
@@ -135,26 +143,56 @@
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
-        $(function() {
-            $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var user_id = $(this).data('id');
-                console.log(user_id);
 
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: '{{ route('employer.user.changestatus') }}',
-                    data: {
-                        'status': status,
-                        'user_id': user_id
-                    },
-                    success: function(data) {
-                        console.log(data.success)
-                    }
-                });
-            })
-        })
+$(function() {
+    $('.status-btn').click(function(event) {
+        event.preventDefault(); // prevent default action
+
+        var status = $(this).hasClass('btn-success') ? 0 : 1;
+        var user_id = $(this).data('id');
+
+        var confirmed = confirm("Are you sure you want to change the status?");
+        if (confirmed) {
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: '{{ route('employer.user.changestatus') }}',
+                data: {
+                    'status': status,
+                    'user_id': user_id
+                },
+                success: function(data) {
+                    console.log(data.success);
+                    var newStatus = (status == 1) ? 'Active' : 'Inactive';
+                    var newClass = (status == 1) ? 'btn-success' : 'btn-danger';
+                    $(this).text(newStatus).removeClass('btn-success btn-danger').addClass(newClass);
+                }.bind(this)
+            });
+        }
+    });
+});
+
+
+        // $(function() {
+        //     $('.toggle-class').change(function() {
+        //         var status = $(this).prop('checked') == true ? 1 : 0;
+        //         var user_id = $(this).data('id');
+        //         console.log(user_id);
+
+        //         $.ajax({
+        //             type: "GET",
+        //             dataType: "json",
+        //             url: '{{ route('employer.user.changestatus') }}',
+        //             data: {
+        //                 'status': status,
+        //                 'user_id': user_id
+        //             },
+        //             success: function(data) {
+        //                 console.log(data.success)
+        //             }
+        //         });
+        //     })
+        // })
     </script>
     <script>
     $(document).ready(function() {

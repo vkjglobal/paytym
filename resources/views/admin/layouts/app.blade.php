@@ -27,6 +27,8 @@
         .notify {
             z-index: 999999999 !important;
         }
+        .btn-fixed-width {
+         width: 100px !important; /* Set the width to the desired value and add !important flag */
     </style>
 
     @stack('custom_css')

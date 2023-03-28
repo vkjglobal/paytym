@@ -45,7 +45,7 @@ class AuthController extends Controller
             $halfday = 0;
 
             $user_id = Auth::user()->id;
-            $lastAttendance = Attendance::where('user_id',$authUser->id)->first();
+            $lastAttendance = Attendance::where('user_id',$authUser->id)->latest()->first();
             if($lastAttendance){
                 if(is_null($lastAttendance->check_out)){
                     $lastCheckedIn = $lastAttendance->check_in;
