@@ -45,14 +45,14 @@ class AuthController extends Controller
             $halfday = 0;
 
             $user_id = Auth::user()->id;
+            $lastCheckedIn = Null;
             $lastAttendance = Attendance::where('user_id',$authUser->id)->latest()->first();
             if($lastAttendance){
                 if(is_null($lastAttendance->check_out)){
                     $lastCheckedIn = $lastAttendance->check_in;
-                }else{
-                    $lastCheckedIn = Null ;
                 }
             }
+               
             $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
             if ($leave) {
                 $casual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'casual')->get();
@@ -344,7 +344,6 @@ class AuthController extends Controller
             
             // Parse the response body
             $responseBody = $response->json();
-           dd($responseBody);
            
            
            

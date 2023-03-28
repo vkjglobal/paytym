@@ -83,13 +83,11 @@ class LeaveRequestController extends Controller
             $halfday = $leave->where('type', 'halfday')->get();
             $halfday = $halfday->count();
             $sick = $leave->where('type', 'sick')->count();
-
-            $lastAttendance = Attendance::where('user_id',$user->id)->first();
+            $lastCheckedIn = Null;
+            $lastAttendance = Attendance::where('user_id',$user->id)->latest()->first();
             if($lastAttendance){
                 if(is_null($lastAttendance->check_out)){
                     $lastCheckedIn = $lastAttendance->check_in;
-                }else{
-                    $lastCheckedIn = Null ;
                 }
             }
 

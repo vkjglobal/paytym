@@ -121,7 +121,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('employee_dashboard', [EmployeeDashboardController::class, 'index']);
 
     // Robin 15-02-2023
-    Route::post('checkin_checkout_list', [AttendanceController::class, 'check_in_check_out_list']);
+    Route::post('atteb', [AttendanceController::class, 'check_in_check_out_list']);
     Route::post('leave_requests_lists', [LeaveRequestController::class, 'leave_requests_lists']);
     Route::post('leave_requests_accept_reject', [LeaveRequestController::class, 'leave_requests_accept_reject']);
     Route::post('create_leaves', [LeaveController::class, 'create_leaves']);
