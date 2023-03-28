@@ -10,14 +10,14 @@ class Payroll extends Model
 {
     use HasFactory;
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::creating(function ($model) {
-            $model->payslip_number = Str::uuid()->toString();
-        });
-    }
+    //     static::creating(function ($model) {
+    //         $model->payslip_number = Str::uuid()->toString();
+    //     });
+    // }
 
     public function user(){
         return $this->belongsTo(User::class);
