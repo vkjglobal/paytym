@@ -172,23 +172,23 @@ class PayrollCalculationController extends Controller
             }
         }
 
-        //sending payroll csv file through email
-        $export = new PaymentExport();
-        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-        $path = 'exports/payroll.csv';
-        Mail::send([], [], function ($message) use ($path, $EmployerId) {
-            $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
-            $finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
-            $to = [$hr->email, $finance->email];
-            $message->to($to)
-                    ->subject('Payroll csv file created on:'.Carbon::today())
-                    ->attach(Storage::path($path), [
-                        'as' => 'users.csv',
-                        'mime' => 'text/csv'
-                    ]);
-        });
-        Storage::delete($path); 
-        //end sending
+        // //sending payroll csv file through email
+        // $export = new PaymentExport();
+        // $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        // $path = 'exports/payroll.csv';
+        // Mail::send([], [], function ($message) use ($path, $EmployerId) {
+        //     $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
+        //     $finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
+        //     $to = [$hr->email, $finance->email];
+        //     $message->to($to)
+        //             ->subject('Payroll csv file created on:'.Carbon::today())
+        //             ->attach(Storage::path($path), [
+        //                 'as' => 'users.csv',
+        //                 'mime' => 'text/csv'
+        //             ]);
+        // });
+        // Storage::delete($path); 
+        // //end sending
         
         return response()->json([
             'message' => 'Payroll calculated successfully.',

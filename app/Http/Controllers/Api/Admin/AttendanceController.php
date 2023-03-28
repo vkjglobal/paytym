@@ -97,12 +97,9 @@ class AttendanceController extends Controller
             if (isset($request->approve_reject)) {
                 $attendance->approve_reject = $request->approve_reject;
             }
-
+            $attendance->status = "1";
             $issave = $attendance->save();
-            if($issave){
-                
 
-            }
             if ($issave) {
                 return response()->json([
                     'message' => "Updated Successfully"

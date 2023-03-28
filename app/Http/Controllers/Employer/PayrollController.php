@@ -613,7 +613,9 @@ class PayrollController extends Controller
                                         $incomeTaxToWithhold,
                                         $fnpf_amount,
                                         $srtToWithhold,
-                                        $payroll
+                                        $payroll,
+                                        $fromDate,
+                                        $endDate
 
                                         );
 
@@ -621,10 +623,10 @@ class PayrollController extends Controller
         
 
      }
-    public function export() 
-    {
-        return Excel::download(new PaymentExport, ''.Carbon::today()->format('Y-m-d').'payroll.csv',\Maatwebsite\Excel\Excel::CSV);
-    }
+    // public function export() 
+    // {
+    //     return Excel::download(new PaymentExport, ''.Carbon::today()->format('Y-m-d').'payroll.csv',\Maatwebsite\Excel\Excel::CSV);
+    // }
 }
 // aswinjith.reubro@gmail.com
 

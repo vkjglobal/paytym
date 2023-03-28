@@ -33,10 +33,12 @@ class PayslipGeneration implements ShouldQueue
     protected $fnpf;
     protected $srt;
     protected $payroll;
+    protected $fromDate;
+    protected $endDate;
 
     public function __construct($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,
                                 $totalDeduction,$allowances,$deductions,$incomeTaxToWithhold,$fnpf_amount,
-                                $srtToWithhold,$payroll)
+                                $srtToWithhold,$payroll,$fromDate,$endDate)
     {
         $this->employee = $employee;
         $this->base_pay = $base_pay;
@@ -51,6 +53,8 @@ class PayslipGeneration implements ShouldQueue
         $this->fnpf = $fnpf_amount;
         $this->srt = $srtToWithhold;
         $this->payroll = $payroll;
+        $this->fromDate = $fromDate;
+        $this->endDate = $endDate;
     }
 
     /**
@@ -73,6 +77,8 @@ class PayslipGeneration implements ShouldQueue
         $fnpf = $this->fnpf;
         $srt = $this->srt;
         $payroll = $this->payroll;
+        $fromDate = $this->fromDate;
+        $endDate = $this->endDate;
     
         $pdf = PDF::loadView('employer.payslip.templates.default',compact('employee',
         'base_pay',
@@ -85,7 +91,9 @@ class PayslipGeneration implements ShouldQueue
         'deductions',
         'income_tax',
         'fnpf',
-        'srt'
+        'srt',
+        'fromDate',
+        'endDate'
          ));
 
         $payslipCount = Payroll::where('employer_id',$employee->employer->id)->count();
