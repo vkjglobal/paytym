@@ -7,6 +7,7 @@ use App\Models\Chat;
 use App\Models\Employer;
 use App\Models\GroupChat;
 use App\Models\User;
+use App\Models\GroupChatMembers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -102,7 +103,7 @@ class ChatController extends Controller
 
         $user = Auth::user();
         if ($request->status == '0') {
-            $chats = GroupChat::where('employee_id', $user->id)->get();
+            $chats = GroupChatMembers::with('group')->where('member_id', $user->id)->get();
         } else {
             $chats = GroupChat::where('admin_id', $user->id)->get();
         }

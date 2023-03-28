@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Payroll;
+use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class PayslipGeneration implements ShouldQueue
@@ -79,7 +80,12 @@ class PayslipGeneration implements ShouldQueue
         $payroll = $this->payroll;
         $fromDate = $this->fromDate;
         $endDate = $this->endDate;
-    
+        $now = Carbon::now();
+        $dateString = $now->format('ymd');
+        $count = Payroll::where('employer_id',$employee->employer->id)->where('created_at', $now)->count();
+        $count_no = ($count + 1);
+        $sequenceString = str_pad($count_no, 3, '0', STR_PAD_LEFT);
+        $paySlipNumber = 'PS' . $dateString . '-' . $sequenceString;
         $pdf = PDF::loadView('employer.payslip.templates.default',compact('employee',
         'base_pay',
         'grossSalary',
@@ -93,14 +99,17 @@ class PayslipGeneration implements ShouldQueue
         'fnpf',
         'srt',
         'fromDate',
-        'endDate'
+        'endDate',
+        'paySlipNumber',
          ));
-
-        $payslipCount = Payroll::where('employer_id',$employee->employer->id)->count();
-        $path = 'pdfs/EMP' . $employee->employer->id . '_PS' . time() . '_' . $employee->id . '.pdf';
-        $pdf->save(storage_path('app/public/pdfs/EMP' . $employee->employer->id . '_PS' . time() . '_' . $employee->id . '.pdf'));
-        $payroll->pay_slip = $path;
+        
+        $filename = 'EMP' . $employee->employer->id . '_PS' . uniqid() . '_' . $employee->id . '.pdf';
+        $path = 'pdfs/' . $filename;
+        $pdf->save(storage_path('app/public/' . $path));
+        $payroll->pay_slip = $filename;
+        $payroll->payslip_number = $paySlipNumber;
         $payroll->save();
+        
 
 
 

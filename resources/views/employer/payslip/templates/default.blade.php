@@ -47,7 +47,7 @@
                                         <td valign="top">
                                             <table style="text-align: left;">
                                                 <tr>
-                                                    <td>Payslip No: <strong>#555555</strong></td>
+                                                    <td>Payslip No: <strong>{{$paySlipNumber}}</strong></td>
                                                 </tr>
                                             </table>
                                         </td>
