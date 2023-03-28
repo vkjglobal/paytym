@@ -176,6 +176,19 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">From date: </td>
+                                                        <td style="width: 40%; text-align: right;">{{$fromDate->format('Y-m-d')}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">End date: </td>
+                                                        <td style="width: 40%; text-align: right;">{{$endDate->format('Y-m-d')}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
                                                     <tr>
                                                         <td style="width: 60%; text-align:left;">Gross Salary:</td>
                                                         <td style="width: 40%; text-align: right;">{{$grossSalary}}</td>
@@ -183,10 +196,6 @@
                                                     <tr>
                                                         <td style="width: 60%; text-align:left;">Net Salary:</td>
                                                         <td style="width: 40%; text-align: right;">{{$netSalary}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 60%; text-align:left;">Total Salary</td>
