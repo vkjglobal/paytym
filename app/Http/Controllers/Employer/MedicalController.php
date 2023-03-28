@@ -30,6 +30,12 @@ class MedicalController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'blood_grp' => '',
+            'allergies' => 'string',
+            'medical_issues' => 'string',
+            'measurement' => 'numeric',
+        ]);
         $data = new EmployeeExtraDetails();
         $data->employee_id = $request->employee_id;
         $data->employer_id = Auth::guard('employer')->id();
@@ -72,6 +78,12 @@ class MedicalController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'blood_grp' => '',
+            'allergies' => 'string',
+            'medical_issues' => 'string',
+            'measurement' => 'numeric',
+        ]);
         $data = EmployeeExtraDetails::findOrFail($id);
         // $data->employee_id = $request->employee_id;
         // $data->employer_id = Auth::guard('employer')->id();
