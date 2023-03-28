@@ -7,6 +7,7 @@ use App\Models\AssignDeduction;
 use App\Models\Deduction;
 use App\Models\Payroll;
 use App\Models\User;
+use App\Models\PaymentAdvance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -39,6 +40,10 @@ class DeductionsController extends Controller
         //     // $deduction->save();
         // }
         $deductions_types = Deduction::select(['id','employer_id','name','description'])->where('employer_id', $employer_id)->get();
+        $payment_advance = PaymentAdvance::where('status', '1')->where('employer_id',$employer_id)->get();
+        if(!isset($payment_advance)){
+            $payment_advance = Null;
+        }
           
 
 
@@ -47,6 +52,7 @@ class DeductionsController extends Controller
                 'message' => "Success",
                 'deductions'=>$deduction,
                 'deductions types'=>$deductions_types,
+                'payment advance' => $payment_advance
             ], 200);
         } else {
             return response()->json([

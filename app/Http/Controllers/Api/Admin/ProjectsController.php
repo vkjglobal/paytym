@@ -28,7 +28,7 @@ class ProjectsController extends Controller
         ->where('employer_id', $request->employer_id)->get();
 
         $total_cost = Project::
-        with(['branch:id,name','employeeproject.user:id,first_name,last_name,image,branch_id','employeeproject.user.branch:id,name'])
+        with(['branch:id,name','employeeproject.user.branch:id,name'])
         ->where('employer_id', $request->employer_id)->get();
 
 

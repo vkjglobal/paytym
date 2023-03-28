@@ -15,7 +15,7 @@ class AttendanceController extends Controller
         $validator = Validator::make($request->all(), [
             'employee_id' =>  'required',
             'status' => 'required',   //0 => reject 1=>approve
-            'date' => 'required',
+            'attendance_id' => 'required',
         ]);
 
         // if validation fails
@@ -27,8 +27,14 @@ class AttendanceController extends Controller
 
         $employee_id = $request->employee_id;
         $status = $request->status;
-        $date = $request->date;
-        $attendance = Attendance::where('user_id', $employee_id)->whereDate('date', $date)->first();
+        $attendance_id = $request->attendance_id;
+
+        if (!$request->filled('reason')) {
+            $reason = 'No reason';
+        }else{
+            $reason = $request->reason;
+        }
+        $attendance = Attendance::where('user_id', $employee_id)->where('id', $attendance_id)->first();
         if ($attendance) {
             if ($status == '0') {
                 $attendance->approve_reject = '0';
@@ -39,7 +45,7 @@ class AttendanceController extends Controller
             $issave = $attendance->save();
             if ($issave) {
                 $otherController = new AuthController();
-                $result = $otherController->push_notification($request,$request->employee_id,$request->reason);
+                $result = $otherController->push_notification($request,$request->employee_id,$reason);
                 return response()->json([
                     'message' => "Action done successfully"
                 ], 200);
@@ -59,7 +65,7 @@ class AttendanceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'employee_id' =>  'required',
-            'date' => 'required',
+            'attendance_id' => 'required',
         ]);
 
         // if validation fails
@@ -68,7 +74,8 @@ class AttendanceController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-        $attendance = Attendance::where('user_id', $request->employee_id)->whereDate('date', $request->date)->first();
+        $attendance_id = $request->attendance_id;
+        $attendance = Attendance::where('user_id', $request->employee_id)->where('id', $attendance_id)->first();
         if ($attendance) {
             if (isset($request->check_in)) {
                 $attendance->check_in = $request->check_in;
