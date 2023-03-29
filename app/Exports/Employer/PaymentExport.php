@@ -9,21 +9,21 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class PaymentExport implements FromCollection, WithHeadings
-// WithMapping
+class PaymentExport implements FromCollection, WithMapping
+// 
 {
-    public function headings(): array
-    {
-        return [
-            // '#',
-            'Bank Name',
-            'Account Number',
-            'Amount',
-            'Salary',
-            'First Name',
-            'Last Name',
-        ];
-    }
+    // public function headings(): array
+    // {
+    //     // return [
+    //     //     // '#',
+    //     //     'Bank Name',
+    //     //     'Account Number',
+    //     //     'Amount',
+    //     //     'Salary',
+    //     //     'First Name',
+    //     //     'Last Name',
+    //     // ];
+    // }
     public function collection()
     {
         $data = DB::table('users')
@@ -33,17 +33,16 @@ class PaymentExport implements FromCollection, WithHeadings
 
         return $data;
     }
-    // public function map($row): array
-    // {
-    //     static $index = 0;
-    //     return [
-    //         ++$index,
-    //         $row->bank,
-    //         $row->account_number,
-    //         $row->paid_salary,
-    //         $row->base_salary,
-    //         $row->first_name,
-    //         $row->last_name,  
-    //     ];
-    // }
+    public function map($row): array
+    {
+        static $index = 0;
+        return [
+            ++$index,
+            $row->bank,
+            $row->account_number,
+            $row->paid_salary,
+            // $row->base_salary,
+            $row->first_name.' '.$row->last_name,  
+        ];
+    }
 }
