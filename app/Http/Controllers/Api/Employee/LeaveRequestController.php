@@ -208,11 +208,11 @@ class LeaveRequestController extends Controller
         $status = $request->status;
         $year = date("Y");
         $now = new \DateTime();
-        $leaveRequest = LeaveRequest::with('user:id,first_name,last_name,branch_id,department_id')->where('employer_id', $employer_id);
+        $leaveRequest = LeaveRequest::with('user:id,first_name,last_name,branch_id,department_id')->where('employer_id', $employer_id)->where('status', 0);
         if ($status == '1') {
             $leaveRequest = $leaveRequest->whereMonth('created_at', Carbon::now()->month)->get();
         } elseif ($status == '2') {
-            $leaveRequest = $leaveRequest->where('created_at', '=', Carbon::yesterday())->get();
+            $leaveRequest = $leaveRequest->whereDate('created_at', '=', Carbon::yesterday())->get();
         } else {
             $leaveRequest = $leaveRequest->whereDate('created_at', '=', $now)->get();
         }
@@ -228,7 +228,7 @@ class LeaveRequestController extends Controller
         $validator = Validator::make($request->all(), [
             'employee_id' =>  'required',
             'approval_status' => 'required',
-            'start_date' => 'required',
+            'leave_request_id' => 'required',
             'reason' => 'required',
 
         ]);
@@ -242,8 +242,9 @@ class LeaveRequestController extends Controller
         $employee_id = $request->employee_id;
         $approval_status = $request->approval_status;
         $start_date = $request->start_date;
+        $leave_request_id = $request->leave_request_id;
         $leave_request = LeaveRequest::where('user_id', $employee_id)->where('status', '0')
-            ->whereDate('start_date', date($start_date))->first();
+            ->where('id', $leave_request_id)->first();
         if ($leave_request) {
             if ($approval_status == '0') {
                 $leave_request->status = '0';
