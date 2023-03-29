@@ -39,13 +39,15 @@ class AttendanceController extends Controller
             if ($status == '0') {
                 $attendance->approve_reject = '0';
                 $attendance->reason = $request->reason;
+                $message = 'Your attendance is rejected.';
             } else {
                 $attendance->approve_reject = '1';
+                $message = 'Your attendance is approved.';
             }
             $issave = $attendance->save();
             if ($issave) {
                 $otherController = new AuthController();
-                $result = $otherController->push_notification($request,$request->employee_id,$reason);
+                $result = $otherController->push_notification($request,$request->employee_id,$message);
                 return response()->json([
                     'message' => "Action done successfully"
                 ], 200);
