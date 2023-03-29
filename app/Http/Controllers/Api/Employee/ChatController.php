@@ -8,7 +8,6 @@ use App\Models\Employer;
 use App\Models\GroupChat;
 use App\Models\GroupChatMembers;
 use App\Models\User;
-use App\Models\GroupChatMembers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
