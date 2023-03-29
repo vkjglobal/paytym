@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Models\Employer;
 use App\Models\GroupChat;
+use App\Models\GroupChatMembers;
 use App\Models\User;
 use App\Models\GroupChatMembers;
 use Illuminate\Http\Request;
@@ -71,9 +72,9 @@ class ChatController extends Controller
         if ($res) {
             return response()->json([
                 'message' => "Success",
-                'hod' => $hod->name,
-                'hod_image' => $hod->logo,
-                'chats' => $chats,
+                // 'hod' => $hod->name,
+                // 'hod_image' => $hod->logo,
+                // 'chats' => $chats,
                 // 'employee' => $employee,
 
             ], 200);
@@ -178,11 +179,23 @@ class ChatController extends Controller
         $group_chat->employer_id=$employer_id;
 
         $issave=$group_chat->save();
+
+
+        for($i=0;$i<count($request->members);$i++){
+            $group_chat_members = new GroupChatMembers();
+            $group_chat_members->group_chat_id = $group_chat->id;
+            $group_chat_members->member_id = $request->members[$i];
+            $group_chat_members->save();
+        }
+
+
+
         if($issave)
         {
             return response()->json([
                 'message' => "Success",
                 'chats' => $group_chat,
+
             ], 200);
         //     foreach ($request->members as $member) {
         //         echo $member['name'];

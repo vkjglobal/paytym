@@ -628,5 +628,5 @@ class PayrollController extends Controller
     //     return Excel::download(new PaymentExport, ''.Carbon::today()->format('Y-m-d').'payroll.csv',\Maatwebsite\Excel\Excel::CSV);
     // }
 }
-// aswinjith.reubro@gmail.com
+
 

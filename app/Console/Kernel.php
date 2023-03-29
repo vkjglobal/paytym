@@ -10,7 +10,8 @@ class Kernel extends ConsoleKernel
     protected $command = [
         "App\Console\Commands\DbBackup",
         "App\Console\Commands\EmploymentOverEmails",
-        "App\Console\Commands\SendLoginCredentials"
+        "App\Console\Commands\SendLoginCredentials",
+        "App\Console\Commands\SplitPayment",
     ];
     
     /**
