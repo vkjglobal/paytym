@@ -89,24 +89,20 @@ class ChatController extends Controller
     public function list_chat_groups(Request $request)
     {
 
-        $validator = Validator::make($request->all(), [
-            'status' =>  'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'status' =>  'required',
+        // ]);
 
         // if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()->first()
-            ], 400);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'message' => $validator->errors()->first()
+        //     ], 400);
+        // }
 
 
         $user = Auth::user();
-        if ($request->status == '0') {
             $chats = GroupChatMembers::with('group')->where('member_id', $user->id)->get();
-        } else {
-            $chats = GroupChat::where('admin_id', $user->id)->get();
-        }
 
         if ($chats->count() > 0) {
             return response()->json([
