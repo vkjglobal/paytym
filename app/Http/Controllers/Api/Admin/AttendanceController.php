@@ -66,18 +66,17 @@ class AttendanceController extends Controller
     public function attendance_edit(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'employee_id' =>  'required',
             'attendance_id' => 'required',
         ]);
-
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
                 'message' => $validator->errors()->first()
             ], 400);
         }
+
         $attendance_id = $request->attendance_id;
-        $attendance = Attendance::where('user_id', $request->employee_id)->where('id', $attendance_id)->first();
+        $attendance = Attendance::where('id', $attendance_id)->first();
         if ($attendance) {
             if (isset($request->check_in)) {
                 $attendance->check_in = $request->check_in;
@@ -111,6 +110,10 @@ class AttendanceController extends Controller
                     'message' => "Something Went Wrong"
                 ], 200);
             }
+        }else{
+            return response()->json([
+                'message' => "Something Went Wrong"
+            ], 200);
         }
         // $attendance->check_in = $now;
         // $attendance->date = $now;
