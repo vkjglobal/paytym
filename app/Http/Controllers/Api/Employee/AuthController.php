@@ -316,7 +316,7 @@ class AuthController extends Controller
 
     public function push_notification(Request $request, $employee_id, $message)
     {
-        $employee_id = $this->employees($employee_id);
+        // $employee_id = $this->employees($employee_id);
         $user = User::find($employee_id);
         if ($user->device_id) {
             $deviceToken = $user->device_id;
