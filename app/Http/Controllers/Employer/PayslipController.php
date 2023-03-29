@@ -52,7 +52,7 @@ class PayslipController extends Controller
         return redirect()->back();
     }
     public function view_payslip(){
-        return view('employer.payslip.templates.default');
+        return view('employer.payslip.templates.default_preview');
     }
 
 

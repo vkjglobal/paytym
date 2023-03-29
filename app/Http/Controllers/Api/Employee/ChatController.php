@@ -138,7 +138,7 @@ class ChatController extends Controller
 
 
         $user = Auth::user();
-        $chats = Chat::where('group_chat_id', $request->group_chat_id)->get();
+        $chats = Chat::with('employee:id,first_name,last_name,image')->where('group_chat_id', $request->group_chat_id)->get();
         if ($chats->count() > 0) {
             return response()->json([
                 'message' => "Success",

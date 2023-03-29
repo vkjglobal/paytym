@@ -23,7 +23,7 @@
                                 @foreach ($ups as $up)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $up->filetype->file_type }}</td>
+                                        <td>{{ optional($up->filetype)->file_type ?? 'no data' }}</td>
                                         <td>{{basename($up->file)}}</td>
                                         <td> <div class="btn-group" role="group" aria-label="Basic example">
                                             <a href="{{route('employer.upload.download',$up->id)}}" class="btn btn-primary">Download</a>
