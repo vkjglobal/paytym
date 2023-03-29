@@ -247,14 +247,16 @@ class LeaveRequestController extends Controller
         if ($leave_request) {
             if ($approval_status == '0') {
                 $leave_request->status = '0';
+                $message = "Your leave request is rejected.";
             } else {
                 $leave_request->status = '1';
+                $message = "Your leave request is approved.";
             }
             $leave_request->reason = $request->reason;
             $issave = $leave_request->save();
             if ($issave) {
                 $otherController = new AuthController();
-                $result = $otherController->push_notification($request,$request->employee_id,$request->reason);
+                $result = $otherController->push_notification($request,$request->employee_id,$message);
                 return response()->json([
                     'message' => "Leave Request Status Updated",
                 ], 200);
