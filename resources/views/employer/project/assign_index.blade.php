@@ -24,7 +24,7 @@
                                 @foreach ($assign_projects as $assign_project)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>@isset($assign_project->user->first_name,$assign_project->user->last_name )
+                                        <td>@isset($assign_project->user->first_name)
                                             {{ $assign_project->user->first_name .' '. $assign_project->user->last_name }}
                                         @endisset</td>
                                         <td>@isset($assign_project->project->name)
