@@ -247,7 +247,7 @@ class LeaveRequestController extends Controller
             ->where('id', $leave_request_id)->first();
         if ($leave_request) {
             if ($approval_status == '0') {
-                $leave_request->status = '0';
+                $leave_request->status = '2';
                 $message = "Your leave request is rejected.";
             } else {
                 $leave_request->status = '1';

@@ -76,6 +76,7 @@ class AttendanceController extends Controller
             $attendance->date = $now;
             $attendance->employer_id = $request->employer_id;
             $attendance->status = '1'; // need to do the status check 
+            $attendance->approve_reject = '0';
             $res = $attendance->save();
             if ($res) {
                 return response()->json([
@@ -179,7 +180,7 @@ class AttendanceController extends Controller
                     $attendance->check_out = $now;
                     $attendance->date = $now;
                     $attendance->employer_id = $request->employer_id;
-                    $attendance->approve_reject = '1';
+                    $attendance->approve_reject = '0';
                     $attendance->status = '1'; // need to do the status check 
                     $res = $attendance->save();
                     if ($res) {
