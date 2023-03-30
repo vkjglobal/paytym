@@ -34,7 +34,8 @@ class MpaisaExport implements FromCollection, WithMapping
             $data = DB::table('users')
             ->join('split_payment', 'users.id', '=', 'split_payment.employee_id')
             ->select('users.phone', 'split_payment.amount','users.first_name', 'users.last_name')
-            ->where('users.status', 1)->where('split_payment.status', 0)->where('split_payment.payment_wallet', 1)->get();
+            ->where('users.status', 1)->where('split_payment.status', 0)->where('split_payment.payment_wallet', '1')
+            ->get();
 
         return $data;
     }

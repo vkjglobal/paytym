@@ -26,10 +26,15 @@ class PaymentExport implements FromCollection, WithMapping
     // }
     public function collection()
     {
+        // $data = DB::table('users')
+        //     ->join('payrolls', 'users.id', '=', 'payrolls.user_id')
+        //     ->select('users.bank', 'users.account_number','payrolls.paid_salary', 'payrolls.base_salary', 'users.first_name','users.last_name')
+        //     ->where('users.status', 1)->where('payrolls.status', 0)->get();
         $data = DB::table('users')
-            ->join('payrolls', 'users.id', '=', 'payrolls.user_id')
-            ->select('users.bank', 'users.account_number','payrolls.paid_salary', 'payrolls.base_salary', 'users.first_name','users.last_name')
-            ->where('users.status', 1)->where('payrolls.status', 0)->get();
+        ->join('split_payment', 'users.id', '=', 'split_payment.employee_id')
+        ->select('users.phone', 'split_payment.amount','users.first_name', 'users.last_name')
+        ->where('users.status', 1)->where('split_payment.status', 0)->where('split_payment.payment_wallet', '2')
+        ->get();
 
         return $data;
     }

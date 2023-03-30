@@ -408,9 +408,44 @@ class AuthController extends Controller
         //}
     }
 
-    public function employees($employee_id){
-        foreach($employee_id as $employee){
-            return $employee;
+    public function chat_notification(Request $request, $employees, $message)
+    {
+        foreach($employees as $employee_id)
+        $user = User::find($employee_id);
+        if ($user->device_id) {
+            $deviceToken = $user->device_id;
+            // $deviceToken ="dhHuifm_TwyPGGHeBcdGge:APA91bGl9CAyrpMCyifrPSfurBn-2rWA7IKKWEBYJhnEPfHW4FaXIYYEktFDjlqeELX_gucKghv4TZwIb2pBP4NrdULOlDMRiMi244ww1eppPJwBueHLmSNWUlF32_HdVz8plQqmmwt0";
+           
+           
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $headers = [
+                'Authorization' => 'key=AAAAmB77ark:APA91bFXkWwXAW_cKzE_dRmc9efC0pHD4R-6tUXArCht88ABJi-50ug3pvDVcxs6Obe_Qj58D_jrJcCuKqkvja7BcVBqCQy_solhOb-1H1KzzCRvFTyicc3wrEJqBmF68mRMDwFR52h3',
+                'Content-Type' => 'application/json'
+            ];
+            $data = [
+                'to' => $deviceToken,
+                'notification' => [
+                    'title' => 'You have a new notification',
+                    'body' => $message
+                ],
+            ];
+            $response = Http::withHeaders($headers)->post($url, $data);
+            
+            // Check for HTTP errors
+            if ($response->failed()) {
+                throw new Exception('Failed to send FCM notification: ' . $response->body());
+            }
+            
+            // Parse the response body
+            $responseBody = $response->json();
+           
+            return response()->json([
+                'message' => 'device id updated'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Sorry'
+            ], 200);
         }
     }
 }

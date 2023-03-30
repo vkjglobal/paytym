@@ -13,6 +13,7 @@ use Carbon\CarbonInterval;
 use App\Http\Controllers\Employer\PayrollController;
 use App\Models\Employer;
 use App\Models\Payroll;
+use App\Models\SplitPayment;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -175,26 +176,110 @@ class PayrollCalculationController extends Controller
             }
         }
 
-        // //sending payroll csv file through email
-        // $export = new PaymentExport();
-        // $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-        // $path = 'exports/payroll.csv';
-        // Mail::send([], [], function ($message) use ($path, $EmployerId) {
-        //     $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
-        //     $finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
-        //     $to = [$hr->email, $finance->email];
-        //     $message->to($to)
-        //             ->subject('Payroll csv file created on:'.Carbon::today())
-        //             ->attach(Storage::path($path), [
-        //                 'as' => 'users.csv',
-        //                 'mime' => 'text/csv'
-        //             ]);
-        // });
-        // Storage::delete($path); 
-        // //end sending
+        //sending payroll csv file through email bank
+        $export = new PaymentExport();
+        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        $path = 'exports/payroll.csv';
+        Mail::send([], [], function ($message) use ($path, $EmployerId) {
+            $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
+            $finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
+            if($finance == null){
+                $to = [$hr->email];
+            }elseif($hr == null){
+                $to = [$finance->email];
+            }elseif($finance == null && $hr == null){
+                $employer = Employer::where('employer_id', $EmployerId)->first();
+                $to = $employer->email;
+            }else{
+                $to = [$hr->email, $finance->email];
+            }
+            $message->to($to)
+                    ->subject('Payroll csv file created on:'.Carbon::today()->format('d-m-Y'))
+                    ->attach(Storage::path($path), [
+                        'as' => 'bank.csv',
+                        'mime' => 'text/csv'
+                    ]);
+        });
+        Storage::delete($path); 
+        $bank = SplitPayment::where('status', 0)->where('payment_wallet', '1')->get();
+        foreach($bank as $b){
+            $b->status = 1;
+            $b->save();
+        }
+        //end sending
+
+        //sending payroll csv file through email mpaisa
+        $export = new MpaisaExport();
+        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        $path = 'exports/payroll.csv';
+        Mail::send([], [], function ($message) use ($path, $EmployerId) {
+            $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
+            $finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
+            if($finance == null){
+                $to = [$hr->email];
+            }elseif($hr == null){
+                $to = [$finance->email];
+            }elseif($finance == null && $hr == null){
+                $employer = Employer::where('employer_id', $EmployerId)->first();
+                $to = $employer->email;
+            }else{
+                $to = [$hr->email, $finance->email];
+            }
+            $message->to($to)
+                    ->subject('Payroll csv file created on:'.Carbon::today()->format('d-m-Y'))
+                    ->attach(Storage::path($path), [
+                        'as' => 'mpaisa.csv',
+                        'mime' => 'text/csv'
+                    ]);
+        });
+        Storage::delete($path); 
+        $mpaisa = SplitPayment::where('status', 0)->where('payment_wallet', '1')->get();
+        foreach($mpaisa as $m){
+            $m->status = 1;
+            $m->save();
+        }
+
+
+        //end sending
+        
+        //sending payroll csv file through email mycash
+        $export = new MycashExport();
+        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        $path = 'exports/payroll.csv';
+        Mail::send([], [], function ($message) use ($path, $EmployerId) {
+            $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
+            $finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
+            if($finance == null){
+                $to = [$hr->email];
+            }elseif($hr == null){
+                $to = [$finance->email];
+            }elseif($finance == null && $hr == null){
+                $employer = Employer::where('employer_id', $EmployerId)->first();
+                $to = $employer->email;
+            }else{
+                $to = [$hr->email, $finance->email];
+            }
+            $message->to($to)
+                    ->subject('Payroll csv file created on:'.Carbon::today()->format('d-m-Y'))
+                    ->attach(Storage::path($path), [
+                        'as' => 'mycash.csv',
+                        'mime' => 'text/csv'
+                    ]);
+        });
+        Storage::delete($path); 
+        $mycash = SplitPayment::where('status', 0)->where('payment_wallet', '0')->get();
+        foreach($mycash as $m){
+            $m->status = 1;
+            $m->save();
+        }
+        //end sending
         
         return response()->json([
             'message' => 'Payroll calculated successfully.',
         ]);
     }
 }
+
+
+        
+
