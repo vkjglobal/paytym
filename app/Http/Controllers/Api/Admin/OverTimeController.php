@@ -104,6 +104,7 @@ class OverTimeController extends Controller
                 ], 200);
             }
         }
+        $overtime->status = 1;
         $issave = $overtime->save();
         if ($issave) {
             return response()->json([

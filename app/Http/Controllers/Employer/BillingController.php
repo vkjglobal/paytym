@@ -80,13 +80,14 @@ class BillingController extends Controller
             // 'Referral_Url' => $request->Referral_Url,
         ]);
         // return $response;
-
-        // if ($response->successful()){
-        //     return view('employer.payment.success');
-        // }
-        // else{
-        //     return view('employer.payment.failed');
-        // }
+        $response = $response->getbody();
+        if ($response->successful()){
+            return ($response);
+            // return view('employer.payment.success');
+        }
+        else{
+            return view('employer.payment.failed');
+        }
     }
 
     public function checkSum($data){

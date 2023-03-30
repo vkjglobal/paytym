@@ -45,9 +45,9 @@
 		<input type="hidden" id="nar_txnCurrency" name="nar_txnCurrency" value="242" />
 		<input type="hidden" id="nar_txnAmount" name="nar_txnAmount" value="20.00" />
 		<input type="hidden" id="nar_AcquirerPaymentReferenceNumber" name="nar_AcquirerPaymentReferenceNumber" value="99YYYXXXXXXXXXXX" />
-		<input type="hidden" id="nar_PrivateData1" name="nar_PrivateData1" value="" />
+		{{-- <input type="hidden" id="nar_PrivateData1" name="nar_PrivateData1" value="" />
 		<input type="hidden" id="nar_PrivateData2" name="nar_PrivateData2" value="" />
-		<input type="hidden" id="nar_PrivateData3" name="nar_PrivateData3" value="" />
+		<input type="hidden" id="nar_PrivateData3" name="nar_PrivateData3" value="" /> --}}
 		<input type="hidden" id="nar_remitterEmail" name="nar_remitterEmail" value="paytym@gmail.in" />
 		<input type="hidden" id="nar_remitterMobile" name="nar_remitterMobile" value="8879873728" />
 		<input type="hidden" id="nar_cardType" name="nar_cardType" value="EX" />
