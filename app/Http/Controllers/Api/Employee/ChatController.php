@@ -64,7 +64,11 @@ class ChatController extends Controller
         $chat->group_chat_id = $request->group_chat_id;
         $res = $chat->save();
         
-        $group_members = GroupChatMembers::where('group_chat_id', $request->group_chat_id)->whereNot('member_id', Auth::user()->id)->pluck('member_id');
+        $group_members = GroupChatMembers::where('group_chat_id', $request->group_chat_id)
+                    ->pluck('member_id');
+                    // $group_members = GroupChatMembers::where('group_chat_id', $request->group_chat_id)
+                    // ->whereNot('member_id', Auth::user()->id)->pluck('member_id');
+                    
         $message = "You have a new message";
 
         $hod = Employer::where('id', $request->employer_id)->first();
