@@ -98,13 +98,14 @@ class OverTimeController extends Controller
                 if (isset($request->reason)) {
                     $overtime->reason = $request->reason;
                 }
+                $overtime->status = '1';
             } else {
                 return response()->json([
                     'message' => "No Records Found"
                 ], 200);
             }
         }
-        $overtime->status = 1;
+        // $overtime->status ='1';
         $issave = $overtime->save();
         if ($issave) {
             return response()->json([

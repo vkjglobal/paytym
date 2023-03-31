@@ -75,9 +75,12 @@ class ChatController extends Controller
         $chats = Chat::with('employer', 'employee:id,first_name,last_name')->where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id , 'group_chat_id' => $request->group_chat_id])->get();
         // $employee = User::where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id])->get();
 
+        $last_message = $request->message;
+        $group_id = $request->group_chat_id;
+
         if ($res) {
             $otherController = new AuthController();
-            $result = $otherController->chat_notification($request,$group_members,$message);
+            $result = $otherController->chat_notification($request,$group_members,$message,$last_message,$group_id);
             return response()->json([
                 'message' => "Success",
                 // 'hod' => $group_members,
