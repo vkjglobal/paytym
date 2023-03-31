@@ -114,7 +114,9 @@ class ChatController extends Controller
 
 
         $user = Auth::user();
-            $chats = GroupChatMembers::with('group')->where('member_id', $user->id)->get();
+            $chats = GroupChatMembers::with(['group', 'group.chats' => function($query){
+                $query->orderBy('id','desc')->first();
+            }])->where('member_id', $user->id)->get();
 
         if ($chats->count() > 0) {
             return response()->json([
