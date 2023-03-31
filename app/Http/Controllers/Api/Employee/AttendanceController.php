@@ -76,7 +76,7 @@ class AttendanceController extends Controller
             $attendance->date = $now;
             $attendance->employer_id = $request->employer_id;
             $attendance->status = '1'; // need to do the status check 
-            $attendance->approve_reject = '0';
+            // $attendance->approve_reject = '0';
             $res = $attendance->save();
             if ($res) {
                 return response()->json([

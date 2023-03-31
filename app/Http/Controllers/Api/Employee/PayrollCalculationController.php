@@ -35,7 +35,7 @@ class PayrollCalculationController extends Controller
                 'message' => $validator->errors()->first(),
             ], 400);
         }
-
+////
         // $payroll_status = $request->payroll_status;
         // if ($payroll_status == '0') {
         //     $payroll=Payroll::where('employer_id', $request->employer_id)
@@ -46,7 +46,7 @@ class PayrollCalculationController extends Controller
         //     ], 200);
 
         // }
-
+////
         $EmployerId = $request->employer_id;
         $employees = User::where('employer_id', $EmployerId)->get();
         $today = Carbon::today();
@@ -274,6 +274,8 @@ class PayrollCalculationController extends Controller
         }
         //end sending
         
+
+
         return response()->json([
             'message' => 'Payroll calculated successfully.',
         ]);

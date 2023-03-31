@@ -27,7 +27,7 @@
                             <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Project<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="project" value="{{ old('project',$roster->project->name ) }}">
+                                <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="project" value=" ">
                                     <option value="">--SELECT--</option>
                                     @foreach ($projects as $project )
                                     <option value="{{$project['id']}}" {{$roster->project_id == $project['id'] ? 'selected':''}}>{{$project['name']}}</option>
