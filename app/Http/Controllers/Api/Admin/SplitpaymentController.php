@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SplitPayment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class SplitpaymentController extends Controller
@@ -44,6 +45,7 @@ class SplitpaymentController extends Controller
     }
     public function split_payment_list(Request $request)
     {
+        $user = Auth::user()->id;
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
         ]);
@@ -53,11 +55,17 @@ class SplitpaymentController extends Controller
             ], 400);
         }
        
-        $split_payment_list = SplitPayment::where('employer_id', $request->employer_id)->get();
-        if ($split_payment_list) {
+        // $split_payment_list = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->get();
+        $mycash = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->where('payment_wallet', '0')->orderBy('id', 'desc')->first();
+        $mpaisa = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->where('payment_wallet', '1')->orderBy('id', 'desc')->first();
+        $bank = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->where('payment_wallet', '2')->orderBy('id', 'desc')->first();
+        if ($mycash || $mpaisa || $bank) {
             return response()->json([
                 'message' => "Success",
-                'split_payment_list'=>$split_payment_list
+                // 'split_payment_list'=>$split_payment_list,
+                'mycash'=>$mycash,
+                'mpaisa'=>$mpaisa,
+                'bank'=>$bank,
             ], 200);
         } else {
             return response()->json([
