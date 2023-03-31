@@ -19,5 +19,9 @@ class GroupChat extends Model
     {
         return $this->hasMany(GroupChatMembers::class);
     }
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'group_chat_id');
+    }
 }
 
