@@ -408,7 +408,7 @@ class AuthController extends Controller
         //}
     }
 
-    public function chat_notification(Request $request, $employees, $message)
+    public function chat_notification(Request $request, $employees, $message, $last_message, $group_id)
     {
         foreach($employees as $employee_id)
         $user = User::find($employee_id);
@@ -427,6 +427,10 @@ class AuthController extends Controller
                 'notification' => [
                     'title' => 'You have a new notification',
                     'body' => $message
+                ],
+                'data' => [
+                    'group_id' => $group_id, 
+                    'message' => $last_message
                 ],
             ];
             $response = Http::withHeaders($headers)->post($url, $data);
