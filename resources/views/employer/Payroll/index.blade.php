@@ -9,9 +9,9 @@
                 <div class="card-body">
                     <div class="row">
                     <h6 class="card-title col-md-9">Payroll</h6>
-                    <a class="btn btn-success float-right col-md-3 mb-3" href="{{route('employer.payroll.export')}}">
+                    {{-- <a class="btn btn-success float-right col-md-3 mb-3" href="{{route('employer.payroll.export')}}">
                         Download Latest Payroll CSV
-                    </a>
+                    </a> --}}
                     </div>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
