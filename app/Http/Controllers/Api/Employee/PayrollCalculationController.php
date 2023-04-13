@@ -53,14 +53,17 @@ class PayrollCalculationController extends Controller
 
         foreach ($employees as $employee) {
             if ($employee->salary_type == "1" && $employee->status == "1") {
-
                 //Taking each employees 
                 if ($employee->payed_date != Null) {
                     $LastPayedDate = $employee->payed_date;
+
                 } else {
                     $LastPayedDate = $employee->employment_start_date;
                 }
+
                 $payPeriod = CarbonPeriod::since($LastPayedDate)->until($today);
+
+
                 if ($employee->pay_period == "1") {
                     $subPeriodLength = CarbonInterval::days(14);
                 } else {
@@ -71,6 +74,7 @@ class PayrollCalculationController extends Controller
                 $subPeriods = [];
 
                 $startDate = $payPeriod->getStartDate();
+
 
                 while ($startDate->lessThan($payPeriod->getEndDate())) {
                     $endDate = $startDate->copy()->add($subPeriodLength)->subDay(); // Subtract one day from the end date

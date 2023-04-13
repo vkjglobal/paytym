@@ -35,7 +35,6 @@ class UpdateUserRequest extends FormRequest
             'postcode' => 'required',
             'country' => 'required',
             'tin' => 'required',
-            'fnpf' => 'required',
             'bank' => 'required',
             'city' => 'required',
             'account_number' => 'required', 

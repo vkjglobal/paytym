@@ -36,10 +36,16 @@ class PayslipGeneration implements ShouldQueue
     protected $payroll;
     protected $fromDate;
     protected $endDate;
+    protected $commission_amount;
+    protected $total_bonus;
+    protected $lwop;
+    protected $nonHolidayDates;
+
+    
 
     public function __construct($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,
                                 $totalDeduction,$allowances,$deductions,$incomeTaxToWithhold,$fnpf_amount,
-                                $srtToWithhold,$payroll,$fromDate,$endDate)
+                                $srtToWithhold,$payroll,$fromDate,$endDate,$commission_amount,$total_bonus,$lwop,$nonHolidayDates)
     {
         $this->employee = $employee;
         $this->base_pay = $base_pay;
@@ -56,6 +62,10 @@ class PayslipGeneration implements ShouldQueue
         $this->payroll = $payroll;
         $this->fromDate = $fromDate;
         $this->endDate = $endDate;
+        $this->commission_amount = $commission_amount;
+        $this->total_bonus = $total_bonus;
+        $this->lwop = $lwop;
+        $this->nonHolidayDates = $nonHolidayDates;
     }
 
     /**
@@ -80,6 +90,10 @@ class PayslipGeneration implements ShouldQueue
         $payroll = $this->payroll;
         $fromDate = $this->fromDate;
         $endDate = $this->endDate;
+        $commission_amount = $this->commission_amount;
+        $total_bonus = $this->total_bonus;
+        $lwop = $this->lwop;
+        $nonHolidayDates = count($this->nonHolidayDates);
         $now = Carbon::now();
         $dateString = $now->format('ymd');
         $count = Payroll::where('employer_id',$employee->employer->id)->where('created_at', $now)->count();
@@ -101,6 +115,10 @@ class PayslipGeneration implements ShouldQueue
         'fromDate',
         'endDate',
         'paySlipNumber',
+        'commission_amount',
+        'total_bonus',
+        'lwop',
+        'nonHolidayDates'
          ));
         
         $filename = 'EMP' . $employee->employer->id . '_PS' . uniqid() . '_' . $employee->id . '.pdf';
