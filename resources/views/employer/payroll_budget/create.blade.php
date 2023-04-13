@@ -17,7 +17,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Year <span class="text-danger">*</span></label>
-                                    <input type="number" min="2000" max="2099" step="1" value="{{Carbon::today()->format('Y')}}"
+                                    <input type="number" min="2000" max="2099" step="1" 
                                         class="form-control @if ($errors->has('year')) is-invalid @endif"
                                         name="year" value="{{ old('year') }}" placeholder="Enter Year" required>
                                     <div class="invalid-feedback">{{ $errors->first('year') }}</div>
@@ -34,7 +34,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Budget<span class="text-danger">*</span></label>
-                                <input type="number"
+                                <input type="float"
                                         class="form-control @if ($errors->has('budget')) is-invalid @endif"
                                         name="budget" value="{{ old('budget') }}" placeholder="Enter budget" required>
                                     

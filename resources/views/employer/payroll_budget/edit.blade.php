@@ -33,7 +33,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Budget<span class="text-danger">*</span></label>
-                                <input type="number"
+                                <input type="float"
                                         class="form-control @if ($errors->has('budget')) is-invalid @endif"
                                         name="budget" value="{{ old('budget', $payroll_budget->budget_amount) }}" placeholder="Enter budget" required>
                                     
