@@ -26,9 +26,9 @@
                                                 <tr>
                                                     <td>Name: <strong>{{$employee->first_name." ".$employee->last_name}}</strong></td>
                                                 </tr>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td>Employee Code: <strong>123456</strong></td>
-                                                </tr>
+                                                </tr> -->
                                             </table>
                                         </td>
                                         <td valign="top">
@@ -47,7 +47,7 @@
                                         <td valign="top">
                                             <table style="text-align: left;">
                                                 <tr>
-                                                    <td>Payslip No: <strong>{{paySlipNumber}}</strong></td>
+                                                    <td>Payslip No: <strong>{{$paySlipNumber}}</strong></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -87,7 +87,7 @@
                                                         <td>&nbsp;</td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 60%;"><strong>Total</strong></td>
+                                                        <td style="width: 60%;">Total</td>
                                                         <td style="width: 40%; text-align: right;"><strong>{{$totalAllowance}}</strong></td>
                                                     </tr>
                                                 </tbody>
@@ -190,6 +190,14 @@
                                                         <td>&nbsp;</td>
                                                     </tr>
                                                     <tr>
+                                                        <td style="width: 60%; text-align:left;">Commission:</td>
+                                                        <td style="width: 40%; text-align: right;">{{$commission_amount}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Bonus:</td>
+                                                        <td style="width: 40%; text-align: right;">{{$total_bonus}}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <td style="width: 60%; text-align:left;">Gross Salary:</td>
                                                         <td style="width: 40%; text-align: right;">{{$grossSalary}}</td>
                                                     </tr>
@@ -214,16 +222,16 @@
                                     <thead>
                                         <tr>
                                             <th style="border: 1px solid #000000;">Working Days</th>
-                                            <th style="border: 1px solid #000000;">Leaves Taken</th>
-                                            <th style="border: 1px solid #000000;">Bonus</th>
+                                            <th style="border: 1px solid #000000;">LWOP</th>
+                                            <th style="border: 1px solid #000000;">Salary type</th>
                                             <th style="border: 1px solid #000000;">Commissions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td style="border: 1px solid #000000;">1</td>
-                                            <td style="border: 1px solid #000000;">2</td>
-                                            <td style="border: 1px solid #000000;">3</td>
+                                            <td style="border: 1px solid #000000;">{{$nonHolidayDates}}</td>
+                                            <td style="border: 1px solid #000000;">{{$lwop}}</td>
+                                            <td style="border: 1px solid #000000;">@if($employee->salary_type == "0") Fixed @elseif ($employee->salary_type == "0") Hourly @endif</td>
                                             <td style="border: 1px solid #000000;">4</td>
                                         </tr>
                                     </tbody>

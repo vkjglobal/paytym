@@ -147,7 +147,10 @@ class PayrollController extends Controller
     }
 
     public function generate_hourly_payroll($employee,$fromDate,$payDate){
+            $endDate = $payDate ;
             $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$payDate])->get();
+            if($attendances){
+
             $attendance_dup = $attendances; 
             $holidays = Leaves::whereBetween('date',[$fromDate ,$payDate])->get();
             
@@ -338,7 +341,8 @@ class PayrollController extends Controller
             $totalEarnings = $base_pay + isset($total_pay) + isset($doubleTimeRate) ?? 0 ;
             $grossSalary = $totalEarnings + $commission_amount + $total_bonus;   //gross pay =  Base Pay + Overtime Pay + Double Pay + Bonus + Commission 
             $netSalary = $grossSalary - ($fnpf_amount + $total_tax) ; //net salary= Gross Pay – (Superannuation + All Taxes)
-           
+            $lwop = 0;
+            $nonHolidayDates = $attendancesWithoutHoliday;
             $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay = Net pay + Allowances - Deductions
             //Payroll Entry
             $user = User::where('id',$employee->id)->first();
@@ -364,7 +368,31 @@ class PayrollController extends Controller
 
             
             $res = $payroll->save();
-    
+            
+            // Payslip Generation
+
+            PayslipGeneration::dispatch($employee,
+                                        $base_pay,
+                                        $grossSalary,
+                                        $netSalary,
+                                        $totalSalary,
+                                        $totalAllowance,
+                                        $totalDeduction,
+                                        $allowances,
+                                        $deductions,
+                                        $IncomeTaxToWithhold,
+                                        $fnpf_amount,
+                                        $srtToWithhold,
+                                        $payroll,
+                                        $fromDate,
+                                        $endDate,
+                                        $commission_amount,
+                                        $total_bonus,
+                                        $lwop,
+                                        $nonHolidayDates
+
+                                        );
+        }
     }
 
     public function generate_fixed_payroll($employee,$fromDate,$endDate){
@@ -601,6 +629,9 @@ class PayrollController extends Controller
             $payroll -> end_date = $endDate;
             
             $res = $payroll->save();
+
+            //Payslip generation
+
             PayslipGeneration::dispatch($employee,
                                         $base_pay,
                                         $grossSalary,
@@ -615,7 +646,11 @@ class PayrollController extends Controller
                                         $srtToWithhold,
                                         $payroll,
                                         $fromDate,
-                                        $endDate
+                                        $endDate,
+                                        $commission_amount,
+                                        $total_bonus,
+                                        $lwop,
+                                        $nonHolidayDates
 
                                         );
 

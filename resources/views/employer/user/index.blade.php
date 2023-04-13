@@ -50,9 +50,6 @@
                                             <a data-toggle="modal" data-target="#sharePublicInfo" data-user-id="{{ $user->id }}"
                                                     class="mr-1 text-info share-info-btn" data-toggle="tooltip" data-placement="top"
                                                     title="Share Information">
-                                                  <!--   <a href="/employer/user-shareinfo/{{$user->id}}"
-                                                    class="mr-1 text-info" data-toggle="tooltip" data-placement="top"
-                                                    title="Share Information"> -->
                                                     
                                                     <i data-feather="share"></i>
                                                 </a>
