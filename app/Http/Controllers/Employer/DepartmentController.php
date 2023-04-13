@@ -44,7 +44,7 @@ class DepartmentController extends Controller
             [(__('Create')), null]
         ];
         //Employer $employer
-        $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
         return view('employer.departments.create', compact('breadcrumbs','branches'));
     }
 
@@ -95,7 +95,7 @@ class DepartmentController extends Controller
             [(__('Departments')), route('employer.department.index')],
             [(__('Edit')), null],
         ];
-        $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        $branches=Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $department = Department::findOrFail($id);   
         return view('employer.departments.edit',compact('breadcrumbs','department','branches'));
     }
@@ -143,7 +143,9 @@ class DepartmentController extends Controller
     public function changeStatus(Request $request){
         $department = Department::find($request->department_id);
         $department->status = $request->status;
-        $res = $department->save();
+        $res=$department->save();
+        if($res){
         return response()->json(['success' => 'Status change successfully.']);
+        }
     }
 }

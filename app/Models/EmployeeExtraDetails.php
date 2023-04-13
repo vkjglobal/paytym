@@ -13,7 +13,7 @@ class EmployeeExtraDetails extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class,'employee_id');
+        return $this->belongsTo(User::class,'employer_id','employer_id');
     }
 
 }

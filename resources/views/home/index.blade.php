@@ -63,7 +63,7 @@
                                         <a class="nav-link" href="#ForEmployees">For Employees</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#HowItWork">Registration Process</a>
+                                        <a class="nav-link" href="#HowItWork">How It Works?</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#pricing">Pricing</a>
@@ -82,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <a href="" class="sticky-button"><img src="{{asset('home_assets/images/logo-jobtym.png')}}" alt=""></a>
+        <a href="#" class="sticky-button"><img src="{{asset('home_assets/images/logo-jobtym.png')}}" alt=""></a>
      </header>
 
 
@@ -457,14 +457,14 @@
                     <div class="row">
                         <div class="col-md-6 pt-2">
                             <div class="d-flex align-items-center justify-content-center justify-content-md-end">
-                                <a href="https://drive.google.com/file/d/1ajueOBPr2k2tohOKSS_J8DldqQxiQSTM/view">
+                                <a href="">
                                     <img src="{{asset('home_assets/images/footer/1 1.png')}}" alt="">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-6 pt-2 ">
                             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                                <a href="" onclick="alert('Under construction');return false;">
+                                <a href="">
                                     <img src="{{asset('home_assets/images/footer/2 1.png')}}" alt="">
                                 </a>
                             </div>
@@ -1081,13 +1081,10 @@
                     <h5 class="mt-4">Quick Links</h5>
                     <ul class="links pt-3">
                         <li><a href="#about" >About</a></li>
-                        <li><a href="#HowItWork" >Registration process</a></li>
-                        <li><a href="#pricing" >Pricing</a></li>
                         <li><a href="#contact" >Contact Us</a></li>
-
-                        <!-- <li><a href="#" >Privacy Policy</a></li> -->
-                        <!-- <li><a href="#" >Terms and Conditions</a></li> -->
-                        <!-- <li><a href="#" >Post a Job</a></li> -->
+                        <li><a href="#" >Privacy Policy</a></li>
+                        <li><a href="#" >Terms and Conditions</a></li>
+                        <li><a href="#" >Post a Job</a></li>
                     </ul>
                 </div>
             </div>
@@ -1095,8 +1092,8 @@
                 <div class="quik-link">
                     <h5 class="mt-4">Download</h5>
                     <div class="links-dow pt-3">
-                        <a href="https://drive.google.com/file/d/1ajueOBPr2k2tohOKSS_J8DldqQxiQSTM/view"><img src="{{asset('home_assets/images/footer/1 1.png')}}" class="pt-2" alt="" srcset=""></a>
-                        <a href="" onclick="alert('Under construction');return false;" ><img src="{{asset('home_assets/images/footer/2 1.png')}}" class="pt-2" alt=""></a>
+                        <a href=""><img src="{{asset('home_assets/images/footer/1 1.png')}}" class="pt-2" alt="" srcset=""></a>
+                        <a href="#"><img src="{{asset('home_assets/images/footer/2 1.png')}}" class="pt-2" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -1132,8 +1129,8 @@
     <script>
         Swal.fire(
             'error!',
-            'Please enter a valid email ID and check again',
-            'warning'
+            '{{ session('error') }}',
+            'success'
         )
     </script>
     @endif

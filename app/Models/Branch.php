@@ -25,9 +25,4 @@ class Branch extends Model
     public function departments(){
         return $this->hasMany(Department::class);
     }
-
-    public function business(){
-        return $this->belongsTo(EmployerBusiness::class, 'employer_business_id');
-    }
-
 }

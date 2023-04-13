@@ -13,7 +13,7 @@ class PayslipController extends Controller
     public function index(){
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('Payslip Settings')), null],
+            [(__('Index')), null],
         ];
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
         return view('employer.payslip.show_business',compact('businesses','breadcrumbs'));
@@ -52,7 +52,7 @@ class PayslipController extends Controller
         return redirect()->back();
     }
     public function view_payslip(){
-        return view('employer.payslip.templates.default_preview');
+        return view('employer.payslip.templates.default');
     }
 
 

@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Models\Employer;
 use App\Models\GroupChat;
-use App\Models\GroupChatMembers;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +18,7 @@ class ChatController extends Controller
     {
         $user = Auth::user();
         $employer_id = $user->employer_id;
-        $chats = Chat::with('employee:id,first_name,last_name')->where('user_id', $user->id)->get();
+        $chats = Chat::where('user_id', $user->id)->get();
         $hod = Employer::where('id', $employer_id)->first();
         $chat_history = Chat::with('employer')->where(['user_id' => Auth::user()->id, 'employer_id' => $employer_id])->get();
 
@@ -44,9 +42,7 @@ class ChatController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
-            'group_chat_id' => 'required',
             'message' =>  'required',
-
         ]);
 
         // if validation fails
@@ -61,33 +57,17 @@ class ChatController extends Controller
         $chat->user_id = Auth::user()->id;
         $chat->employer_id = $request->employer_id;
         $chat->message = $request->message;
-        $chat->group_chat_id = $request->group_chat_id;
         $res = $chat->save();
-        
-        $group_members = GroupChatMembers::where('group_chat_id', $request->group_chat_id)
-                    ->pluck('member_id');
-                    // $group_members = GroupChatMembers::where('group_chat_id', $request->group_chat_id)
-                    // ->whereNot('member_id', Auth::user()->id)->pluck('member_id');
-                    
-        $message = "You have a new message";
 
         $hod = Employer::where('id', $request->employer_id)->first();
-        $chats = Chat::with('employer', 'employee:id,first_name,last_name')->where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id , 'group_chat_id' => $request->group_chat_id])->get();
-        // $employee = User::where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id])->get();
-
-        $last_message = $request->message;
-        $group_id = $request->group_chat_id;
+        $chats = Chat::with('employer')->where(['user_id' => Auth::user()->id, 'employer_id' => $request->employer_id])->get();
 
         if ($res) {
-            $otherController = new AuthController();
-            $result = $otherController->chat_notification($request,$group_members,$message,$last_message,$group_id);
             return response()->json([
                 'message' => "Success",
-                // 'hod' => $group_members,
-                // 'hod_image' => $hod->logo,
-                // 'chats' => $chats,
-                // 'employee' => $employee,
-
+                'hod' => $hod->name,
+                'hod_image' => $hod->logo,
+                'chats' => $chats,
             ], 200);
         } else {
             return response()->json([
@@ -101,22 +81,24 @@ class ChatController extends Controller
     public function list_chat_groups(Request $request)
     {
 
-        // $validator = Validator::make($request->all(), [
-        //     'status' =>  'required',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'status' =>  'required',
+        ]);
 
         // if validation fails
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'message' => $validator->errors()->first()
-        //     ], 400);
-        // }
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
 
 
         $user = Auth::user();
-            $chats = GroupChatMembers::with(['group', 'group.chats' => function($query){
-                $query->orderBy('id','desc')->first();
-            }])->where('member_id', $user->id)->get();
+        if ($request->status == '0') {
+            $chats = GroupChat::where('employee_id', $user->id)->get();
+        } else {
+            $chats = GroupChat::where('admin_id', $user->id)->get();
+        }
 
         if ($chats->count() > 0) {
             return response()->json([
@@ -148,7 +130,7 @@ class ChatController extends Controller
 
 
         $user = Auth::user();
-        $chats = Chat::with('employee:id,first_name,last_name,image')->where('group_chat_id', $request->group_chat_id)->get();
+        $chats = Chat::where('group_chat_id', $request->group_chat_id)->get();
         if ($chats->count() > 0) {
             return response()->json([
                 'message' => "Success",
@@ -192,23 +174,11 @@ class ChatController extends Controller
         $group_chat->employer_id=$employer_id;
 
         $issave=$group_chat->save();
-
-
-        for($i=0;$i<count($request->members);$i++){
-            $group_chat_members = new GroupChatMembers();
-            $group_chat_members->group_chat_id = $group_chat->id;
-            $group_chat_members->member_id = $request->members[$i];
-            $group_chat_members->save();
-        }
-
-
-
         if($issave)
         {
             return response()->json([
                 'message' => "Success",
                 'chats' => $group_chat,
-
             ], 200);
         //     foreach ($request->members as $member) {
         //         echo $member['name'];

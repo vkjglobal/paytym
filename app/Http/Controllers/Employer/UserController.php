@@ -18,11 +18,7 @@ use App\Models\PayPeriod;
 use App\Models\Role;
 use App\Models\LeaveRequest;
 use Auth,Hash;
-use App\Jobs\SendEmployeeInfo;
 use Barryvdh\DomPDF\Facade\Pdf;
-use symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use App\Jobs\EmployeeCreationPushNotification;
-use App\Models\EmployeeExtraDetails;
 use Mail;
 
 class UserController extends Controller
@@ -40,8 +36,8 @@ class UserController extends Controller
                 [(__('Users')), null],
             ];
     
-            $users = User::where('employer_id',Auth::guard('employer')->user()->id)->latest()->get();
-            $roles = Role::get();   
+            $users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
+            $roles = Role::get();
             return view('employer.user.index', compact('breadcrumbs', 'users','roles'));
         }
     }
@@ -57,10 +53,10 @@ class UserController extends Controller
             [(__('Dashboard')), route('employer.user.create')],
             [(__('Users')), null],
         ];
-        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
-        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
-        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
-        // $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $countries = Country::get();
         $roles = Role::get();
         return view('employer.user.create',compact('breadcrumbs','branches','roles','departments','businesses','countries'));
@@ -82,13 +78,15 @@ class UserController extends Controller
      $user->last_name = $validated['last_name'];
      $user->email = $validated['email'];
      $user->branch_id = $validated['branch'];
-     $user->country_id = $validated['country'];
+     $user->country = $validated['country'];
      $user->position = $validated['position'];
      $user->phone = $validated['phone'];
      $user->date_of_birth = $validated['date_of_birth'];
      $user->street = $validated['street'];
+     $user->town = $validated['town'];
      $user->postcode = $validated['postcode'];
      $user->tin = $validated['tin'];
+     $user->fnpf = $validated['fnpf'];
      $user->bank = $validated['bank'];
      $user->city = $validated['city'];
      $user->account_number = $validated['account_number'];
@@ -98,19 +96,12 @@ class UserController extends Controller
      $user->bank_branch_name = $validated['bank_branch'];
      $user->employment_start_date = $validated['start_date'];
      $user->employment_end_date = $validated['end_date'];
-    //  $user->pay_period = $validated['payperiod'];
+     $user->pay_period = $validated['payperiod'];
      
-     if(!empty($validated['hourly_rate'])){
-        $user->rate = $validated['hourly_rate'];
+     if($validated['hourly-rate']){
+        $user->rate = $validated['hourly-rate'];
      }
-
-     if(!empty($validated['payperiod'])){
-        $user->pay_period = $validated['payperiod'];
-     }
-     if(!empty($validated['hourly_pay_period'])){
-        $user->pay_period = $validated['hourly_pay_period'];
-     }
-     if(!empty($validated['fixed-rate'])){
+     if($validated['fixed-rate']){
         $user->rate = $validated['fixed-rate'];
      }
      $user->employee_type = $validated['employeetype'];
@@ -124,7 +115,7 @@ class UserController extends Controller
         $user->extra_hours_at_base_rate = $validated['extra_hours_at_base_rate'];
      }
      
-    //  $user->password = Hash::make($validated['password']);
+     $user->password = Hash::make($validated['password']);
 
      if ($request->hasFile('image')) {
         $path =  $request->file('image')->storeAs(  
@@ -136,10 +127,6 @@ class UserController extends Controller
     }
     $issave = $user->save();
     if($issave){
-        $employeeName = $validated['first_name'];
-        $employeeBranch = Branch::where('id',$validated['branch'])->first()->name;
-        $position = Role::where('id', $validated['position'])->first()->role_name;
-        EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$position,$employeeName);
         notify()->success(__('Created successfully'));
             } else {
                 notify()->error(__('Failed to Create. Please try again'));
@@ -171,9 +158,9 @@ class UserController extends Controller
             [(__('Dashboard')), route('employer.branch.create')],
             [(__('Branch')), null],
         ];
-        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
-        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
-        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $countries = Country::get();
         $roles = Role::get();
         
@@ -189,82 +176,67 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request,User $user)
     {
-     $validated = $request->validated();
-     $user->employer_id = Auth::guard('employer')->user()->id;
-     $user->company = Auth::guard('employer')->user()->company;
-     $user->first_name = $validated['first_name'];
-     $user->last_name = $validated['last_name'];
-     $user->email = $validated['email'];
-     $user->branch_id = $validated['branch'];
-     $user->country_id = $validated['country'];
-     $user->position = $validated['position'];
-     $user->phone = $validated['phone'];
-     $user->date_of_birth = $validated['date_of_birth'];
-     $user->street = $validated['street'];
-     $user->postcode = $validated['postcode'];
-     $user->tin = $validated['tin'];
-     $user->bank = $validated['bank'];
-     $user->city = $validated['city'];
-     $user->account_number = $validated['account_number'];
-     $user->salary_type = $validated['salary_type'];
-     $user->business_id = $validated['business'];
-     $user->department_id = $validated['department'];
-     $user->bank_branch_name = $validated['bank_branch'];
-     $user->employment_start_date = $validated['start_date'];
-     $user->employment_end_date = $validated['end_date'];
-    //  $user->pay_period = $validated['payperiod'];
-     
-     if(!empty($validated['hourly_rate'])){
-        $user->rate = $validated['hourly_rate'];
-     }
-
-     if(!empty($validated['payperiod'])){
+        $validated = $request->validated();
+        $user->employer_id = Auth::guard('employer')->user()->id;
+        $user->company = Auth::guard('employer')->user()->company;
+        $user->first_name = $validated['first_name'];
+        $user->last_name = $validated['last_name'];
+        $user->email = $validated['email'];
+        $user->branch_id = $validated['branch'];
+        $user->country = $validated['country'];
+        $user->position = $validated['position'];
+        $user->phone = $validated['phone'];
+        $user->date_of_birth = $validated['date_of_birth'];
+        $user->street = $validated['street'];
+        $user->town = $validated['town'];
+        $user->postcode = $validated['postcode'];
+        $user->tin = $validated['tin'];
+        $user->fnpf = $validated['fnpf'];
+        $user->bank = $validated['bank'];
+        $user->city = $validated['city'];
+        $user->account_number = $validated['account_number'];
+        $user->salary_type = $validated['salary_type'];
+        $user->business_id = $validated['business'];
+        $user->department_id = $validated['department'];
+        $user->bank_branch_name = $validated['bank_branch'];
+        $user->employment_start_date = $validated['start_date'];
+        $user->employment_end_date = $validated['end_date'];
         $user->pay_period = $validated['payperiod'];
-     }
-     if(!empty($validated['hourly_pay_period'])){
-        $user->pay_period = $validated['hourly_pay_period'];
-     }
-     if(!empty($validated['fixed-rate'])){
-        $user->rate = $validated['fixed-rate'];
-     }
-     $user->employee_type = $validated['employeetype'];
-     if( isset($validated['work_days_per_week'])){
-        $user->workdays_per_week = $validated['work_days_per_week'];
-     }
-     if(isset($validated['total_hours_per_week'])){
-        $user->total_hours_per_week = $validated['total_hours_per_week'];
-     }
-     if(isset($validated['extra_hours_at_base_rate'])){
-        $user->extra_hours_at_base_rate = $validated['extra_hours_at_base_rate'];
-     }
-
-     if(isset($validated['password'])){
+        
+        if($validated['hourly-rate']){
+           $user->rate = $validated['hourly-rate'];
+        }
+        if($validated['fixed-rate']){
+           $user->rate = $validated['fixed-rate'];
+        }
+        $user->employee_type = $validated['employeetype'];
+        if( isset($validated['work_days_per_week'])){
+           $user->workdays_per_week = $validated['work_days_per_week'];
+        }
+        if(isset($validated['total_hours_per_week'])){
+           $user->total_hours_per_week = $validated['total_hours_per_week'];
+        }
+        if(isset($validated['extra_hours_at_base_rate'])){
+           $user->extra_hours_at_base_rate = $validated['extra_hours_at_base_rate'];
+        }
+        
         $user->password = Hash::make($validated['password']);
-     }
-     
-    //  $user->password = Hash::make($validated['password']);
-    
-    $image=$user->image;
-     if ($request->hasFile('image')) {
-        if (Storage::exists('public/'. $image))  {
-            $del=Storage::delete('public/'.$image);
-           
-        } 
-        $path =  $request->file('image')->storeAs(  
-            'uploads/users',
-            urlencode(time()) . '_' . uniqid() . '_' . $request->image->getClientOriginalName(),
-            'public'
-        );
-        $user->image = $path;
-    }
-    $issave = $user->save();
-    if($issave){
-        notify()->success(__('Updated successfully'));
-            } 
-            else {
-        notify()->error(__('Failed to Update. Please try again'));
-            }
-            return redirect()->route('employer.user.index');
+   
+        if ($request->hasFile('image')) {
+           $path =  $request->file('image')->storeAs(  
+               'uploads/users',
+               urlencode(time()) . '_' . uniqid() . '_' . $request->image->getClientOriginalName(),
+               'public'
+           );
+           $user->image = $path;
+       }
+       $issave = $user->save();
+       if($issave){
+           notify()->success(__('Updated successfully'));
+               } else {
+                   notify()->error(__('Failed to Update. Please try again'));
+               }
+               return redirect()->back();
     }
 
     /**
@@ -302,29 +274,33 @@ class UserController extends Controller
         }
     }
 
-    public function SendMailWithPublicInfo(Request $request)
+    public function SendMailWithPublicInfo(Request $request, $user_id)
     {
-        $request = $request->validate([
-            'recipient_mail' => 'required|email',
-            'user_id'=> 'required'
-        ]);
-        $user_id = $request['user_id'];
         $user = User::findOrFail($user_id); 
         $role = Role::where('id',$user->position)->first();
         //dd($role);
         $rolename = $role->role_name;
         //return view('employer.user.publicinformation', compact('user','rolename'));
-        $recipientMail = $request['recipient_mail'];
+       
         $email = $user->email;
         $name = $user->first_name;
         $data=['user'=>$user,'rolename'=>$rolename];
         //dd($data);
-        $data["email"]= $recipientMail;
+        $data["email"]= $email;
         $data["name"] = $name;
-        SendEmployeeInfo::dispatch($data,$user,$rolename);
-        notify()->success(__('Mail Send'));
-        return redirect()->route('employer.user.index');
        
+        $pdf = PDF::LoadView('employer.user.publicinformation',$data, compact('user','rolename'));
+        Mail::send('employer.user.publicinformation',$data,function($message) use ($data, $pdf)
+       { 
+      
+        $message->to($data["email"])
+                ->subject('Employee Information of ' .$data["name"])
+                ->attachData($pdf->output(),"information.pdf");
+       });
+       notify()->success(__('User information shared successfully'));
+       return redirect()->back();
+       
+    
     }
     
     

@@ -546,8 +546,16 @@
                     <span class="link-title">Payroll</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/payroll') ? 'show' : '' }}" id="payroll">
+                <div class="collapse {{ request()->is('employer/payroll*') ? 'show' : '' }}" id="payroll">
                     <ul class="nav sub-menu">
+
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payroll.generate.form') }}"
+                                class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                                Generate 
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('employer.payroll.index') }}"
                                 class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
@@ -560,37 +568,6 @@
             </li>
 
             <!-- Payroll end -->
-            <!-- Payroll budget -->
-
-            <li class="nav-item  {{ request()->is('employer/payroll-budget*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#payroll-budget" role="button" aria-expanded="false"
-                    aria-controls="requests">
-                    <i class="link-icon" data-feather="user-plus"></i>
-                    <span class="link-title">Payroll Budget</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/payroll-budget*') ? 'show' : '' }}" id="payroll-budget">
-                    <ul class="nav sub-menu">
-
-                        <li class="nav-item">
-                            <a href="{{ route('employer.payroll-budget.create') }}"
-                                class="nav-link {{ request()->is('employer/payroll-budget/create') ? 'active' : '' }}">
-                                Create
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.payroll-budget.index') }}"
-                                class="nav-link {{ request()->is('employer/payroll-budget') ? 'active' : '' }}">
-                                List 
-                            </a>
-                        </li>
-                        
-                    </ul>
-                </div>
-            </li>
-
-            
-            <!-- Payroll budget end -->
 
              <!-- Uploads -->
 
@@ -712,7 +689,7 @@
                 <a class="nav-link" data-toggle="collapse" href="#providentfund" role="button" aria-expanded="false"
                     aria-controls="requests">
                     <i class="link-icon" data-feather="user-plus"></i>
-                    <span class="link-title">Provident Fund</span>
+                    <span class="link-title">FNPF</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse {{ request()->is('employer/providentfund*') ? 'show' : '' }}" id="providentfund">
@@ -767,36 +744,10 @@
             </li>
 
             <!--User Capability end -->
-        
-
-                 <!-- Payroll Settings -->
-                 <li class="nav-item {{ request()->is('employer/payroll-settings') ? 'active' : '' }}">
-               
-                    <a class="nav-link" data-toggle="collapse" href="#payroll-setting" role="button" aria-expanded="false"
-                        aria-controls="requests">
-                        <i class="link-icon" data-feather="settings"></i>
-                        <span class="link-title">Payroll Settings</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
-                    </a>
-                    <div class="collapse {{ request()->is('employer/payroll-settings*') ? 'show' : '' }}" id="payroll-setting">
-                        <ul class="nav sub-menu">
-                            <li class="nav-item">
-                                <a href="{{ route('employer.payroll-setting-hourly.index') }}"
-                                    class="nav-link {{ request()->is('employer/payroll-settings') ? 'active' : '' }}">
-                                        Hourly
-                                </a>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </li>
-            <!--Payroll Settings End-->
-
-
 
 
             <!-- Payslip Settings -->
-            <li class="nav-item {{ request()->is('employer/payslip') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
                
                <a class="nav-link" data-toggle="collapse" href="#payslip" role="button" aria-expanded="false"
                    aria-controls="requests">
@@ -808,7 +759,7 @@
                    <ul class="nav sub-menu">
                        <li class="nav-item">
                            <a href="{{ route('employer.payslip.show') }}"
-                               class="nav-link {{ request()->is('employer/payslip/show') ? 'active' : '' }}">
+                               class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
                                 Template
                            </a>
                        </li>
@@ -830,48 +781,12 @@
                </a>
                <div class="collapse {{ request()->is('employer/report*') ? 'show' : '' }}" id="report">
                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.employee') }}"
-                                class="nav-link {{ request()->is('employer/report/employee') ? 'active' : '' }}">
-                                Employees
-                            </a>
-                        </li>
-                        <li class="nav-item">
+                       <li class="nav-item">
                            <a href="{{ route('employer.report.attendance.search') }}"
-                               class="nav-link {{ request()->is('employer/report/attendance*') ? 'active' : '' }}">
+                               class="nav-link {{ request()->is('employer/report') ? 'active' : '' }}">
                                 Attendance
                            </a>
                        </li>
-                       <li class="nav-item">
-                        <a href="{{ route('employer.report.employment_period') }}"
-                            class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
-                             Employment Periods
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.status') }}"
-                            class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
-                             Status Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.allowance') }}"
-                            class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
-                             Allowance Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.deduction') }}"
-                            class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
-                             Deduction Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.payroll') }}"
-                            class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
-                             Payroll Reports
-                        </a>
-                    </li>
                        
                    </ul>
                </div>
@@ -999,24 +914,6 @@
             </li>
 
             <!--payment -->
-
-            <!--check in and check out time -->
-            <li class="nav-item {{ request()->is('employer/check-in-out-time*') ? 'active' : '' }}">
-                <a href="{{ route('employer.checkinout') }}" class="nav-link">
-                    <i class="link-icon" data-feather="clock"></i>
-                    <span class="link-title">Checkin-Checkout time</span>
-                </a>
-            </li>
-            <!--check in and check out time end -->
-
-            <!--Split Payment-->
-            <li class="nav-item {{ request()->is('employer/split_payment*') ? 'active' : '' }}">
-                <a href="{{ route('employer.split_payment.wallet') }}" class="nav-link">
-                    <i class="link-icon" data-feather="dollar-sign"></i>
-                    <span class="link-title">Split Payment</span>
-                </a>
-            </li>
-            <!--Split Payment-->
 
 
 

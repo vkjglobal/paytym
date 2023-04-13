@@ -3,17 +3,15 @@
 namespace App\Exports\Admin;
 
 use App\Models\Employer;
-use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\FromView;
-use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
-class ReportExport implements FromView
+class ReportExport implements FromCollection
 {
-    public function view(): View
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function collection()
     {
-        $companies = Employer::all();
-        return view('admin.reports.export.index', [
-            'companies' => $companies
-        ]);
+        return Employer::all();
     }
 }

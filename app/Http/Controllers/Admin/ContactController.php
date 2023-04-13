@@ -8,7 +8,6 @@ use App\Notifications\AdminContact;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\ContactRequest;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
-use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Mail;
 
 class ContactController extends Controller
@@ -25,9 +24,20 @@ class ContactController extends Controller
     }
 
     public function store(Request $request){
-        
-         try{
-            Mail::send('mail.send-contactusmsg',
+        // $validated = $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required',
+        //     'message' => 'required'
+        // ]);
+        // if($validated->fail()){
+        //     return redirect()->back()->withErrors($validated);
+        // }
+        $result = Contact::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'message' => $request['message']
+        ]);
+         \Mail::send('mail.send-contactusmsg',
              array(
                  'name' => $request->get('name'),
                  'email' => $request->get('email'),
@@ -37,15 +47,9 @@ class ContactController extends Controller
                   $msg->from($request->email);
                   $msg->to('neena.reubro@gmail.com');
                   $msg->subject('New Customer Enquiry');
-               });
-         } catch (TransportExceptionInterface $e){
-            return redirect()->back()->with('error', 'Error Occured');
-        }
-        $result = Contact::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'message' => $request['message']
-        ]);
+               }); 
+        //Mail::to('neena.reubro@gmail.com')->send(new SendMail($result));
+        //dd($result);
         if ($result) {
             return redirect()->back()->with('success', 'Send successfully!');
 

@@ -69,9 +69,7 @@
                                 @foreach ($commissions as $commission)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>@isset($commission->employee->first_name)
-                                            {{ $commission->employee->first_name }}
-                                        @endisset</td>
+                                        <td>{{ $commission->employee->first_name }}</td>
                                         <td>{{ $commission->rate }}</td>
                                         
                                         <td>

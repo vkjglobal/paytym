@@ -1,8 +1,8 @@
 @extends('employer.layouts.app')
 
 @section('content')
-@component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-@endcomponent
+{{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+@endcomponent --}}
 
 <div class="row">
     <div class="col-md-12 stretch-card">
@@ -17,8 +17,8 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Group<span class="text-danger">*</span></label>
-                                <select name="group" class="@if ($errors->has('group')) is-invalid @endif" disabled>
-                                    <option selected="true" disabled="disabled" >Select Group</option>
+                                <select name="group" class="@if ($errors->has('group')) is-invalid @endif" >
+                                    <option selected="true" disabled="disabled" >Select Admin</option>
                                     @foreach($groups as $group)
                                         <option {{ old('group', $group->id) == $groupmembers->group_chat_id ? "selected" : "" }}
                                         value="{{$group->id}}">{{$group->group_name}}</option>
@@ -32,9 +32,9 @@
                     <div class="row" id="" >
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Member<span class="text-danger">*</span></label>
+                                <label class="control-label">Admin<span class="text-danger">*</span></label>
                                 <select name="employee" class="@if ($errors->has('employee')) is-invalid @endif" >
-                                    <option selected="true" disabled="disabled" >Select Member</option>
+                                    <option selected="true" disabled="disabled" >Select Admin</option>
                                     @foreach($employees as $employee)
                                         <option {{ old('employee', $employee->id) == $groupmembers->member_id ? "selected" : "" }}
                                         value="{{$employee->id}}">{{$employee->first_name}}</option>

@@ -17,24 +17,15 @@ class AttendanceController extends Controller
 
     public function index()
     {
-        $breadcrumbs = [
-            [(__('Dashboard')), route('employer.home')],
-            [(__('Attendance')), null],
-        ];
-        $attendances = Attendance::where('employer_id', Auth::guard('employer')->id())->get();
-        return view('employer.attendance.index', compact('breadcrumbs','attendances'));
+        $attendances = Attendance::all();
+        return view('employer.attendance.index', compact('attendances'));
     }
 
 
     public function create()
     {
-        $breadcrumbs = [
-            [(__('Dashboard')), route('employer.home')],
-            [(__('Attendance')), route('employer.attendance.index')],
-            [(__('Create')), null],
-        ];
-        $users = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
-        return view('employer.attendance.create', compact('breadcrumbs','users'));
+        $users = User::where('employer_id', Auth::guard('employer')->id())->get();
+        return view('employer.attendance.create', compact('users'));
     }
 
 
@@ -73,13 +64,8 @@ class AttendanceController extends Controller
 
     public function edit($id)
     {
-        $breadcrumbs = [
-            [(__('Dashboard')), route('employer.home')],
-            [(__('Attendance')), route('employer.attendance.index')],
-            [(__('Edit')), null],
-        ];
         $attendance = Attendance::find($id);
-        return view('employer.attendance.edit', compact('breadcrumbs','attendance'));
+        return view('employer.attendance.edit', compact('attendance'));
     }
 
 

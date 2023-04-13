@@ -14,9 +14,4 @@ class Meeting extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public function meeting_attendees()
-    {
-        return $this->belongsTo(MeetingAttendees::class,'meeting_id');
-    }
 }

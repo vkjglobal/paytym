@@ -116,7 +116,7 @@ class SupportTicketController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->route('employer.supportticket.index');
+        return redirect()->back();
     }
 
     /**

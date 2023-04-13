@@ -52,45 +52,6 @@
                 </div>
             </div>
         </div><!-- Col -->
-         <!-- Password Update -->
-         <div class="col-md-6 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-title">QR code</h6>
-                    @if($qr_code->qr_code)
-                    <div id='qr_code' class="m-3 p-5">{!! $qr_code->qr_code !!}</div>
-                    <button class="btn btn-info float-right" onclick="downloadSvg()" value="{{$admin->company}}">
-                        <i class="link-icon" data-feather="download">Download</i>
-                    </button>
-                    @else
-                    <div id='qr_code' class="m-3 p-5 text-center text-danger">No QR code</div>
-                    @endif
-                </div>
-            </div>
-        </div><!-- Col -->
 
     </div><!-- Row -->
-    {{-- @endsection --}}
-    {{-- {!!QrCode::size(250)->generate('1')!!} --}}
-    {{-- {!! $qr_code->qr_code !!} --}}
-    
 @endsection
-@push('custom_js')
-    <script>
-        function downloadSvg() {
-            const svg = document.getElementById('qr_code');
-            const svgString = new XMLSerializer().serializeToString(svg);
-            const blob = new Blob([svgString], { type: 'image/svg+xml' });
-            const url = URL.createObjectURL(blob);
-
-            const link = document.createElement('a');
-            link.download = 'employer-qr.svg';
-            link.href = url;
-            link.click();
-
-            URL.revokeObjectURL(url);
-            }
-
-
-    </script>
-@endpush

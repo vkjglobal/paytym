@@ -7,7 +7,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Projects</h6>
+                    <h6 class="card-title">Departments</h6>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
@@ -15,8 +15,7 @@
                                     <th>Sl #</th>
                                     <th>Project</th>
                                     <th>Branch</th>
-                                    <th>Business</th>
-                                    <th>Budget</th>
+                                    <th>Department</th>
                                     <th>Description</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -27,15 +26,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $project->name  }}</td>
-                                        <td>{{ optional($project->branch)->name ?? 'no data' }}</td>
-                                        <td>{{ optional($project->business)->name ?? 'no data' }}</td>
-                                        <td>{{ $project->budget }}</td>
+                                        <td>{{ $project->branch->name  }}</td>
+                                        <td>{{ $project->department->dep_name  }}</td>
                                         <td>{{ $project->description}}</td>
-                        
-                                        
-                                        <td>@isset($project->budget)
-                                            {{ $project->budget}}
-                                        @endisset</td>
                                         
                                        
                                         
@@ -90,20 +83,20 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script>
+    <!-- <script>
         $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
-                var project_id = $(this).data('id');
-                console.log(project_id);
+                var department_id = $(this).data('id');
+                console.log(department_id);
 
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('employer.project.change.status') }}',
+                    url: '{{ route('employer.department.change.status') }}',
                     data: {
                         'status': status,
-                        'project_id': project_id
+                        'department_id': department_id
                     },
                     success: function(data) {
                         console.log(data.success)
@@ -111,5 +104,5 @@
                 });
             })
         })
-    </script> 
+    </script> -->
 @endpush

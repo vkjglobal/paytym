@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 class DbBackup extends Command
 {
@@ -30,29 +28,10 @@ class DbBackup extends Command
     public function handle()
     {
         // return Command::SUCCESS;
-        $filename = "backup_".strtotime(now()).'_'.Carbon::today()->format('d-m-Y').".sql";
-        $command = "mysqldump --user=".env('DB_USERNAME')." --password="
-        .env('DB_PASSWORD')." --host=".env('DB_HOST')." ".env('DB_DATABASE')." > "
-        .'storage/app/backup/'.$filename;
-        // dd($command);
+        $filename = "backup_".strtotime(now()).".sql";
+        $command = "mysqldump --user=".env('DB_USERNAME')."--password="
+        .env('DB_PASSWORD')."--host=".env('DB_HOST')." ".env('DB_DATABASE')." > "
+        .storage_path()."/app/backup".$filename;
         exec($command);
-        
-        $filepath = 'storage/app/backup/'.$filename;
-        $localpath = 'C:/Users/Aswinjith/Downloads/'.$filename;
-
-        if (file_exists($filepath)) {
-            // Copy the file to the local directory
-            if (copy($filepath, $localpath)) {
-                return "File downloaded successfully";
-            }
-            else {
-                return "Failed to download file";
-            }
-        }
-        else {
-            // File does not exist
-            return "File not found";
-        }
-        return Command::SUCCESS;
     }
 }

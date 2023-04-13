@@ -23,7 +23,7 @@ class EmployeeController extends Controller
 
 
         $employer_id=$request->employer_id;
-        $employees=User::with('payroll')->with('department')->with('branch')->where('employer_id',$employer_id)->get();
+        $employees=User::where('employer_id',$employer_id)->get();
         if($employees)
         {
             return response()->json([
@@ -100,5 +100,8 @@ class EmployeeController extends Controller
             ], 200);
         }
     }
+
+  
+
 
 }

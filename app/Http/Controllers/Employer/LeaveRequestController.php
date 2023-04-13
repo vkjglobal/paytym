@@ -13,11 +13,11 @@ class LeaveRequestController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.home')],
+            [(__('Dashboard')), route('admin.home')],
             [(__('Leave Requests')), null],
         ];
 
-        $leaveRequests = LeaveRequest::with('user')->where('employer_id', Auth::guard('employer')->id())->latest()->get();
+        $leaveRequests = LeaveRequest::with('user')->latest()->get();
         // dd($leaveRequests);
         return view('employer.leave-requests.index', compact('breadcrumbs', 'leaveRequests'));
     }
@@ -40,7 +40,7 @@ class LeaveRequestController extends Controller
         $req = LeaveRequest::findOrFail($id);
         if($request->approve){
             $req->status = $request->approve;
-            $req->reason = NULL;
+            $req->message = NULL;
             $msg = 'Approved';
         }else{
             $req->status = $request->reject;
@@ -68,7 +68,7 @@ class LeaveRequestController extends Controller
     {
         $req = LeaveRequest::findOrFail($id);
         if($request->message){
-            $req->reason = $request->message;
+            $req->message = $request->message;
         }
         $res = $req->save();
 

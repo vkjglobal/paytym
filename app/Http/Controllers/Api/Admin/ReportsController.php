@@ -25,14 +25,8 @@ class ReportsController extends Controller
 
         $employer_id = $request->employer_id;
 
-        if ($request->employee_id){
-            $extra_details = EmployeeExtraDetails::where('employer_id', $employer_id)
-        ->where('employee_id', $request->employee_id)->with('users')->get();
-        }else{
-            $extra_details = EmployeeExtraDetails::where('employer_id', $employer_id)
+        $extra_details = EmployeeExtraDetails::where('employer_id', $employer_id)
         ->with('users')->get();
-        }
-        
 
 
         if($extra_details)

@@ -34,11 +34,11 @@
                                         <td>{{ $employer->email }}</td>
                                         <td>{{ $employer->country->name }}</td>
                                         <td>
-                                        <button data-id="{{ $employer->id }}" class="status-btn btn {{ $employer->status ? 'btn-success' : 'btn-danger' }} btn-fixed-width">
-                                            {{ $employer->status ? 'Active' : 'Inactive' }}
-                                        </button>
-
-                                </td>
+                                            <input data-id="{{ $employer->id }}" class="toggle-class" type="checkbox"
+                                                data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
+                                                data-on="Active" data-off="InActive"
+                                                {{ $employer->status ? 'checked' : '' }}>
+                                        </td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
@@ -85,33 +85,25 @@
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
-$(function() {
-    $('.status-btn').click(function(event) {
-        event.preventDefault(); // prevent default action
+        $(function() {
+            $('.toggle-class').change(function() {
+                var status = $(this).prop('checked') == true ? 1 : 0;
+                var employer_id = $(this).data('id');
+                console.log(employer_id);
 
-        var status = $(this).hasClass('btn-success') ? 0 : 1;
-        var employer_id = $(this).data('id');
-
-        var confirmed = confirm("Are you sure you want to change the status?");
-        if (confirmed) {
-            $.ajax({
-                type: "GET",
-                dataType: "json",
-                url: '{{ route('admin.employer.change.status') }}',
-                data: {
-                    'status': status,
-                    'employer_id': employer_id
-                },
-                success: function(data) {
-                    console.log(data.success);
-                    var newStatus = (status == 1) ? 'Active' : 'Inactive';
-                    var newClass = (status == 1) ? 'btn-success' : 'btn-danger';
-                    $(this).text(newStatus).removeClass('btn-success btn-danger').addClass(newClass);
-                }.bind(this)
-            });
-        }
-    });
-});
-</script>
-
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '{{ route('admin.employer.change.status') }}',
+                    data: {
+                        'status': status,
+                        'employer_id': employer_id
+                    },
+                    success: function(data) {
+                        console.log(data.success)
+                    }
+                });
+            })
+        })
+    </script>
 @endpush

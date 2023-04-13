@@ -17,10 +17,4 @@ class EmployeeProject extends Model
     public function user(){
         return $this->belongsTo(User::class,'employee_id');
     }
-
-    public function employees_project()
-    {
-        return $this->hasMany(EmployeeProject::class);
-    }
-
 }

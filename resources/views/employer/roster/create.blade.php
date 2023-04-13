@@ -22,34 +22,33 @@
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('employee') }}</div>
                                 </div>
-                        </div><!-- Col -->
-
-                        <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="control-label">Business<span class="text-danger">*</span></label>
-                            <select class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}">
-                                <option value="">--SELECT--</option>
-                                @foreach ($businesses as $business)
-                                <option value="{{$business['id']}} " {{ old('business')==$business['id'] ? 'selected':'' }}>{{$business['name']}}</option>
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback">{{ $errors->first('business') }}</div>
-                        </div>
-                        </div><!-- Col -->
-
-                        <div class="col-sm-4">
+                            </div><!-- Col -->
+                            <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="control-label">Department<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}">
+                                <label class="control-label">Project<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="project" value="{{ old('project') }}">
                                     <option value="">--SELECT--</option>
-                                    @foreach ($departments as $department)
-                                    <option value="{{$department['id']}}" {{ old('department')==$department['id'] ? 'selected':'' }}>{{$department['dep_name']}}</option>
+                                    @foreach ($projects as $project )
+                                    <option value="{{$project['id']}}">{{$project['name']}}</option>
                                     @endforeach
                                 </select>
-                                <div class="invalid-feedback">{{ $errors->first('department') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                  
+                                <div class="invalid-feedback">{{ $errors->first('project') }}</div>
+                                </div>
+                            </div><!-- Col -->
+
+
+                            <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Job Type<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="job_type" value="{{ old('job_type') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($job_types as $job_type )
+                                    <option value="{{$job_type['id']}}">{{$job_type['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('job_type') }}</div>
+                                </div>
+                            </div><!-- Col -->
                         </div><!-- Row -->
 
                         <div class="row">

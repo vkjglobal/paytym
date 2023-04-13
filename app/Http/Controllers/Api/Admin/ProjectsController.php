@@ -23,20 +23,11 @@ class ProjectsController extends Controller
             ], 400);
         }
 
-        $projects = Project::
-        with(['branch:id,name','employeeproject.user:id,first_name,last_name,image,branch_id','employeeproject.user.branch:id,name'])
-        ->where('employer_id', $request->employer_id)->get();
-
-        $total_cost = Project::
-        with(['branch:id,name','employeeproject.user.branch:id,name'])
-        ->where('employer_id', $request->employer_id)->get();
-
-
+        $projects = Project::where('employer_id', $request->employer_id)->get();
         if ($projects) {
             return response()->json([
                 'message' => "Success",
-                'projects lists' => $projects,
-                'total cost' => $total_cost,
+                'projects liste' => $projects,
             ], 200);
         } else {
             return response()->json([

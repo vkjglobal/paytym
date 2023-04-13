@@ -25,8 +25,8 @@ class StoreLeaveRequest extends FormRequest
     {
         return [
             'title' => 'nullable',
-            'start_date' => 'required|date_format:d-m-Y H:i:s',
-            'end_date' => 'required|date_format:d-m-Y H:i:s',
+            'start_date' => 'required|date_format:d-m-Y',
+            'end_date' => 'required|date_format:d-m-Y',
             'type' => 'required',
             'employer_id' => 'required'
         ];

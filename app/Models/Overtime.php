@@ -9,16 +9,4 @@ class Overtime extends Model
 {
     public $table = "overtime";
     use HasFactory;
-
-    public function branch()
-    {
-        return $this->belongsTo(Branch::class,'branch_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class,'employee_id');
-    }
-
-
 }
