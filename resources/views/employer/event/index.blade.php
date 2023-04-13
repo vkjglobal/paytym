@@ -40,7 +40,7 @@
                                         <td>{{ $event->start_date }}</td>
                                         <td>{{ $event->end_date }}</td>
                                         <td>{{ $event->start_time }}</td>
-                                        <td>{{ $event->start_time }}</td>
+                                        <td>{{ $event->end_time }}</td>
                                         <td>
                                             <input data-id="{{ $event->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"

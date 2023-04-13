@@ -114,14 +114,30 @@ class ChatController extends Controller
 
 
         $user = Auth::user();
+            // $chats = GroupChatMembers::with(['group', 'group.chats' => function($query){
+            //     $query->orderBy('id','desc');
+            // }])->where('member_id', $user->id)->get();
+
             $chats = GroupChatMembers::with(['group', 'group.chats' => function($query){
-                $query->orderBy('id','desc')->first();
+                $query->orderBy('id','desc')->get();
             }])->where('member_id', $user->id)->get();
+            
+            foreach ($chats as $chat) {
+                $latestChat[$chat->group->id] = $chat->group->chats->first();
+            }
+
+            $latestChats = GroupChatMembers::with(['group', 'group.chats' => function($query) {
+                $query->orderBy('id', 'desc');
+            }])->where('member_id', $user->id)->get()->map(function($chat) {
+                $chat->latestChat = $chat->group->chats->first();
+                return $chat;
+            });
 
         if ($chats->count() > 0) {
             return response()->json([
                 'message' => "Success",
-                'chats' => $chats,
+                // 'chats' => $chats,
+                'latestChat' => $latestChats,
             ], 200);
         } else {
             return response()->json([

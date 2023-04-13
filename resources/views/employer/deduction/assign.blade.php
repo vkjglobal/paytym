@@ -48,7 +48,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="reply_message">Deduction Amount</label>
-                                                    <input type="number" class="form-control" name="rate"  required>
+                                                    <input type="number" step=any class="form-control" name="rate"  required>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

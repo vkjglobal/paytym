@@ -32,7 +32,7 @@ class PaymentExport implements FromCollection, WithMapping
         //     ->where('users.status', 1)->where('payrolls.status', 0)->get();
         $data = DB::table('users')
         ->join('split_payment', 'users.id', '=', 'split_payment.employee_id')
-        ->select('users.phone', 'split_payment.amount','users.first_name', 'users.last_name')
+        ->select('users.bank', 'users.account_number', 'split_payment.amount','users.first_name', 'users.last_name')
         ->where('users.status', 1)->where('split_payment.status', 0)->where('split_payment.payment_wallet', '2')
         ->get();
 
@@ -41,11 +41,19 @@ class PaymentExport implements FromCollection, WithMapping
     public function map($row): array
     {
         static $index = 0;
+        // return [
+        //     ++$index,
+        //     $row->bank,
+        //     $row->account_number,
+        //     $row->paid_salary,
+        //     // $row->base_salary,
+        //     $row->first_name.' '.$row->last_name,  
+        // ];
         return [
             ++$index,
             $row->bank,
             $row->account_number,
-            $row->paid_salary,
+            $row->amount,
             // $row->base_salary,
             $row->first_name.' '.$row->last_name,  
         ];
