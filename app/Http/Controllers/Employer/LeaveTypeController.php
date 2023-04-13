@@ -18,7 +18,7 @@ class LeaveTypeController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('File Types')), null],
+            [(__('Leave Types')), null],
         ];
 
         $leavetypes = LeaveType::where('employer_id', Auth::guard('employer')->user()->id)->get();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
 use App\Models\GroupChat;
+use App\Models\GroupChatMembers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +18,13 @@ class GroupChatController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Group Chat')), null],
+        ];
         $employer_id = Auth::guard('employer')->id();
         $groupchats = GroupChat::where('employer_id', $employer_id)->get();
-        return view('employer.chat.groupchatindex', compact('groupchats'));
+        return view('employer.chat.groupchatindex', compact('breadcrumbs','groupchats'));
     }
 
     /**
@@ -30,8 +35,9 @@ class GroupChatController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('Chat')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Group Chat')), route('employer.groupchat.index')],
+            [(__('Create')), null],
         ];
         $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
         return view('employer.chat.groupchatcreate', compact('breadcrumbs','employees'));
@@ -59,6 +65,10 @@ class GroupChatController extends Controller
                 notify()->error(__('Already exists'));
             }else{
                 $res = $data->save();
+                $members = new GroupChatMembers();
+                $members->group_chat_id = $data->id;
+                $members->member_id = $request->employee;
+                $members->save();
                 if($res){
                     notify()->success(__('Group Created Successfully.'));
                 }else{
@@ -89,11 +99,16 @@ class GroupChatController extends Controller
     public function edit($id)
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('Chat')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Group Chat')), route('employer.groupchat.index')],
+            [(__('Create')), null],
         ];
+        
         $groupchat = GroupChat::find($id);
-        $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
+        $employees = GroupChatMembers::where('group_chat_id', $id)->get();
+        // return $employees;
+
+        // $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
         return view('employer.chat.groupchatedit', compact('breadcrumbs','employees','groupchat'));
     }
 
@@ -115,7 +130,7 @@ class GroupChatController extends Controller
             $data->admin_id = $request->employee;
             $data->group_name = $request->group_name;
             
-            $user = GroupChat::where('group_name', 'like',  $request->group_name)->first();  
+            $user = GroupChat::where('admin_id', $request->employee)->where('group_name', 'like',  $request->group_name)->first();  
             if($user){
                 notify()->error(__('Already exists'));
             }else{
@@ -127,7 +142,7 @@ class GroupChatController extends Controller
                 }
             }
              
-            return redirect()->back();
+            return redirect()->route('employer.groupchat.index');
     }
 
     /**
@@ -142,6 +157,7 @@ class GroupChatController extends Controller
         $res = $data->delete();
 
         if ($res) {
+            $members = GroupChatMembers::where('group_chat_id', $id)->delete();
             notify()->success(__('Deleted successfully.'));
         } else {
             notify()->error(__('Failed to delete. Please try again'));

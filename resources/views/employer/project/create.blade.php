@@ -20,6 +20,20 @@
                                     <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 </div>
                             </div><!-- Col -->
+
+                            <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Business<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}" required>
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($businesses as $business)
+                                    <option value="{{$business['id']}}">{{$business['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('business') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
                             <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Branch<span class="text-danger">*</span></label>
@@ -32,29 +46,27 @@
                                 <div class="invalid-feedback">{{ $errors->first('branch') }}</div>
                             </div>
                         </div><!-- Col -->
+                       
+
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Department<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}" required>
-                                    <option value="">--SELECT--</option>
-                                    @foreach ($departments as $department)
-                                    <option value="{{$department['id']}}">{{$department['dep_name']}}</option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">{{ $errors->first('department') }}</div>
+                                <label class="control-label">Description <span class="text-danger">*</span></label>
+                                <input type="text"
+                                    class="form-control @if ($errors->has('description')) is-invalid @endif"
+                                    name="description" value="{{ old('description') }}" placeholder="Enter description" required>
+                                <div class="invalid-feedback">{{ $errors->first('description') }}</div>
                             </div>
                         </div><!-- Col -->
 
                         <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="control-label">Description <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                        class="form-control @if ($errors->has('description')) is-invalid @endif"
-                                        name="description" value="{{ old('description') }}" placeholder="Enter description" required>
-                                    <div class="invalid-feedback">{{ $errors->first('description') }}</div>
-                                </div>
-                            </div><!-- Col -->
-
+                            <div class="form-group">
+                                <label class="control-label">Budget <span class="text-danger">*</span></label>
+                                <input type="number"
+                                    class="form-control @if ($errors->has('budget')) is-invalid @endif"
+                                    name="budget" value="{{ old('budget') }}" placeholder="Enter Budget" required>
+                                <div class="invalid-feedback">{{ $errors->first('budget') }}</div>
+                            </div>
+                        </div><!-- Col -->
             
 
                         

@@ -11,7 +11,12 @@ class LeaveRequest extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function leaveType()
+    {
+        return $this->belongsTo(LeaveType::class, 'type');
     }
 
     public function statusCheck()

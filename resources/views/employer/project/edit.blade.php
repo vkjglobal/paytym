@@ -14,13 +14,27 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label">Project Name <span class="text-danger">*</span></label>
+                                    <label class="control-label"> Project Name <span class="text-danger">*</span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('name')) is-invalid @endif"
                                         name="name" value="{{ old('name',$project->name) }}" placeholder="Enter Project Name" required>
                                     <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 </div>
                             </div><!-- Col -->
+
+                            <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Business<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}" required>
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($businesses as $business)
+                                    <option value="{{$business['id']}}" {{$project->business_id == $business->id ? 'selected':'' }}>{{$business['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('business') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
                             <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Branch<span class="text-danger">*</span></label>
@@ -33,18 +47,7 @@
                                 <div class="invalid-feedback">{{ $errors->first('branch') }}</div>
                             </div>
                         </div><!-- Col -->
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">Department<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}" required>
-                                    <option value="">--SELECT--</option>
-                                    @foreach ($departments as $department)
-                                    <option value="{{$department['id']}}" {{$project->department_id == $department->id ? 'selected':'' }}>{{$department['dep_name']}}</option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">{{ $errors->first('department') }}</div>
-                            </div>
-                        </div><!-- Col -->
+                       
 
                         <div class="col-sm-6">
                                 <div class="form-group">
@@ -56,6 +59,15 @@
                                 </div>
                             </div><!-- Col -->
 
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Budget <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                        class="form-control @if ($errors->has('budget')) is-invalid @endif"
+                                        name="budget" value="{{ old('budget',$project->budget) }}" placeholder="Enter Budget" required>
+                                    <div class="invalid-feedback">{{ $errors->first('budget') }}</div>
+                                </div>
+                            </div><!-- Col -->
             
 
                         

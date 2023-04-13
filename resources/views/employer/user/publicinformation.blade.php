@@ -1,80 +1,86 @@
-<table width="100%"><tr><td><div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">First Name <span class="text-danger">-</span></label>
-                                   {{ $user->first_name }}
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Last Name <span class="text-danger">-</span></label>
-                                    
-                                    {{ $user->last_name }}
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Email <span class="text-danger">-</span></label>
-                                    {{ $user->email}}
-                                </div>
-                            </div>
-                        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+</head>
+<body>
+        <h1>{{$user->employer->company}}</h1>
+        <table border="1">
+        <tr>
+            <th colspan="2">Employee Information</th>
+        </tr>
+        <tr>
+            <td>First Name:</td>
+            <td>{{ $user->first_name }}</td>
+        </tr>
+        <tr>
+            <td>Last Name:</td>
+            <td>{{ $user->last_name }}</td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td>{{ $user->email }}</td>
+        </tr>
+        <tr>
+            <td>Phone Number:</td>
+            <td>{{ $user->phone }}</td>
+        </tr>
+        <tr>
+            <td>Date Of Birth:</td>
+            <td>{{ $user->date_of_birth }}</td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td>{{ $user->street }}, {{ $user->town }}, {{ $user->city }}, Pincode: {{ $user->postcode }}</td>
+        </tr>
+        <tr>
+            <td>Country:</td>
+            <td>{{ optional($user->country)->name ?? 'no data' }}</td>
+        </tr>
+        <tr>
+            <td>Tin:</td>
+            <td>{{ $user->tin }}</td>
+        </tr>
+        <tr>
+            <td>FNPF:</td>
+            <td>{{ $user->fnpf }}</td>
+        </tr>
+        <tr>
+            <td>Position:</td>
+            <td>{{ $rolename }}</td>
+        </tr>
+        <tr>
+            <td>Employment start date:</td>
+            <td>{{ $user->employment_start_date }}</td>
+        </tr>
+        </table>
 
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Phone Number <span class="text-danger"> -</span></label>
-                                    {{ $user->phone}}
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Date Of Birth<span class="text-danger"> -</span></label>
-                                    {{ $user->date_of_birth}}
-                                </div>
-                            </div> 
-                        <div class="row">   
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Address<span class="text-danger"> - </span></label>
-                                    {{ $user->street}}, </br> {{ $user->town}}, {{ $user->city}},</br> Pincode :{{ $user->postcode}}
-                                      
-                                    
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Country <span class="text-danger"> - </span></label>
-                                    {{ $user->country}}
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Tin<span class="text-danger"> - </span></label>
-                                    {{ $user->tin}}
-                                </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">FNPF<span class="text-danger"> - </span></label>
-                                    {{ $user->fnpf}}
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Position<span class="text-danger"> - </span></label>
-                                  
-                                   {{ $rolename }}
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Employment start date<span class="text-danger"> - </span></label>
-                                    {{ $user->employment_start_date}}
-                                </div>
-                            </div>
-                        </div></td></tr></table>
+</body>
+</html>

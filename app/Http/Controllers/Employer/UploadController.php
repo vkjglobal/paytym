@@ -95,7 +95,7 @@ class UploadController extends Controller
             [(__('Uploads')), null],
         ];
 
-        return view('employer.uploads.show', compact('breadcrumbs', 'ups','id'));
+        return view('employer.Uploads.show', compact('breadcrumbs', 'ups','id'));
 
     }
 

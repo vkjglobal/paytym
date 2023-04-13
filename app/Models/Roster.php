@@ -19,6 +19,17 @@ class Roster extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function business(){
+
+        return $this->belongsTo(EmployerBusiness::class);
+    }
+
+    public function department(){
+
+        return $this->belongsTo(Department::class);
+    }
+
+     
     public function job_type(){
 
         return $this->belongsTo(JobType::class,'job_id');
