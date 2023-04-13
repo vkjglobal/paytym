@@ -70,7 +70,7 @@ class SplitpaymentController extends Controller
         } else {
             return response()->json([
                 'message' => "Fail"
-            ], 400);
+            ], 200);
         }
     }
 }
