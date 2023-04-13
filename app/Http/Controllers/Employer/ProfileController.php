@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Employer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,8 +22,7 @@ class ProfileController extends Controller
         ];
 
         $admin = Auth::guard('employer')->user();
-        $qr_code = Employer::where('id', $admin->id)->first();
-        return view('employer.profile.index', compact('breadcrumbs', 'admin', 'qr_code'));
+        return view('employer.profile.index', compact('breadcrumbs', 'admin'));
     }
 
     public function store(Request $request)

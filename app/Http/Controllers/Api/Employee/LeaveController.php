@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leaves;
-use App\Models\LeaveType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -96,17 +95,15 @@ class LeaveController extends Controller
         }
 
         $leave_list = Leaves::where('employer_id', $request->employer_id)->get();
-        $leave_types = LeaveType::select('leave_type')->where('employer_id', $request->employer_id)->get();
         if ($leave_list) {
             return response()->json([
                 'message' => "Listed Successfully",
                 'leave_list' =>  $leave_list,
-                'leave_types' =>  $leave_types,
             ], 200);
         } else {
             return response()->json([
                 'message' => "No Records found"
-            ], 200);    
+            ], 200);
         }
     }
 

@@ -7,16 +7,13 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Events</h6>
+                    <h6 class="card-title">Users</h6>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Name</th>
-                                    <th>Business</th>
-                                    <th>Branch</th>
-                                    <th>Department</th>
                                     <th>Place</th>
                                     <th>Description</th>
                                     <th>Start Date</th>
@@ -32,9 +29,6 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $event->name }}</td>
-                                        <td>{{ optional($event->business)->name ?? 'no data' }}</td>
-                                        <td>{{ optional($event->branch)->name ?? 'no data' }}</td>
-                                        <td>{{ optional($event->department)->dep_name ?? 'no data' }}</td>
                                         <td>{{ $event->place }}</td>
                                         <td>{{ $event->description }}</td>
                                         <td>{{ $event->start_date }}</td>
@@ -92,20 +86,20 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script>
+    <!-- <script>
         $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
-                var event_id = $(this).data('id');
-                console.log(event_id);
+                var user_id = $(this).data('id');
+                console.log(user_id);
 
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('employer.event.change.status') }}',
+                    url: '{{ route('employer.user.changestatus') }}',
                     data: {
                         'status': status,
-                        'event_id': event_id
+                        'user_id': user_id
                     },
                     success: function(data) {
                         console.log(data.success)
@@ -113,5 +107,5 @@
                 });
             })
         })
-    </script>
+    </script> -->
 @endpush

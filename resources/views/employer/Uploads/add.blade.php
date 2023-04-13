@@ -6,7 +6,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title"> Upload file</h6>
+                    <h6 class="card-title"> Create Business</h6>
                     <form method="POST" action="{{ route('employer.uploads.store') }}" enctype="multipart/form-data">
                         @csrf
                         

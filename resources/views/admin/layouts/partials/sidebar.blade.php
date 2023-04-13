@@ -197,7 +197,7 @@
             <li class="nav-item {{ request()->is('admin/reports*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#report" role="button" aria-expanded="false" aria-controls="banner">
                     <i class="link-icon" data-feather="users"></i>
-                    <span class="link-title">Reports</span>
+                    <span class="link-title">Country</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse {{ request()->is('admin/report*') ? 'show' : '' }}" id="report">

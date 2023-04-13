@@ -24,9 +24,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $department->dep_name }}</td>
-                                        <td>@isset($department->branch->name)
-                                            {{ $department->branch->name }}
-                                        @endisset</td>
+                                        <td>{{ $department->branch->name }}</td>
                                         <td>
                                             <input data-id="{{ $department->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
@@ -78,27 +76,4 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
- 
-    <script>
-        $(function() {
-            $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var department_id = $(this).data('id');
-                console.log(department_id);
-
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: '{{ route('employer.department.change.status') }}',
-                    data: {
-                        'status': status,
-                        'department_id': department_id
-                    },
-                    success: function(data) {
-                        console.log(data.success)
-                    }
-                });
-            })
-        })
-    </script>
 @endpush

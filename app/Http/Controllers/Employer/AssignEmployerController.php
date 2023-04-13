@@ -20,7 +20,8 @@ class AssignEmployerController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('Projects')), null],
+            [(__('Branches')), route('employer.branch.list')],
+            [(__('Create')), null],
         ];
 
         $assign_projects = EmployeeProject::where('employer_id',Auth::guard('employer')->user()->id)->get();
@@ -36,7 +37,6 @@ class AssignEmployerController extends Controller
     {
             $breadcrumbs = [
                 [(__('Dashboard')), route('employer.home')],
-                [(__('Projects')), route('employer.assign.index')],
                 [(__('Assign Project')), null],
             ];
             $users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
@@ -93,7 +93,6 @@ class AssignEmployerController extends Controller
         $assign_project= EmployeeProject::findOrFail($id);
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('Projects')), route('employer.assign.index')],
             [(__('Edit')), null],
         ];
         $users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
@@ -123,7 +122,7 @@ class AssignEmployerController extends Controller
         } else {
             notify()->error(__('Failed to Update. Please try again'));
         }
-        return redirect()->route('employer.assign.index');
+        return redirect()->back();
     }
 
     /**

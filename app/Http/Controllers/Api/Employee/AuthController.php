@@ -6,18 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Mail\SendOtp;
 use App\Models\LeaveRequest;
 use App\Models\User;
-use App\Models\UserCapabilities;
-use App\Models\Attendance;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Http;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Schema;
 
 class AuthController extends Controller
 {
@@ -45,14 +39,6 @@ class AuthController extends Controller
             $halfday = 0;
 
             $user_id = Auth::user()->id;
-            $lastCheckedIn = Null;
-            $lastAttendance = Attendance::where('user_id',$authUser->id)->latest()->first();
-            if($lastAttendance){
-                if(is_null($lastAttendance->check_out)){
-                    $lastCheckedIn = $lastAttendance->check_in;
-                }
-            }
-               
             $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
             if ($leave) {
                 $casual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'casual')->get();
@@ -64,8 +50,6 @@ class AuthController extends Controller
                 $halfday = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'halfday')->get();
                 $halfday = $halfday->count();
             }
-            $capabilities = UserCapabilities::with('role')->where('role_id', $authUser->position)->get();
-            $capabilities_list = Schema::getColumnListing('user_capabilities');
 
             return response()->json([
                 'message' => "You have successfully logged in!",
@@ -75,9 +59,6 @@ class AuthController extends Controller
                 'absence' => $absence,
                 'annual' => $annual,
                 'halfday' => $halfday,
-                'capabilities' => $capabilities,
-                // 'capabilities_list' => $capabilities_list,
-                'last_checked_in' => $lastCheckedIn
             ], 200);
         } else {
             return response()->json([
@@ -119,7 +100,7 @@ class AuthController extends Controller
     public function confirmOtp(Request $request)
     {
         $authUser = Auth::user();
-
+      
         if ($authUser->otp == $request->otp) {
             return response()->json([
                 'message' => 'Otp matched successfully.'
@@ -264,17 +245,20 @@ class AuthController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         } else {
-            $authUser = User::where('email', $request->email)->first();
-            if ($authUser) {
+            $authUser=User::where('email',$request->email)->first();
+            if($authUser)
+            {
                 $authUser->password = Hash::make($request->password);
                 $authUser->isFirst = 0;
                 $authUser->update();
-            } else {
+            }
+            else
+            {
                 return response()->json([
                     'message' => 'It is not a registered email'
                 ], 200);
             }
-
+     
 
             return response()->json([
                 'message' => 'Password changed successfully.'
@@ -283,173 +267,4 @@ class AuthController extends Controller
     }
 
 
-    public function apply_device_id(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'user_id' =>  'required',
-            'device_id' => 'required'
-        ]);
-        // if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()->first()
-            ], 400);
-        } else {
-            //
-            $user = User::find($request->user_id);
-            if ($user) {
-                $user->device_id = $request->device_id;
-                $issave = $user->save();
-                if ($issave) {
-                    return response()->json([
-                        'message' => 'device id updated'
-                    ], 200);
-                }
-            } else {
-                return response()->json([
-                    'message' => 'something went wrong'
-                ], 200);
-            }
-        }
-    }
-
-
-    public function push_notification(Request $request, $employee_id, $message)
-    {
-        // $employee_id = $this->employees($employee_id);
-        $user = User::find($employee_id);
-        if ($user->device_id) {
-            $deviceToken = $user->device_id;
-            // $deviceToken ="dhHuifm_TwyPGGHeBcdGge:APA91bGl9CAyrpMCyifrPSfurBn-2rWA7IKKWEBYJhnEPfHW4FaXIYYEktFDjlqeELX_gucKghv4TZwIb2pBP4NrdULOlDMRiMi244ww1eppPJwBueHLmSNWUlF32_HdVz8plQqmmwt0";
-           
-           
-            $url = 'https://fcm.googleapis.com/fcm/send';
-            $headers = [
-                'Authorization' => 'key=AAAAmB77ark:APA91bFXkWwXAW_cKzE_dRmc9efC0pHD4R-6tUXArCht88ABJi-50ug3pvDVcxs6Obe_Qj58D_jrJcCuKqkvja7BcVBqCQy_solhOb-1H1KzzCRvFTyicc3wrEJqBmF68mRMDwFR52h3',
-                'Content-Type' => 'application/json'
-            ];
-            $data = [
-                'to' => $deviceToken,
-                'notification' => [
-                    'title' => 'You have a new notification',
-                    'body' => $message
-                ],
-            ];
-            $response = Http::withHeaders($headers)->post($url, $data);
-            
-            // Check for HTTP errors
-            if ($response->failed()) {
-                throw new Exception('Failed to send FCM notification: ' . $response->body());
-            }
-            
-            // Parse the response body
-            $responseBody = $response->json();
-           
-           
-           
-           
-           
-           
-           
-            // $client = new Client([
-            //     'headers' => [
-            //         'Authorization' => 'key=AAAA4cDCVvc:APA91bEcUocR-KUherx0YW48Yv5mdZBKBnW7ZMQnPynTMw-JOddqTeXwo5bc3zwC4IIJ_Pd5UEyDGB0hb5lFAszrk0y5q_gvwbekWUHKJweB-aFiRdIssliYTwCZED__RmEARtnXl1Wx',
-            //         'Content-Type' => 'application/json',
-            //     ],
-            // ]);
-
-            // $response = $client->post('https://fcm.googleapis.com/fcm/send', [
-            //     'json' => [
-            //         'to' => $deviceToken,
-            //         'notification' => [
-            //             'title' => 'Title',
-            //             'body' => $message
-            //         ],
-            //     ],
-            // ]);
-     
-
-            // if ($response->getStatusCode() == 200) {
-            //     dd($response);
-            //     dd("Notification sent successfully");
-            // } else {
-            // dd("Failed to send notification");
-            // }
-
-
-
-
-
-            // $accessToken = "key=AAAA4cDCVvc:APA91bEcUocR-KUherx0YW48Yv5mdZBKBnW7ZMQnPynTMw-JOddqTeXwo5bc3zwC4IIJ_Pd5UEyDGB0hb5lFAszrk0y5q_gvwbekWUHKJweB-aFiRdIssliYTwCZED__RmEARtnXl1Wx";
-            // //$accessToken = $request->bearerToken();
-            // $data = array(
-            //     'body' => 'Hello',
-            //     'title' => $message
-            // );
-            // $json_data = json_encode($data);
-            // //dd($json_data);
-            // $response = Http::withHeaders([
-            //     'Content-Type' => 'application/json',
-            //     'Authorization' => $accessToken
-            // ])->post('https://fcm.googleapis.com/fcm/send', [
-            //     'to' => $device_id,
-            //     'notification' => $json_data,
-            // ]);
-            // dd($response);
-            return response()->json([
-                'message' => 'device id updated'
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'Sorry'
-            ], 200);
-        }
-
-        //}
-    }
-
-    public function chat_notification(Request $request, $employees, $message, $last_message, $group_id)
-    {
-        foreach($employees as $employee_id)
-        $user = User::find($employee_id);
-        if ($user->device_id) {
-            $deviceToken = $user->device_id;
-            // $deviceToken ="dhHuifm_TwyPGGHeBcdGge:APA91bGl9CAyrpMCyifrPSfurBn-2rWA7IKKWEBYJhnEPfHW4FaXIYYEktFDjlqeELX_gucKghv4TZwIb2pBP4NrdULOlDMRiMi244ww1eppPJwBueHLmSNWUlF32_HdVz8plQqmmwt0";
-           
-           
-            $url = 'https://fcm.googleapis.com/fcm/send';
-            $headers = [
-                'Authorization' => 'key=AAAAmB77ark:APA91bFXkWwXAW_cKzE_dRmc9efC0pHD4R-6tUXArCht88ABJi-50ug3pvDVcxs6Obe_Qj58D_jrJcCuKqkvja7BcVBqCQy_solhOb-1H1KzzCRvFTyicc3wrEJqBmF68mRMDwFR52h3',
-                'Content-Type' => 'application/json'
-            ];
-            $data = [
-                'to' => $deviceToken,
-                'notification' => [
-                    'title' => 'You have a new notification',
-                    'body' => $message
-                ],
-                'data' => [
-                    'group_id' => $group_id, 
-                    'message' => $last_message
-                ],
-            ];
-            $response = Http::withHeaders($headers)->post($url, $data);
-            
-            // Check for HTTP errors
-            if ($response->failed()) {
-                throw new Exception('Failed to send FCM notification: ' . $response->body());
-            }
-            
-            // Parse the response body
-            $responseBody = $response->json();
-           
-            return response()->json([
-                'message' => 'device id updated'
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'Sorry'
-            ], 200);
-        }
-    }
 }

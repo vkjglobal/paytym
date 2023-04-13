@@ -27,9 +27,7 @@
                                 @foreach ($leaveRequests as $leaveRequest)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>@isset($leaveRequest->user->first_name)
-                                            {{ $leaveRequest->user->first_name }}
-                                        @endisset</td>
+                                        <td>{{ $leaveRequest->user->first_name }}</td>
                                         <td>{{ $leaveRequest->title }}</td>
                                         <td>{{ $leaveRequest->start_date }}</td>
                                         <td>{{ $leaveRequest->end_date }}</td>
@@ -96,12 +94,12 @@
                                         </td>
                                         <td>
                                             @if($leaveRequest->status == 2)
-                                            <button name="reject" type="submit" value="2" class="text-info mr-2" title="Message"
+                                            <button name="reject" type="submit" value="2" class="text-info mr-2" title="Reject"
                                                     data-toggle="modal" data-target="#exampleModal_{{$leaveRequest->id}}">
                                                         <i data-feather="message-square" ></i>
                                             </button>
                                             @else
-                                            <button name="reject" type="button"  class="text-secondary mr-2" title="Message">
+                                            <button name="reject" type="button"  class="text-secondary mr-2" title="Reject">
                                                         <i data-feather="message-square" ></i>
                                             </button>
                                             @endif
@@ -112,7 +110,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Leave Request Message</h5>
+                                                        <h5 class="modal-title" id="exampleModalLabel">Send Contact Reply</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>

@@ -6,7 +6,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title"> Update Roster</h6>
+                    <h6 class="card-title"> Create Roster</h6>
                     <form method="POST" action="{{ route('employer.roster.update',$roster->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -27,7 +27,7 @@
                             <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Project<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="project" value=" ">
+                                <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="project" value="{{ old('project',$roster->project->name ) }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($projects as $project )
                                     <option value="{{$project['id']}}" {{$roster->project_id == $project['id'] ? 'selected':''}}>{{$project['name']}}</option>
@@ -37,6 +37,19 @@
                                 </div>
                             </div><!-- Col -->
 
+
+                            <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Job Type<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('project')) is-invalid @endif" name="job_type" value="{{ old('job_type',$roster->job_type->name) }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($job_types as $job_type )
+                                    <option value="{{$job_type['id']}}" {{$roster->job_id == $job_type['id'] ? 'selected':''}}>{{$job_type['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('job_type') }}</div>
+                                </div>
+                            </div><!-- Col -->
                         </div><!-- Row -->
 
                         <div class="row">

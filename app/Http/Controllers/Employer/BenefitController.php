@@ -112,7 +112,7 @@ class BenefitController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->route('employer.benefit.index');
+        return redirect()->back();
 
     }
 

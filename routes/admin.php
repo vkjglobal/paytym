@@ -19,7 +19,6 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
-
 // Dashboard
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('contact_store', [ContactController::class, 'store'])->name('contact.store');

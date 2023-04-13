@@ -13,7 +13,7 @@
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
-                                    <th>Business</th>
+                                    <th>Name</th>
                                     <th>Logo</th>
                                     <th>Template</th>
                                     <th>Actions</th>

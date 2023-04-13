@@ -37,7 +37,6 @@ class AllowanceController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('Allowance')), route('employer.allowance.index')],
             [(__('Create')), null]
         ];
         return view('employer.allowance.create', compact('breadcrumbs'));
@@ -88,7 +87,6 @@ class AllowanceController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('Allowance')), route('employer.allowance.index')],
             [(__('Edit')), null]
         ];
         return view('employer.allowance.edit', compact('breadcrumbs','allowance'));
@@ -113,7 +111,7 @@ class AllowanceController extends Controller
         } else {
             notify()->error(__('Failed to Update. Please try again'));
         }
-        return redirect()->route('employer.allowance.index');
+        return redirect()->back();
     }
 
     /**

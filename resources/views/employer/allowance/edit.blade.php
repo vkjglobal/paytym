@@ -23,7 +23,7 @@
                             </div><!-- Col -->
 
                            
-                            {{-- <div class="col-sm-6">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Amount <span class="text-danger">*</span></label>
                                     <input type="number"
@@ -31,7 +31,7 @@
                                         name="rate" value="{{ old('rate',$allowance->rate) }}" placeholder="Enter Business Name" required>
                                     <div class="invalid-feedback">{{ $errors->first('rate') }}</div>
                                 </div>
-                            </div><!-- Col --> --}}
+                            </div><!-- Col -->
                             
                         </div><!-- Row -->
 

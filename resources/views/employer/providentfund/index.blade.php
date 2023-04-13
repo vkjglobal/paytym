@@ -23,9 +23,7 @@
                                 @foreach ($employees as $employee)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>@isset($employee->employee->first_name)
-                                            {{ $employee->employee->first_name }}
-                                        @endisset</td>
+                                        <td>{{ $employee->employee->first_name }}</td>
                                         <td>{{ $employee->user_rate }}</td>
                                         <td>{{ $employee->employer_rate }}</td>
 

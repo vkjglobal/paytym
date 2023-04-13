@@ -19,7 +19,7 @@ class BusinessController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.department.index')],
-            [(__('Business')), null],
+            [(__('departments')), null],
         ];
 
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
@@ -113,7 +113,7 @@ class BusinessController extends Controller
             } else {
                 notify()->error(__('Failed to Update. Please try again'));
             }
-            return redirect()->route('employer.business.index');
+            return redirect()->back();
     }
 
     /**

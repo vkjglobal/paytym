@@ -9,9 +9,7 @@ class Kernel extends ConsoleKernel
 {
     protected $command = [
         "App\Console\Commands\DbBackup",
-        "App\Console\Commands\EmploymentOverEmails",
-        "App\Console\Commands\SendLoginCredentials",
-        "App\Console\Commands\SplitPayment",
+        "App\Console\Commands\CalculatePayroll"
     ];
     
     /**
@@ -24,8 +22,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('db:backup')->daily();
-        $schedule->command('send:employment-over-email')->daily();
-        $schedule->command('send:login_credentials')->twiceDaily(24 ,18);
+        $schedule->command('payroll:hourly')->daily();
+        $schedule->command('payroll:fixed')->daily();
     }
 
     /**

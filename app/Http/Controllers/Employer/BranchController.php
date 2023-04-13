@@ -19,7 +19,7 @@ class BranchController extends Controller
             [(__('Branches')), route('employer.branch.list')],
             [(__('Create')), null],
         ];
-        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->where('status', '1')->get();
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
         $admin = Auth::guard('employer')->user();
         return view('employer.branch.index', compact('breadcrumbs', 'admin','businesses'));
     }
@@ -51,14 +51,14 @@ class BranchController extends Controller
             $branch->account_number = $validated['account_number'];
             // $branch->postcode = $validated['qr_code'];
     
-            // if ($request->hasFile('qr_code')) {
-            //     $path =  $request->file('qr_code')->storeAs(
-            //         'uploads/branch',
-            //         urlencode(time()) . '_' . uniqid() . '_' . $request->qr_code->getClientOriginalName(),
-            //         'public'
-            //     );
-            //     $branch->qr_code = $path;
-            // }
+            if ($request->hasFile('qr_code')) {
+                $path =  $request->file('qr_code')->storeAs(
+                    'uploads/branch',
+                    urlencode(time()) . '_' . uniqid() . '_' . $request->qr_code->getClientOriginalName(),
+                    'public'
+                );
+                $branch->qr_code = $path;
+            }
     
     
             $res = $branch->save();
@@ -79,7 +79,7 @@ class BranchController extends Controller
                 [(__('Branches')), route('employer.branch.list')],
                 [(__('Edit')), null],
             ];
-            $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->where('status', '1')->get();
+            $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
             $branch = Branch::findOrFail($id);   
             return view('employer.branch.edit',compact('breadcrumbs','branch','businesses'));
         
@@ -97,22 +97,22 @@ class BranchController extends Controller
             $branch->country = $validated['country'];
             $branch->bank = $validated['bank'];
             $branch->account_number = $validated['account_number'];
-            // $qr_code=$branch->qr_code;  
-            // if ($request->hasFile('qr_code')) {
-            //     if (Storage::exists('public/'. $qr_code))  {
-            //         $del=Storage::delete('public/'.$qr_code);
+            $qr_code=$branch->qr_code;  
+            if ($request->hasFile('qr_code')) {
+                if (Storage::exists('public/'. $qr_code))  {
+                    $del=Storage::delete('public/'.$qr_code);
                    
-            //     } 
-            //     $path =  $request->file('qr_code')->storeAs(
-            //         'uploads/branch',
-            //         urlencode(time()) . '_' . uniqid() . '_' . $request->qr_code->getClientOriginalName(),
-            //         'public'
-            //     );
+                } 
+                $path =  $request->file('qr_code')->storeAs(
+                    'uploads/branch',
+                    urlencode(time()) . '_' . uniqid() . '_' . $request->qr_code->getClientOriginalName(),
+                    'public'
+                );
             
 
                 
-            //     $branch->qr_code = $path;
-            // }
+                $branch->qr_code = $path;
+            }
     
     
             $res = $branch->save();
@@ -134,11 +134,11 @@ class BranchController extends Controller
         public function destroy($id)
         {
             $branch = Branch::findOrFail($id);
-            // $qr_code=$branch->qr_code;
-            // if (Storage::exists('public/'. $qr_code))  {
-            //     $del=Storage::delete('public/'.$qr_code);
+            $qr_code=$branch->qr_code;
+            if (Storage::exists('public/'. $qr_code))  {
+                $del=Storage::delete('public/'.$qr_code);
                
-            // } 
+            } 
             $res = $branch->delete();
     
             if ($res) {
