@@ -1,26 +1,38 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Payroll</h6>
+                    <div class="row">
+                    <h6 class="card-title col-md-9">Payroll</h6>
+                    {{-- <a class="btn btn-success float-right col-md-3 mb-3" href="{{route('employer.payroll.export')}}">
+                        Download Latest Payroll CSV
+                    </a> --}}
+                    </div>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Name</th>
-                                    <th>Salary</th>
-                                    <th>Payed Salary</th>
-                                    <th>Fund Deduction</th>
-                                    <th>P-tax</th>
+                                    <th>Start date</th>
+                                    <th>End date</th>
+                                    <th>Base salary</th>
+                                    <th>Net salary</th>
+                                    <th>Gross salary</th>
+                                    <th>Paid salary</th>
+                                    <th>Total tax</th>
                                     <th>Total Deduction</th>
+                                    <th>Total allowance</th>
+                                    <th>Total bonus</th>
+                                    <th>Total commission</th>
+                                    <th>Total FNPF</th>
                                     <th>Status</th>
-                                    <td>Payslip</td>
+                                    <th>Payslip</th>
                                     {{-- <td>Actions</td> --}}
 
                                 </tr>
@@ -29,12 +41,19 @@
                                 @foreach ($payrolls as $payroll)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>@isset($payroll->user->first_name) {{ $payroll->user->first_name }}@endisset</td>
-                                        <td>{{ $payroll->salary }}</td>
+                                        <td>{{ optional($payroll->user)->first_name ?? 'Not added' }}</td>
+                                        <td>{{ $payroll->start_date }}</td>
+                                        <td>{{ $payroll->end_date }}</td>
+                                        <td>{{ $payroll->base_salary }}</td>
+                                        <td>{{ $payroll->net_salary }}</td>
+                                        <td>{{ $payroll->gross_salary }}</td>
                                         <td>{{ $payroll->paid_salary }}</td>
-                                        <td>{{ $payroll->fund_deduction }}</td>
-                                        <td>{{ $payroll->p_tax }}</td>
+                                        <td>{{ $payroll->total_tax }}</td>
                                         <td>{{ $payroll->total_deduction }}</td>
+                                        <td>{{ $payroll->total_allowance }}</td>
+                                        <td>{{ $payroll->total_bonus }}</td>
+                                        <td>{{ $payroll->total_commission }}</td>
+                                        <td>{{ $payroll->total_fnpf }}</td>
                                         <td>
                                             @if($payroll->salary - $payroll->total_deduction == $payroll->paid_salary)
                                                 <a href="#" class="btn btn-success">Completed</a>

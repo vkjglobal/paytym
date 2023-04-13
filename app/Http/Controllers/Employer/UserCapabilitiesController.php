@@ -155,7 +155,7 @@ class UserCapabilitiesController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->back();
+        return redirect()->route('employer.usercapabilities.index');
     }
 
     /**

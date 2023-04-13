@@ -24,7 +24,7 @@ class OverTimeController extends Controller
         }
 
         $employer_id = $request->employer_id;
-        $overtime_requests = Overtime::where('employer_id', $employer_id)->get();
+        $overtime_requests = Overtime::with('user.branch')->where('employer_id', $employer_id)->get();
         if ($overtime_requests) {
             return response()->json([
                 'message' => "Listed Successfully",
@@ -98,12 +98,14 @@ class OverTimeController extends Controller
                 if (isset($request->reason)) {
                     $overtime->reason = $request->reason;
                 }
+                $overtime->status = '1';
             } else {
                 return response()->json([
                     'message' => "No Records Found"
                 ], 200);
             }
         }
+        // $overtime->status ='1';
         $issave = $overtime->save();
         if ($issave) {
             return response()->json([

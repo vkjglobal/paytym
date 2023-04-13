@@ -9,4 +9,5 @@ class PayrollSetting extends Model
 {
     use HasFactory;
     public $table = 'payroll_settings';
+    public $timestamps = false;
 }

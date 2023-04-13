@@ -9,6 +9,8 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\JobType;
 use App\Models\Roster;
+use App\Models\EmployerBusiness;
+use App\Models\Department;
 use Auth;
 
 class RosterController extends Controller
@@ -41,10 +43,15 @@ class RosterController extends Controller
             [(__('Dashboard')), route('employer.home')],
             [(__('Create')), null]
         ];
-        $users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $projects = Project::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $users = User::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $job_types = JobType::get();
-        return view('employer.roster.create', compact('breadcrumbs','users','projects','job_types'));
+        return view('employer.roster.create', compact('breadcrumbs',
+                                                      'users',
+                                                      'job_types',
+                                                      'businesses',
+                                                      'departments'));
     }
 
     /**
@@ -58,8 +65,8 @@ class RosterController extends Controller
         $request = $request->validated();
         $roster = new Roster();
         $roster->user_id = $request['employee'];
-        $roster->project_id = $request['project'];
-        $roster->job_id = $request['job_type'];
+        $roster->business_id = $request['business'];
+        $roster->department_id = $request['department'];
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
         $roster->start_time = $request['start_time'];
@@ -114,8 +121,8 @@ class RosterController extends Controller
     {
         $request = $request->validated();
         $roster->user_id = $request['employee'];
-        $roster->project_id = $request['project'];
-        $roster->job_id = $request['job_type'];
+        $roster->business_id = $request['business'];
+        $roster->department_id = $request['department'];
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
         $roster->start_time = $request['start_time'];
@@ -127,7 +134,7 @@ class RosterController extends Controller
                 } else {
                     notify()->error(__('Failed to Update. Please try again'));
                 }
-                return redirect()->back();
+                return redirect()->route('employer.roster.index');
     }
 
     /**

@@ -24,13 +24,21 @@ use App\Http\Controllers\Employer\LeaveTypeController;
 use App\Http\Controllers\Employer\FileTypeController;
 use App\Http\Controllers\Employer\BenefitController;
 use App\Http\Controllers\Employer\BillingController;
+use App\Http\Controllers\Employer\CheckInOutTime;
 use App\Http\Controllers\Employer\SupportTicketController;
 use App\Http\Controllers\Employer\UserCapabilitiesController;
 use App\Http\Controllers\Employer\PayslipController;
+use App\Http\Controllers\Employer\PayrollSettingsController;
 use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Employer\GroupChatController;
-
-
+use App\Http\Controllers\Employer\EventController;
+use App\Http\Controllers\Employer\MedicalController;
+use App\Http\Controllers\Employer\PayrollBudgetController;
+use App\Http\Controllers\Employer\SplitPaymentController;
+use App\Models\Employer;
+use App\Models\PayrollBudget;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Login
@@ -78,8 +86,12 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('leave-type', LeaveTypeController::class)->except(['show']);
 
 
+    //Employee Medical Information
+    Route::resource('medical', MedicalController::class);
+    Route::get('medical/add/{id}', [MedicalController::class, 'add'])->name('medical.add');
+    Route::get('payroll/export', [PayrollController::class, 'export'])->name('payroll.export');
 
-
+    
     Route::get('payment-requests', [PaymentRequestController::class, 'index'])->name('payment.requests');
 
 
@@ -99,11 +111,12 @@ Route::middleware('employer.auth')->group(function () {
     //Users
     Route::resource('user', UserController::class)->except(['show']);
     Route::get('user-change-status', [UserController::class, 'changeStatus'])->name('user.changestatus');
-    Route::get('user-shareinfo/{id}',[UserController::class,'SendMailWithPublicInfo'])->name('user.user-shareinfo');
+    Route::post('user-shareinfo',[UserController::class,'SendMailWithPublicInfo'])->name('user.user-shareinfo');
     
     
     //Events
     Route::resource('event', EventController::class)->except(['show']);
+    Route::get('event-change-status', [EventController::class, 'changeStatus'])->name('event.change.status');
    
     //Benefits
     Route::resource('benefit', BenefitController::class)->except(['show']);
@@ -119,6 +132,7 @@ Route::middleware('employer.auth')->group(function () {
    
     //Projects
     Route::resource('project',ProjectController::class)->except(['show']);
+    Route::get('project-change-status', [ProjectController::class, 'changeStatus'])->name('project.change.status');
     Route::resource('project/assign',AssignEmployerController::class)->except(['show']);
     Route::get('project/assign/search',[AssignEmployerController::class,'search'])->name('project.assign.search'); //project assign
 
@@ -178,13 +192,70 @@ Route::middleware('employer.auth')->group(function () {
     Route::post('payslip/store', [PayslipController::class,'store'])->name('payslip.store');
 
     //Report
-    Route::get('report/attendance/search-form',[ReportController::class,'attendance_search_form'])->name('report.attendance.search_form');
-    Route::get('report/attendance/search',[ReportController::class,'attendance_search'])->name('report.attendance.search');
+    Route::get('report/attendance',[ReportController::class,'attendance_index'])->name('report.attendance.search');
+    Route::post('report/attendance/filter',[ReportController::class,'attendance_filter'])->name('report.attendance.filter');
+    Route::get('report/attendance/export',[ReportController::class,'attendance_filter_export'])->name('report.attendance.export');
 
+    Route::get('report/employment_period',[ReportController::class,'employment_period_index'])->name('report.employment_period');
+    Route::get('report/employment_period/filter',[ReportController::class,'employee_period_filter'])->name('report.employment_period.filter');
+    Route::get('report/employment_period/export',[ReportController::class,'employment_period_export'])->name('report.employment_period.export');
+    /////Ajax get
+    Route::get('report/employment_period/get_branch/{id}',[ReportController::class,'employee_period_get_branch'])->name('report.employment_period.get_branch');
+    Route::get('report/employment_period/get_department/{id}',[ReportController::class,'employee_period_get_department'])->name('report.employment_period.get_department');
+    Route::get('report/employment_period/get_user/{id}',[ReportController::class,'employee_period_get_user'])->name('report.employment_period.get_user');
+    /////////////
+    Route::get('report/employee',[ReportController::class,'employee_list_index'])->name('report.employee');
+    Route::get('report/employee/filter',[ReportController::class,'employee_list_filter'])->name('report.employee.filter');
+    Route::get('report/employee/export',[ReportController::class,'employee_list_export'])->name('report.employee.export');
+
+    Route::get('report/status',[ReportController::class,'status_list_index'])->name('report.status');
+
+    Route::get('report/status/business',[ReportController::class,'status_business'])->name('report.status.business');
+    Route::get('report/status/business/export',[ReportController::class,'status_business_export'])->name('report.status.business.export');
+    Route::get('report/status/business/export/print',[ReportController::class,'status_business_export_print'])->name('report.status.business.export.print');
+
+    Route::get('report/status/branch',[ReportController::class,'status_branch'])->name('report.status.branch');
+    Route::get('report/status/branch/export',[ReportController::class,'status_branch_export'])->name('report.status.branch.export');
+    
+    Route::get('report/status/department',[ReportController::class,'status_department'])->name('report.status.department');
+    Route::get('report/status/department/export',[ReportController::class,'status_department_export'])->name('report.status.department.export');
+
+    Route::get('report/status/project',[ReportController::class,'status_project'])->name('report.status.project');
+    Route::get('report/status/project/export',[ReportController::class,'status_project_export'])->name('report.status.project.export');
+
+    Route::get('report/allowance',[ReportController::class,'allowane_index'])->name('report.allowance');
+    Route::get('report/allowance/view/{id}',[ReportController::class,'allowance_view'])->name('report.allowance.view');
+    Route::get('report/allowance/export',[ReportController::class,'allowance_export'])->name('report.allowance.export');
+
+    Route::get('report/deduction',[ReportController::class,'deduction_index'])->name('report.deduction');
+    Route::get('report/deduction/view/{id}',[ReportController::class,'deduction_view'])->name('report.deduction.view');
+    Route::get('report/deduction/export',[ReportController::class,'deduction_export'])->name('report.deduction.export');
+
+    Route::get('report/payroll',[ReportController::class,'payroll_index'])->name('report.payroll');
+    Route::get('report/payroll/export',[ReportController::class,'payroll_export'])->name('report.payroll.export');
 
     //Billing
     Route::post('/billing', [BillingController::class,'index'])->name('billing');
     Route::post('/billing/pay', [BillingController::class,'pay'])->name('billing.pay');
     Route::get('/billing/plan', [BillingController::class,'plan'])->name('billing.plan');
-    
-});
+    Route::get('/billing/invoice', [BillingController::class,'invoice'])->name('billing.invoice');
+
+    //Payroll settings 
+    Route::get('payroll-setting-hourly',[PayrollSettingsController::class,'index'])->name('payroll-setting-hourly.index');
+    Route::get('payroll-setting-hourly/create/{id}',[PayrollSettingsController::class,'create'])->name('payroll-setting-hourly.create');
+    Route::post('payroll-setting-hourly/store', [PayrollSettingsController::class,'store'])->name('payroll-setting-hourly.store');
+
+
+    // checkin checkout time
+    Route::get('check-in-out-time',[CheckInOutTime::class,'index'])->name('checkinout');
+    Route::post('check-in-out-time/update/{id}',[CheckInOutTime::class,'update'])->name('checkinout.update');
+
+    //payroll budget
+    Route::resource('payroll-budget', PayrollBudgetController::class);
+
+
+    //splitpayment
+    Route::get('split_payment',[SplitPaymentController::class,'index'])->name('split_payment.wallet');
+
+  });
+

@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="{{ asset('admin_assets/css/demo_1/style.css') }}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('admin_assets/images/favicon.png') }}" />
+    <style>
+         .auth-page .auth-left-wrapper {
+            background-image: url('../admin_assets/images/employer-login.jpeg');
+            background-position: center;
+        }
+    </style>
 </head>
 
 <body>

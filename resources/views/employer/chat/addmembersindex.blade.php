@@ -1,7 +1,7 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -26,9 +26,15 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $groupmember->group->group_name  }}</td>
-                                        <td>@isset($groupmember->employee->first_name)
-                                            {{ $groupmember->employee->first_name  }}
-                                        @endisset</td>
+                                        @if($groupmember->group->admin_id == $groupmember->member_id)
+                                            <td class="text-danger">@isset($groupmember->employee->first_name)
+                                                {{ $groupmember->employee->first_name  }}
+                                            @endisset</td>
+                                        @else
+                                            <td>@isset($groupmember->employee->first_name)
+                                                {{ $groupmember->employee->first_name  }}
+                                            @endisset</td>
+                                        @endif
                                         {{-- <td>{{ $groupmember->department->dep_name  }}</td>
                                         <td>{{ $groupmember->description}}</td> --}}
                                         
@@ -40,6 +46,28 @@
                                                 data-on="Active" data-off="InActive"
                                                 {{ $groupmember->status ? 'checked' : '' }}>
                                         </td> --}}
+
+                                        @if($groupmember->group->admin_id == $groupmember->member_id)
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+
+                                                <!-- Edit button -->
+                                                <a 
+                                                    class="mr-1 text-secondary" data-toggle="tooltip" data-placement="top"
+                                                    title="Edit">
+                                                    <i data-feather="edit"></i>
+                                                </a>
+
+                                                <!-- Delete button -->
+                                                <button type="button" class="text-secondary"
+                                                     title="Delete">
+                                                    <i data-feather="trash"></i>
+                                                </button>
+                    
+
+                                            </div>
+                                        </td>
+                                        @else
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
@@ -66,6 +94,35 @@
 
                                             </div>
                                         </td>
+                                        @endif
+
+                                        
+                                        {{-- <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+
+                                                <!-- Edit button -->
+                                                <a href="{{ route('employer.groupmember.edit', $groupmember->id) }}"
+                                                    class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
+                                                    title="Edit">
+                                                    <i data-feather="edit"></i>
+                                                </a>
+
+                                                <!-- Delete button -->
+                                                <button type="button" class="text-danger"
+                                                    onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
+                                                        document.getElementById('delete-data-{{ $groupmember->id }}').submit();}"
+                                                    data-toggle="tooltip" data-placement="top" title="Delete">
+                                                    <i data-feather="trash"></i>
+                                                </button>
+                                                <form id="delete-data-{{ $groupmember->id }}"
+                                                    action="{{ route('employer.groupmember.destroy', $groupmember->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+
+                                            </div>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>

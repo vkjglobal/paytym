@@ -63,6 +63,9 @@ class Employer extends Authenticatable
     public function country(){
         return $this->belongsTo(Country::class);
     }
+    public function surcharge(){
+        return $this->hasOne(Surcharge::class);
+    }
 
     public function get_active_employees()
     {

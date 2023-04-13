@@ -42,20 +42,35 @@ class PaymentRequestController extends Controller
         }
     }
 
-    public function payslip()
+    public function payslip(Request $request)
     {
         $user = Auth::user();
 
-        $payroll = Payroll::where('user_id', $user->id)->orderBy('id', 'DESC')->first();
-        if ($payroll) {
+        $validator = Validator::make($request->all(), [
+            'year' =>  'required',
+            'month' =>  'required',
+        ]);
+
+        // if validation fails
+        if ($validator->fails()) {
             return response()->json([
-                'message' => "Success",
-                "payroll" => $payroll,
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => "No Records"
+                'message' => $validator->errors()->first()
             ], 400);
+        } else {
+            // $payroll = Payroll::where('user_id', $user->id)->orderBy('id', 'DESC')->first();
+            $payroll = Payroll::whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)
+                                ->where('user_id', $user->id)->orderBy('id', 'DESC')->get();
+
+            if ($payroll) {
+                return response()->json([
+                    'message' => "Success",
+                    "payroll" => $payroll,
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => "No Records"
+                ], 400);
+            }
         }
     }
 
