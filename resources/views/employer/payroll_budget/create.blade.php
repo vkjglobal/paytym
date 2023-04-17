@@ -34,7 +34,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Budget<span class="text-danger">*</span></label>
-                                <input type="float"
+                                <input type="number" step="any"
                                         class="form-control @if ($errors->has('budget')) is-invalid @endif"
                                         name="budget" value="{{ old('budget') }}" placeholder="Enter budget" required>
                                     

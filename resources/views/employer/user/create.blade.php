@@ -122,7 +122,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Business<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}">
+                                <select id="business_user" class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($businesses as $business)
                                     <option value="{{$business['id']}} " {{ old('business')==$business['id'] ? 'selected':'' }}>{{$business['name']}}</option>
@@ -134,7 +134,7 @@
                             <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Branch<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="branch" value="{{ old('branch') }}">
+                                <select id="branch_user" class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="branch" value="{{ old('branch') }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($branches as $key => $value)
                                     <option value="{{$value['id']}}" {{ old('branch')==$value['id'] ? 'selected':'' }}>{{$value['name']}}</option>
@@ -146,7 +146,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Department<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}">
+                                <select id="department_user" class="form-control"  class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($departments as $department)
                                     <option value="{{$department['id']}}" {{ old('department')==$department['id'] ? 'selected':'' }}>{{$department['dep_name']}}</option>
@@ -261,10 +261,10 @@
                                 <label class="control-label">Employee type<span class="text-danger">*</span></label>
                                 <select class="form-control"  class="form-control @if ($errors->has('employeetype')) is-invalid @endif" name="employeetype" value="{{ old('employeetype') }}">
                                     <option value="">--SELECT--</option>
-                                    <option value="0">Attachee</option>
-                                    <option value="1">Apprenticeship</option>
-                                    <option value="2">Probationary</option>
-                                    <option value="3">Permanent</option>
+                                    <option value="0" {{ old('employeetype')=='0' ? 'selected':'' }}>Attachee</option>
+                                    <option value="1" {{ old('employeetype')=='1' ? 'selected':'' }}>Apprenticeship</option>
+                                    <option value="2" {{ old('employeetype')=='2' ? 'selected':'' }}>Probationary</option>
+                                    <option value="3" {{ old('employeetype')=='3' ? 'selected':'' }}>Permanent</option>
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('employeetype') }}</div>
                             </div>
@@ -275,26 +275,26 @@
                             <label for="salary-type">Salary Type</label>
                             <select name="salary_type" id="salary-type">
                                 <option value="">--SELECT--</option>
-                                <option value="1">Hourly</option>
-                                <option value="0">Fixed</option>
+                                <option value="1" {{ old('salary_type')=='1' ? 'selected':'' }}>Hourly</option>
+                                <option value="0" {{ old('salary_type')=='0' ? 'selected':'' }}>Fixed</option>
                             </select>
                         </div>
                         <div class="hourly-section row">
                         <div class="col-md-6">
                             <label for="hourly-salary">Hourly Salary</label>
-                            <input type="number" name="hourly_rate" id="hourly-salary" class="form-control">
+                            <input type="number" step=any name="hourly_rate" id="hourly-salary" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="total-hours-per-week">Total Hours per period</label>
-                            <input type="number" name="total_hours_per_week" id="total-hours-per-week" class="form-control">
+                            <input type="number" step=any name="total_hours_per_week" id="total-hours-per-week" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="total-workdays-per-week">Total Workdays per period</label>
-                            <input type="number" name="work_days_per_week" id="total-workdays-per-week" class="form-control">
+                            <input type="number" step=any name="work_days_per_week" id="total-workdays-per-week" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="extra-hours-at-base-rate">Extra Hours at Base Rate</label>
-                            <input type="number" name="extra_hours_at_base_rate" id="extra-hours-at-base-rate" class="form-control">
+                            <input type="number" step=any name="extra_hours_at_base_rate" id="extra-hours-at-base-rate" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="pay-period">Pay Period</label>
@@ -311,7 +311,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="salary-amount">Salary Amount</label>
-                                    <input type="number" id="salary-amount" name="fixed-rate" class="form-control">
+                                    <input type="number" step=any id="salary-amount" name="fixed-rate" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -400,6 +400,60 @@
             }
         });
     });
+</script>
+
+<script type="text/javascript">
+    let token = "{{csrf_token()}}";
+    (function($) {
+        $('#business_user').change(function(e){
+            var id = $(this).val();
+            $('#branch_user').find('option').not(':first').remove();
+
+            $.ajax({
+                type: 'get',
+                url: '/employer/report/employment_period/get_branch/'+id,
+                dataType: 'json',
+                success: function(response){
+                    var len = 0;
+                    if(response != null){
+                        len = response['data'].length;
+                    }
+                    if(len>0){
+                        for(var i=0;i<len;i++){
+                            var id = response['data'][i].id;
+                            var name = response['data'][i].name;
+                            var option = "<option value='"+id+"'>"+name+"</option>";
+                            $('#branch_user').append(option);
+                        }
+                    }
+                }
+            });
+        });
+        $('#branch_user').change(function(e){
+            var id = $(this).val();
+            $('#department_user').find('option').not(':first').remove();
+
+            $.ajax({
+                type: 'get',
+                url: '/employer/report/employment_period/get_department/'+id,
+                dataType: 'json',
+                success: function(response){
+                    var len = 0;
+                    if(response != null){
+                        len = response['data'].length;
+                    }
+                    if(len>0){
+                        for(var i=0;i<len;i++){
+                            var id = response['data'][i].id;
+                            var name = response['data'][i].dep_name;
+                            var option = "<option value='"+id+"'>"+name+"</option>";
+                            $('#department_user').append(option);
+                        }
+                    }
+                }
+            });
+        });
+    })(jQuery);
 </script>
 
 
