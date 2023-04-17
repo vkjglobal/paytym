@@ -70,7 +70,7 @@
                         @elseif($employee->pay_period == '1')
                             <span class="">Fortnightly</span>
                         @else
-                            <span class="">Yearly</span>
+                            <span class="">Monthly</span>
                         @endif
                     </td>
                     <td>

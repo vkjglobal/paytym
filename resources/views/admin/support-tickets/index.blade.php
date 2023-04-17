@@ -24,7 +24,7 @@
                                 @foreach ($supportTicket as $supportTicket)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $supportTicket->employer->company }}</td>
+                                        <td>{{ isset($supportTicket->employer->company) ? $supportTicket->employer->company : 'No data found' }}</td>
                                         <td>{{ $supportTicket->subject }}</td>
                                         <td>{{ $supportTicket->message }}</td>
                                         <td>

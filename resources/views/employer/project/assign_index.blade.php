@@ -15,7 +15,7 @@
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
-                                    <th>Emploee</th>
+                                    <th>Employee</th>
                                     <th>Project</th>
                                     <th>Actions</th>
                                 </tr>

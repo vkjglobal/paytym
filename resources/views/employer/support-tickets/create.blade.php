@@ -1,4 +1,18 @@
 @extends('employer.layouts.app')
+@push('custom_js')
+    <style>
+        textarea {
+            resize: none;
+        }
+
+        #count_message {
+            background-color: smoke;
+            margin-top: -20px;
+            margin-right: 5px;
+        }
+    </style>
+@endpush
+
 @section('content')
 @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
 @endcomponent
@@ -23,9 +37,9 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Message<span class="text-danger">*</span></label>
-                                <textarea name="message" class="form-control @if ($errors->has('message')) is-invalid @endif" cols="30"
-                                        rows="5" required>{{ old('message') }}</textarea>
-                                    
+                                <textarea name="message" id="text" class="form-control @if ($errors->has('message')) is-invalid @endif" cols="30"
+                                        rows="5"  maxlength="255" placeholder="Type in your message" required>{{ old('message') }}</textarea>
+                                <span class="pull-right label label-default" id="count_message"></span>
                                 <div class="invalid-feedback">{{ $errors->first('message') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -43,4 +57,15 @@
 @push('custom_js')
 <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
+<script>
+    var text_max = 255;
+    $('#count_message').html('0 / ' + text_max );
+
+    $('#text').keyup(function() {
+    var text_length = $('#text').val().length;
+    var text_remaining = text_max - text_length;
+    
+    $('#count_message').html(text_length + ' / ' + text_max);
+    });
+</script>
 @endpush
