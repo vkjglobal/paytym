@@ -23,5 +23,9 @@ class GroupChat extends Model
     {
         return $this->hasMany(Chat::class, 'group_chat_id');
     }
+    public function latestMessage()
+    {
+        return $this->hasOne(Chat::class, 'group_chat_id')->latest();
+    }
 }
 

@@ -21,7 +21,7 @@ class UploadController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('admin.home')],
-            [(__('Leave Requests')), null],
+            [(__('Uploads')), null],
         ];
         $employer = Auth::guard('employer')->id();
         $employees = User::where('employer_id', $employer)->get();

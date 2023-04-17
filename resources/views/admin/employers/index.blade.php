@@ -32,7 +32,7 @@
                                         <td>{{ date('d-m-Y', strtotime($employer->created_at)) }}</td>
                                         <td>{{ $employer->company_phone }}</td>
                                         <td>{{ $employer->email }}</td>
-                                        <td>{{ $employer->country->name }}</td>
+                                        <td>{{ isset($employer->country->name) ? $employer->country->name : 'No data found' }}</td>
                                         <td>
                                         <button data-id="{{ $employer->id }}" class="status-btn btn {{ $employer->status ? 'btn-success' : 'btn-danger' }} btn-fixed-width">
                                             {{ $employer->status ? 'Active' : 'Inactive' }}

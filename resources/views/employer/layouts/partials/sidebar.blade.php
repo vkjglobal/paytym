@@ -594,7 +594,7 @@
 
              <!-- Uploads -->
 
-              <li class="nav-item {{ request()->is('employer/uploads') ? 'active' : '' }}">
+              <li class="nav-item {{ request()->is('employer/uploads*') ? 'active' : '' }} {{ request()->is('employer/file_type*') ? 'active' : '' }}">
               
                 <a class="nav-link" data-toggle="collapse" href="#uploads" role="button" aria-expanded="false"
                     aria-controls="requests">
@@ -602,20 +602,20 @@
                     <span class="link-title">Uploads</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/uploads/filetype*') ? 'show' : '' }}" id="uploads">
+                <div class="collapse {{ request()->is('employer/upload*') ? 'show' : '' }} {{ request()->is('employer/file_type*') ? 'show' : '' }}" id="uploads">
                     <ul class="nav sub-menu">
 
-                        <li class="nav-item">
+                        <li class="nav-item {{ request()->is('employer/file_type*') ? 'active' : '' }}">
                             <a class="nav-link" data-toggle="collapse" href="#filetype" role="button" aria-expanded="false"
                                 aria-controls="requests">
                                 <span>File Type</span>
                                 <i class="link-arrow" data-feather="chevron-down"></i>
                             </a>
-                            <div class="collapse {{ request()->is('employer/uploads/*') ? 'show' : '' }}" id="filetype">
+                            <div class="collapse {{ request()->is('employer/file_type*') ? 'show' : '' }}" id="filetype">
                                 <ul class="nav sub-menu">
                                     <li class="nav-item">
                                         <a href="{{route('employer.file_type.create')}}"
-                                            class="nav-link {{ request()->is('employer/payroll/create') ? 'active' : '' }}">
+                                            class="nav-link {{ request()->is('employer/file_type/create') ? 'active' : '' }}">
                                             Create
                                         </a>
                                     </li>
@@ -633,7 +633,7 @@
                         
                         <li class="nav-item ">
                             <a href="{{ route('employer.uploads.index') }}" 
-                            class="nav-link {{ request()->is('employer/uploads') ? 'active' : '' }}">
+                            class="nav-link {{ request()->is('employer/upload*') ? 'active' : '' }}">
                             
                                 Uploads
                             </a>

@@ -20,7 +20,7 @@
                                     <th>Type</th>
                                     <th>Status</th>
                                     <th>Actions</th>
-                                    <th>Reject Message</th>
+                                    <th>Message Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,25 +46,81 @@
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
-                                                <!-- Change Status button -->
-                                                <form method="GET" action="{{route('employer.leave.requests.status', $leaveRequest->id)}}">
-                                                    {{-- <a type="button" id="approve" class="approve"
-                                                        data-id="{{ $leaveRequest->id }}"
-                                                        href="{{route('employer.leave.requests.status')}}"> 
-                                                        <i data-feather="check" style="color:#4BB543;"></i>
-                                                    </a> --}}
-                                                    <button name="approve" type="submit" value="1" title="Approve" >
-                                                        <i data-feather="check" style="color:#4BB543;" ></i>
-                                                    </button>
-                                                    {{-- <a type="button" class="text-danger mr-2 reject" id="reject"
-                                                    data-id="{{ $leaveRequest->id }}" > 
-                                                        <i data-feather="x" ></i>
-                                                    </a> --}}
-                                                
-                                                    <button name="reject" type="submit" value="2" class="text-danger mr-2" title="Reject">
-                                                        <i data-feather="x" ></i>
-                                                    </button>
+                                                <!-- Change Status button approve -->
+                                                <button name="approve" type="submit" value="1" title="Approve" data-toggle="modal" data-target="#exampleModalApprove_{{$leaveRequest->id}}">
+                                                    <i data-feather="check" style="color:#4BB543;" ></i>
+                                                </button>
 
+                                                <!-- Send Reply Modal Approve -->
+                                                <div class="modal fade" id="exampleModalApprove_{{$leaveRequest->id}}" tabindex="-1" role="dialog"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabelApprove">Leave Request Message</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form method="GET" action="{{ route('employer.leave.requests.status', $leaveRequest->id) }}">
+                                                                @csrf
+                                                                <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        <label for="reply_message">Reply Message</label>
+                                                                        <textarea class="form-control" name="message" rows="3" required></textarea>
+                                                                        <input type="hidden" name="approve" value="1">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-success">Approve</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Send Reply Modal Ends Approve -->
+                                            
+                                                <!-- Change Status button Reject -->
+                                                <button name="reject" type="submit" value="2" class="text-danger mr-2" title="Reject" data-toggle="modal" data-target="#exampleModalReject_{{$leaveRequest->id}}">
+                                                    <i data-feather="x" ></i>
+                                                </button>
+
+                                                <!-- Send Reply Modal Reject -->
+                                                <div class="modal fade" id="exampleModalReject_{{$leaveRequest->id}}" tabindex="-1" role="dialog"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabelReject">Leave Request Message</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form method="GET" action="{{ route('employer.leave.requests.status', $leaveRequest->id) }}">
+                                                                @csrf
+                                                                <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        <label for="reply_message">Reply Message</label>
+                                                                        <textarea class="form-control" name="message" rows="3" required></textarea>
+                                                                        <input type="hidden" name="reject" value="2">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Send Reply Modal Ends Reject -->
+                                                
+                                                <form method="GET" action="{{route('employer.leave.requests.status', $leaveRequest->id)}}">
                                                 </form>
 
                                                 <!-- Change Status ends -->
@@ -95,18 +151,19 @@
                                             </div>
                                         </td>
                                         <td>
-                                            @if($leaveRequest->status == 2)
-                                            <button name="reject" type="submit" value="2" class="text-info mr-2" title="Message"
-                                                    data-toggle="modal" data-target="#exampleModal_{{$leaveRequest->id}}">
-                                                        <i data-feather="message-square" ></i>
+                                            @if($leaveRequest->status == 0)
+                                            <button name="reject" type="button"  class=" text-secondary mr-2" title="Message">
+                                                <i data-feather="message-square" ></i>
                                             </button>
+                                            
                                             @else
-                                            <button name="reject" type="button"  class="text-secondary mr-2" title="Message">
+                                            <button name="reject" type="submit" value="2" class="{{$leaveRequest->status == '1' ? 'text-success' : 'text-danger'}} mr-2" title="Message"
+                                                    data-toggle="modal" data-target="#exampleModal_{{$leaveRequest->id}}">
                                                         <i data-feather="message-square" ></i>
                                             </button>
                                             @endif
 
-                                            <!-- Send Reply Modal -->
+                                            <!-- Send Reply Modal Show -->
                                             <div class="modal fade" id="exampleModal_{{$leaveRequest->id}}" tabindex="-1" role="dialog"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -118,24 +175,24 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <form method="POST" action="{{ route('employer.leave.requests.message', $leaveRequest->id) }}">
+                                                    <form>
                                                         @csrf
                                                         <div class="modal-body">
                                                             <div class="form-group">
+                                                                <label for="reply_message">Status</label>
+                                                                <input type="text" class="form-control" value="{{$leaveRequest->status == '1' ? 'Approved' : 'Rejected'}}" disabled>
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label for="reply_message">Reply Message</label>
-                                                                <textarea class="form-control" name="message" rows="3" required></textarea>
+                                                                <textarea class="form-control" name="message" rows="3" disabled>{{$leaveRequest->reason}}</textarea>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">Send Reply</button>
-                                                        </div>
+                                                        
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Send Reply Modal Ends -->
+                                        <!-- Send Reply Modal Ends Show -->
                                         </td>
                                     </tr>
                                 @endforeach

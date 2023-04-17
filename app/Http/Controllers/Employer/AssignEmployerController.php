@@ -56,17 +56,23 @@ class AssignEmployerController extends Controller
                 'employee' => 'required',
                 'project' => 'required',
         ]);
-        $assign_project = new EmployeeProject();
-        $assign_project->employee_id = $request['employee'];
-        $assign_project->project_id = $request['project'];
-        $assign_project->employer_id = Auth::guard('employer')->user()->id;
-        $issave = $assign_project->save();
-        if($issave){
-            notify()->success(__('Assigned successfully'));
+        $employee_assigned_project_exists = EmployeeProject::where('employee_id', $request['employee'])
+                                ->where('project_id', $request['project'])->first();
+        if(!$employee_assigned_project_exists){
+            $assign_project = new EmployeeProject();
+            $assign_project->employee_id = $request['employee'];
+            $assign_project->project_id = $request['project'];
+            $assign_project->employer_id = Auth::guard('employer')->user()->id;
+            $issave = $assign_project->save();
+            if($issave){
+                notify()->success(__('Assigned successfully'));
             } else {
                 notify()->error(__('Failed to Assign. Please try again'));
             }
-            return redirect()->back();
+        }else{
+            notify()->error(__('Failed to Assign. The project is  already assigned to the employee'));
+        }
+        return redirect()->route('employer.assign.index');
         }
 
     
@@ -114,16 +120,22 @@ class AssignEmployerController extends Controller
             'employee' => 'required',
             'project' => 'required',
     ]);
-    $assign->employee_id = $request['employee'];
-    $assign->project_id = $request['project'];
-    $assign->employer_id = Auth::guard('employer')->user()->id;
-    $issave = $assign->save();
-    if($issave){
-        notify()->success(__('Updated successfully'));
-        } else {
-            notify()->error(__('Failed to Update. Please try again'));
-        }
-        return redirect()->route('employer.assign.index');
+    $employee_assigned_project_exists = EmployeeProject::where('employee_id', $request['employee'])
+                                ->where('project_id', $request['project'])->first();
+    if(!$employee_assigned_project_exists){
+        $assign->employee_id = $request['employee'];
+        $assign->project_id = $request['project'];
+        $assign->employer_id = Auth::guard('employer')->user()->id;
+        $issave = $assign->save();
+        if($issave){
+            notify()->success(__('Updated successfully'));
+            } else {
+                notify()->error(__('Failed to Update. Please try again'));
+            }
+    }else{
+        notify()->error(__('Failed to Assign. The project is  already assigned to the employee'));
+    }
+    return redirect()->route('employer.assign.index');
     }
 
     /**
