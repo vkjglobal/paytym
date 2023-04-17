@@ -66,6 +66,19 @@ class UserController extends Controller
         return view('employer.user.create',compact('breadcrumbs','branches','roles','departments','businesses','countries'));
     }
 
+    // public function employee_period_get_branch($business_id=0)
+    // {
+    //     $branchData['data'] = Branch::orderby("name","asc")->select('id','name')
+    //     ->where('employer_id', $this->employer_id())->where('employer_business_id', $business_id)->get();
+    //     return response()->json($branchData);
+    // }
+    // public function employee_period_get_department($branch_id=0)
+    // {
+    //     $departmentData['data'] = Department::orderby("dep_name","asc")->select('id','dep_name')
+    //     ->where('employer_id', $this->employer_id())->where('branch_id', $branch_id)->get();
+    //     return response()->json($departmentData);
+    // }
+
     /**
      * Store a newly created resource in storage.
      *

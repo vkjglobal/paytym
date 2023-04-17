@@ -61,7 +61,8 @@ class ProvidentFundController extends Controller
         $data->user_rate = $request->user_rate;
         $data->employer_rate = $request->employer_rate;
 
-        $user = ProvidentFund::where('user_id', $request->employee)->first();
+        $user = ProvidentFund::where('employer_id', Auth::guard('employer')->id())
+                            ->where('user_id', $request->employee)->first();
 
         if($user){
             notify()->error(__('Already exists'));
