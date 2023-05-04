@@ -57,7 +57,7 @@ class LeaveRequestController extends Controller
 
         if ($res) {
             return response()->json([
-                'message' => "Your request send successfully",
+                'message' => "Your request has been submitted",
             ], 200);
         } else {
             return response()->json([
