@@ -35,7 +35,7 @@ class ContactController extends Controller
              ), function($msg) use ($request)
                {
                   $msg->from($request->email);
-                  $msg->to('contact@paytym.net');
+                  $msg->to('buzzmefiji@gmail.com');
                   $msg->subject('New Customer Enquiry');
                });
          } catch (TransportExceptionInterface $e){

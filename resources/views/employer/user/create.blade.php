@@ -358,7 +358,7 @@
 
                         
                     
-                        <button type="submit" class="btn btn-primary submit">Submit</button>
+                        <button type="submit" class="btn btn-primary submit">Register and Send</button>
                     </form>
 
                 </div>

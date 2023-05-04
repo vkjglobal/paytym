@@ -23,6 +23,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use App\Jobs\EmployeeCreationPushNotification;
 use App\Models\EmployeeExtraDetails;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail as FacadesMail;
 use Mail;
 
 class UserController extends Controller
@@ -153,6 +155,8 @@ class UserController extends Controller
         $employeeBranch = Branch::where('id',$validated['branch'])->first()->name;
         $position = Role::where('id', $validated['position'])->first()->role_name;
         EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$position,$employeeName);
+        //mail confirmation
+        //mail
         notify()->success(__('Created successfully'));
             } else {
                 notify()->error(__('Failed to Create. Please try again'));

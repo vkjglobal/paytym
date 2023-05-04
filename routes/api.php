@@ -156,6 +156,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //
     //21-02-23
     Route::post('list_overtime', [OverTimeController::class, 'list_overtime']);
+    Route::post('hr_store_overtime', [OverTimeController::class, 'hr_store_overtime']);
     Route::post('overtime_request_approve_decline_edit', [OverTimeController::class, 'overtime_request_approve_decline_edit']);
     Route::post('list_file_types', [UploadsController::class, 'list_file_types']);
     Route::post('upload_files', [UploadsController::class, 'upload_files']);

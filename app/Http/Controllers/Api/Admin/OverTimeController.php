@@ -119,7 +119,38 @@ class OverTimeController extends Controller
         }
     }
 
-    // public function edit_overtime(Request $request)
-    // {
-    // }
+    public function hr_store_overtime(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+            'employee_id' => 'required',
+            'date' => 'required',
+            'total_hours' => 'required',
+            'reason' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+
+        $overtime = new Overtime();
+        $overtime->employer_id = $request->employer_id;
+        $overtime->employee_id = $request->employee_id;
+        $overtime->date = $request->date;
+        $overtime->total_hours = $request->total_hours;
+        $overtime->reason = $request->reason;
+        $overtime->status = '1';
+        $issave = $overtime->save();
+
+        if ($issave) {
+            return response()->json([
+                'message' => "Overtime added Successfully",
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Something went Wrong"
+            ], 400);
+        }
+    }
 }

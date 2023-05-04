@@ -171,6 +171,8 @@ class LeaveRequestController extends Controller
         $absentees_count = $employees_count - $attendance_count;
         // $absentees_count = Attendance::where('employer_id', $request->employer_id)->where('check_in', '=', null)->where('date', '=', $today)->count();
         $meetings_count = Meeting::where('employer_id', $request->employer_id)->where('date', '=', $today)->count();
+        $pending_leaves = LeaveRequest::where('employer_id', $request->employer_id)->where('status', '0')->count();
+        $active_employees_count = User::where('employer_id', $request->employer_id)->where('status', '1')->count();
 
 
 
@@ -185,6 +187,8 @@ class LeaveRequestController extends Controller
             'absentees_count' => $absentees_count,
             'employees_count' => $employees_count,
             'meetings_count' => $meetings_count,
+            'pending_leaves' => $pending_leaves,
+            'active_employees_count' => $active_employees_count,
 
         ], 200);
     }
