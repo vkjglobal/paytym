@@ -13,8 +13,11 @@ use Carbon\CarbonInterval;
 use App\Http\Controllers\Employer\PayrollController;
 use App\Models\Employer;
 use App\Models\Payroll;
+use App\Models\LeaveRequest;
+use App\Models\Overtime;
 use App\Models\SplitPayment;
-use App\Models\User;
+use App\Models\User; 
+use App\Models\Attendance; 
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
@@ -29,12 +32,35 @@ class PayrollCalculationController extends Controller
             // 'payroll_status' => 'required',
         ]);
 
+        //Checking for pending approval or rejection leaves , attendance or overtime
+        $pending_leaves = LeaveRequest::where('employer_id',$request->employer_id)->where('status','0')->get();
+        $pending_overtime = Overtime::where('employer_id',$request->employer_id)->where('status','0')->get();
+        $pending_attendance = Attendance::where('employer_id',$request->employer_id)->where('approve_reject',null)->get();
+
+        if((count($pending_leaves) > 0)){
+            return response()->json([
+                'message' => 'There is pending leave requests'
+            ],400);
+        }
+        if((count($pending_overtime) > 0)){
+            return response()->json([
+                'message' => 'There is pending overtime requests'
+            ],400);
+        }
+        if((count($pending_attendance) > 0)){
+            return response()->json([
+                'message' => 'There is pending attendance approvals'
+            ],400);
+        }
+
         //if validation fails
         if ($validator->fails()) {
             return response()->json([
                 'message' => $validator->errors()->first(),
             ], 400);
         }
+
+
 ////
         // $payroll_status = $request->payroll_status;
         // if ($payroll_status == '0') {
