@@ -34,7 +34,7 @@ class SplitpaymentController extends Controller
 
         if ($issave) {
             return response()->json([
-                'message' => "Addedd To wallet Successfully",
+                'message' => "Added To wallet Successfully",
                 'splitpayment' =>  $splitpayment,
             ], 200);
         } else {

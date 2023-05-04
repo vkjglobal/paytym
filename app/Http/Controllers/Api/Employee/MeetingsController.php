@@ -12,7 +12,7 @@ class MeetingsController extends Controller
     public function meetings()
     {
         $user_id = Auth::user()->id;
-        $meetings = Meeting::with('user.position')->where('user_id', $user_id)->get();
+        $meetings = Meeting::with('user.position')->where('employer_id',Auth::user()->employer_id)->get();
         if ($meetings) {
             return response()->json([
                 'message' => "Success",
