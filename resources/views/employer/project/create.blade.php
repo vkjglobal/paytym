@@ -58,6 +58,26 @@
                             </div>
                         </div><!-- Col -->
 
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Start date <span class="text-danger">*</span></label>
+                                    <input type="date"
+                                        class="form-control @if ($errors->has('start_date')) is-invalid @endif"
+                                        name="start_date" value="{{ old('start_date') }}"  required>
+                                    <div class="invalid-feedback">{{ $errors->first('start_date') }}</div>
+                                </div>
+                            </div><!-- Col -->
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">End date <span class="text-danger">*</span></label>
+                                    <input type="date"
+                                        class="form-control @if ($errors->has('name')) is-invalid @endif"
+                                        name="end_date" value="{{ old('end_date') }}"  required>
+                                    <div class="invalid-feedback">{{ $errors->first('end_date') }}</div>
+                                </div>
+                            </div><!-- Col -->
+
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Budget <span class="text-danger">*</span></label>
