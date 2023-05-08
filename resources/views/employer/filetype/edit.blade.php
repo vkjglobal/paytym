@@ -21,6 +21,16 @@
                                     <div class="invalid-feedback">{{ $errors->first('filetype') }}</div>
                                 </div>
                             </div><!-- Col -->
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label">Visible Status<span class="text-danger">*</span></label>
+                                    <select class="form-control"  class="form-control @if ($errors->has('visible_status')) is-invalid @endif" name="visible_status" value="{{ old('visible_status') }}">
+                                        <option value="0" {{ $file_type->visible_status == '0' ? 'selected': ''}}>All</option>
+                                        <option value="1" {{ $file_type->visible_status == '1' ? 'selected': ''}}>HR only</option>
+                                    </select>
+                                    <div class="invalid-feedback">{{ $errors->first('visible_status') }}</div>
+                                </div>
+                            </div><!-- Col -->
                           
                             
                         </div><!-- Row -->

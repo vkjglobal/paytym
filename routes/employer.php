@@ -236,6 +236,18 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('report/payroll',[ReportController::class,'payroll_index'])->name('report.payroll');
     Route::get('report/payroll/export',[ReportController::class,'payroll_export'])->name('report.payroll.export');
 
+    Route::get('report/providentfund',[ReportController::class,'providentfund_index'])->name('report.providentfund');
+    Route::get('report/providentfund/filter',[ReportController::class,'providentfund_filter'])->name('report.providentfund.filter');
+    Route::get('report/providentfund/export',[ReportController::class,'providentfund_export'])->name('report.providentfund.export');
+
+    Route::get('report/tax',[ReportController::class,'tax_index'])->name('report.tax');
+    Route::get('report/tax/filter',[ReportController::class,'tax_filter'])->name('report.tax.filter');
+    Route::get('report/tax/export',[ReportController::class,'tax_export'])->name('report.tax.export');
+
+    Route::get('report/payslip',[ReportController::class,'payslip_index'])->name('report.payslip');
+    Route::post('report/payslip/payslip_send_mail',[ReportController::class,'payslip_send_mail'])->name('report.payslip.send.mail');
+    Route::get('report/payslip/export',[ReportController::class,'payslip_export'])->name('report.payslip.export');
+
     //Billing
     Route::post('/billing', [BillingController::class,'index'])->name('billing');
     Route::post('/billing/pay', [BillingController::class,'pay'])->name('billing.pay');

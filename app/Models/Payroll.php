@@ -26,4 +26,8 @@ class Payroll extends Model
     {
         return $this->belongsTo(Employer::class);
     }
+    public function payslip_file_path()
+    {
+        return asset('storage/pdfs/'.$this->pay_slip);
+    }
 }

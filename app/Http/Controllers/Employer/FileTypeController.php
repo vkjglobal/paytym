@@ -50,10 +50,12 @@ class FileTypeController extends Controller
     public function store(Request $request)
     {
         $request = $request->validate([
-            'filetype' => 'required'
+            'filetype' => 'required',
+            'visible_status' => 'required',
         ]);
         $filetype = new FileType();
         $filetype->file_type = $request['filetype'];
+        $filetype->visible_status = $request['visible_status'];
         $issave = $filetype->save();
         if($issave){
             notify()->success(__('Created successfully'));
@@ -100,9 +102,11 @@ class FileTypeController extends Controller
     public function update(Request $request,FileType $file_type)
     {
         $request = $request->validate([
-            'filetype' => 'required'
+            'filetype' => 'required',
+            'visible_status' => 'required',
         ]);
         $file_type->file_type = $request['filetype'];
+        $file_type->visible_status = $request['visible_status'];
         $issave = $file_type->save();
         if($issave){
             notify()->success(__('Updated successfully'));

@@ -209,5 +209,15 @@ class User extends Authenticatable
         return EmployeeProject::where('employee_id', $this->id)->count();
     }
 
+    public function total_tax()
+    {
+        $payrolls = Payroll::where('user_id', $this->id)->whereYear('created_at', Carbon::now()->year)->get();
+        $total_tax = 0;
+        foreach($payrolls as $payroll){
+            $total_tax = $payroll->total_tax;
+        }
+        return $total_tax;
+    }
+
 
 }

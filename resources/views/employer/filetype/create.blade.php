@@ -11,13 +11,23 @@
                         @csrf
                         
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">File Type <span class="text-danger">*</span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('filetype')) is-invalid @endif"
                                         name="filetype" value="{{ old('filetype') }}" placeholder="Enter File Type" required>
                                     <div class="invalid-feedback">{{ $errors->first('filetype') }}</div>
+                                </div>
+                            </div><!-- Col -->
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label">Visible Status<span class="text-danger">*</span></label>
+                                    <select class="form-control"  class="form-control @if ($errors->has('visible_status')) is-invalid @endif" name="visible_status" value="{{ old('visible_status') }}">
+                                        <option value="0">All</option>
+                                        <option value="1">HR only</option>
+                                    </select>
+                                    <div class="invalid-feedback">{{ $errors->first('visible_status') }}</div>
                                 </div>
                             </div><!-- Col -->
                           
