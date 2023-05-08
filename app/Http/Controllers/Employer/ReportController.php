@@ -14,10 +14,13 @@ use Illuminate\Support\Carbon;
 use App\Exports\Employer\EmployeePeriodExport;
 use App\Exports\Employer\EmployeeReportExport;
 use App\Exports\Employer\PayrollExport;
+use App\Exports\Employer\PayslipReportExport;
+use App\Exports\Employer\ProvidentfundReportExport;
 use App\Exports\Employer\StatusBranchExport;
 use App\Exports\Employer\StatusBusinessExport;
 use App\Exports\Employer\StatusDepartmentExport;
 use App\Exports\Employer\StatusProjectExport;
+use App\Exports\Employer\TaxReportExport;
 use App\Models\Allowance;
 use App\Models\AssignAllowance;
 use App\Models\AssignDeduction;
@@ -29,6 +32,9 @@ use App\Models\Payroll;
 use App\Models\Project;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\EmployeeFilter;
+use Exception;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -301,5 +307,106 @@ public function deduction_index()
     {
         return Excel::download(new PayrollExport, 'payroll_report_export-'.Carbon::now().'.xlsx');
     }
+    //////////////////employment_period
+    public function providentfund_index()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
+        $employees = User::where('employer_id', $this->employer_id())->where('status', '1')->get()->sortBy('first_name');
+        $users = User::where('employer_id', $this->employer_id())->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        return view('employer.report.providentfund_list',compact('breadcrumbs','employees','branches','users', 'departments', 'businesses'));
+    }
+    public function providentfund_filter(Request $request)
+    {
+        // dd($request);
+    if ($request->ajax()){
+        $employees = $this->report_filter($request); 
+        $users = User::where('employer_id', $this->employer_id())->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        $emp = User::find($request->employee);
+        return view('employer.report.table.providentfund_list_table',compact('employees', 'businesses', 'users', 'branches', 'departments', 'emp'));
+    }else {
+        return response()->json(['success' => 0, 'message' => 'No data found'], $this->successStatus);
+    } 
+    }
+    public function providentfund_export() 
+    {
+        return Excel::download(new ProvidentfundReportExport, 'providentfund_report_export-'.Carbon::now().'.xlsx');
+    }
+
+    //////////////////employment_period
+    public function tax_index()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
+        $employees = User::where('employer_id', $this->employer_id())->where('status', '1')->get()->sortBy('first_name');
+        $users = User::where('employer_id', $this->employer_id())->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        return view('employer.report.tax_list',compact('breadcrumbs','employees','branches','users', 'departments', 'businesses'));
+    }
+    public function tax_filter(Request $request)
+    {
+        // dd($request);
+    if ($request->ajax()){
+        $employees = $this->report_filter($request); 
+        $users = User::where('employer_id', $this->employer_id())->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        $emp = User::find($request->employee);
+        return view('employer.report.table.tax_list_table',compact('employees', 'businesses', 'users', 'branches', 'departments', 'emp'));
+    }else {
+        return response()->json(['success' => 0, 'message' => 'No data found'], $this->successStatus);
+    } 
+    }
+    public function tax_export() 
+    {
+        return Excel::download(new TaxReportExport, 'tax_report_export-'.Carbon::now().'.xlsx');
+    }
+
+    public function payslip_index()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
+        $payrolls = Payroll::where('employer_id', $this->employer_id())->where('payroll_status', '1')->latest()->get();
+        return view('employer.report.payslip_list',compact('breadcrumbs','payrolls'));
+    }
+    public function payslip_send_mail(Request $request)
+    {
+        $path = $request->filename;
+
+        try{
+            Mail::send([], [], function ($message) use ($request, $path) {
+            $message->to($request->email)
+                    ->subject('Payslip attachment')
+                    ->attach($path);
+            });
+            notify()->success(__('Failed to send mail'));
+            return redirect()->back()->with('success', 'Email sent with file attachment');
+        }catch(Exception $e){
+            notify()->error(__('Failed to send mail'));
+        }
+
+        
+    }
+
+    public function payslip_export() 
+    {
+        return Excel::download(new PayslipReportExport, 'payslip_report_export-'.Carbon::now().'.xlsx');
+    }
+
 
 }

@@ -806,37 +806,60 @@
                         <li class="nav-item">
                             <a href="{{ route('employer.report.attendance.search') }}" class="nav-link {{ request()->is('employer/report/attendance*') ? 'active' : '' }}">
                                 Attendance
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.employment_period') }}" class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
-                                Employment Periods
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.status') }}" class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
-                                Status Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.allowance') }}" class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
-                                Allowance Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.deduction') }}" class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
-                                Deduction Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.payroll') }}" class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
-                                Payroll Reports
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
+                           </a>
+                       </li>
+                       <li class="nav-item">
+                        <a href="{{ route('employer.report.employment_period') }}"
+                            class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
+                             Employment Periods
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.status') }}"
+                            class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
+                             Status Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.allowance') }}"
+                            class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
+                             Allowance Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.deduction') }}"
+                            class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
+                             Deduction Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.payroll') }}"
+                            class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
+                             Payroll Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.providentfund') }}"
+                            class="nav-link {{ request()->is('employer/report/providentfund*') ? 'active' : '' }}">
+                            Provident Fund Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.tax') }}"
+                            class="nav-link {{ request()->is('employer/report/tax*') ? 'active' : '' }}">
+                            Tax Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.payslip') }}"
+                            class="nav-link {{ request()->is('employer/report/payslip*') ? 'active' : '' }}">
+                            Payslip Report
+                        </a>
+                    </li>
+                       
+                   </ul>
+               </div>
+           </li>
             <!--Report End-->
 
 
