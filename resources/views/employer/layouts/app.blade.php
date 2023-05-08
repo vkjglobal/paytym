@@ -116,7 +116,7 @@
     <!-- end custom js for this page -->
     <!-- custom js -->
     @notifyJs
-    <x:notify-messages />
+
     @stack('custom_js')
 </body>
 
