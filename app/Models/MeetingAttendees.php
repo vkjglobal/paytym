@@ -10,5 +10,8 @@ class MeetingAttendees extends Model
     public $table = "meeting_attendees";
     use HasFactory;
 
+    public function meetings(){
 
+        return $this->belongsTo(Meeting::class,'meeting_id');
+    }
 }

@@ -61,7 +61,9 @@ class RosterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRosterRequest $request)
-    {
+    {   
+
+        $salaryType = User::findOrFail($request['employee'])->salary_type;
         $request = $request->validated();
         $roster = new Roster();
         $roster->user_id = $request['employee'];
@@ -69,8 +71,20 @@ class RosterController extends Controller
         $roster->department_id = $request['department'];
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
-        $roster->start_time = $request['start_time'];
-        $roster->end_time = $request['end_time'];
+        if($salaryType == 0){
+            $roster->start_time = $request['start_time'];
+            $roster->end_time = $request['end_time'];
+        }
+        else{
+            $roster->mon = $request['mon_start']."/".$request['mon_end'];
+            $roster->tue = $request['tue_start']."/".$request['tue_end'];
+            $roster->wed = $request['wed_start']."/".$request['wed_end'];
+            $roster->thu = $request['thu_start']."/".$request['thu_end'];
+            $roster->fri = $request['fri_start']."/".$request['fri_end'];
+            $roster->sat = $request['sat_start']."/".$request['sat_end'];
+            $roster->sun = $request['sun_start']."/".$request['sun_end'];
+        }
+        
         $roster->employer_id = Auth::guard('employer')->user()->id;
         $issave = $roster->save();
         if($issave){
@@ -107,7 +121,9 @@ class RosterController extends Controller
         $users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $projects = Project::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $job_types = JobType::get();
-        return view('employer.roster.edit',compact('roster','breadcrumbs','users','projects','job_types'));
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.roster.edit',compact('roster','breadcrumbs','users','projects','job_types','businesses','departments'));
     }
 
     /**
@@ -117,16 +133,27 @@ class RosterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRosterRequest $request,Roster $roster)
-    {
+    public function update(StoreRosterRequest $request, Roster $roster)
+    {   
+        $salaryType = $roster->user->salary_type;
         $request = $request->validated();
         $roster->user_id = $request['employee'];
         $roster->business_id = $request['business'];
         $roster->department_id = $request['department'];
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
+        if($salaryType == 0){
         $roster->start_time = $request['start_time'];
         $roster->end_time = $request['end_time'];
+        }else{
+            $roster->mon = $request['mon_start']."/".$request['mon_end'];
+            $roster->tue = $request['tue_start']."/".$request['tue_end'];
+            $roster->wed = $request['wed_start']."/".$request['wed_end'];
+            $roster->thu = $request['thu_start']."/".$request['thu_end'];
+            $roster->fri = $request['fri_start']."/".$request['fri_end'];
+            $roster->sat = $request['sat_start']."/".$request['sat_end'];
+            $roster->sun = $request['sun_start']."/".$request['sun_end'];
+        }
         $roster->employer_id = Auth::guard('employer')->user()->id;
         $issave = $roster->save();
         if($issave){

@@ -32,6 +32,7 @@ use App\Http\Controllers\Employer\PayrollSettingsController;
 use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Employer\GroupChatController;
 use App\Http\Controllers\Employer\EventController;
+use App\Http\Controllers\Employer\HolidayController;
 use App\Http\Controllers\Employer\MedicalController;
 use App\Http\Controllers\Employer\PayrollBudgetController;
 use App\Http\Controllers\Employer\SplitPaymentController;
@@ -169,7 +170,8 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('business', BusinessController::class)->except(['show']);
     Route::get('business-change-status', [BusinessController::class, 'changeStatus'])->name('business.change.status');
 
-    
+    //Holiday
+    Route::resource('holiday', HolidayController::class)->except(['show']);
     //chat
     // Route::resource('chat', ChatController::class);
     Route::resource('groupchat', GroupChatController::class);

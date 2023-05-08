@@ -4,7 +4,7 @@ namespace App\Http\Requests\Employer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProjectRequest extends FormRequest
+class HolidayManageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,7 @@ class StoreProjectRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'branch' => 'required',
-            'business' => 'required',
-            'description' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'budget' => 'required',
+            'date' => 'required',
         ];
     }
 }

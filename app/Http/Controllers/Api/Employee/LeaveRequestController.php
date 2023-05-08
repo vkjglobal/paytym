@@ -218,7 +218,7 @@ class LeaveRequestController extends Controller
         } elseif ($status == '2') {
             $leaveRequest = $leaveRequest->whereDate('created_at', '=', Carbon::yesterday())->get();
         } else {
-            $leaveRequest = $leaveRequest->whereDate('created_at', '=', $now)->get();
+            $leaveRequest = $leaveRequest->get();
         }
 
         return response()->json([
