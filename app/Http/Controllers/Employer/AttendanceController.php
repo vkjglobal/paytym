@@ -22,7 +22,7 @@ class AttendanceController extends Controller
             [(__('Attendance')), null],
         ];
         $attendances = Attendance::where('employer_id', Auth::guard('employer')->id())->get();
-        return view('employer.attendance.index', compact('breadcrumbs','attendances'));
+        return view('employer.attendance.index', compact('breadcrumbs', 'attendances'));
     }
 
 
@@ -34,7 +34,7 @@ class AttendanceController extends Controller
             [(__('Create')), null],
         ];
         $users = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
-        return view('employer.attendance.create', compact('breadcrumbs','users'));
+        return view('employer.attendance.create', compact('breadcrumbs', 'users'));
     }
 
 
@@ -45,22 +45,21 @@ class AttendanceController extends Controller
             'name' => 'required|not_in:select',
             'date' => 'required',
             'date1' => 'required',
-            'status' => 'required',
         ]);
         $stor = new Attendance();
         $stor->employer_id = Auth::guard('employer')->id();
         $stor->user_id = $request->name;
         $stor->date = $request->date;
         $stor->check_in = $request->date1;
-        $stor->check_out = $request->date2;
-        $stor->status = $request->status;
+        if (isset($request->extra_hours)) {
+            $stor->check_in = $request->extra_hours;
+        }
         $issave = $stor->save();
-        if($issave){
+        if ($issave) {
             notify()->success(__('Created successfully'));
-                } else {
+        } else {
             notify()->error(__('Failed to Create. Please try again'));
-                }
-
+        }
         return redirect()->back();
     }
 
@@ -79,7 +78,7 @@ class AttendanceController extends Controller
             [(__('Edit')), null],
         ];
         $attendance = Attendance::find($id);
-        return view('employer.attendance.edit', compact('breadcrumbs','attendance'));
+        return view('employer.attendance.edit', compact('breadcrumbs', 'attendance'));
     }
 
 
@@ -88,8 +87,7 @@ class AttendanceController extends Controller
         $up = Attendance::find($id);
         $up->date = $request->date;
         $up->check_in = $request->date1;
-        $up->check_out = $request->date2;
-        $up->status = $request->status;
+        //$up->status = $request->status;
         $res = $up->save();
         if ($res) {
             notify()->success(__('Update successfully'));
@@ -97,29 +95,27 @@ class AttendanceController extends Controller
             notify()->error(__('Failed to Update. Please try again'));
         }
         return redirect()->back();
-
     }
 
 
     public function destroy($id)
     {
         $del = Attendance::findOrFail($id)->delete();
-    
-            if ($del) {
-                notify()->success(__('Deleted successfully'));
-            } else {
-                notify()->error(__('Failed to Delete. Please try again'));
-            }
-            return redirect()->back();
+
+        if ($del) {
+            notify()->success(__('Deleted successfully'));
+        } else {
+            notify()->error(__('Failed to Delete. Please try again'));
+        }
+        return redirect()->back();
     }
 
     public function csvfile(Request $request)
     {
-        try{
+        try {
             Excel::import(new AttendanceImport, request()->file('csvfile'));
             notify()->success(__('Upload file successfully'));
-        }
-        catch(Exception $e){
+        } catch (Exception $e) {
             notify()->error(__('Failed to upload file. Wrong csv format. Please try again'));
         }
         return redirect()->back();
