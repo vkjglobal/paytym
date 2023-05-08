@@ -28,7 +28,7 @@
                                 <select class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}" required>
                                     <option value="">--SELECT--</option>
                                     @foreach ($businesses as $business)
-                                    <option value="{{$business['id']}}" {{$project->business_id == $business->id ? 'selected':'' }}>{{$business['name']}}</option>
+                                    <option value="{{$business['id']}}" {{ $project->business_id == $business['id'] ? 'selected': ''}}>{{$business['name']}}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('business') }}</div>
@@ -56,6 +56,26 @@
                                         class="form-control @if ($errors->has('description')) is-invalid @endif"
                                         name="description" value="{{ old('description',$project->description) }}" placeholder="Enter description" required>
                                     <div class="invalid-feedback">{{ $errors->first('description') }}</div>
+                                </div>
+                            </div><!-- Col -->
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Start date <span class="text-danger">*</span></label>
+                                    <input type="date"
+                                        class="form-control @if ($errors->has('start_date')) is-invalid @endif"
+                                        name="start_date" value="{{ old('start_date',$project->start_date) }}"  required>
+                                    <div class="invalid-feedback">{{ $errors->first('start_date') }}</div>
+                                </div>
+                            </div><!-- Col -->
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">End date <span class="text-danger">*</span></label>
+                                    <input type="date"
+                                        class="form-control @if ($errors->has('name')) is-invalid @endif"
+                                        name="end_date" value="{{ old('end_date',$project->end_date) }}"  required>
+                                    <div class="invalid-feedback">{{ $errors->first('end_date') }}</div>
                                 </div>
                             </div><!-- Col -->
 
