@@ -122,6 +122,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Payroll::class, 'user_id');
     }
+    public function total_provident_fund()
+    {
+        return $this->payroll()->whereMonth('end_date', Carbon::now())->sum('total_fnpf');
+    }
     public function advance()
     {
         return $this->hasMany(PaymentAdvance::class, 'user_id');

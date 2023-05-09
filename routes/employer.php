@@ -259,6 +259,9 @@ Route::middleware('employer.auth')->group(function () {
 
     Route::get('report/status',[ReportController::class,'status_index'])->name('report.status');
     Route::get('report/status/export',[ReportController::class,'status_export'])->name('report.status.export');
+    
+    Route::get('report/budget',[ReportController::class,'budget_index'])->name('report.budget');
+    Route::get('report/budget/export',[ReportController::class,'budget_export'])->name('report.budget.export');
 
     //Billing
     Route::post('/billing', [BillingController::class,'index'])->name('billing');

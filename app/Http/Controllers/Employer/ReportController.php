@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employer;
 
 use App\Exports\Employer\AllowanceExport;
 use App\Exports\Employer\AttendanceReportExport;
+use App\Exports\Employer\BudgetReportExport;
 use App\Exports\Employer\DeductionExport;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
@@ -31,6 +32,7 @@ use App\Models\Department;
 use App\Models\EmployerBusiness;
 use App\Models\LeaveRequest;
 use App\Models\Payroll;
+use App\Models\PayrollBudget;
 use App\Models\Project;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\EmployeeFilter;
@@ -415,8 +417,6 @@ public function deduction_index()
             [(__('Dashboard')), route('employer.home')],
             [(__('Report')), null]
         ];
-        // $leaves = LeaveRequest::with('user.department')->where('employer_id', Auth::guard('employer')->id())->where('status', 1)->where('user.department_id', 8)->get();
-        // return($leaves);
         $statuses = Department::where('employer_id', $this->employer_id())->get();
         return view('employer.report.status_list',compact('breadcrumbs','statuses'));
     }
@@ -424,5 +424,20 @@ public function deduction_index()
     public function status_export() 
     {
         return Excel::download(new StatusReportExport, 'status_report_export-'.Carbon::now().'.xlsx');
+    }
+
+    public function budget_index()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
+        $budgets = PayrollBudget::where('employer_id', $this->employer_id())->orderBy('year', 'desc')->get();
+        return view('employer.report.budget_list',compact('breadcrumbs','budgets'));
+    }
+
+    public function budget_export() 
+    {
+        return Excel::download(new BudgetReportExport, 'budget_report_export-'.Carbon::now().'.xlsx');
     }
 }

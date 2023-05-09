@@ -23,7 +23,7 @@
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label class="control-label">Visible Status<span class="text-danger">*</span></label>
-                                    <select class="form-control"  class="form-control @if ($errors->has('visible_status')) is-invalid @endif" name="visible_status" value="{{ old('visible_status') }}">
+                                    <select class="form-control"  class="form-control @if ($errors->has('visible_status')) is-invalid @endif" name="visible_status" value="{{ old('visible_status') }}" required>
                                         <option value="0">All</option>
                                         <option value="1">HR only</option>
                                     </select>

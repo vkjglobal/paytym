@@ -4,6 +4,7 @@ namespace App\Exports\Employer;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -35,6 +36,7 @@ class MycashExport implements FromCollection, WithMapping
         ->join('split_payment', 'users.id', '=', 'split_payment.employee_id')
         ->select('users.phone', 'split_payment.amount','users.first_name', 'users.last_name')
         ->where('users.status', 1)->where('split_payment.status', 0)->where('split_payment.payment_wallet', '0')
+        ->where('users.employer_id', Auth::guard('employer')->id())->where('split_payment.employer_id', Auth::guard('employer')->id())
         ->get();
 
         return $data;
