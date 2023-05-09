@@ -10,11 +10,15 @@ use App\Models\User;
 use App\Models\JobType;
 use App\Models\Roster;
 use App\Models\EmployerBusiness;
+use App\Models\Branch;
 use App\Models\Department;
+use App\Traits\EmployeeFilter;
 use Auth;
 
 class RosterController extends Controller
 {
+    use EmployeeFilter;
+    public $successStatus = 200;
     /**
      * Display a listing of the resource.
      *
@@ -28,8 +32,11 @@ class RosterController extends Controller
         ];
 
         $rosters = Roster::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
 
-        return view('employer.roster.index', compact('breadcrumbs', 'rosters'));
+        return view('employer.roster.index', compact('breadcrumbs', 'rosters','businesses','branches','departments'));
     }
 
     /**
@@ -62,13 +69,14 @@ class RosterController extends Controller
      */
     public function store(StoreRosterRequest $request)
     {   
-
+        $user = User::where('id',$request['employee'])->first();
         $salaryType = User::findOrFail($request['employee'])->salary_type;
         $request = $request->validated();
         $roster = new Roster();
         $roster->user_id = $request['employee'];
-        $roster->business_id = $request['business'];
-        $roster->department_id = $request['department'];
+        $roster->business_id = $user->business->id;
+        $roster->branch_id = $user->branch->id;
+        $roster->department_id = $user->department->id;
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
         if($salaryType == 0){
@@ -135,11 +143,13 @@ class RosterController extends Controller
      */
     public function update(StoreRosterRequest $request, Roster $roster)
     {   
+        $user = User::where('id',$request['employee'])->first();
         $salaryType = $roster->user->salary_type;
         $request = $request->validated();
         $roster->user_id = $request['employee'];
-        $roster->business_id = $request['business'];
-        $roster->department_id = $request['department'];
+        $roster->business_id = $user->business->id;
+        $roster->branch_id = $user->branch->id;
+        
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
         if($salaryType == 0){
@@ -179,5 +189,20 @@ class RosterController extends Controller
             notify()->error(__('Failed to Delete. Please try again'));
         }
         return redirect()->back();
+    }
+
+    public function roster_filter(Request $request)
+    {
+        $employerId = Auth::guard('employer')->id();
+    if ($request->ajax()){
+        $rosters = $this->roster_filter($request,$employerId); 
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        // $emp = User::find($request->employee);
+        return view('employer.roster.table.roster_list_table',compact('rosters', 'businesses','branches', 'departments', 'emp'));
+    }else {
+        return response()->json(['success' => 0, 'message' => 'No data found'], $this->successStatus);
+    } 
     }
 }

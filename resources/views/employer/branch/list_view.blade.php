@@ -30,7 +30,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $branch->name }}</td>
-                                        <td>{{ $branch->buisness_id }}</td>
+                                        <td>{{ optional($branch->business)->name ?? 'no-data' }}</td>
                                         <td>{{ $branch->city }}</td>
                                         <td>{{ $branch->town }}</td>
                                         <td>{{ $branch->postcode }}</td>

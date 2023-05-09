@@ -32,6 +32,12 @@ class PayrollCalculationController extends Controller
             // 'payroll_status' => 'required',
         ]);
 
+        //if validation fails
+        if ($validator->fails()) {
+        return response()->json([
+            'message' => $validator->errors()->first(),
+        ], 400);
+        }
         //Checking for pending approval or rejection leaves , attendance or overtime
         $pending_leaves = LeaveRequest::where('employer_id',$request->employer_id)->where('status','0')->get();
         $pending_overtime = Overtime::where('employer_id',$request->employer_id)->where('status','0')->get();
@@ -53,12 +59,7 @@ class PayrollCalculationController extends Controller
             ],400);
         }
 
-        //if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()->first(),
-            ], 400);
-        }
+   
 
 
 ////
@@ -198,8 +199,7 @@ class PayrollCalculationController extends Controller
                     if(isset($salaryEndDate)){
                     $employee->payed_date = $salaryEndDate;
 
-                    }
-                    
+                    }                    
                     $employee->save();
                 }
 

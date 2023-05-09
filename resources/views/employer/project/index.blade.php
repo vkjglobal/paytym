@@ -16,8 +16,8 @@
                                     <th>Project</th>
                                     <th>Branch</th>
                                     <th>Business</th>
-                                    <th>Budget</th>
                                     <th>Description</th>
+                                    <th>Budget</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -29,7 +29,6 @@
                                         <td>{{ $project->name  }}</td>
                                         <td>{{ optional($project->branch)->name ?? 'no data' }}</td>
                                         <td>{{ optional($project->business)->name ?? 'no data' }}</td>
-                                        <td>{{ $project->budget }}</td>
                                         <td>{{ $project->description}}</td>
                         
                                         
