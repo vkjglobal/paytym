@@ -37,6 +37,7 @@ use App\Http\Controllers\Employer\MedicalController;
 use App\Http\Controllers\Employer\PayrollBudgetController;
 use App\Http\Controllers\Employer\SplitPaymentController;
 use App\Http\Controllers\Employer\UserRoleController;
+use App\Http\Controllers\Employer\AssignBenefitController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -123,6 +124,7 @@ Route::middleware('employer.auth')->group(function () {
     //Benefits
     Route::resource('benefit', BenefitController::class)->except(['show']);
     Route::get('benefit-change-status', [BenefitController::class, 'changeStatus'])->name('benefit.change.status');
+    Route::resource('benefit/assignbenefit',AssignBenefitController::class)->except(['show']);
     
     //Support Tickets
     Route::resource('supportticket', SupportTicketController::class)->except(['show']);
@@ -148,6 +150,7 @@ Route::middleware('employer.auth')->group(function () {
 
     //Rosters
     Route::resource('roster',RosterController::class)->except(['show']);
+    Route::get('roster/filter',[RosterController::class,'roster_filter'])->name('roster.filter');
 
     //Deductions
     Route::resource('deduction',DeductionController::class)->except(['show']);

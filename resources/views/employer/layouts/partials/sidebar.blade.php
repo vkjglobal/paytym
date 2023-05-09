@@ -407,6 +407,11 @@
                                 List
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('employer.assignbenefit.index')}}" class="nav-link {{ request()->is('employer/benefit/assignbenefit') ? 'active' : '' }}">
+                                Assign
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
