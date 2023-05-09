@@ -20,6 +20,7 @@ use App\Exports\Employer\StatusBranchExport;
 use App\Exports\Employer\StatusBusinessExport;
 use App\Exports\Employer\StatusDepartmentExport;
 use App\Exports\Employer\StatusProjectExport;
+use App\Exports\Employer\StatusReportExport;
 use App\Exports\Employer\TaxReportExport;
 use App\Models\Allowance;
 use App\Models\AssignAllowance;
@@ -28,6 +29,7 @@ use App\Models\Branch;
 use App\Models\Deduction;
 use App\Models\Department;
 use App\Models\EmployerBusiness;
+use App\Models\LeaveRequest;
 use App\Models\Payroll;
 use App\Models\Project;
 use Maatwebsite\Excel\Facades\Excel;
@@ -249,8 +251,9 @@ class ReportController extends Controller
             [(__('Report')), null]
         ];
         $employees = User::where('employer_id', $this->employer_id())->get();
+        $payrolls = Payroll::where('employer_id', $this->employer_id())->latest()->get();
         $allowances = Allowance::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.allowance_list',compact('breadcrumbs','employees', 'allowances'));
+        return view('employer.report.allowance_list',compact('breadcrumbs','employees', 'allowances', 'payrolls'));
     }
     public function allowance_view($id) 
     {
@@ -398,15 +401,28 @@ public function deduction_index()
             return redirect()->back()->with('success', 'Email sent with file attachment');
         }catch(Exception $e){
             notify()->error(__('Failed to send mail'));
+            return redirect()->back();
         }
-
-        
     }
-
     public function payslip_export() 
     {
         return Excel::download(new PayslipReportExport, 'payslip_report_export-'.Carbon::now().'.xlsx');
     }
 
+    public function status_index()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
+        // $leaves = LeaveRequest::with('user.department')->where('employer_id', Auth::guard('employer')->id())->where('status', 1)->where('user.department_id', 8)->get();
+        // return($leaves);
+        $statuses = Department::where('employer_id', $this->employer_id())->get();
+        return view('employer.report.status_list',compact('breadcrumbs','statuses'));
+    }
 
+    public function status_export() 
+    {
+        return Excel::download(new StatusReportExport, 'status_report_export-'.Carbon::now().'.xlsx');
+    }
 }
