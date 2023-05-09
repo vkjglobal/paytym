@@ -16,7 +16,7 @@
                                     <th>Name</th>
                                     <th>Date</th>
                                     <th>Check-in-time</th>
-                                    <!-- <th>Check-out-time</th> -->
+                                    <th>Extra Hours</th>
                                     <!-- <th>Status</th> -->
                                     <th>Action</th>
 
@@ -29,6 +29,7 @@
                                         <td>@isset($attendance->user->first_name) {{ $attendance->user->first_name }}@endisset</td>
                                         <td>{{ $attendance->date }}</td>
                                         <td>{{ date('H:i', strtotime($attendance->check_in)) }}</td>
+                                        <td>{{ $attendance->extra_hours }}</td>
                                         <!-- <td>{{ date('H:i', strtotime($attendance->check_out)) }}</td> -->
                                         <!-- <td>
                                             @if($attendance->status == 1)

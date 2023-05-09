@@ -36,6 +36,7 @@ use App\Http\Controllers\Employer\HolidayController;
 use App\Http\Controllers\Employer\MedicalController;
 use App\Http\Controllers\Employer\PayrollBudgetController;
 use App\Http\Controllers\Employer\SplitPaymentController;
+use App\Http\Controllers\Employer\UserRoleController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -127,10 +128,18 @@ Route::middleware('employer.auth')->group(function () {
     Route::resource('supportticket', SupportTicketController::class)->except(['show']);
     Route::get('supportticket-change-status', [SupportTicketController::class, 'changeStatus'])->name('supportticket.change.status');
     
+  //User Roles
+  Route::resource('userroles', UserRoleController::class)->except(['show']);
+  //Route::put('usercapabilities/{id}',[UserCapabilitiesController::class,'update'])->name('usercapabilities.update');
+  
+
+
     //User Capabilities
     Route::resource('usercapabilities', UserCapabilitiesController::class)->except(['show']);
     //Route::put('usercapabilities/{id}',[UserCapabilitiesController::class,'update'])->name('usercapabilities.update');
-   
+    
+    
+    
     //Projects
     Route::resource('project',ProjectController::class)->except(['show']);
     Route::get('project-change-status', [ProjectController::class, 'changeStatus'])->name('project.change.status');

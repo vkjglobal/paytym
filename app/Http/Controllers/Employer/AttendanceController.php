@@ -52,7 +52,7 @@ class AttendanceController extends Controller
         $stor->date = $request->date;
         $stor->check_in = $request->date1;
         if (isset($request->extra_hours)) {
-            $stor->check_in = $request->extra_hours;
+            $stor->extra_hours = $request->extra_hours;
         }
         $issave = $stor->save();
         if ($issave) {

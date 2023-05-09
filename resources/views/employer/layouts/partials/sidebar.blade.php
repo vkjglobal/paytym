@@ -713,6 +713,37 @@
 
             <!--Provident/Super Fund end -->
 
+
+            <!-- User Role -->
+
+            <li class="nav-item  {{ request()->is('employer/userroles*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#userroles" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">User Role</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/userroles*') ? 'show' : '' }}" id="userroles">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.userroles.create') }}" class="nav-link {{ request()->is('employer/user-role/create') ? 'active' : '' }}">
+                               Create
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.userroles.index') }}" class="nav-link {{ request()->is('employer/userroles') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!--User Role end -->
+
+
+
+
             <!-- User Capability -->
 
             <li class="nav-item  {{ request()->is('employer/usercapabilities*') ? 'active' : '' }}">
@@ -723,12 +754,11 @@
                 </a>
                 <div class="collapse {{ request()->is('employer/usercapabilities*') ? 'show' : '' }}" id="capabilities">
                     <ul class="nav sub-menu">
-
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="{{ route('employer.usercapabilities.create') }}" class="nav-link {{ request()->is('employer/usercapabilities/create') ? 'active' : '' }}">
                                 Create
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="{{ route('employer.usercapabilities.index') }}" class="nav-link {{ request()->is('employer/usercapabilities') ? 'active' : '' }}">
                                 List
@@ -806,60 +836,52 @@
                         <li class="nav-item">
                             <a href="{{ route('employer.report.attendance.search') }}" class="nav-link {{ request()->is('employer/report/attendance*') ? 'active' : '' }}">
                                 Attendance
-                           </a>
-                       </li>
-                       <li class="nav-item">
-                        <a href="{{ route('employer.report.employment_period') }}"
-                            class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
-                             Employment Periods
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.status') }}"
-                            class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
-                             Status Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.allowance') }}"
-                            class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
-                             Allowance Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.deduction') }}"
-                            class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
-                             Deduction Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.payroll') }}"
-                            class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
-                             Payroll Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.providentfund') }}"
-                            class="nav-link {{ request()->is('employer/report/providentfund*') ? 'active' : '' }}">
-                            Provident Fund Report
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.tax') }}"
-                            class="nav-link {{ request()->is('employer/report/tax*') ? 'active' : '' }}">
-                            Tax Report
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.payslip') }}"
-                            class="nav-link {{ request()->is('employer/report/payslip*') ? 'active' : '' }}">
-                            Payslip Report
-                        </a>
-                    </li>
-                       
-                   </ul>
-               </div>
-           </li>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.employment_period') }}" class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
+                                Employment Periods
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.status') }}" class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
+                                Status Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.allowance') }}" class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
+                                Allowance Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.deduction') }}" class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
+                                Deduction Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.payroll') }}" class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
+                                Payroll Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.providentfund') }}" class="nav-link {{ request()->is('employer/report/providentfund*') ? 'active' : '' }}">
+                                Provident Fund Report
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.tax') }}" class="nav-link {{ request()->is('employer/report/tax*') ? 'active' : '' }}">
+                                Tax Report
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.payslip') }}" class="nav-link {{ request()->is('employer/report/payslip*') ? 'active' : '' }}">
+                                Payslip Report
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
             <!--Report End-->
 
 
