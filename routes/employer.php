@@ -219,7 +219,7 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('report/employee/filter',[ReportController::class,'employee_list_filter'])->name('report.employee.filter');
     Route::get('report/employee/export',[ReportController::class,'employee_list_export'])->name('report.employee.export');
 
-    Route::get('report/status',[ReportController::class,'status_list_index'])->name('report.status');
+    // Route::get('report/status',[ReportController::class,'status_list_index'])->name('report.status');
 
     Route::get('report/status/business',[ReportController::class,'status_business'])->name('report.status.business');
     Route::get('report/status/business/export',[ReportController::class,'status_business_export'])->name('report.status.business.export');
@@ -256,6 +256,9 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('report/payslip',[ReportController::class,'payslip_index'])->name('report.payslip');
     Route::post('report/payslip/payslip_send_mail',[ReportController::class,'payslip_send_mail'])->name('report.payslip.send.mail');
     Route::get('report/payslip/export',[ReportController::class,'payslip_export'])->name('report.payslip.export');
+
+    Route::get('report/status',[ReportController::class,'status_index'])->name('report.status');
+    Route::get('report/status/export',[ReportController::class,'status_export'])->name('report.status.export');
 
     //Billing
     Route::post('/billing', [BillingController::class,'index'])->name('billing');

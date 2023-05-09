@@ -7,7 +7,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Employment Period</h6>
+                    <h6 class="card-title">Provident Fund</h6>
                     
                     <div class="float-right mb-3">
                           <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.report.providentfund.export")}}'">

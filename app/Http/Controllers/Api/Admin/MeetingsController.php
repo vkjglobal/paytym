@@ -105,7 +105,8 @@ class MeetingsController extends Controller
 
         $id = $request->id;
         $deduction = Meeting::where('id', $id)->delete();
-        if ($deduction) {
+        $meeting_attendees = MeetingAttendees::where('meeting_id', $id)->delete();
+        if ($deduction && $meeting_attendees) {
             return response()->json([
                 'message' => "Deleted Successfully"
             ], 200);

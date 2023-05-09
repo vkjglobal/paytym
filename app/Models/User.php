@@ -108,6 +108,16 @@ class User extends Authenticatable
         return $this->hasMany(AssignDeduction::class, 'user_id');
     }
 
+    public function commission()
+    {
+        return $this->hasMany(Commission::class, 'user_id');
+    }
+
+    // public function bonus()
+    // {
+    //     return $this->hasMany(Commission::class, 'user_id');
+    // }
+
     public function payroll()
     {
         return $this->hasOne(Payroll::class, 'user_id');
@@ -147,7 +157,55 @@ class User extends Authenticatable
         return $total;
     }
 
-    
+    public function total_commission()
+    {
+        $total = 0;
+        foreach($this->commission as $commission)
+        {
+            $total += $commission->rate;
+        }
+        return $total;
+    }
+
+    public function total_bonus($userId)
+    {
+        $total = 0;
+
+        $totalEmployee = DB::table('users')
+        ->join('bonus', 'users.id', '=', 'bonus.type_id')
+        ->where('bonus.type', '=', 0)
+        ->where('bonus.rate_type', '=', 1)
+        ->where('users.id', '=', $userId)
+        ->sum('bonus.rate');
+
+        $totalDepartment = DB::table('users')
+        ->join('departments', 'users.department_id', '=', 'departments.id')
+        ->join('bonus', 'departments.id', '=', 'bonus.type_id')
+        ->where('bonus.type', '=', 1)
+        ->where('bonus.rate_type', '=', 1)
+        ->where('users.id', '=', $userId)
+        ->sum('bonus.rate');
+
+        $totalBranch = DB::table('users')
+        ->join('branches', 'users.branch_id', '=', 'branches.id')
+        ->join('bonus', 'branches.id', '=', 'bonus.type_id')
+        ->where('bonus.type', '=', 2)
+        ->where('bonus.rate_type', '=', 1)
+        ->where('users.id', '=', $userId)
+        ->sum('bonus.rate');
+
+        $totalBusiness = DB::table('users')
+        ->join('employer_businesses', 'users.business_id', '=', 'employer_businesses.id')
+        ->join('bonus', 'employer_businesses.id', '=', 'bonus.type_id')
+        ->where('bonus.type', '=', 3)
+        ->where('bonus.rate_type', '=', 1)
+        ->where('users.id', '=', $userId)
+        ->sum('bonus.rate');
+
+        $total += $totalEmployee + $totalDepartment + $totalBranch + $totalBusiness; 
+
+        return $total;
+    }
     
 
     //attendance report

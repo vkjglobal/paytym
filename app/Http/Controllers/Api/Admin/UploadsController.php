@@ -204,7 +204,7 @@ class UploadsController extends Controller
                 ], 400);
             }
 
-            $files = Upload::where('user_id', $request->employee_id)->get();
+            $files = Upload::with('filetype')->where('user_id', $request->employee_id)->get();
         } else {
             $validator = Validator::make($request->all(), [
                 'employer_id' =>  'required',
@@ -215,7 +215,7 @@ class UploadsController extends Controller
                     'message' => $validator->errors()->first()
                 ], 400);
             }
-            $files = Upload::where('employer_id', $request->employer_id)->get();
+            $files = Upload::with('filetype')->where('employer_id', $request->employer_id)->get();
         }
 
         if ($files) {
