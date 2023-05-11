@@ -115,6 +115,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <!-- end custom js for this page -->
     <!-- custom js -->
+    <x:notify-messages />
     @notifyJs
 
     @stack('custom_js')

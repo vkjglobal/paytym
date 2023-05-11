@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SupportTicket;
+use App\Models\SupportTicketReply;
 class SupportTicketController extends Controller
 {
     //
@@ -41,5 +42,19 @@ class SupportTicketController extends Controller
         $supportticket->save();
 
         return response()->json(['success' => 'Status change successfully.']);
+    }
+
+    public function sendReply(Request $request)
+    {
+        $SPR = new SupportTicketReply;
+        $SPR->support_ticket_id  = $request->SPID;
+        $SPR->reply = $request->reply_message;
+        $issave = $SPR->save(); 
+        if($issave){
+            notify()->success(__('Reply send successfully'));
+        } else {
+            notify()->error(__('Failed to send reply . Please try again'));
+        }
+        return redirect()->back();
     }
 }

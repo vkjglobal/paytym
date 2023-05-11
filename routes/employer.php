@@ -151,6 +151,7 @@ Route::middleware('employer.auth')->group(function () {
     //Rosters
     Route::resource('roster',RosterController::class)->except(['show']);
     Route::get('roster/filter',[RosterController::class,'roster_filter'])->name('roster.filter');
+    Route::get('roster/report',[RosterController::class,'roster_report'])->name('roster.report');
 
     //Deductions
     Route::resource('deduction',DeductionController::class)->except(['show']);

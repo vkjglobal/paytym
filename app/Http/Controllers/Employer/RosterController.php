@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Employer\StoreRosterRequest;
 use App\Models\Project;
@@ -13,6 +14,9 @@ use App\Models\EmployerBusiness;
 use App\Models\Branch;
 use App\Models\Department;
 use App\Traits\EmployeeFilter;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\Employer\RosterExport;
+
 use Auth;
 
 class RosterController extends Controller
@@ -195,14 +199,19 @@ class RosterController extends Controller
     {
         $employerId = Auth::guard('employer')->id();
     if ($request->ajax()){
-        $rosters = $this->roster_filter($request,$employerId); 
-        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
-        $branches = Branch::where('employer_id', $this->employer_id())->get();
-        $departments = Department::where('employer_id', $this->employer_id())->get();
+        $rosters = $this->rosterFilter($request,$employerId); 
+        $businesses = EmployerBusiness::where('employer_id', $employerId)->get();
+        $branches = Branch::where('employer_id', $employerId)->get();
+        $departments = Department::where('employer_id', $employerId)->get();
         // $emp = User::find($request->employee);
-        return view('employer.roster.table.roster_list_table',compact('rosters', 'businesses','branches', 'departments', 'emp'));
+        return view('employer.roster.table.roster_list_table',compact('rosters', 'businesses','branches', 'departments'));
     }else {
         return response()->json(['success' => 0, 'message' => 'No data found'], $this->successStatus);
     } 
+    }
+
+    public function roster_report(){
+        return Excel::download(new RosterExport, 'roster_report_export-'.Carbon::now().'.xlsx');
+
     }
 }
