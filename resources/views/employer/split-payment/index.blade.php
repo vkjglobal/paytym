@@ -15,10 +15,11 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Employee</th>
-                                    <th>Payment System</th>
-                                    <th>Amount</th>
+                                    <th>Bank</th>
+                                    <th>Mpaisa</th>
+                                    <th>Mycash</th>
                                     <th>Date</th>
-                                    <th>Status</th>  
+                                      
                       
                                 </tr>
                             </thead>
@@ -29,20 +30,16 @@
                                         @isset($splitpayment->user->first_name)
                                             <td>{{ $splitpayment->user->first_name}}</td>
                                         @endisset
-                                        @if($splitpayment->payment_wallet == 0)
-                                            <td>Mycash</td>
-                                        @elseif($splitpayment->status == 1)
-                                            <td>Mpaisa</td>
-                                        @else
-                                            <td>BSP</td>
-                                        @endif
-                                        <td>{{ $splitpayment->amount}}</td>
+                    
+                                        <td>{{ $splitpayment->bank}}</td>
+                                        <td>{{ $splitpayment->mpaisa}}</td>
+                                        <td>{{ $splitpayment->mycash}}</td>
                                         <td>{{ $splitpayment->created_at->format('Y-m-d')}}</td>
-                                        @if($splitpayment->status == 0)
+                                        {{-- @if($splitpayment->status == 0)
                                         <td><span class="btn btn-danger">Pending</span></td>
                                         @else
                                         <td><span class="btn btn-success">Success</span></td>
-                                        @endif
+                                        @endif --}}
                                         
                                         {{-- <td>{{ $splitpayment->end_date}}</td> --}}
 
