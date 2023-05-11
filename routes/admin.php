@@ -89,6 +89,8 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('supportticket-change-status', [SupportTicketController::class, 'changeStatus'])->name('supportticket.change.status');
     //Route::post('supportticket', [SupportTicketController::class, 'sendReply']);
     Route::delete('supportticket/{id}', [SupportTicketController::class, 'destroy'])->name('supportticket.destroy');
+    Route::post('supportticket-send-reply', [SupportTicketController::class, 'sendReply'])->name('supportticket.send.reply');
+
 
     //Country
     Route::resource('country', CountryController::class)->except(['show']);

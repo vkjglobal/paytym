@@ -3,18 +3,18 @@
     @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
     @endcomponent
 
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-title">Rosters</h6>
-                    <div class="float-right mb-3">
-                          <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location=''">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Rosters</h6>
+                        <div class="float-right mb-3">
+                            <a  class="btn btn-primary btn-icon-text" href={{route('employer.roster.report')}}>
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                             Download Roaster
-                          </button> 
-                    
-                    </div>
+                            </a> 
+                            
+                        </div>
 
                         <div class="row mt-4 mb-4" id="" >
                             
@@ -24,7 +24,7 @@
                                     <select name="business" id="business1" class="@if ($errors->has('business')) is-invalid @endif" >
                                         <option selected="true" value=" ">All Business</option>
                                         @foreach($businesses as $business)
-                                            <option value="{{$business->id}}">{{$business->name}}</option>
+                                        <option value="{{$business->id}}">{{$business->name}}</option>
                                         @endforeach
                                     </select>                                
                                     <div class="invalid-feedback">{{ $errors->first('business') }}</div>
@@ -36,7 +36,7 @@
                                     <select name="branch" id="branch1" class="@if ($errors->has('branch')) is-invalid @endif" >
                                         <option selected="true" value=" ">All Branch</option>
                                         @foreach($branches as $branch)
-                                            <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
                                         @endforeach
                                     </select>                                
                                     <div class="invalid-feedback">{{ $errors->first('branch') }}</div>
@@ -48,32 +48,30 @@
                                     <select name="department" id="department" class="@if ($errors->has('department')) is-invalid @endif" >
                                         <option selected="true" value=" ">All Department</option>
                                         @foreach($departments as $department)
-                                            <option value="{{$department->id}}">{{$department->dep_name}}</option>
+                                        <option value="{{$department->id}}">{{$department->dep_name}}</option>
                                         @endforeach
                                     </select>                                
                                     <div class="invalid-feedback">{{ $errors->first('department') }}</div>
                                 </div>
-                            </div><!-- Col -->
-                            <!-- <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label class="control-label">Date<span class="text-danger"></span></label>
-                                    <input type="date" name="roster_date" id="date">                               
-                                    <div class="invalid-feedback">{{ $errors->first('user') }}</div>
-                                </div>
-                            </div>Col -->
+                            </div>
                             
                             <div class="col-sm-2"> 
-                                <button class="btn btn-info mt-4 p-2" id="filter_roster">Filter</button>
+                                <div class="form-group">
+                                    <label class="control-label d-block">&nbsp;</label>
+                                    <button class="btn btn-info p-2" id="filter_roster">Filter</button>
+                                </div>
                             </div>
                         </div><!-- Row -->
-                    <div class="datalist-table table-responsive">
-                    <div id="employee_roster_table">
-                            @include('employer.roster.table.roster_list_table')
+                        <div class="datalist-table table-responsive">
+                            <div id="employee_roster_table">
+                                    @include('employer.roster.table.roster_list_table')
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
 @endsection
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
@@ -177,6 +175,7 @@
                     },
                     // alert(data);
                     success: function(response) {
+                        console.log(response);
                         $('#employee_roster_table').html(response);
                         console.log(response);
                     },

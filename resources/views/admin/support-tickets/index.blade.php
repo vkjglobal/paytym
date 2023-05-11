@@ -15,7 +15,6 @@
                                 <th>Sl #</th>
                                 <th>Employer</th>
                                 <th>Subject</th>
-                                <th>Message</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -26,21 +25,15 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ isset($supportTicket->employer->company) ? $supportTicket->employer->company : 'No data found' }}</td>
                                 <td>{{ $supportTicket->subject }}</td>
-                                <td>{{ $supportTicket->message }}</td>
                                 <td>
                                     <input data-id="{{ $supportTicket->id }}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Open" data-off="Closed" {{ $supportTicket->status ? 'checked' : '' }}>
                                 </td>
                                 <td>
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a data-toggle="modal" data-target="#sharePublicInfo" class="mr-1 text-info share-info-btn" data-message="{{ $supportTicket->message }}" data-toggle="tooltip" data-placement="top" title="Share Information">
-                                            <i data-feather="share"></i>
-                                        </a>
-                                        <!-- Edit button -->
-                                        <!--  <a href="{{ route('employer.supportticket.edit', $supportTicket->id) }}"
-                                                    class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
-                                                    title="Edit">
-                                                    <i data-feather="edit"></i>
-                                                </a> -->
+                                    <div class="btn-group mr-2" role="group" aria-label="Basic example">
+                                        <button data-toggle="modal" data-target="#sharePublicInfo{{ $supportTicket->id }}" class="mr-1 text-info share-info-btn" data-message="{{ $supportTicket->message }}" data-toggle="tooltip" data-placement="top" title="Share Information">
+                                            <i data-feather="eye"></i>
+                                        </button>
+                                         <!-- Edit button -->
 
                                         <!-- Delete button -->
                                         <button type="button" class="text-danger" onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
@@ -55,6 +48,54 @@
                                     </div>
                                 </td>
                             </tr>
+
+                            <!-- View Modal start-->
+                            <div class="modal fade" id="sharePublicInfo{{ $supportTicket->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Send info</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+
+                                            <div class="form-group">
+                                                <label for="reply_message">&nbsp;Message</label>
+                                            </div>
+                                            <p>
+                                               &nbsp; {{ $supportTicket->message }}
+                                            </p>
+                                            <form method="POST" action="{{route('admin.supportticket.send.reply')}}">
+                                            @csrf
+                                            <input type="hidden" name="email" value="">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="reply_message">Reply Message</label>
+                                                    <textarea class="form-control" name="reply_message" rows="3" required></textarea>
+                                                    <input type="hidden" name = "SPID" value="{{ $supportTicket->id }}">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Send Reply</button>
+                                            </div>
+                                        </form>
+
+                                        </div>
+                                        <!-- <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div> -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--View Modal end-->
+
                             @endforeach
                         </tbody>
                     </table>
@@ -64,34 +105,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="sharePublicInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Send info</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
 
-            <div class="modal-body">
-
-                <div class="form-group">
-                    <label for="reply_message">View Message</label>
-                </div>
-                <textarea class="form-control" name="message" id="messages">
-
-</textarea>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 @endsection
 @push('custom_css')

@@ -74,12 +74,11 @@ trait EmployeeFilter
     return $employees;
 }
 
-public function roster_filter($request,$employerId){
-
-    if($request->business == null &&  $request->branch != null && $request->department != null){
+public function rosterFilter($request,$employerId){
+    if($request->business != null &&  $request->branch == null && $request->department == null){
         $rosters = Roster::where('employer_id', $employerId)
-        ->where('branch_id', $request->branch)->where('department_id', $request->department)->get();
-    }else if($request->business != null && $request->user == null && $request->branch != null && $request->department != null){
+        ->where('business_id', $request->branch)->get();
+    }else if($request->business != null  && $request->branch != null && $request->department != null){
         $rosters = Roster::where('employer_id', $employerId)
         ->where('business_id', $request->business)->where('branch_id', $request->branch)
         ->where('department_id', $request->department)->get();
