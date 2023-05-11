@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Employer;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use App\Jobs\EmployeeCreationPushNotification;
 use App\Models\EmployeeExtraDetails;
+use App\Models\SplitPayment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Mail;
@@ -150,6 +152,13 @@ class UserController extends Controller
         $user->image = $path;
     }
     $issave = $user->save();
+
+    $split_payment = new SplitPayment();
+    $split_payment->employee_id = $user->id;
+    $split_payment->employer_id = Auth::guard('employer')->id();
+    $split_payment->save();
+
+
     if($issave){
         $employeeName = $validated['first_name'];
         $employeeBranch = Branch::where('id',$validated['branch'])->first()->name;

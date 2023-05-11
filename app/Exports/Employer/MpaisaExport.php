@@ -28,7 +28,10 @@ class MpaisaExport implements FromCollection, WithMapping
             // ->where('users.employer_id', Auth::guard('employer')->id())->where('split_payment.employer_id', Auth::guard('employer')->id())
             // ->get();
 
-            $data = User::with('payroll_latest', 'split_payment')->where('employer_id', Auth::guard('employer')->id())->get();
+            $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())
+                                ->whereHas('split_payment', function ($query) {
+                                    $query->where('mpaisa', '!=', 0);
+                                })->get();
 
         return $data;
     }
@@ -38,7 +41,7 @@ class MpaisaExport implements FromCollection, WithMapping
         return [
             $row->phone,
             // $row->amount,
-            // $row->payroll_latest->paid_salary * ($row->split_payment->mpaisa/100),
+            $row->split_payment_mpaisa(),
             $row->first_name.' '.$row->last_name,  
         ];
     }

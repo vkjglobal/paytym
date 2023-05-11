@@ -41,7 +41,10 @@ class MycashExport implements FromCollection, WithMapping
         // ->where('users.employer_id', Auth::guard('employer')->id())->where('split_payment.employer_id', Auth::guard('employer')->id())
         // ->get();
 
-        $data = User::with('payroll_latest', 'split_payment')->where('employer_id', Auth::guard('employer')->id())->get();
+        $data = User::with('payroll_latest', 'split_payment')->where('employer_id', Auth::guard('employer')->id())
+                    ->whereHas('split_payment', function ($query) {
+                        $query->where('mycash', '!=', 0);
+                    })->get();
 
         return $data;
     }
@@ -51,7 +54,7 @@ class MycashExport implements FromCollection, WithMapping
         return [
             $row->phone,
             // $row->amount,
-            // $row->payroll_latest->paid_salary * ($row->split_payment->mycash/100),
+            $row->split_payment_mycash(),
             $row->first_name.' '.$row->last_name,  
         ];
     }

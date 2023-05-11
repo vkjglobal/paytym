@@ -130,6 +130,31 @@ class User extends Authenticatable
     {
         return $this->hasOne(SplitPayment::class, 'employee_id');
     }
+
+    public function split_payment_bank()
+    {
+        $payroll = Payroll::where('user_id',$this->id)->latest()->first();
+        $split_payment = SplitPayment::where('employee_id', $this->id)->first();
+        if($split_payment != null)
+            {return $payroll->paid_salary * ($split_payment->bank/100);}
+        elseif($payroll != null)
+            {return $payroll->paid_salary;}
+    }
+    public function split_payment_mpaisa()
+    {
+        $payroll = Payroll::where('user_id',$this->id)->latest()->first();
+        $split_payment = SplitPayment::where('employee_id', $this->id)->first();
+        if($split_payment != null)
+            {return $payroll->paid_salary * ($split_payment->mpaisa/100);}
+    }
+    public function split_payment_mycash()
+    {
+        $payroll = Payroll::where('user_id',$this->id)->latest()->first();
+        $split_payment = SplitPayment::where('employee_id', $this->id)->first();
+        if($split_payment != null)
+            {return $payroll->paid_salary * ($split_payment->mycash/100);}
+    }
+
     public function total_provident_fund()
     {
         return $this->payroll()->whereMonth('end_date', Carbon::now())->sum('total_fnpf');

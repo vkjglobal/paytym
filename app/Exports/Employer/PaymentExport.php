@@ -41,7 +41,7 @@ class PaymentExport implements FromCollection, WithMapping
         // ->where('users.employer_id', Auth::guard('employer')->id())->where('split_payment.employer_id', Auth::guard('employer')->id())
         // ->get();
 
-        $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->get();
+        $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
 
         return $data;
     }
@@ -56,16 +56,14 @@ class PaymentExport implements FromCollection, WithMapping
         //     // $row->base_salary,
         //     $row->first_name.' '.$row->last_name,  
         // ];
-        // foreach($row->payroll_latest as $user){
-        //     $pay = $user->payroll_latest->paid_salary;
-        // }
+
 
         return [
             ++$index,
             $row->bank,
             $row->account_number,
             // $row->amount,
-            // $row->paid_salary,
+            $row->split_payment_bank(),
             $row->first_name.' '.$row->last_name,  
         ];
     }

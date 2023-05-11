@@ -30,4 +30,7 @@ class Payroll extends Model
     {
         return asset('storage/pdfs/'.$this->pay_slip);
     }
+
+    
+
 }

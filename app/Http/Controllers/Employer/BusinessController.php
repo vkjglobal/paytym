@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Employer;
 
+use App\Exports\Employer\MpaisaExport;
+use App\Exports\Employer\MycashExport;
 use App\Exports\Employer\PaymentExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -29,9 +31,8 @@ class BusinessController extends Controller
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
 
         // $data = User::with('payroll_latest', 'split_payment')->where('employer_id', Auth::guard('employer')->id())->get();
-
         // return $data;
-        return Excel::download(new PaymentExport, 'budget_report_export-'.Carbon::now().'.xlsx');
+        // return Excel::download(new PaymentExport, 'budget_report_export-'.Carbon::now().'.xlsx');
         // $export = new PaymentExport();
 
         return view('employer.business.index', compact('breadcrumbs', 'businesses'));
