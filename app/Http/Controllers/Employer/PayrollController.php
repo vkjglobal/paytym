@@ -604,7 +604,7 @@ class PayrollController extends Controller
             $grossSalary = $totalEarnings + $commission_amount + $total_bonus;   //gross pay =  Base Pay + Overtime Pay + Double Pay + Bonus + Commission 
             $netSalary = $grossSalary - ($totalTaxAmount + $fnpf_amount); //net salary= Gross Pay – (Superannuation + All Taxes)
            
-            $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay = Net pay + Allowances - Deductions
+            $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay (paid salary) = Net pay + Allowances - Deductions
 
             //Payroll Entry
             $user = User::where('id',$employee->id)->first();
