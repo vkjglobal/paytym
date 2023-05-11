@@ -31,7 +31,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $employers = Employer::get()->all();
+        $employers = Employer::all();
         $contacts = Contact::get()->all();
         $subscriptions = Subscription::get()->all();
         $projects = Project::get()->all();

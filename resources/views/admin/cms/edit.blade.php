@@ -19,7 +19,7 @@
                                    <input type="text"
                                        class="form-control @if ($errors->has('cms_type')) is-invalid @endif"
                                        name="cms_type" value="{{ old('cms_type', $cm->cms_type) }}"
-                                       placeholder="Enter Name" required>
+                                       placeholder="Enter Name">
                                    <div class="invalid-feedback">{{ $errors->first('cms_type') }}</div>
                                </div>
                            </div><!-- Col -->
