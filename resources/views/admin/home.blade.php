@@ -72,9 +72,6 @@
                 </div>
             </div>
 
-          
-
-
         </div>
     </div>
 </div> <!-- row -->
@@ -91,33 +88,38 @@
         </div>
     </div>
 </div>
-<!-- <div class="row gy-3">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+<div class="row gy-3">
+@foreach ($employers as $key => $value )
+<div class="col-lg-3 col-md-4 col-sm-6 col-12">
         <div class="d-flex flex-column">
-            <strong>Co Name</strong>
-            <span>50</span>
+            <strong>{{ $value->company }}</strong>
+            <span>{{ $value->get_active_employees() }}</span>
             <label for="">Active Employees</label>
         </div>
     </div>
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-        <div class="d-flex flex-column">
-            <strong>Co Name</strong>
-            <span>50</span>
-            <label for="">Active Employees</label>
-        </div>
-    </div>
-</div> -->
+   
+@endforeach
+
+  
+</div>
 @endsection
 @push('custom_js')
 <script>
     // Doughnut Chart
     var ctx6 = $("#doughnutChart").get(0).getContext("2d");
     var company = [];
-   
+    var company = @json($employers);
+
+    const companyNames = company.map(company => company.company);
+    console.log(companyNames);
+
+
+    //console.log("haloo");
     var myChart6 = new Chart(ctx6, {
         type: "doughnut",
         data: {
-            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
+            //companyNames
+            labels: ["c1", "c2", "c3", "c4", "c5"],
             datasets: [{
                 backgroundColor: [
                     "#0014ff",
