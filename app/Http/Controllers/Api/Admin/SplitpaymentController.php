@@ -98,17 +98,17 @@ class SplitpaymentController extends Controller
             ], 400);
         }
        
-        // $split_payment_list = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->get();
-        $mycash = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->where('payment_wallet', '0')->orderBy('id', 'desc')->first();
-        $mpaisa = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->where('payment_wallet', '1')->orderBy('id', 'desc')->first();
-        $bank = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->where('payment_wallet', '2')->orderBy('id', 'desc')->first();
-        if ($mycash || $mpaisa || $bank) {
+        $split_payment_list = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->get();
+        // $mycash = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->where('payment_wallet', '0')->orderBy('id', 'desc')->first();
+        // $mpaisa = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->where('payment_wallet', '1')->orderBy('id', 'desc')->first();
+        // $bank = SplitPayment::where('employer_id', $request->employer_id)->where('employee_id', $user)->where('payment_wallet', '2')->orderBy('id', 'desc')->first();
+        if ($split_payment_list) {
             return response()->json([
                 'message' => "Success",
-                // 'split_payment_list'=>$split_payment_list,
-                'mycash'=>$mycash,
-                'mpaisa'=>$mpaisa,
-                'bank'=>$bank,
+                'split_payment_list'=>$split_payment_list,
+                // 'mycash'=>$mycash,
+                // 'mpaisa'=>$mpaisa,
+                // 'bank'=>$bank,
             ], 200);
         } else {
             return response()->json([

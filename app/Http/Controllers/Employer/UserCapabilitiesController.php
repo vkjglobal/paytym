@@ -43,7 +43,7 @@ class UserCapabilitiesController extends Controller
             [(__('Create')), null]
         ];
 
-        $roles = Role::get();
+        $roles = Role::where('employer_id',Auth::guard('employer')->user()->id)->get();
         return view('employer.user-capabilities.create', compact('breadcrumbs', 'roles'));
     }
 
@@ -114,7 +114,7 @@ class UserCapabilitiesController extends Controller
             [(__('User Capabilities')), route('employer.usercapabilities.index')],
             [(__('Edit')), null]
         ];
-        $roles = Role::get();
+        $roles = Role::where('employer_id',Auth::guard('employer')->user()->id)->get();
 
         return view('employer.user-capabilities.edit', compact('breadcrumbs', 'usercapability', 'roles'));
     }

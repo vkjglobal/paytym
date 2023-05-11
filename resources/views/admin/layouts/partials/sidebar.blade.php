@@ -186,7 +186,7 @@
             <li class="nav-item {{ request()->is('admin/invoice') ? 'active' : '' }}">
                 <a href="{{ route('admin.invoice.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="dollar-sign"></i>
-                    <span class="link-title">Emploer Invoices</span>
+                    <span class="link-title">Employer Invoices</span>
                 </a>
             </li>
             <!----End Invoices----->
