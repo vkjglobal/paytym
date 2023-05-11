@@ -45,8 +45,8 @@
                                 @endif
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a data-toggle="modal" data-target="#sharePublicInfo" class="mr-1 text-info share-info-btn" data-message="{{ $supportTicket->message }}" data-toggle="tooltip" data-placement="top" title="Share Information">
-                                            <i data-feather="share"></i>
+                                        <a data-toggle="modal" data-target="#sharePublicInfo{{ $supportTicket->id }}" class="mr-1 text-info share-info-btn" data-message="{{ $supportTicket->message }}" data-toggle="tooltip" data-placement="top" title="Share Information">
+                                            <i data-feather="eye"></i>
                                         </a>
                                         <!-- Edit button -->
                                         <a href="{{ route('employer.supportticket.edit', $supportTicket->id) }}" class="mr-1 text-warning" data-toggle="tooltip" data-placement="top" title="Edit">
@@ -66,6 +66,42 @@
                                     </div>
                                 </td>
                             </tr>
+                            <!-- view message modal start-->
+                            <div class="modal fade" id="sharePublicInfo{{ $supportTicket->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Send info</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+
+                                            <div class="form-group">
+                                                <label for="reply_message">View Message</label>
+                                            </div>
+                                            <p>
+                                            {{$supportTicket->message}}
+                                            </p><br>
+                                            <div class="form-group">
+                                                <label for="reply_message">Reply Message</label>
+                                            </div>
+                                            <p>
+                                            {{$supportTicket->reply()->latest()->first()->reply}}
+                                            </p>
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- view message modal start-->
                             @endforeach
                         </tbody>
                     </table>
@@ -76,34 +112,6 @@
 </div>
 
 
-<div class="modal fade" id="sharePublicInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Send info</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-
-                <div class="form-group">
-                    <label for="reply_message">View Message</label>
-                </div>
-                <textarea class="form-control" name="message" id="messages">
-
-</textarea>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 @endsection
 @push('custom_css')

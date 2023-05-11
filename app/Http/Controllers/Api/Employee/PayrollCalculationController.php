@@ -32,6 +32,12 @@ class PayrollCalculationController extends Controller
             // 'payroll_status' => 'required',
         ]);
 
+        //if validation fails
+        if ($validator->fails()) {
+        return response()->json([
+            'message' => $validator->errors()->first(),
+        ], 400);
+        }
         //Checking for pending approval or rejection leaves , attendance or overtime
         $pending_leaves = LeaveRequest::where('employer_id',$request->employer_id)->where('status','0')->get();
         $pending_overtime = Overtime::where('employer_id',$request->employer_id)->where('status','0')->get();
@@ -53,12 +59,7 @@ class PayrollCalculationController extends Controller
             ],400);
         }
 
-        //if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()->first(),
-            ], 400);
-        }
+   
 
 
 ////
@@ -198,8 +199,7 @@ class PayrollCalculationController extends Controller
                     if(isset($salaryEndDate)){
                     $employee->payed_date = $salaryEndDate;
 
-                    }
-                    
+                    }                    
                     $employee->save();
                 }
 
@@ -231,11 +231,11 @@ class PayrollCalculationController extends Controller
                     ]);
         });
         Storage::delete($path); 
-        $bank = SplitPayment::where('status', 0)->where('payment_wallet', '1')->get();
-        foreach($bank as $b){
-            $b->status = 1;
-            $b->save();
-        }
+        // $bank = SplitPayment::where('status', 0)->where('payment_wallet', '1')->get();
+        // foreach($bank as $b){
+        //     $b->status = 1;
+        //     $b->save();
+        // }
         //end sending
 
         //sending payroll csv file through email mpaisa
@@ -263,11 +263,11 @@ class PayrollCalculationController extends Controller
                     ]);
         });
         Storage::delete($path); 
-        $mpaisa = SplitPayment::where('status', 0)->where('payment_wallet', '1')->get();
-        foreach($mpaisa as $m){
-            $m->status = 1;
-            $m->save();
-        }
+        // $mpaisa = SplitPayment::where('status', 0)->where('payment_wallet', '1')->get();
+        // foreach($mpaisa as $m){
+        //     $m->status = 1;
+        //     $m->save();
+        // }
 
 
         //end sending
@@ -297,11 +297,11 @@ class PayrollCalculationController extends Controller
                     ]);
         });
         Storage::delete($path); 
-        $mycash = SplitPayment::where('status', 0)->where('payment_wallet', '0')->get();
-        foreach($mycash as $m){
-            $m->status = 1;
-            $m->save();
-        }
+        // $mycash = SplitPayment::where('status', 0)->where('payment_wallet', '0')->get();
+        // foreach($mycash as $m){
+        //     $m->status = 1;
+        //     $m->save();
+        // }
         //end sending
         
 

@@ -7,7 +7,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Allowance Report</h6>
+                    <h6 class="card-title">Allowance/Bonus/Commission Report</h6>
                     
                     <div class="float-right mb-3">
                         {{-- <button type="button" class="btn btn-outline-primary btn-icon-text">
@@ -27,41 +27,38 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Name</th>
-                                     
+                                    <th>Start date</th>
+                                    <th>End date</th>
                                     <th>Total Allowance Amount</th>
-                                    <th>View</th>
-                   
-                                    {{-- <th>Total Allowance</th>    --}}
-                                    {{-- <th>Branch</th>
-                                    <th>Department</th>
-                                    <th>Status</th> --}}
+                                    <th>Total Bonus Amount</th>
+                                    <th>Total Commission Amount</th>
+                                    {{-- <th>View</th> --}}
 
-                                    {{-- <th>Date of birth</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Salary type</th>
-                                    <th>Pay period</th>
-
-                                    <th>Attendance(Days)</th>
-                                    <th>Leaves(Days)</th>
-                                    <th>Projects</th>
-                                    <th>Employment start date</th>
-                                    <th>Employment end date</th> --}}
 
                             </thead>
                             <tbody>
-                                @foreach ($employees as $employee)
+                                @foreach ($payrolls as $payroll)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>@isset($employee->first_name)
-                                            {{ $employee->first_name }}
-                                        @endisset</td>
                                         <td>
-                                            {{ $employee->total_allowance() }}
+                                        {{optional($payroll->user)->first_name}} {{optional($payroll->user)->last_name}}
                                         </td>
                                         <td>
-                                            <a href="{{route('employer.report.allowance.view', $employee->id)}}"><i data-feather="eye"></i></a>
+                                            {{ $payroll->start_date }}
                                         </td>
+                                        <td>
+                                            {{ $payroll->end_date }}
+                                        </td>
+                                        <td>
+                                            {{ $payroll->total_allowance }}
+                                        </td>
+                                        <td>
+                                            {{ $payroll->total_bonus }}
+                                        </td>
+                                        <td>
+                                            {{ $payroll->total_commission }}
+                                        </td>
+
                                     </tr>
                                 @endforeach
                             </tbody>

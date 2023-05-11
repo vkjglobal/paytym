@@ -50,79 +50,9 @@
             <!-- Request end -->
 
 
-            <!-- Leave -->
+            
 
-            <li class="nav-item {{ request()->is('employer/leave-requests*') ? 'active' : '' }}">
-
-                <a class="nav-link" data-toggle="collapse" href="#leave" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="users"></i>
-                    <span class="link-title">Leave</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/leave-requests*') ? 'show' : '' }}" id="leave">
-                    <ul class="nav sub-menu">
-
-                        <li class="nav-item {{ request()->is('employer/leave-type*') ? 'active' : '' }}">
-                            <a class="nav-link" data-toggle="collapse" href="#leavetype" role="button" aria-expanded="false" aria-controls="requests">
-                                <span>Leave Types</span>
-                                <i class="link-arrow" data-feather="chevron-down"></i>
-                            </a>
-                            <div class="collapse {{ request()->is('employer/leave-type/*') ? 'show' : '' }}" id="leavetype">
-                                <ul class="nav sub-menu">
-                                    <li class="nav-item">
-                                        <a href="{{route('employer.leave-type.create')}}" class="nav-link {{ request()->is('employer/leave-type/create') ? 'active' : '' }}">
-                                            Create
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="{{route('employer.leave-type.index')}}" class="nav-link {{ request()->is('employer/leave_type') ? 'active' : '' }}">
-                                            List
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-
-                        <li class="nav-item ">
-                            <a href="{{ route('employer.leave.requests') }}" class="nav-link {{ request()->is('employer/leave-requests') ? 'active' : '' }}">
-
-                                Leave Requests
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-
-            <!-- Leave end -->
-
-            <!-- Holiday  start -->
-            <li class="nav-item {{ request()->is('employer/holiday*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#holiday" role="button" aria-expanded="false" aria-controls="holiday">
-                    <i class="link-icon" data-feather="briefcase"></i>
-                    <span class="link-title">Holiday</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse  {{ request()->is('employer/holiday*') ? 'show' : '' }}" id="holiday">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{route('employer.holiday.create')}}" class="nav-link {{ request()->is('employer/business/create') ? 'active' : '' }}">
-                                Create
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.holiday.index') }}" class="nav-link {{ request()->is('employer/business') ? 'active' : '' }}">
-                                List
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-            </li>
-
-            <!-- Holiday end -->
+            
 
             <!-- Branch -->
 
@@ -207,6 +137,38 @@
 
             <!-- Departments End -->
 
+            
+
+            
+
+            <!-- Provident/Super Fund end -->
+
+            <li class="nav-item  {{ request()->is('employer/providentfund*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#providentfund" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="user-plus"></i>
+                    <span class="link-title">Provident Fund</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/providentfund*') ? 'show' : '' }}" id="providentfund">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.providentfund.create') }}" class="nav-link {{ request()->is('employer/providentfund/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.providentfund.index') }}" class="nav-link {{ request()->is('employer/providentfund') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <!--Provident/Super Fund end -->
+
             <!-- Employees -->
 
             <li class="nav-item {{ request()->is('employer/user*') ? 'active' : '' }}">
@@ -233,31 +195,58 @@
 
             <!-- Employees End -->
 
-            <!-- Calendar -->
+            <!-- User Capability -->
 
-            <li class="nav-item {{ request()->is('employer/event*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#events" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="calendar"></i>
-                    <span class="link-title">Calender</span>
+            <li class="nav-item  {{ request()->is('employer/usercapabilities*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#capabilities" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">User Capabilities</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/event*') ? 'show' : '' }}" id="events">
+                <div class="collapse {{ request()->is('employer/usercapabilities*') ? 'show' : '' }}" id="capabilities">
+                    <ul class="nav sub-menu">
+                        <!-- <li class="nav-item">
+                            <a href="{{ route('employer.usercapabilities.create') }}" class="nav-link {{ request()->is('employer/usercapabilities/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a href="{{ route('employer.usercapabilities.index') }}" class="nav-link {{ request()->is('employer/usercapabilities') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <!--User Capability end -->
+
+            <!-- Roster -->
+
+            <li class="nav-item  {{ request()->is('employer/roster*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#roster" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="clipboard"></i>
+                    <span class="link-title">Rosters</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/roster*') ? 'show' : '' }}" id="roster">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('employer.event.create') }}" class="nav-link {{ request()->is('employer/event/create') ? 'active' : '' }}">
-                                Create Events
+                            <a href="{{ route('employer.roster.create') }}" class="nav-link {{ request()->is('employer/roster/create') ? 'active' : '' }}">
+                                Create
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('employer.event.index') }}" class="nav-link {{ request()->is('employer/event') ? 'active' : '' }}">
-                                List Events
+                            <a href="{{ route('employer.roster.index') }}" class="nav-link {{ request()->is('employer/roster') ? 'active' : '' }}">
+                                List
                             </a>
                         </li>
                     </ul>
                 </div>
             </li>
 
-            <!-- Calendar End -->
+            <!-- Roster End -->
 
             <!-- projects -->
 
@@ -296,33 +285,104 @@
 
             <!-- Projects End -->
 
+            <!-- Attendance start -->
 
-
-            <!-- Roster -->
-
-            <li class="nav-item  {{ request()->is('employer/roster*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#roster" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="clipboard"></i>
-                    <span class="link-title">Rosters</span>
+            <li class="nav-item  {{ request()->is('employer/attendance*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#attendance" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Attendance</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/roster*') ? 'show' : '' }}" id="roster">
+                <div class="collapse {{ request()->is('employer/attendance*') ? 'show' : '' }}" id="attendance">
                     <ul class="nav sub-menu">
+
                         <li class="nav-item">
-                            <a href="{{ route('employer.roster.create') }}" class="nav-link {{ request()->is('employer/roster/create') ? 'active' : '' }}">
+                            <a href="{{ route('employer.attendance.create') }}" class="nav-link {{ request()->is('employer/attendance/create') ? 'active' : '' }}">
                                 Create
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('employer.roster.index') }}" class="nav-link {{ request()->is('employer/roster') ? 'active' : '' }}">
+                            <a href="{{ route('employer.attendance.index') }}" class="nav-link {{ request()->is('employer/attendance') ? 'active' : '' }}">
                                 List
                             </a>
                         </li>
+
+                    </ul>
+                </div>
+            </li>
+            
+            <!-- Attendance end -->
+
+            <!-- Leave -->
+
+            <li class="nav-item {{ request()->is('employer/leave-requests*') ? 'active' : '' }}">
+
+                <a class="nav-link" data-toggle="collapse" href="#leave" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Leave</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/leave-requests*') ? 'show' : '' }}" id="leave">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item {{ request()->is('employer/leave-type*') ? 'active' : '' }}">
+                            <a class="nav-link" data-toggle="collapse" href="#leavetype" role="button" aria-expanded="false" aria-controls="requests">
+                                <span>Leave Types</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse {{ request()->is('employer/leave-type/*') ? 'show' : '' }}" id="leavetype">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a href="{{route('employer.leave-type.create')}}" class="nav-link {{ request()->is('employer/leave-type/create') ? 'active' : '' }}">
+                                            Create
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{route('employer.leave-type.index')}}" class="nav-link {{ request()->is('employer/leave_type') ? 'active' : '' }}">
+                                            List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <li class="nav-item ">
+                            <a href="{{ route('employer.leave.requests') }}" class="nav-link {{ request()->is('employer/leave-requests') ? 'active' : '' }}">
+
+                                Leave Requests
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
             </li>
 
-            <!-- Roster End -->
+            <!-- Leave end -->
+
+            <!-- Payroll -->
+
+            <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
+
+            <a class="nav-link" data-toggle="collapse" href="#payroll" role="button" aria-expanded="false" aria-controls="requests">
+                <i class="link-icon" data-feather="dollar-sign"></i>
+                <span class="link-title">Payroll</span>
+                <i class="link-arrow" data-feather="chevron-down"></i>
+            </a>
+            <div class="collapse {{ request()->is('employer/payroll') ? 'show' : '' }}" id="payroll">
+                <ul class="nav sub-menu">
+                    <li class="nav-item">
+                        <a href="{{ route('employer.payroll.index') }}" class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                            List
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            </li>
+
+            <!-- Payroll end -->
 
             <!-- Allowance -->
 
@@ -355,43 +415,11 @@
 
             <!-- allowance End -->
 
-
-            <!-- Deduction -->
-
-            <li class="nav-item  {{ request()->is('employer/deduction*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#deduction" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="user-minus"></i>
-                    <span class="link-title">Deductions</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/deduction*') ? 'show' : '' }}" id="deduction">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{ route('employer.deduction.create') }}" class="nav-link {{ request()->is('employer/deduction/create') ? 'active' : '' }}">
-                                Create
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.deduction.index') }}" class="nav-link {{ request()->is('employer/deduction') ? 'active' : '' }}">
-                                List
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.assigndeduction.index') }}" class="nav-link {{ request()->is('employer/deduction/assigndeduction') ? 'active' : '' }}">
-                                Assign
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <!-- Deduction End -->
-
             <!-- Benefits -->
 
             <li class="nav-item {{ request()->is('employer/benefit*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#benefit" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="user-plus"></i>
+                    <i class="link-icon" data-feather="gift"></i>
                     <span class="link-title">Benefits</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -407,12 +435,34 @@
                                 List
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('employer.assignbenefit.index')}}" class="nav-link {{ request()->is('employer/benefit/assignbenefit') ? 'active' : '' }}">
+                                Assign
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
             </li>
 
             <!-- Benefits End -->
+
+            
+    
+            
+
+            
+
+
+
+            
+
+            
+
+
+            
+
+            
 
             <!-- Calender -->
 
@@ -530,28 +580,6 @@
 
             <!-- Employee End -->
 
-            <!-- Payroll -->
-
-            <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
-
-                <a class="nav-link" data-toggle="collapse" href="#payroll" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="dollar-sign"></i>
-                    <span class="link-title">Payroll</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/payroll') ? 'show' : '' }}" id="payroll">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{ route('employer.payroll.index') }}" class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
-                                List
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-
-            <!-- Payroll end -->
             <!-- Payroll budget -->
 
             <li class="nav-item  {{ request()->is('employer/payroll-budget*') ? 'active' : '' }}">
@@ -580,139 +608,6 @@
 
 
             <!-- Payroll budget end -->
-
-            <!-- Uploads -->
-
-            <li class="nav-item {{ request()->is('employer/uploads*') ? 'active' : '' }} {{ request()->is('employer/file_type*') ? 'active' : '' }}">
-
-                <a class="nav-link" data-toggle="collapse" href="#uploads" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="users"></i>
-                    <span class="link-title">Uploads</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/upload*') ? 'show' : '' }} {{ request()->is('employer/file_type*') ? 'show' : '' }}" id="uploads">
-                    <ul class="nav sub-menu">
-
-                        <li class="nav-item {{ request()->is('employer/file_type*') ? 'active' : '' }}">
-                            <a class="nav-link" data-toggle="collapse" href="#filetype" role="button" aria-expanded="false" aria-controls="requests">
-                                <span>File Type</span>
-                                <i class="link-arrow" data-feather="chevron-down"></i>
-                            </a>
-                            <div class="collapse {{ request()->is('employer/file_type*') ? 'show' : '' }}" id="filetype">
-                                <ul class="nav sub-menu">
-                                    <li class="nav-item">
-                                        <a href="{{route('employer.file_type.create')}}" class="nav-link {{ request()->is('employer/file_type/create') ? 'active' : '' }}">
-                                            Create
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="{{route('employer.file_type.index')}}" class="nav-link {{ request()->is('employer/file_type') ? 'active' : '' }}">
-                                            List
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-
-                        <li class="nav-item ">
-                            <a href="{{ route('employer.uploads.index') }}" class="nav-link {{ request()->is('employer/upload*') ? 'active' : '' }}">
-
-                                Uploads
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-
-            <!-- Uploads end -->
-
-
-            <!-- Attendance end -->
-
-            <li class="nav-item  {{ request()->is('employer/attendance*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#attendance" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="users"></i>
-                    <span class="link-title">Attendance</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/attendance*') ? 'show' : '' }}" id="attendance">
-                    <ul class="nav sub-menu">
-
-                        <li class="nav-item">
-                            <a href="{{ route('employer.attendance.create') }}" class="nav-link {{ request()->is('employer/attendance/create') ? 'active' : '' }}">
-                                Create
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.attendance.index') }}" class="nav-link {{ request()->is('employer/attendance') ? 'active' : '' }}">
-                                List
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item {{ request()->is('employer/support-tickets*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#supportticket" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="user-plus"></i>
-                    <span class="link-title">Support Tickets</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/supportticket*') ? 'show' : '' }}" id="supportticket">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{route('employer.supportticket.create')}}" class="nav-link {{ request()->is('employer/supportticket/create') ? 'active' : '' }}">
-                                Create
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('employer.supportticket.index')}}" class="nav-link {{ request()->is('employer/supportticket') ? 'active' : '' }}">
-                                List
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-            </li>
-
-            <!-- Support Tickets End -->
-
-            <!-- Support Tickets End -->
-
-            <!-- Attendance end -->
-
-            <!-- Provident/Super Fund end -->
-
-            <li class="nav-item  {{ request()->is('employer/providentfund*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#providentfund" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="user-plus"></i>
-                    <span class="link-title">Provident Fund</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/providentfund*') ? 'show' : '' }}" id="providentfund">
-                    <ul class="nav sub-menu">
-
-                        <li class="nav-item">
-                            <a href="{{ route('employer.providentfund.create') }}" class="nav-link {{ request()->is('employer/providentfund/create') ? 'active' : '' }}">
-                                Create
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.providentfund.index') }}" class="nav-link {{ request()->is('employer/providentfund') ? 'active' : '' }}">
-                                List
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-
-            <!--Provident/Super Fund end -->
-
 
             <!-- User Role -->
 
@@ -744,32 +639,7 @@
 
 
 
-            <!-- User Capability -->
-
-            <li class="nav-item  {{ request()->is('employer/usercapabilities*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#capabilities" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="users"></i>
-                    <span class="link-title">User Capabilities</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/usercapabilities*') ? 'show' : '' }}" id="capabilities">
-                    <ul class="nav sub-menu">
-                        <!-- <li class="nav-item">
-                            <a href="{{ route('employer.usercapabilities.create') }}" class="nav-link {{ request()->is('employer/usercapabilities/create') ? 'active' : '' }}">
-                                Create
-                            </a>
-                        </li> -->
-                        <li class="nav-item">
-                            <a href="{{ route('employer.usercapabilities.index') }}" class="nav-link {{ request()->is('employer/usercapabilities') ? 'active' : '' }}">
-                                List
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-
-            <!--User Capability end -->
+            
 
 
             <!-- Payroll Settings -->
@@ -817,73 +687,14 @@
             </li>
             <!--Payslip Settings End-->
 
-
-            <!-- Report -->
-            <li class="nav-item {{ request()->is('employer/report') ? 'active' : '' }}">
-
-                <a class="nav-link" data-toggle="collapse" href="#report" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="clipboard"></i>
-                    <span class="link-title">Report</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
+            <!--Split Payment-->
+            <li class="nav-item {{ request()->is('employer/split_payment*') ? 'active' : '' }}">
+                <a href="{{ route('employer.split_payment.wallet') }}" class="nav-link">
+                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <span class="link-title">Split Payment</span>
                 </a>
-                <div class="collapse {{ request()->is('employer/report*') ? 'show' : '' }}" id="report">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.employee') }}" class="nav-link {{ request()->is('employer/report/employee') ? 'active' : '' }}">
-                                Employees
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.attendance.search') }}" class="nav-link {{ request()->is('employer/report/attendance*') ? 'active' : '' }}">
-                                Attendance
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.employment_period') }}" class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
-                                Employment Periods
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.status') }}" class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
-                                Status Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.allowance') }}" class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
-                                Allowance Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.deduction') }}" class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
-                                Deduction Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.payroll') }}" class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
-                                Payroll Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.providentfund') }}" class="nav-link {{ request()->is('employer/report/providentfund*') ? 'active' : '' }}">
-                                Provident Fund Report
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.tax') }}" class="nav-link {{ request()->is('employer/report/tax*') ? 'active' : '' }}">
-                                Tax Report
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.report.payslip') }}" class="nav-link {{ request()->is('employer/report/payslip*') ? 'active' : '' }}">
-                                Payslip Report
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
             </li>
-            <!--Report End-->
-
+            <!--Split Payment-->
 
             <!-- Commission -->
             <li class="nav-item {{ request()->is('employer/commission*') ? 'active' : '' }}">
@@ -892,10 +703,11 @@
                     <span class="link-title">Commission</span>
                 </a>
             </li>
+            <!-- Commission end-->
 
-            <!-- bonus -->
+             <!-- bonus -->
 
-            <li class="nav-item  {{ request()->is('employer/bonus*') ? 'active' : '' }}">
+             <li class="nav-item  {{ request()->is('employer/bonus*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#bonus" role="button" aria-expanded="false" aria-controls="requests">
                     <i class="link-icon" data-feather="user-plus"></i>
                     <span class="link-title">Bonus</span>
@@ -921,11 +733,221 @@
 
             <!--bonus -->
 
+            <!-- Deduction -->
+
+            <li class="nav-item  {{ request()->is('employer/deduction*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#deduction" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="user-minus"></i>
+                    <span class="link-title">Deductions</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/deduction*') ? 'show' : '' }}" id="deduction">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.deduction.create') }}" class="nav-link {{ request()->is('employer/deduction/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.deduction.index') }}" class="nav-link {{ request()->is('employer/deduction') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.assigndeduction.index') }}" class="nav-link {{ request()->is('employer/deduction/assigndeduction') ? 'active' : '' }}">
+                                Assign
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Deduction End -->
+
+            <!-- Uploads -->
+
+            <li class="nav-item {{ request()->is('employer/uploads*') ? 'active' : '' }} {{ request()->is('employer/file_type*') ? 'active' : '' }}">
+
+                <a class="nav-link" data-toggle="collapse" href="#uploads" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="upload"></i>
+                    <span class="link-title">Uploads</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/upload*') ? 'show' : '' }} {{ request()->is('employer/file_type*') ? 'show' : '' }}" id="uploads">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item {{ request()->is('employer/file_type*') ? 'active' : '' }}">
+                            <a class="nav-link" data-toggle="collapse" href="#filetype" role="button" aria-expanded="false" aria-controls="requests">
+                                <span>File Type</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse {{ request()->is('employer/file_type*') ? 'show' : '' }}" id="filetype">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a href="{{route('employer.file_type.create')}}" class="nav-link {{ request()->is('employer/file_type/create') ? 'active' : '' }}">
+                                            Create
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{route('employer.file_type.index')}}" class="nav-link {{ request()->is('employer/file_type') ? 'active' : '' }}">
+                                            List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <li class="nav-item ">
+                            <a href="{{ route('employer.uploads.index') }}" class="nav-link {{ request()->is('employer/upload*') ? 'active' : '' }}">
+
+                                Uploads
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Uploads end -->
+
+            <!-- Report -->
+            <li class="nav-item {{ request()->is('employer/report') ? 'active' : '' }}">
+
+                <a class="nav-link" data-toggle="collapse" href="#report" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="clipboard"></i>
+                    <span class="link-title">Report</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/report*') ? 'show' : '' }}" id="report">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.employee') }}" class="nav-link {{ request()->is('employer/report/employee') ? 'active' : '' }}">
+                                Employees
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.attendance.search') }}" class="nav-link {{ request()->is('employer/report/attendance*') ? 'active' : '' }}">
+                                Attendance
+                           </a>
+                       </li>
+                       <li class="nav-item">
+                        <a href="{{ route('employer.report.employment_period') }}"
+                            class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
+                             Employment Periods
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.status') }}"
+                            class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
+                             Status Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.allowance') }}"
+                            class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
+                             Allowance/Bonus/Commission
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.deduction') }}"
+                            class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
+                             Deduction Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.payroll') }}"
+                            class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
+                             Payroll Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.providentfund') }}"
+                            class="nav-link {{ request()->is('employer/report/providentfund*') ? 'active' : '' }}">
+                            Provident Fund Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.tax') }}"
+                            class="nav-link {{ request()->is('employer/report/tax*') ? 'active' : '' }}">
+                            Tax Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('employer.report.payslip') }}"
+                            class="nav-link {{ request()->is('employer/report/payslip*') ? 'active' : '' }}">
+                            Payslip Report
+                        </a>
+                    </li>
+                       
+                   </ul>
+               </div>
+           </li>
+            <!--Report End-->
+
+            <!-- Calendar -->
+
+            <li class="nav-item {{ request()->is('employer/event*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#events" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="calendar"></i>
+                    <span class="link-title">Calender</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/event*') ? 'show' : '' }}" id="events">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.event.create') }}" class="nav-link {{ request()->is('employer/event/create') ? 'active' : '' }}">
+                                Create Events
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.event.index') }}" class="nav-link {{ request()->is('employer/event') ? 'active' : '' }}">
+                                List Events
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Calendar End -->
+
+            <!-- Holiday  start -->
+            <li class="nav-item {{ request()->is('employer/holiday*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#holiday" role="button" aria-expanded="false" aria-controls="holiday">
+                    <i class="link-icon" data-feather="sunrise"></i>
+                    <span class="link-title">Holiday</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse  {{ request()->is('employer/holiday*') ? 'show' : '' }}" id="holiday">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('employer.holiday.create')}}" class="nav-link {{ request()->is('employer/business/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.holiday.index') }}" class="nav-link {{ request()->is('employer/business') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </li>
+
+            <!-- Holiday end -->
+
+
+            
+
+           
+
             <!-- chat -->
 
             <li class="nav-item  {{ request()->is('employer/groupchat*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#chat" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="users"></i>
+                    <i class="link-icon" data-feather="message-square"></i>
                     <span class="link-title">Chat</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -971,7 +993,7 @@
 
             <li class="nav-item  {{ request()->is('employer/billing*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#payment" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <i class="link-icon" data-feather="credit-card"></i>
                     <span class="link-title">Payment</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -997,22 +1019,42 @@
     <!--payment -->
 
     <!--check in and check out time -->
-    <li class="nav-item {{ request()->is('employer/check-in-out-time*') ? 'active' : '' }}">
+    <!-- <li class="nav-item {{ request()->is('employer/check-in-out-time*') ? 'active' : '' }}">
         <a href="{{ route('employer.checkinout') }}" class="nav-link">
             <i class="link-icon" data-feather="clock"></i>
             <span class="link-title">Checkin-Checkout time</span>
         </a>
-    </li>
+    </li> -->
     <!--check in and check out time end -->
 
-    <!--Split Payment-->
-    <li class="nav-item {{ request()->is('employer/split_payment*') ? 'active' : '' }}">
-        <a href="{{ route('employer.split_payment.wallet') }}" class="nav-link">
-            <i class="link-icon" data-feather="dollar-sign"></i>
-            <span class="link-title">Split Payment</span>
-        </a>
-    </li>
-    <!--Split Payment-->
+    
+
+    <!-- Support Tickets End -->
+            
+        <li class="nav-item {{ request()->is('employer/support-tickets*') ? 'active' : '' }}">
+            <a class="nav-link" data-toggle="collapse" href="#supportticket" role="button" aria-expanded="false" aria-controls="requests">
+                <i class="link-icon" data-feather="bookmark"></i>
+                <span class="link-title">Support Tickets</span>
+                <i class="link-arrow" data-feather="chevron-down"></i>
+            </a>
+            <div class="collapse {{ request()->is('employer/supportticket*') ? 'show' : '' }}" id="supportticket">
+                <ul class="nav sub-menu">
+                    <li class="nav-item">
+                        <a href="{{route('employer.supportticket.create')}}" class="nav-link {{ request()->is('employer/supportticket/create') ? 'active' : '' }}">
+                            Create
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('employer.supportticket.index')}}" class="nav-link {{ request()->is('employer/supportticket') ? 'active' : '' }}">
+                            List
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </li>
+
+            <!-- Support Tickets End -->
 
 
 

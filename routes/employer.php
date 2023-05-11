@@ -37,6 +37,7 @@ use App\Http\Controllers\Employer\MedicalController;
 use App\Http\Controllers\Employer\PayrollBudgetController;
 use App\Http\Controllers\Employer\SplitPaymentController;
 use App\Http\Controllers\Employer\UserRoleController;
+use App\Http\Controllers\Employer\AssignBenefitController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -123,6 +124,7 @@ Route::middleware('employer.auth')->group(function () {
     //Benefits
     Route::resource('benefit', BenefitController::class)->except(['show']);
     Route::get('benefit-change-status', [BenefitController::class, 'changeStatus'])->name('benefit.change.status');
+    Route::resource('benefit/assignbenefit',AssignBenefitController::class)->except(['show']);
     
     //Support Tickets
     Route::resource('supportticket', SupportTicketController::class)->except(['show']);
@@ -148,6 +150,8 @@ Route::middleware('employer.auth')->group(function () {
 
     //Rosters
     Route::resource('roster',RosterController::class)->except(['show']);
+    Route::get('roster/filter',[RosterController::class,'roster_filter'])->name('roster.filter');
+    Route::get('roster/report',[RosterController::class,'roster_report'])->name('roster.report');
 
     //Deductions
     Route::resource('deduction',DeductionController::class)->except(['show']);
@@ -219,7 +223,7 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('report/employee/filter',[ReportController::class,'employee_list_filter'])->name('report.employee.filter');
     Route::get('report/employee/export',[ReportController::class,'employee_list_export'])->name('report.employee.export');
 
-    Route::get('report/status',[ReportController::class,'status_list_index'])->name('report.status');
+    // Route::get('report/status',[ReportController::class,'status_list_index'])->name('report.status');
 
     Route::get('report/status/business',[ReportController::class,'status_business'])->name('report.status.business');
     Route::get('report/status/business/export',[ReportController::class,'status_business_export'])->name('report.status.business.export');
@@ -256,6 +260,12 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('report/payslip',[ReportController::class,'payslip_index'])->name('report.payslip');
     Route::post('report/payslip/payslip_send_mail',[ReportController::class,'payslip_send_mail'])->name('report.payslip.send.mail');
     Route::get('report/payslip/export',[ReportController::class,'payslip_export'])->name('report.payslip.export');
+
+    Route::get('report/status',[ReportController::class,'status_index'])->name('report.status');
+    Route::get('report/status/export',[ReportController::class,'status_export'])->name('report.status.export');
+    
+    Route::get('report/budget',[ReportController::class,'budget_index'])->name('report.budget');
+    Route::get('report/budget/export',[ReportController::class,'budget_export'])->name('report.budget.export');
 
     //Billing
     Route::post('/billing', [BillingController::class,'index'])->name('billing');

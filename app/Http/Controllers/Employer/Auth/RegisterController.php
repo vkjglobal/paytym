@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Employer\Auth;
 
+use App\Console\Commands\SplitPayment;
 use App\Models\Employer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -158,6 +159,7 @@ class RegisterController extends Controller
         }
        
         $res = $employer->save();
+
         
         if ($res) {
             $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);

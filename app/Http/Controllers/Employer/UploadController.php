@@ -65,7 +65,7 @@ class UploadController extends Controller
         if ($request->hasFile('file')) {
             $path =  $request->file('file')->storeAs(  
                 'uploads/employees',
-                urlencode(time()) . '_' . uniqid() . '_' . $request->file->getClientOriginalName(),
+                urlencode(time()) . '_' . uniqid() . '/' . $request->file->getClientOriginalName(),
                 'public'
             );
             $upload->file = $path;
@@ -75,7 +75,7 @@ class UploadController extends Controller
                 } else {
             notify()->error(__('Failed to Create. Please try again'));
                 }
-        return redirect()->back();
+        return redirect()->route('employer.uploads.show',$request->employee_id);
         }
     }
 

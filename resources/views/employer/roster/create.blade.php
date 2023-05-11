@@ -11,7 +11,7 @@
                         @csrf
                         
                         <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="control-label">Employee<span class="text-danger">*</span></label>
                                 <select class="form-control"  class="form-control @if ($errors->has('employee')) is-invalid @endif" name="employee" value="{{ old('employee') }}" onChange="salaryType(this)">
@@ -24,7 +24,7 @@
                                 </div>
                         </div><!-- Col -->
 
-                        <div class="col-sm-4">
+                        <!-- <div class="col-sm-4">
                         <div class="form-group">
                             <label class="control-label">Business<span class="text-danger">*</span></label>
                             <select class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}">
@@ -35,9 +35,9 @@
                             </select>
                             <div class="invalid-feedback">{{ $errors->first('business') }}</div>
                         </div>
-                        </div><!-- Col -->
+                        </div> Col -->
 
-                        <div class="col-sm-4">
+                        <!-- <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Department<span class="text-danger">*</span></label>
                                 <select class="form-control"  class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}">
@@ -48,7 +48,7 @@
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('department') }}</div>
                             </div>
-                        </div><!-- Col -->
+                        </div>  -->
                   
                         </div><!-- Row -->
 

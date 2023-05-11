@@ -172,7 +172,7 @@ class PayrollController extends Controller
 
             
             //Extra hours at base rate and over time rate calculation
-            $overtimerate = $employee->business->payrollsetting->over_time_rate;
+            $overtimerate = optional($employee->business->payrollsetting)->over_time_rate ?? 0;
             if($totalHours > $employee->total_hours_per_week){
                 $extraHours = $totalHours - ($employee->total_hours_per_week);
                 if($extraHours > $employee->extra_hours_at_base_rate){
@@ -185,7 +185,7 @@ class PayrollController extends Controller
             }
             }
             //Double time calculation
-            $doubletimerate = $employee->business->payrollsetting->double_time_rate;
+            $doubletimerate = optional($employee->business->payrollsetting)->double_time_rate ?? 0;
             foreach($holidays as $holiday){
                 foreach($attendance_dup as $attendance){
                     if($attendance->date == $holiday->date){
@@ -604,7 +604,7 @@ class PayrollController extends Controller
             $grossSalary = $totalEarnings + $commission_amount + $total_bonus;   //gross pay =  Base Pay + Overtime Pay + Double Pay + Bonus + Commission 
             $netSalary = $grossSalary - ($totalTaxAmount + $fnpf_amount); //net salary= Gross Pay – (Superannuation + All Taxes)
            
-            $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay = Net pay + Allowances - Deductions
+            $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay (paid salary) = Net pay + Allowances - Deductions
 
             //Payroll Entry
             $user = User::where('id',$employee->id)->first();
@@ -631,7 +631,6 @@ class PayrollController extends Controller
             $res = $payroll->save();
 
             //Payslip generation
-
             PayslipGeneration::dispatch($employee,
                                         $base_pay,
                                         $grossSalary,

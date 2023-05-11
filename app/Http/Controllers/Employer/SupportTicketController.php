@@ -144,4 +144,5 @@ class SupportTicketController extends Controller
 
         return response()->json(['success' => 'Status change successfully.']);
     }
+    
 }

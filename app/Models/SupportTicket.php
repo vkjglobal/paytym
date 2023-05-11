@@ -14,4 +14,7 @@ class SupportTicket extends Model
     public function employer(){
         return $this->belongsTo(Employer::class);
     }
+    public function reply(){
+        return $this->hasMany(SupportTicketReply::class);
+    }
 }

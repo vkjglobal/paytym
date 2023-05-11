@@ -13,10 +13,10 @@
                         @method('PUT')
                         
                         <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="control-label">Employee<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('employee')) is-invalid @endif" name="employee" value="{{ old('employee') }}" onChange="salaryType(this)">
+                                <select class="form-control"  class="form-control @if ($errors->has('employee')) is-invalid @endif" name="employee" disabled onChange="salaryType(this)" >
                                     <option value="">--SELECT--</option>
                                     @foreach ($users as $user )
                                     <option value="{{$user['id']}}" data-salaryType="{{$user['salary_type']}}" {{$roster->user_id == $user['id'] ? 'selected':''}}>{{$user['first_name']." " . $user['last_name']}}</option>
@@ -25,7 +25,8 @@
                                 <div class="invalid-feedback">{{ $errors->first('employee') }}</div>
                                 </div>
                         </div><!-- Col -->
-                            <div class="col-sm-4">
+                        <input type="hidden" name="employee" value="{{$roster->user_id}}">
+                            <!-- <div class="col-sm-4">
                         <div class="form-group">
                             <label class="control-label">Business<span class="text-danger">*</span></label>
                             <select class="form-control"  class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}">
@@ -36,7 +37,7 @@
                             </select>
                             <div class="invalid-feedback">{{ $errors->first('business') }}</div>
                         </div>
-                        </div><!-- Col -->
+                        </div>
 
                         <div class="col-sm-4">
                             <div class="form-group">
@@ -49,7 +50,7 @@
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('department') }}</div>
                             </div>
-                        </div><!-- Col -->
+                        </div> -->
 
                         </div><!-- Row -->
                         @if($roster->user->salary_type == 0)

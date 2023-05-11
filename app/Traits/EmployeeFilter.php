@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\User;
+use App\Models\Roster;
 
 trait EmployeeFilter
 {
@@ -71,5 +72,67 @@ trait EmployeeFilter
             ->where('department_id', $request->department)->get();
         }
     return $employees;
+}
+
+public function rosterFilter($request,$employerId){
+    if($request->business != null &&  $request->branch == null && $request->department == null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('business_id', $request->branch)->get();
+    }else if($request->business != null  && $request->branch != null && $request->department != null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('business_id', $request->business)->where('branch_id', $request->branch)
+        ->where('department_id', $request->department)->get();
+    }elseif($request->business != null &&  $request->branch == null && $request->department != null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('business_id', $request->business)
+        ->where('department_id', $request->department)->get();
+    }elseif($request->business != null &&  $request->branch != null && $request->department == null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('business_id', $request->business)->where('branch_id', $request->branch)->get();
+    }
+    //////
+    elseif( $request->business == null && $request->branch != null && $request->department != null){
+        $rosters = Roster::where('employer_id', $employerId)->where('branch_id', $request->branch)
+        ->where('department_id', $request->department)->get();
+    }elseif( $request->business != null && $request->branch == null && $request->department != null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('business_id', $request->business)
+        ->where('department_id', $request->department)->get();
+    }elseif( $request->business != null && $request->branch != null && $request->department == null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('business_id', $request->business)->where('branch_id', $request->branch)->get();
+    }elseif( $request->business == null && $request->branch == null && $request->department != null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('department_id', $request->department)->get();
+    }elseif( $request->business == null && $request->branch != null && $request->department == null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('branch_id', $request->branch)->get();
+    }elseif( $request->business != null && $request->branch == null && $request->department == null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('business_id', $request->business)->get();
+    }
+    /////
+    elseif( $request->business == null && $request->branch == null && $request->department != null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('department_id', $request->department)->get();
+    }
+    elseif( $request->business == null && $request->branch != null && $request->department == null){
+        $rosters = Roster::where('employer_id', $employerId)->where('branch_id', $request->branch)
+        ->get();
+    }
+    elseif($request->business != null && $request->branch == null && $request->department == null){
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('business_id', $request->business)->get();
+    }
+    elseif( $request->business == null && $request->branch == null && $request->department == null){
+        $rosters = Roster::where('employer_id', $employerId)->get();
+    }
+    ///////
+    else{
+        $rosters = Roster::where('employer_id', $employerId)
+        ->where('business_id', $request->business)->where('branch_id', $request->branch)
+        ->where('department_id', $request->department)->get();
+    }
+return $rosters;
 }
 }

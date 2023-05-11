@@ -69,6 +69,7 @@
                                     <th>Name</th>   
                                     <th>Allowance Type</th>
                                     <th>Amount</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>

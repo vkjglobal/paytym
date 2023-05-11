@@ -9,4 +9,6 @@ class FileType extends Model
 {
     use HasFactory;
     public $timestamps = false; 
+
+
 }

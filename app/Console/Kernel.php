@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
         "App\Console\Commands\EmploymentOverEmails",
         "App\Console\Commands\SendLoginCredentials",
         "App\Console\Commands\SplitPayment",
+        "App\Console\Commands\AddInvoice",
     ];
     
     /**
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
         $schedule->command('send:login_credentials')->twiceDaily(24 ,18);
+        $schedule->command('invoices:add')->monthlyOn(31, '23:50');
     }
 
     /**
