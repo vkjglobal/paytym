@@ -173,14 +173,23 @@
             <!----End Banner----->
 
 
- <!-- Support Tickets -->
+            <!-- Support Tickets -->
             <li class="nav-item {{ request()->is('admin/support-tickets') ? 'active' : '' }}">
                 <a href="{{ route('admin.supportticket') }}" class="nav-link">
                     <i class="link-icon" data-feather="layers"></i>
                     <span class="link-title">Support Tickets</span>
                 </a>
             </li>
-            
+            <!----End Support Tickets----->
+
+            <!-- Invoices -->
+            <li class="nav-item {{ request()->is('admin/invoice') ? 'active' : '' }}">
+                <a href="{{ route('admin.invoice.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <span class="link-title">Emploer Invoices</span>
+                </a>
+            </li>
+            <!----End Invoices----->
             
 
 
@@ -207,16 +216,16 @@
                                 Employers
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ route('admin.country.create') }}" class="nav-link {{ request()->is('admin/country/create') ? 'active' : '' }}">
-                                Create
+                        <li class="nav-item">
+                            <a href="{{ route('admin.report.invoice') }}" class="nav-link {{ request()->is('admin/report/invoice') ? 'active' : '' }}">
+                                Employers Invoice
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </div>
             </li> 
 
-            <!----End Country----->
+            <!----End Reports----->
 
         </ul>
     </div>

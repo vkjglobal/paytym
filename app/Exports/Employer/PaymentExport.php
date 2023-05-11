@@ -28,15 +28,20 @@ class PaymentExport implements FromCollection, WithMapping
     public function collection()
     {
         // $data = DB::table('users')
-        //     ->join('payrolls', 'users.id', '=', 'payrolls.user_id')
-        //     ->select('users.bank', 'users.account_number','payrolls.paid_salary', 'payrolls.base_salary', 'users.first_name','users.last_name')
-        //     ->where('users.status', 1)->where('payrolls.status', 0)->get();
-        $data = DB::table('users')
-        ->join('split_payment', 'users.id', '=', 'split_payment.employee_id')
-        ->select('users.bank', 'users.account_number', 'split_payment.amount','users.first_name', 'users.last_name')
-        ->where('users.status', 1)->where('split_payment.status', 0)->where('split_payment.payment_wallet', '2')
-        ->where('users.employer_id', Auth::guard('employer')->id())->where('split_payment.employer_id', Auth::guard('employer')->id())
-        ->get();
+        // ->join('split_payment', 'users.id', '=', 'split_payment.employee_id')
+        // ->select('users.bank', 'users.account_number', 'split_payment.amount','users.first_name', 'users.last_name')
+        // ->where('users.status', 1)->where('split_payment.status', 0)->where('split_payment.payment_wallet', '2')
+        // ->where('users.employer_id', Auth::guard('employer')->id())->where('split_payment.employer_id', Auth::guard('employer')->id())
+        // ->get();
+
+        // $data = DB::table('users')
+        // ->join('split_payment', 'users.id', '=', 'split_payment.employee_id')
+        // ->select('users.bank', 'users.account_number', 'split_payment.bank','users.first_name', 'users.last_name')
+        // ->where('users.status', 1)->where('split_payment.status', 0)
+        // ->where('users.employer_id', Auth::guard('employer')->id())->where('split_payment.employer_id', Auth::guard('employer')->id())
+        // ->get();
+
+        $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
 
         return $data;
     }
@@ -51,12 +56,14 @@ class PaymentExport implements FromCollection, WithMapping
         //     // $row->base_salary,
         //     $row->first_name.' '.$row->last_name,  
         // ];
+
+
         return [
             ++$index,
             $row->bank,
             $row->account_number,
-            $row->amount,
-            // $row->base_salary,
+            // $row->amount,
+            $row->split_payment_bank(),
             $row->first_name.' '.$row->last_name,  
         ];
     }

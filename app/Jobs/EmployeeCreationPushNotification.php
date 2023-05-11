@@ -45,7 +45,7 @@ class EmployeeCreationPushNotification implements ShouldQueue
         $employeeBranch = $this->employeeBranch;
         $position = $this->position;
         $employeeName = $this->employeeName;
-        $message = $employeeName ." has been added to ".$employeeBranch . " as" . $position ;
+        $message = $employeeName ." has been added to ".$employeeBranch . " as " . ucfirst(trans($position)) ;
         $employees= User::where('employer_id' , $employerId)->get();
 
         foreach($employees as $user){

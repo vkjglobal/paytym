@@ -84,6 +84,10 @@ Route::middleware('admin.auth')->group(function () {
     Route::post('contact', [ContactController::class, 'sendReply']);
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
 
+    
+    // Invoices
+    Route::resource('invoice', InvoiceController::class);
+
     //Support Tickets
     Route::get('supportticket', [SupportTicketController::class, 'index'])->name('supportticket');
     Route::get('supportticket-change-status', [SupportTicketController::class, 'changeStatus'])->name('supportticket.change.status');
@@ -102,4 +106,9 @@ Route::middleware('admin.auth')->group(function () {
      //Report
      Route::get('report/main_report',[ReportController::class, 'index'])->name('main_report');
      Route::get('report/main_report/export/', [ReportController::class, 'export'])->name('main_report.download');
+     Route::post('report/main_report/filter', [ReportController::class, 'filter'])->name('main_report.filter');
+
+     Route::get('report/invoice',[ReportController::class, 'invoice_index'])->name('report.invoice');
+     Route::get('report/invoice/export/', [ReportController::class, 'invoice_export'])->name('report.invoice.download');
+     Route::post('report/invoice/filter', [ReportController::class, 'invoice_filter'])->name('report.invoice.filter');
 });

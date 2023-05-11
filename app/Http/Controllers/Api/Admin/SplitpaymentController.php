@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class SplitpaymentController extends Controller
 {
     //
-    public function split_payment(Request $request)
+    public function split_payment1(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
@@ -31,6 +31,49 @@ class SplitpaymentController extends Controller
         $splitpayment->payment_wallet = $request->payment_wallet;
         $splitpayment->amount = $request->amount;
         $issave = $splitpayment->save();
+
+        if ($issave) {
+            return response()->json([
+                'message' => "Added Successfully",
+                'splitpayment' =>  $splitpayment,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Something went Wrong"
+            ], 200);
+        }
+    }
+    public function split_payment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+            'employee_id' => 'required',
+            'bank' => 'required',
+            'mycash' => 'required',
+            'mpaisa' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+
+        $employee = SplitPayment::where('employee_id', $request->employee_id)->first();        
+        if($employee){
+            $splitpayment = SplitPayment::find($employee->id);  
+            $splitpayment->bank = $request->bank;
+            $splitpayment->mycash = $request->mycash;
+            $splitpayment->mpaisa = $request->mpaisa;
+            $issave = $splitpayment->save();
+        }else{
+            $splitpayment = new SplitPayment();
+            $splitpayment->employer_id = $request->employer_id;
+            $splitpayment->employee_id = $request->employee_id;
+            $splitpayment->bank = $request->bank;
+            $splitpayment->mycash = $request->mycash;
+            $splitpayment->mpaisa = $request->mpaisa;
+            $issave = $splitpayment->save();
+        }
 
         if ($issave) {
             return response()->json([
