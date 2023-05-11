@@ -15,9 +15,9 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Employee</th>
-                                    <th>Bank</th>
-                                    <th>Mpaisa</th>
-                                    <th>Mycash</th>
+                                    <th>Bank(%)</th>
+                                    <th>Mpaisa(%)</th>
+                                    <th>Mycash(%)</th>
                                     <th>Date</th>
                                       
                       

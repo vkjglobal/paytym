@@ -89,7 +89,8 @@
                                                 <label for="reply_message">Reply Message</label>
                                             </div>
                                             <p>
-                                            {{$supportTicket->reply()->latest()->first()->reply}}
+                                            {{ optional($supportTicket->reply()->latest()->first())->reply ?: 'No reply yet' }}
+
                                             </p>
 
 
