@@ -108,7 +108,7 @@
                             </div><!-- Col --> 
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label">Tin<span class="text-danger"> *</span></label>
+                                    <label class="control-label">Tax Identification Number<span class="text-danger"> *</span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('tin')) is-invalid @endif"
                                         name="tin" value="{{ old('tin') }}" placeholder="Enter Tin">
@@ -166,7 +166,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label">Bank<span class="text-danger"> *</span></label>
+                                    <label class="control-label">Bank Name*<span class="text-danger"> *</span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('bank')) is-invalid @endif"
                                         name="bank" value="{{ old('bank') }}" placeholder="Enter Bank">
