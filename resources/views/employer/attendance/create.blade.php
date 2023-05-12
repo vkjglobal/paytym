@@ -7,7 +7,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Attendance Edit</h6>
+                    <h6 class="card-title">Add Attendance </h6>
                     <form method="POST" action="{{ route('employer.attendance.store') }}" enctype="multipart/form-data">
                         @csrf
                         

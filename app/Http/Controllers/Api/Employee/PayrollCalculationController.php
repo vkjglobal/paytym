@@ -6,6 +6,7 @@ use App\Exports\Employer\PaymentExport;
 use App\Exports\Employer\MpaisaExport;
 use App\Exports\Employer\MycashExport;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;

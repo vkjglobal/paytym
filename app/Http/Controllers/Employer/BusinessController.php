@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EmployerBusiness;
 use App\Http\Requests\Employer\StoreBusinessRequest;
+use Illuminate\Contracts\View\View;
+
 
 use Auth;
 
@@ -18,7 +20,7 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() : View
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.department.index')],
@@ -37,7 +39,7 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() : View
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
@@ -88,7 +90,7 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(EmployerBusiness $business)
+    public function edit(EmployerBusiness $business) : View
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
