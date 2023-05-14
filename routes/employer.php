@@ -81,6 +81,8 @@ Route::middleware('employer.auth')->group(function () {
 
     // Leave Requests
     Route::get('leave-requests', [LeaveRequestController::class, 'index'])->name('leave.requests');
+    Route::get('leave-requests/create', [LeaveRequestController::class, 'create'])->name('leave.requests.create');
+    Route::post('leave-requests/store', [LeaveRequestController::class, 'store'])->name('leave.requests.store');
     Route::delete('leave-requests/{id}', [LeaveRequestController::class, 'destroy'])->name('leave.requests.delete');
     Route::get('leave-requests/status/{id}', [LeaveRequestController::class, 'statusChange'])->name('leave.requests.status');
     Route::post('leave-requests/message/{id}', [LeaveRequestController::class, 'message'])->name('leave.requests.message');

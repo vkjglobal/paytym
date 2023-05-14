@@ -133,26 +133,26 @@ class User extends Authenticatable
 
     public function split_payment_bank()
     {
-        $payroll = Payroll::where('user_id',$this->id)->latest()->first();
+        $payroll = Payroll::where('user_id',$this->id)->where('start_date', '>=', $this->pay_date)->where('end_date', '<=', $this->payed_date)->sum('paid_salary');
         $split_payment = SplitPayment::where('employee_id', $this->id)->first();
         if($split_payment != null)
-            {return $payroll->paid_salary * ($split_payment->bank/100);}
+            {return $payroll * ($split_payment->bank/100);}
         elseif($payroll != null)
-            {return $payroll->paid_salary;}
+            {return $payroll;}
     }
     public function split_payment_mpaisa()
     {
-        $payroll = Payroll::where('user_id',$this->id)->latest()->first();
+        $payroll = Payroll::where('user_id',$this->id)->where('start_date', '>=', $this->pay_date)->where('end_date', '<=', $this->payed_date)->sum('paid_salary');
         $split_payment = SplitPayment::where('employee_id', $this->id)->first();
         if($split_payment != null)
-            {return $payroll->paid_salary * ($split_payment->mpaisa/100);}
+            {return $payroll * ($split_payment->mpaisa/100);}
     }
     public function split_payment_mycash()
     {
-        $payroll = Payroll::where('user_id',$this->id)->latest()->first();
+        $payroll = Payroll::where('user_id',$this->id)->where('start_date', '>=', $this->pay_date)->where('end_date', '<=', $this->payed_date)->sum('paid_salary');
         $split_payment = SplitPayment::where('employee_id', $this->id)->first();
         if($split_payment != null)
-            {return $payroll->paid_salary * ($split_payment->mycash/100);}
+            {return $payroll * ($split_payment->mycash/100);}
     }
 
     public function total_provident_fund()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeaveRequest;
 use App\Http\Controllers\Api\Employee\AuthController;
+use App\Models\AllowedDetail;
 use App\Models\Attendance;
 use App\Models\Employer;
 use App\Models\LeaveRequest;
@@ -71,7 +72,7 @@ class LeaveRequestController extends Controller
         $user_id = Auth::user()->id;
         $user = Auth::user();
         $employer_id = $user->employer_id;
-        
+        $allowed_details = AllowedDetail::first();          
         if ($user) {
             $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
             $casual = $leave->where('type', 'casual')->get();
@@ -132,7 +133,11 @@ class LeaveRequestController extends Controller
                 'hours' => $hours,
                 'roster_check_in_time' => $roster_check_in_time,
                 'next shift' => $next_shift,
-                'last_checked_in' => $lastCheckedIn
+                'last_checked_in' => $lastCheckedIn,
+                'allowed_absent' => $allowed_details->allowed_absent,
+                'allowed_sick_leave' => $allowed_details->allowed_sick_leave,
+                'allowed_annual_leave' => $allowed_details->allowed_annual_leave,
+                'allowed_late_arrival' => $allowed_details->allowed_late_arrival,
             ], 200);
         } else {
             return response()->json([

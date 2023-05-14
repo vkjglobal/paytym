@@ -383,6 +383,13 @@
                             </a>
                         </li>
 
+                        <li class="nav-item ">
+                            <a href="{{ route('employer.leave.requests.create') }}" class="nav-link {{ request()->is('employer/leave-requests/create') ? 'active' : '' }}">
+
+                                Create Employee Requests
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
             </li>
