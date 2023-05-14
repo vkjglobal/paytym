@@ -631,27 +631,27 @@ class PayrollController extends Controller
             $res = $payroll->save();
 
             //Payslip generation
-            PayslipGeneration::dispatch($employee,
-                                        $base_pay,
-                                        $grossSalary,
-                                        $netSalary,
-                                        $totalSalary,
-                                        $totalAllowance,
-                                        $totalDeduction,
-                                        $allowances,
-                                        $deductions,
-                                        $incomeTaxToWithhold,
-                                        $fnpf_amount,
-                                        $srtToWithhold,
-                                        $payroll,
-                                        $fromDate,
-                                        $endDate,
-                                        $commission_amount,
-                                        $total_bonus,
-                                        $lwop,
-                                        $nonHolidayDates
+            // PayslipGeneration::dispatch($employee,
+            //                             $base_pay,
+            //                             $grossSalary,
+            //                             $netSalary,
+            //                             $totalSalary,
+            //                             $totalAllowance,
+            //                             $totalDeduction,
+            //                             $allowances,
+            //                             $deductions,
+            //                             $incomeTaxToWithhold,
+            //                             $fnpf_amount,
+            //                             $srtToWithhold,
+            //                             $payroll,
+            //                             $fromDate,
+            //                             $endDate,
+            //                             $commission_amount,
+            //                             $total_bonus,
+            //                             $lwop,
+            //                             $nonHolidayDates
 
-                                        );
+            //                             );
 
            
         

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Allowance;
 use Illuminate\Http\Request;
 use App\Models\AssignAllowance;
+use App\Models\Branch;
+use App\Models\Department;
+use App\Models\EmployerBusiness;
 use App\Models\User;
 use Auth;
 
@@ -26,8 +29,11 @@ class AssignAllowanceController extends Controller
         $assign_allowances = AssignAllowance::where('employer_id', $employer_id)->get();
         $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
         $allowances = Allowance::where('employer_id', $employer_id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
         // return($assign_allowances);
-        return view('employer.allowance.assign', compact('breadcrumbs','assign_allowances',  'users', 'allowances'));
+        return view('employer.allowance.assign', compact('breadcrumbs','assign_allowances',  'users', 'allowances', 'businesses', 'branches', 'departments'));
     }
 
     /**

@@ -37,7 +37,7 @@ class PaymentExport implements FromCollection, WithMapping
         // $data = DB::table('users')
         // ->join('split_payment', 'users.id', '=', 'split_payment.employee_id')
         // ->select('users.bank', 'users.account_number', 'split_payment.bank','users.first_name', 'users.last_name')
-        // ->where('users.status', 1)->where('split_payment.status', 0)
+        // ->where('users.status', 1)
         // ->where('users.employer_id', Auth::guard('employer')->id())->where('split_payment.employer_id', Auth::guard('employer')->id())
         // ->get();
 

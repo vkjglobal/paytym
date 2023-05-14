@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
+use App\Models\Department;
+use App\Models\EmployerBusiness;
 use App\Models\LeaveRequest;
+use App\Models\LeaveType;
 use App\Models\QuitRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +25,56 @@ class LeaveRequestController extends Controller
         $leaveRequests = LeaveRequest::with('user')->where('employer_id', Auth::guard('employer')->id())->latest()->get();
         // dd($leaveRequests);
         return view('employer.leave-requests.index', compact('breadcrumbs', 'leaveRequests'));
+    }
+
+    public function create()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Create Employee Requests')), null],
+        ];
+
+        $leave_types = LeaveType::where('employer_id', Auth::guard('employer')->id())->get();
+        $users = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.leave-requests.create', compact('breadcrumbs','leave_types', 'users', 'businesses', 'branches', 'departments'));
+    }
+
+    public function store(Request $request)
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Create Leave Requests')), null],
+        ];
+
+        $validated = $request->validate([
+            'user' => 'required',
+            'title' => 'required',
+            'leave_type' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'reason' => 'required',
+        ]);
+
+        $leave_request = new LeaveRequest();
+        $leave_request->user_id = $request->user;
+        $leave_request->employer_id = Auth::guard('employer')->id();
+        $leave_request->title = $request->title;
+        $leave_request->type = $request->leave_type;
+        $leave_request->start_date = $request->start_date;
+        $leave_request->end_date = $request->end_date;
+        $leave_request->reason = $request->reason;
+        $leave_request->status = '0';
+        $issave = $leave_request->save();
+
+        if($issave){
+            notify()->success(__('Created successfully'));
+        } else {
+            notify()->error(__('Failed to Create. Please try again'));
+        }
+        return redirect()->back();
     }
 
     public function destroy($id)

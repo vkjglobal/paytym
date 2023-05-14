@@ -272,6 +272,8 @@ class AttendanceController extends Controller
 
         $roster = Roster::where('user_id', $user_id)->where('start_date', '<=', Carbon::today())
                                 ->where('end_date', '>=', Carbon::today())->get();
+
+        $pending_attendance = Attendance::where('user_id', $user_id)->whereNull('approve_reject')->get();
         if(!$roster->isEmpty()){
             $check_in_time = Roster::where('user_id', $user_id)->value('start_time');    
         }else{
@@ -298,6 +300,7 @@ class AttendanceController extends Controller
             'absent' => $absent,
             'late' => $late,
             'total_count' => $total_count,
+            'pending_attendance' => $pending_attendance,
         ], 200);
     }
 }
