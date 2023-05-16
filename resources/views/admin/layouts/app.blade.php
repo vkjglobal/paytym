@@ -90,7 +90,6 @@
     <script src="{{ asset('admin_assets/js/datepicker.js') }}"></script>
     <!-- end custom js for this page -->
     <!-- custom js -->
-    <x:notify-messages />
     @notifyJs
 
     @stack('custom_js')
