@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Employer;
 use App\Models\Contact;
+use App\Models\EmployerSubscription;
 use App\Models\Project;
 use App\Models\Subscription;
 use App\Models\SupportTicket;
@@ -35,6 +36,13 @@ class HomeController extends Controller
         $contacts = Contact::get()->all();
         $subscriptions = Subscription::get()->all();
         $projects = Project::get()->all();
+
+        $estimate=EmployerSubscription::with('subscription')->all();
+
+//         foreach($estimate as $key => $value)
+//         {
+// $totalestimate=
+//         }
 
         return view('admin.home', compact('employers', 'contacts', 'subscriptions', 'projects'));
     }

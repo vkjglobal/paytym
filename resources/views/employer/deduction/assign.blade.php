@@ -119,6 +119,8 @@
                                                     data-toggle="modal" data-target="#assigndeductionupdate{{$assign_deduction->id}}">
                                                         <i data-feather="edit" ></i>
                                                 </button>
+                                                
+                                                
 
                                                 <!-- Send Reply Modal -->
                                                         <div class="modal fade" id="assigndeductionupdate{{$assign_deduction->id}}" tabindex="-1" role="dialog"

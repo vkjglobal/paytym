@@ -93,7 +93,7 @@
 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
         <div class="d-flex flex-column">
             <strong>{{ $value->company }}</strong>
-            <span>{{ $value->get_active_employees() }}</span>
+            <span style="color: red;"><b>{{ $value->get_active_employees() }}</b></span>
             <label for="">Active Employees</label>
         </div>
     </div>
@@ -119,16 +119,21 @@
         type: "doughnut",
         data: {
             //companyNames
-            labels: ["c1", "c2", "c3", "c4", "c5"],
+            labels: ["c1", "c2", "c3", "c4", "c5","c1", "c2", "c3", "c4", "c5"],
             datasets: [{
                 backgroundColor: [
                     "#0014ff",
                     "#ff0000",
                     "#ff00d4",
                     "#00bd9a",
-                    "#2d9b00"
+                    "#2d9b00",
+                    "#0014ff",
+                    "#ff0000",
+                    "#ff00d4",
+                    "#00bd9a",
+                    "#2d9b00",
                 ],
-                data: [55, 49, 44, 24, 15]
+                data: [55, 49, 44, 24, 15,55, 49, 44, 24, 15]
             }]
         },
         options: {
