@@ -37,7 +37,7 @@ class HomeController extends Controller
         $subscriptions = Subscription::get()->all();
         $projects = Project::get()->all();
 
-        $estimate=EmployerSubscription::with('subscription')->all();
+        //$estimate=EmployerSubscription::with('subscription')->all();
 
 //         foreach($estimate as $key => $value)
 //         {
