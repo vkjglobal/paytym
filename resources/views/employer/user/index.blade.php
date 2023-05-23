@@ -22,6 +22,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if ($users->count() >0)
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
@@ -89,14 +90,7 @@
                                     </tr>
                                     
                                 @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Add Modal -->
+                                   <!-- Add Modal -->
     <div class="modal fade" id="sharePublicInfo" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -129,6 +123,17 @@
                                 </div>
                             </div>
                             <!-- Add Modal Ends -->
+                                @else
+                                <tr><td> <span  style="color:red;">No data found</span></td></tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
 @endsection
 @push('custom_css')
     <link rel="stylesheet" href="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
