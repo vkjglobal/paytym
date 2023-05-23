@@ -93,10 +93,12 @@ class UserController extends Controller
     {
      $user = new User(); 
      $validated = $request->validated();
+
      $user->employer_id = Auth::guard('employer')->user()->id;
      $user->company = Auth::guard('employer')->user()->company;
      $user->first_name = $validated['first_name'];
      $user->last_name = $validated['last_name'];
+     $user->job_title = $validated['job_title'];
      $user->email = $validated['email'];
      $user->branch_id = $validated['branch'];
      $user->country_id = $validated['country'];
@@ -221,6 +223,7 @@ class UserController extends Controller
      $user->first_name = $validated['first_name'];
      $user->last_name = $validated['last_name'];
      $user->email = $validated['email'];
+     $user->job_title = $validated['job_title'];
      $user->branch_id = $validated['branch'];
      $user->country_id = $validated['country'];
      $user->position = $validated['position'];

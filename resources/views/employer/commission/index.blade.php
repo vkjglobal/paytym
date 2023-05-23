@@ -40,7 +40,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="reply_message">Commission Amount</label>
-                                                    <input type="number" class="form-control" name="rate"  required>
+                                                    <input type="number" step=any class="form-control" name="rate"  required>
                                                     <div class="invalid-feedback">{{ $errors->first('rate') }}</div>
                                                 </div>
                                             </div>
@@ -110,7 +110,7 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="reply_message">Commission Rate</label>
-                                                                            <input type="number" class="form-control @if ($errors->has('user_rate')) is-invalid @endif" name="rate"  
+                                                                            <input type="number" step=any class="form-control @if ($errors->has('user_rate')) is-invalid @endif" name="rate"  
                                                                             value="{{old('rate', $commission->rate)}}" required>
                                                                         </div>
                                                                         <div class="invalid-feedback">{{ $errors->first('rate') }}</div>                                

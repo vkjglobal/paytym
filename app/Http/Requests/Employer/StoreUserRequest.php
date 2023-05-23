@@ -38,10 +38,10 @@ class StoreUserRequest extends FormRequest
             'tin' => 'required',
             'bank' => 'required',
             'city' => 'required',
+            'job_title' => 'required',
             'account_number' => 'required', 
             'image' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
             'password' => 'nullable|min:6',
-
             'business' => 'required',
             'department' => 'required',
             'bank_branch' => 'required',

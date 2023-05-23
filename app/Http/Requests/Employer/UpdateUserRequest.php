@@ -26,6 +26,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
+            'job_title' => 'required',
             'email' => 'required|email',
             'branch' => 'required',
             'position' => 'required',
