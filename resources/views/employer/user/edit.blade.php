@@ -32,6 +32,15 @@
                             </div><!-- Col -->
                             <div class="col-sm-4">
                                 <div class="form-group">
+                                    <label class="control-label">Job Title <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                        class="form-control @if ($errors->has('job_title')) is-invalid @endif"
+                                        name="job_title" value="{{ old('job_title',$user->job_title) }}" placeholder="Enter Job Title" required>
+                                    <div class="invalid-feedback">{{ $errors->first('job_title') }}</div>
+                                </div>
+                            </div><!-- Col -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
                                     <label class="control-label">Email <span class="text-danger">*</span></label>
                                     <input type="email"
                                         class="form-control @if ($errors->has('email')) is-invalid @endif"

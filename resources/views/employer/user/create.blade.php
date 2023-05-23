@@ -38,7 +38,18 @@
                                         placeholder="Enter Email" required>
                                     <div class="invalid-feedback">{{ $errors->first('email') }}</div>
                                 </div>
-                            </div><!-- Col -->
+                            </div>
+                            <!-- Col -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Job Title <span class="text-danger">*</span></label>
+                                    <input type="text"  class="form-control @if ($errors->has('job_title')) is-invalid @endif"
+                                        name="job_title" value="{{ old('job_title') }}"
+                                        placeholder="Enter Job Title" required>
+                                    <div class="invalid-feedback">{{ $errors->first('job_title') }}</div>
+                                </div>
+                            </div>
+                            <!-- Col -->
                         </div><!-- Row -->
 
                         <div class="row">
