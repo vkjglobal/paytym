@@ -14,17 +14,27 @@ class OverTimeController extends Controller
     //
     public function list_overtime(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'employer_id' =>  'required',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()->first()
-            ], 400);
+        // $validator = Validator::make($request->all(), [
+        //     'employer_id' =>  'required',
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'message' => $validator->errors()->first()
+        //     ], 400);
+        // }
+
+        if(isset($request->employer_id))
+        {
+            $employer_id = $request->employer_id;
+            $overtime_requests = Overtime::with('user.branch')->where('employer_id', $employer_id)->get();
+        }
+        else
+        {
+            $employee_id = $request->employee_id;
+            $overtime_requests = Overtime::with('user.branch')->where('employee_id', $employee_id)->get();
         }
 
-        $employer_id = $request->employer_id;
-        $overtime_requests = Overtime::with('user.branch')->where('employer_id', $employer_id)->get();
+    
         if ($overtime_requests) {
             return response()->json([
                 'message' => "Listed Successfully",
