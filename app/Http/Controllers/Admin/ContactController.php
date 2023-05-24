@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\ContactRequest;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Mail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
@@ -25,22 +26,34 @@ class ContactController extends Controller
     }
 
     public function store(Request $request){
-        
-         try{
-            Mail::send('mail.send-contactusmsg',
-             array(
-                 'name' => $request->get('name'),
-                 'email' => $request->get('email'),
-                 'msg' => $request->get('message'),
-             ), function($msg) use ($request)
-               {
-                  $msg->from($request->email);
-                  $msg->to('buzzmefiji@gmail.com');
-                  $msg->subject('New Customer Enquiry');
-               });
-         } catch (TransportExceptionInterface $e){
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
             return redirect()->back()->with('error', 'Error Occured');
         }
+        else{
+            Mail::send('mail.send-contactusmsg',
+            array(
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'msg' => $request->get('message'),
+            ), function($msg) use ($request)
+              {
+               $mail=trim($request->get('email'));
+                 $msg->to('robin.reubro@gmail.com');
+                 $msg->subject('New Customer Enquiry');
+              });
+      
+        }
+
+
+        //  try{
+            
+        //  } catch (TransportExceptionInterface $e){
+        //     return redirect()->back()->with('error', 'Error Occured');
+        // }
         $result = Contact::create([
             'name' => $request['name'],
             'email' => $request['email'],
