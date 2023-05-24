@@ -293,19 +293,19 @@
                         <div class="hourly-section row">
                         <div class="col-md-6">
                             <label for="hourly-salary">Hourly Salary</label>
-                            <input type="number" name="hourly_rate" value="{{old('hourly_rate',$user->rate)}}" id="hourly-salary" class="form-control">
+                            <input type="number" step=any name="hourly_rate" value="{{old('hourly_rate',$user->rate)}}" id="hourly-salary" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="total-hours-per-week">Total Hours per Week</label>
-                            <input type="number" name="total_hours_per_week" value="{{old('total_hours_per_week',$user->total_hours_per_week)}}" id="total-hours-per-week" class="form-control">
+                            <input type="number" step=any name="total_hours_per_week" value="{{old('total_hours_per_week',$user->total_hours_per_week)}}" id="total-hours-per-week" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="total-workdays-per-week">Total Workdays per Week</label>
-                            <input type="number" name="work_days_per_week" value="{{old('work_days_per_week',$user->workdays_per_week)}}" id="total-workdays-per-week" class="form-control">
+                            <input type="number" step=any name="work_days_per_week" value="{{old('work_days_per_week',$user->workdays_per_week)}}" id="total-workdays-per-week" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="extra-hours-at-base-rate">Extra Hours at Base Rate</label>
-                            <input type="number" name="extra_hours_at_base_rate" value="{{old('extra_hours_at_base_rate',$user->extra_hours_at_base_rate)}}" id="extra-hours-at-base-rate" class="form-control">
+                            <input type="number" step=any name="extra_hours_at_base_rate" value="{{old('extra_hours_at_base_rate',$user->extra_hours_at_base_rate)}}" id="extra-hours-at-base-rate" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="pay-period">Pay Period</label>
@@ -322,7 +322,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="salary-amount">Salary Amount</label>
-                                    <input type="number" id="salary-amount" name="fixed-rate" value="{{old('fixed-rate',$user->rate)}}" class="form-control">
+                                    <input type="number" step=any id="salary-amount" name="fixed-rate" value="{{old('fixed-rate',$user->rate)}}" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -362,11 +362,7 @@
                             </div><!-- Col -->
                          
                         </div><!-- Row -->
-
-                        
-
-                        
-                    
+    
                         <button type="submit" class="btn btn-primary submit">Submit</button>
                     </form>
 
