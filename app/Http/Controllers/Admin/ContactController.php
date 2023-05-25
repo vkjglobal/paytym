@@ -42,7 +42,7 @@ class ContactController extends Controller
             ), function($msg) use ($request)
               {
                $mail=trim($request->get('email'));
-                 $msg->to('robin.reubro@gmail.com');
+                 $msg->to('buzzmefiji@gmail.com');
                  $msg->subject('New Customer Enquiry');
               });
       
