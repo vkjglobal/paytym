@@ -16,6 +16,7 @@ use App\Exports\Employer\EmployeePeriodExport;
 use App\Exports\Employer\EmployeeReportExport;
 use App\Exports\Employer\PayrollExport;
 use App\Exports\Employer\PayslipReportExport;
+use App\Exports\Employer\ProjectBudgetExport;
 use App\Exports\Employer\ProvidentfundReportExport;
 use App\Exports\Employer\StatusBranchExport;
 use App\Exports\Employer\StatusBusinessExport;
@@ -347,6 +348,9 @@ public function deduction_index()
     }
 
     //////////////////employment_period
+
+
+
     public function tax_index()
     {
         $breadcrumbs = [
@@ -440,4 +444,31 @@ public function deduction_index()
     {
         return Excel::download(new BudgetReportExport, 'budget_report_export-'.Carbon::now().'.xlsx');
     }
+
+
+//project Budget
+public function projectreport_index()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $projects = Project::where('employer_id',Auth::guard('employer')->user()->id)->get();
+         return view('employer.report.export.project.index',compact('breadcrumbs', 'projects','branches','businesses'));
+    }
+
+
+    public function projectreport_export()
+    {
+        return Excel::download(new ProjectBudgetExport, 'projectbudget_report_export-'.Carbon::now().'.xlsx');
+    }
+    
+
+//End Project Budget
+
+
+
+
 }

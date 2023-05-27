@@ -68,7 +68,7 @@ class AttendanceController extends Controller
         $now = new \DateTime();
         $date = date('Y-m-d');
         $user_id = Auth::user()->id;
-        $attendance =  Attendance::where('user_id', $user_id)->where('date', $date)->latest()->first();
+        $attendance =  Attendance::where('user_id', $user_id)->latest()->first();
         if ($attendance) {
             // $check_in=$attendance->check_in;
             // $total_time=$now - $check_in;
@@ -173,7 +173,7 @@ class AttendanceController extends Controller
                 $now = new \DateTime();
                 $date = date('Y-m-d');
                 $user_id = Auth::user()->id;
-                $attendance =  Attendance::where('user_id', $user_id)->where('date', $date)->first();
+                $attendance =  Attendance::where('user_id', $user_id)->latest()->first();
                 if ($attendance) {
                     // $check_in=$attendance->check_in;
                     // $total_time=$now - $check_in;
