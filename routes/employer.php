@@ -268,7 +268,8 @@ Route::middleware('employer.auth')->group(function () {
     
     Route::get('report/budget',[ReportController::class,'budget_index'])->name('report.budget');
     Route::get('report/budget/export',[ReportController::class,'budget_export'])->name('report.budget.export');
-
+    Route::get('report/projectreport',[ReportController::class,'projectreport_index'])->name('report.projectreport');
+    Route::get('report/projectreport/export',[ReportController::class,'projectreport_export'])->name('report.projectreport.export');
     //Billing
     Route::post('/billing', [BillingController::class,'index'])->name('billing');
     Route::post('/billing/pay', [BillingController::class,'pay'])->name('billing.pay');
