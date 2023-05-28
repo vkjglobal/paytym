@@ -4,7 +4,7 @@
     @endcomponent
     <div class="row">
         <div class="col-md-12 stretch-card">
-            <div class="card">
+            <div class="card">   
                 <div class="card-body">
                     <h6 class="card-title"> Create File Type</h6>
                     <form method="POST" action="{{ route('employer.file_type.update',$file_type->id) }}" enctype="multipart/form-data">
