@@ -50,9 +50,71 @@
             <!-- Request end -->
 
 
-            
+            <!-- Subscription -->
 
-            
+            <li class="nav-item {{ request()->is('employer/subscription*') ? 'active' : '' }}">
+
+                <a class="nav-link" data-toggle="collapse" href="#subscription" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="upload"></i>
+                    <span class="link-title">Subscription</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/upload*') ? 'show' : '' }} {{ request()->is('employer/file_type*') ? 'show' : '' }}" id="subscription">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item {{ request()->is('employer/billing*') ? 'active' : '' }}">
+                            <a class="nav-link" data-toggle="collapse" href="#billing" role="button" aria-expanded="false" aria-controls="requests">
+                                <span>Payment</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse {{ request()->is('employer/billing*') ? 'show' : '' }}" id="billing">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a href="{{ route('employer.billing.plan') }}" class="nav-link {{ request()->is('employer/billing/plan') ? 'active' : '' }}">
+                                            Plans
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Subscription End -->
+
+            <!-- payment -->
+            <!-- 
+                <li class="nav-item  {{ request()->is('employer/billing*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#payment" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="credit-card"></i>
+                    <span class="link-title">Payment</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/billing*') ? 'show' : '' }}" id="payment">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.billing.plan') }}" class="nav-link {{ request()->is('employer/billing/plan') ? 'active' : '' }}">
+                                Plans
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <a href="{{ route('employer.bonus.index') }}"
+                        class="nav-link {{ request()->is('employer/bonus') ? 'active' : '' }}">
+                        List
+                        </a>
+            </li> --}}
+
+        </ul>
+    </div>
+    </li> -->
+
+            <!--payment -->
+
+
+
+
 
             <!-- Branch -->
 
@@ -137,9 +199,67 @@
 
             <!-- Departments End -->
 
-            
 
-            
+            <!-- Subscription -->
+
+            <li class="nav-item {{ request()->is('employer/budget*') ? 'active' : '' }}">
+
+                <a class="nav-link" data-toggle="collapse" href="#budget" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="budget"></i>
+                    <span class="link-title">Budget</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/Payroll*') ? 'show' : '' }}" id="budget">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item {{ request()->is('employer/Payroll*') ? 'active' : '' }}">
+                            <a class="nav-link" data-toggle="collapse" href="#Payroll" role="button" aria-expanded="false" aria-controls="requests">
+                                <span>Payroll</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse {{ request()->is('employer/Payroll*') ? 'show' : '' }}" id="Payroll">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a href="{{ route('employer.payroll.index') }}" class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                                            List
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <!-- Payroll -->
+<!-- 
+            <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
+
+                <a class="nav-link" data-toggle="collapse" href="#payroll" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <span class="link-title">Payroll</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/payroll') ? 'show' : '' }}" id="payroll">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payroll.index') }}" class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li> -->
+
+            <!-- Payroll end -->
+
+
+
+
 
             <!-- Provident/Super Fund end -->
 
@@ -207,7 +327,7 @@
                     <ul class="nav sub-menu">
                         <li class="nav-item">
                             <a href="{{ route('employer.userroles.create') }}" class="nav-link {{ request()->is('employer/userroles/create') ? 'active' : '' }}">
-                               Create
+                                Create
                             </a>
                         </li>
 
@@ -338,7 +458,7 @@
                     </ul>
                 </div>
             </li>
-            
+
             <!-- Attendance end -->
 
             <!-- Leave -->
@@ -396,28 +516,7 @@
 
             <!-- Leave end -->
 
-            <!-- Payroll -->
 
-            <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
-
-            <a class="nav-link" data-toggle="collapse" href="#payroll" role="button" aria-expanded="false" aria-controls="requests">
-                <i class="link-icon" data-feather="dollar-sign"></i>
-                <span class="link-title">Payroll</span>
-                <i class="link-arrow" data-feather="chevron-down"></i>
-            </a>
-            <div class="collapse {{ request()->is('employer/payroll') ? 'show' : '' }}" id="payroll">
-                <ul class="nav sub-menu">
-                    <li class="nav-item">
-                        <a href="{{ route('employer.payroll.index') }}" class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
-                            List
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-            </li>
-
-            <!-- Payroll end -->
 
             <!-- Allowance -->
 
@@ -482,22 +581,22 @@
 
             <!-- Benefits End -->
 
-            
-    
-            
-
-            
 
 
 
-            
-
-            
 
 
-            
 
-            
+
+
+
+
+
+
+
+
+
+
 
             <!-- Calender -->
 
@@ -644,11 +743,11 @@
 
             <!-- Payroll budget end -->
 
-            
 
 
 
-            
+
+
 
 
             <!-- Payroll Settings -->
@@ -714,9 +813,9 @@
             </li>
             <!-- Commission end-->
 
-             <!-- bonus -->
+            <!-- bonus -->
 
-             <li class="nav-item  {{ request()->is('employer/bonus*') ? 'active' : '' }}">
+            <li class="nav-item  {{ request()->is('employer/bonus*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#bonus" role="button" aria-expanded="false" aria-controls="requests">
                     <i class="link-icon" data-feather="user-plus"></i>
                     <span class="link-title">Bonus</span>
@@ -839,66 +938,57 @@
                         <li class="nav-item">
                             <a href="{{ route('employer.report.attendance.search') }}" class="nav-link {{ request()->is('employer/report/attendance*') ? 'active' : '' }}">
                                 Attendance
-                           </a>
-                       </li>
-                       <li class="nav-item">
-                        <a href="{{ route('employer.report.employment_period') }}"
-                            class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
-                             Employment Periods
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.status') }}"
-                            class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
-                             Status Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.allowance') }}"
-                            class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
-                             Allowance/Bonus/Commission
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.deduction') }}"
-                            class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
-                             Deduction Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.payroll') }}"
-                            class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
-                             Payroll Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.providentfund') }}"
-                            class="nav-link {{ request()->is('employer/report/providentfund*') ? 'active' : '' }}">
-                            Provident Fund Report
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.tax') }}"
-                            class="nav-link {{ request()->is('employer/report/tax*') ? 'active' : '' }}">
-                            Tax Report
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.payslip') }}"
-                            class="nav-link {{ request()->is('employer/report/payslip*') ? 'active' : '' }}">
-                            Payslip Report
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.report.projectreport') }}"
-                            class="nav-link {{ request()->is('employer/report/projectreport*') ? 'active' : '' }}">
-                            Project  Report
-                        </a>
-                    </li>
-                       
-                   </ul>
-               </div>
-           </li>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.employment_period') }}" class="nav-link {{ request()->is('employer/report/employment_period') ? 'active' : '' }}">
+                                Employment Periods
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.status') }}" class="nav-link {{ request()->is('employer/report/status') ? 'active' : '' }}">
+                                Status Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.allowance') }}" class="nav-link {{ request()->is('employer/report/allowance*') ? 'active' : '' }}">
+                                Allowance/Bonus/Commission
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.deduction') }}" class="nav-link {{ request()->is('employer/report/deduction*') ? 'active' : '' }}">
+                                Deduction Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.payroll') }}" class="nav-link {{ request()->is('employer/report/payroll*') ? 'active' : '' }}">
+                                Payroll Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.providentfund') }}" class="nav-link {{ request()->is('employer/report/providentfund*') ? 'active' : '' }}">
+                                Provident Fund Report
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.tax') }}" class="nav-link {{ request()->is('employer/report/tax*') ? 'active' : '' }}">
+                                Tax Report
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.payslip') }}" class="nav-link {{ request()->is('employer/report/payslip*') ? 'active' : '' }}">
+                                Payslip Report
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.projectreport') }}" class="nav-link {{ request()->is('employer/report/projectreport*') ? 'active' : '' }}">
+                                Project Report
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
             <!--Report End-->
 
             <!-- Calendar -->
@@ -954,9 +1044,9 @@
             <!-- Holiday end -->
 
 
-            
 
-           
+
+
 
             <!-- chat -->
 
@@ -1004,75 +1094,48 @@
             </a>
             </li> --}}
 
-            <!-- payment -->
 
-            <li class="nav-item  {{ request()->is('employer/billing*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#payment" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="credit-card"></i>
-                    <span class="link-title">Payment</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/billing*') ? 'show' : '' }}" id="payment">
-                    <ul class="nav sub-menu">
 
-                        <li class="nav-item">
-                            <a href="{{ route('employer.billing.plan') }}" class="nav-link {{ request()->is('employer/billing/plan') ? 'active' : '' }}">
-                                Plans
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ route('employer.bonus.index') }}"
-                        class="nav-link {{ request()->is('employer/bonus') ? 'active' : '' }}">
-                        List
-                        </a>
-            </li> --}}
-
-        </ul>
-    </div>
-    </li>
-
-    <!--payment -->
-
-    <!--check in and check out time -->
-    <!-- <li class="nav-item {{ request()->is('employer/check-in-out-time*') ? 'active' : '' }}">
+            <!--check in and check out time -->
+            <!-- <li class="nav-item {{ request()->is('employer/check-in-out-time*') ? 'active' : '' }}">
         <a href="{{ route('employer.checkinout') }}" class="nav-link">
             <i class="link-icon" data-feather="clock"></i>
             <span class="link-title">Checkin-Checkout time</span>
         </a>
     </li> -->
-    <!--check in and check out time end -->
+            <!--check in and check out time end -->
 
-    
 
-    <!-- Support Tickets End -->
-            
-        <li class="nav-item {{ request()->is('employer/support-tickets*') ? 'active' : '' }}">
-            <a class="nav-link" data-toggle="collapse" href="#supportticket" role="button" aria-expanded="false" aria-controls="requests">
-                <i class="link-icon" data-feather="bookmark"></i>
-                <span class="link-title">Support Tickets</span>
-                <i class="link-arrow" data-feather="chevron-down"></i>
-            </a>
-            <div class="collapse {{ request()->is('employer/supportticket*') ? 'show' : '' }}" id="supportticket">
-                <ul class="nav sub-menu">
-                    <li class="nav-item">
-                        <a href="{{route('employer.supportticket.create')}}" class="nav-link {{ request()->is('employer/supportticket/create') ? 'active' : '' }}">
-                            Create
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('employer.supportticket.index')}}" class="nav-link {{ request()->is('employer/supportticket') ? 'active' : '' }}">
-                            List
-                        </a>
-                    </li>
-                </ul>
-            </div>
 
-        </li>
+            <!-- Support Tickets End -->
+
+            <li class="nav-item {{ request()->is('employer/support-tickets*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#supportticket" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="bookmark"></i>
+                    <span class="link-title">Support Tickets</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/supportticket*') ? 'show' : '' }}" id="supportticket">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('employer.supportticket.create')}}" class="nav-link {{ request()->is('employer/supportticket/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('employer.supportticket.index')}}" class="nav-link {{ request()->is('employer/supportticket') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </li>
 
             <!-- Support Tickets End -->
 
 
 
-    </ul>
+        </ul>
     </div>
 </nav>

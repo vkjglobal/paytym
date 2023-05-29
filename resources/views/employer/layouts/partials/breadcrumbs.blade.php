@@ -6,7 +6,7 @@
                     <li class="breadcrumb-item"><a href="{{ $breadcrumb[1] }}">{{ $breadcrumb[0] }}</a></li>
                 @else
                     <li class="breadcrumb-item active">{{ $breadcrumb[0] }}</li>
-                @endif
+                @endif  
             @endforeach
         @endif
     </ol>
