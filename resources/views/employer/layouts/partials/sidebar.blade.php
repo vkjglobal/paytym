@@ -202,7 +202,50 @@
 
             <!-- Subscription -->
 
-            <li class="nav-item {{ request()->is('employer/budget*') ? 'active' : '' }}">
+            <!-- <li class="nav-item {{ request()->is('employer/budget*') ? 'active' : '' }} {{ request()->is('employer/Payroll*') ? 'active' : '' }}">
+
+                <a class="nav-link" data-toggle="collapse" href="#budget" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="upload"></i>
+                    <span class="link-title">Budget</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/Payroll*') ? 'show' : '' }}" id="budget">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item {{ request()->is('employer/Payroll*') ? 'active' : '' }}">
+                            <a class="nav-link" data-toggle="collapse" href="#filetype" role="button" aria-expanded="false" aria-controls="requests">
+                                <span>File Type</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse {{ request()->is('employer/Payroll*') ? 'show' : '' }}" id="Payroll">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a href="{{route('employer.file_type.create')}}" class="nav-link {{ request()->is('employer/file_type/create') ? 'active' : '' }}">
+                                            Create
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{route('employer.file_type.index')}}" class="nav-link {{ request()->is('employer/file_type') ? 'active' : '' }}">
+                                            List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <li class="nav-item ">
+                            <a href="{{ route('employer.uploads.index') }}" class="nav-link {{ request()->is('employer/upload*') ? 'active' : '' }}">
+
+                                Uploads
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li> -->
+            <!-- <li class="nav-item {{ request()->is('employer/budget*') ? 'active' : '' }} {{ request()->is('employer/Payroll*') ? 'active' : '' }}">
 
                 <a class="nav-link" data-toggle="collapse" href="#budget" role="button" aria-expanded="false" aria-controls="requests">
                     <i class="link-icon" data-feather="budget"></i>
@@ -230,7 +273,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
 
 
