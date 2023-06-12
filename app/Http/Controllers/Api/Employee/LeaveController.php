@@ -26,7 +26,7 @@ class LeaveController extends Controller
         }
 
 
-        $leave = Leaves::where('employer_id', $request->employer_id)->get();
+        $leave = Leaves::where('employer_id', $request->employer_id)->orderBy('id', 'desc')->get();
 
         if (count($leave) > 0) {
             return response()->json([
@@ -95,7 +95,7 @@ class LeaveController extends Controller
             ], 400);
         }
 
-        $leave_list = Leaves::where('employer_id', $request->employer_id)->get();
+        $leave_list = Leaves::where('employer_id', $request->employer_id)->orderBy('id', 'desc')->get();
         $leave_types = LeaveType::select('leave_type')->where('employer_id', $request->employer_id)->get();
         if ($leave_list) {
             return response()->json([

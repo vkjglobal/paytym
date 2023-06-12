@@ -115,7 +115,7 @@ class ChatController extends Controller
 
         $user = Auth::user();
 
-            $chats = GroupChatMembers::with(['group', 'group.latestMessage'])->where('member_id', $user->id)
+            $chats = GroupChatMembers::with(['group', 'group.latestMessage'])->orderBy('id', 'desc')->where('member_id', $user->id)
             ->get();
             // $chats = GroupChatMembers::with('group.latestMessage')
             // ->where('member_id', $user->id)

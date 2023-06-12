@@ -33,7 +33,7 @@ class DeductionsController extends Controller
         $user = Auth::user();
         $employer_id = $user->employer_id;
         $deduction = User::select(['id', 'first_name', 'last_name', 'branch_id','department_id'])->with('assign_deduction.deduction:id,name,description')
-                    ->where('id', $user->id)->has('assign_deduction')->get();
+                    ->where('id', $user->id)->has('assign_deduction')->orderBy('id', 'desc')->get();
         $deductions_types = Deduction::select(['id','employer_id','name','description'])->where('employer_id', $employer_id)->get();
           
 

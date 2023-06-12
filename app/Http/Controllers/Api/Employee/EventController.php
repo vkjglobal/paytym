@@ -24,7 +24,7 @@ class EventController extends Controller
         }
 
 
-        $events = Event::where('employer_id', $request->employer_id)->get();
+        $events = Event::where('employer_id', $request->employer_id)->orderBy('id', 'desc')->get();
         if (count($events) > 0) {
             return response()->json([
                 'message' => 'Events List',
