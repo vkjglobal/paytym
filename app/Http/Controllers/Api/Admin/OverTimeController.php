@@ -26,12 +26,12 @@ class OverTimeController extends Controller
         if(isset($request->employer_id))
         {
             $employer_id = $request->employer_id;
-            $overtime_requests = Overtime::with('user.branch')->where('employer_id', $employer_id)->get();
+            $overtime_requests = Overtime::with('user.branch')->orderBy('id', 'desc')->where('employer_id', $employer_id)->get();
         }
         else
         {
             $employee_id = $request->employee_id;
-            $overtime_requests = Overtime::with('user.branch')->where('employee_id', $employee_id)->get();
+            $overtime_requests = Overtime::with('user.branch')->orderBy('id', 'desc')->where('employee_id', $employee_id)->get();
         }
 
     
