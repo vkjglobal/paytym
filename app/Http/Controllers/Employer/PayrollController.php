@@ -163,11 +163,20 @@ class PayrollController extends Controller
 
             foreach($attendances as $attendance){
                 $checkIn = Carbon::parse($attendance->check_in);
-                $checkOut = Carbon::parse($attendance->check_out);
+              
+                // Have some condition based on the client new suggessions
+                //1. Default time, 2. Roster 3. Checkout 
+                 if($employee->check_out_reqd=='1')
+                    {
+                        $checkOut = Carbon::parse($attendance->check_out);
+                    }
+                    else{
+                        $checkOut = Carbon::parse($employee->check_out_default);
+                    }
+               
                 // calculate the number of hours worked for this day
                 $hoursWorked = $checkIn->diffInHours($checkOut);
                 $totalHours += $hoursWorked;
-
             } 
 
             
@@ -195,8 +204,6 @@ class PayrollController extends Controller
                         $holidayHours = $checkIn->diffInHours($checkOut);
                         $TotalHolidayHours += $holidayHours;
                         $doubleTimeRate = $TotalHolidayHours * ($employee->rate * $doubletimerate);
-                        
-                    
                 }
             }
         }
