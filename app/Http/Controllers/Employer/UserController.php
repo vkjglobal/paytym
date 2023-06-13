@@ -44,7 +44,7 @@ class UserController extends Controller
                 [(__('Users')), null],
             ];
     
-            $users = User::where('employer_id',Auth::guard('employer')->user()->id)->latest()->get();
+            $users = User::where('employer_id',Auth::guard('employer')->user()->id)->with('business')->latest()->get();
             $roles = Role::get();   
             return view('employer.user.index', compact('breadcrumbs', 'users','roles'));
         }
@@ -93,7 +93,7 @@ class UserController extends Controller
     {
      $user = new User(); 
      $validated = $request->validated();
-
+   
      $user->employer_id = Auth::guard('employer')->user()->id;
      $user->company = Auth::guard('employer')->user()->company;
      $user->first_name = $validated['first_name'];
@@ -117,6 +117,12 @@ class UserController extends Controller
      $user->bank_branch_name = $validated['bank_branch'];
      $user->employment_start_date = $validated['start_date'];
      $user->employment_end_date = $validated['end_date'];
+     $user->check_in_default = $request->get('start_time');
+     $user->check_out_default = $request->get('end_time');
+     if($request->get('check_out_reqd') != Null)
+     {
+     $user->check_out_requred = '1';
+     }
     //  $user->pay_period = $validated['payperiod'];
      
      if(!empty($validated['hourly_rate'])){

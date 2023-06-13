@@ -50,6 +50,18 @@
                                 </div>
                             </div>
                             <!-- Col -->
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Checkout Required? <span class="text-danger">*</span></label>
+                                    <input type="checkbox"  class="form-control @if ($errors->has('check_out_reqd')) is-invalid @endif"
+                                        name="check_out_reqd" value="{{ old('check_out_reqd') }}"
+                                     >
+                                    <div class="invalid-feedback">{{ $errors->first('check_out_reqd') }}</div>
+                                </div>
+                            </div>
+
+
                         </div><!-- Row -->
 
                         <div class="row">
@@ -228,10 +240,6 @@
                         </div><!-- Row -->
 
 
-
-                       
-
-
                         <div class="row">
                         <div class="col-sm-6">
                                 <div class="form-group">
@@ -253,6 +261,30 @@
                             </div><!-- Col -->
                        
                          
+                        </div><!-- Row -->
+
+
+
+                        <div class="row" id="time-row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Check-In Time(Defaut) <span class="text-danger">*</span></label>
+                                    <input type="time"
+                                        class="form-control @if ($errors->has('start_time')) is-invalid @endif"
+                                        name="start_time" value="{{ old('start_time') }}">
+                                    <div class="invalid-feedback">{{ $errors->first('start_time') }}</div>
+                                </div>
+                            </div><!-- Col -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Check-Out Time(Defaut) <span class="text-danger">*</span></label>
+                                    <input type="time"
+                                        class="form-control @if ($errors->has('end_time')) is-invalid @endif"
+                                        name="end_time" value="{{ old('end_time') }}">
+                                    <div class="invalid-feedback">{{ $errors->first('end_time') }}</div>
+                                </div>
+                            </div><!-- Col -->
+                            
                         </div><!-- Row -->
 
 

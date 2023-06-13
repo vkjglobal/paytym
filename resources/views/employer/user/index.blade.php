@@ -27,7 +27,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->first_name }}</td>
-                                        <td>{{ optional($user->employer)->company ?? 'no data' }}</td>
+                                        <td>{{ optional($user->business)->name ?? 'no data' }}</td>
                                         <td>@isset($user->branch->name)
                                             {{ $user->branch->name }}
                                         @endisset</td>

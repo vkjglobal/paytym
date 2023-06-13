@@ -55,7 +55,7 @@ class StoreUserRequest extends FormRequest
             'work_days_per_week' => 'nullable|numeric',
             'total_hours_per_week' => 'nullable|numeric',
             'extra_hours_at_base_rate' => 'nullable|numeric',
-            'salary_type' => 'required',
+            'salary_type' => 'required'
         ];
     }
 }
