@@ -21,7 +21,7 @@ class UploadController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('admin.home')],
-            [(__('Uploads')), null],
+            [(__('Files')), null],
         ];
         $employer = Auth::guard('employer')->id();
         $employees = User::where('employer_id', $employer)->get();
@@ -92,7 +92,7 @@ class UploadController extends Controller
 
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('Uploads')), null],
+            [(__('Manage Files')), null],
         ];
 
         return view('employer.Uploads.show', compact('breadcrumbs', 'ups','id'));

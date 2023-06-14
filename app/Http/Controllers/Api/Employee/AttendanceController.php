@@ -272,7 +272,8 @@ class AttendanceController extends Controller
         $roster = Roster::where('user_id', $user_id)->where('start_date', '<=', Carbon::today())
                                 ->where('end_date', '>=', Carbon::today())->get();
 
-        $pending_attendance = Attendance::where('user_id', $user_id)->whereNull('approve_reject')->orderBy('id', 'desc')->get();
+        $pending_attendance = Attendance::with('user.branch:id,name')->where('employer_id',$request->employer_id)->where('approve_reject',null)->orderBy('id', 'desc')->get(); // PayRoll
+       // $pending_attendance = Attendance::where('user_id', $user_id)->whereNull('approve_reject')->orderBy('id', 'desc')->get();
         if(!$roster->isEmpty()){
             $check_in_time = Roster::where('user_id', $user_id)->value('start_time');    
         }else{
