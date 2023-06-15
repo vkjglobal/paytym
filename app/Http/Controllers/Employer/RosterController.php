@@ -31,8 +31,9 @@ class RosterController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.roster.index')],
-            [(__('Rosters')), null],
+            [(__('Dashboard')),route('employer.home') ],
+            [(__('Rosters')), route('employer.roster.index')],
+            [(__('List')), null]
         ];
 
         $rosters = Roster::where('employer_id',Auth::guard('employer')->user()->id)->get();
@@ -52,6 +53,7 @@ class RosterController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
+            [(__('Rosters')), route('employer.roster.index')],
             [(__('Create')), null]
         ];
         $users = User::where('employer_id', Auth::guard('employer')->user()->id)->get();

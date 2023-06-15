@@ -35,6 +35,7 @@ class LeaveTypeController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
+            [(__('Leave Types')), route('employer.leave-type.index')],
             [(__('Create')), null]
         ];
         //Employer $employer
@@ -89,6 +90,7 @@ class LeaveTypeController extends Controller
         {
             $breadcrumbs = [
                 [(__('Dashboard')), route('employer.home')],
+                [(__('Leave Types')), route('employer.leave-type.index')],
                 [(__('Edit')), null]
             ]; 
             //Employer $employer

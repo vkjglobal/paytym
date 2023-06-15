@@ -1,7 +1,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="{{ route('employer.home') }}" class="sidebar-brand">
-            Paytym
+            <img src="{{ asset('home_assets/images/logo.png') }}" style="max-width: 120px;" alt="PayTym" />
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>

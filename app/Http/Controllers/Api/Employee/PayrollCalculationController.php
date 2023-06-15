@@ -186,11 +186,12 @@ class PayrollCalculationController extends Controller
                 }
                 $lastPayPeriod = end($payPeriods);
                 if (count($payPeriods) != 0) {
+                   
                     if (($now->toDateString()) < $lastPayPeriod['end_date']) {
                         array_pop($payPeriods);
                     }
+                  
                     foreach ($payPeriods as $payPeriod) {
-
                         $salaryStartDate = $payPeriod['start_date'];
                         $salaryEndDate = $payPeriod['end_date'];
                         $payrollcontroller = new PayrollController;
@@ -203,9 +204,13 @@ class PayrollCalculationController extends Controller
                     }                    
                     $employee->save();
                 }
+                
 
             }
         }
+
+        // Comented by robin on 14-06-23   it is needed. 
+
 
         //sending payroll csv file through email bank
         $export = new PaymentExport();
@@ -232,12 +237,7 @@ class PayrollCalculationController extends Controller
                     ]);
         });
         Storage::delete($path); 
-        // $bank = SplitPayment::where('status', 0)->where('payment_wallet', '1')->get();
-        // foreach($bank as $b){
-        //     $b->status = 1;
-        //     $b->save();
-        // }
-        //end sending
+       
 
         //sending payroll csv file through email mpaisa
         $export = new MpaisaExport();
@@ -264,11 +264,7 @@ class PayrollCalculationController extends Controller
                     ]);
         });
         Storage::delete($path); 
-        // $mpaisa = SplitPayment::where('status', 0)->where('payment_wallet', '1')->get();
-        // foreach($mpaisa as $m){
-        //     $m->status = 1;
-        //     $m->save();
-        // }
+        
 
 
         //end sending
@@ -298,12 +294,7 @@ class PayrollCalculationController extends Controller
                     ]);
         });
         Storage::delete($path); 
-        // $mycash = SplitPayment::where('status', 0)->where('payment_wallet', '0')->get();
-        // foreach($mycash as $m){
-        //     $m->status = 1;
-        //     $m->save();
-        // }
-        //end sending
+
         
 
 
