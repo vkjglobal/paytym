@@ -111,4 +111,8 @@ Route::middleware('admin.auth')->group(function () {
      Route::get('report/invoice',[ReportController::class, 'invoice_index'])->name('report.invoice');
      Route::get('report/invoice/export/', [ReportController::class, 'invoice_export'])->name('report.invoice.download');
      Route::post('report/invoice/filter', [ReportController::class, 'invoice_filter'])->name('report.invoice.filter');
-});
+
+
+     Route::get('report/employer/export',[ReportController::class,'employer_list_export'])->name('report.employer.export');
+
+    });

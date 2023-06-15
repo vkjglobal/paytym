@@ -27,53 +27,14 @@
                         </div><!-- Col -->
                     </div><!-- Row -->
                     
-                    <div class="row" id="temployee" style="display:none">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">Employee<span class="text-danger">*</span></label>
-                                <select name="type_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true" disabled="disabled" >Select User</option>
-                                    @foreach($employees as $employee)
-                                        <option value="{{$employee->id}}">{{$employee->first_name}}</option>
-                                    @endforeach
-                                </select>                                
-                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                    </div><!-- Row -->
-                    <div class="row" id="tdepartment" style="display:none">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">Department<span class="text-danger">*</span></label>
-                                <select name="type_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true" disabled="disabled" >Select Department</option>
-                                    @foreach($departments as $department)
-                                        <option value="{{$department->id}}">{{$department->dep_name}}</option>
-                                    @endforeach
-                                </select>                                
-                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                    </div><!-- Row -->
-                    <div class="row" id="tbranch" style="display:none">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">Branch<span class="text-danger">*</span></label>
-                                <select name="type_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true" disabled="disabled" >Select Branch</option>
-                                    @foreach($branches as $branch)
-                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
-                                    @endforeach
-                                </select>                                
-                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                    </div><!-- Row -->
+                    <!-- Row -->
+                   <!-- Row -->
+                   <!-- Row -->
                     <div class="row" id="tbusiness" style="display:none">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Business<span class="text-danger">*</span></label>
-                                <select name="type_id" class="@if ($errors->has('type_id')) is-invalid @endif">
+                                <select name="type_id" id="business_id"  class="@if ($errors->has('type_id')) is-invalid @endif">
                                     <option selected="true" disabled="disabled" >Select Business</option>
                                     @foreach($businesses as $business)
                                         <option value="{{$business->id}}">{{$business->name}}</option>
@@ -82,7 +43,55 @@
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
                             </div>
                         </div><!-- Col -->
-                    </div><!-- Row -->
+                    </div>
+
+
+                    <div class="row" id="tbranch" style="display:none">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Branch<span class="text-danger">*</span></label>
+                                <select name="type_id" id="branch_id" class="@if ($errors->has('type_id')) is-invalid @endif">
+                                    <option selected="true"  >Select Branch</option>
+                                    @foreach($branches as $branch)
+                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                    @endforeach
+                                </select>                                
+                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                            </div>
+                        </div><!-- Col -->
+                    </div>
+
+                    <div class="row" id="tdepartment" style="display:none">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Department<span class="text-danger">*</span></label>
+                                <select name="type_id" id="department_id" class="@if ($errors->has('type_id')) is-invalid @endif">
+                                    <option selected="true"  >Select Department</option>
+                                    @foreach($departments as $department)
+                                        <option value="{{$department->id}}">{{$department->dep_name}}</option>
+                                    @endforeach
+                                </select>                                
+                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                            </div>
+                        </div><!-- Col -->
+                    </div>
+                    
+                    <div class="row" id="temployee" style="display:none">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Employee<span class="text-danger">*</span></label>
+                                <select name="type_id" id="employee_id" class="@if ($errors->has('type_id')) is-invalid @endif">
+                                    <option selected="true" disabled="disabled" >Select User</option>
+                                    @foreach($employees as $employee)
+                                        <option value="{{$employee->id}}">{{$employee->first_name}}</option>
+                                    @endforeach
+                                </select>                                
+                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                            </div>
+                        </div><!-- Col -->
+                    </div>
+                    
+                    <!-- Row -->
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -100,7 +109,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Rate <span class="text-danger">*</span></label>
-                                <input type="text"
+                                <input type="number" step=any
                                     class="form-control @if ($errors->has('rate')) is-invalid @endif"
                                     name="rate" value="" placeholder="Enter Rate" required>
                                 <div class="invalid-feedback">{{ $errors->first('rate') }}</div>
@@ -125,21 +134,21 @@
         switch(selection){
         case "0":
             $("#temployee").show()
-            $("#tdepartment").hide()
-            $("#tbranch").hide()
-            $("#tbusiness").hide()
+            $("#tdepartment").show()
+            $("#tbranch").show()
+            $("#tbusiness").show()
             break;
         case "1":
             $("#tdepartment").show()
             $("#temployee").hide()
-            $("#tbranch").hide()
-            $("#tbusiness").hide()
+            $("#tbranch").show()
+            $("#tbusiness").show()
             break;
         case "2":
             $("#tbranch").show()
             $("#temployee").hide()
             $("#tdepartment").hide()
-            $("#tbusiness").hide()
+            $("#tbusiness").show()
             break;
         case "3":
             $("#tbusiness").show()
@@ -154,5 +163,83 @@
             $("#tbusiness").hide()
         }
 });
-</script>
+
+        let token = "{{csrf_token()}}";
+            $('#business_id').change(function(e){
+                var id = $(this).val();
+                console.log('id====',id);
+                $('#branch_id').find('option').not(':first').remove();
+
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_branch/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        var len = 0;
+                        if(response != null){
+                            len = response['data'].length;
+                        }
+                        if(len>0){
+                            for(var i=0;i<len;i++){
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].name;
+                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                $('#branch_id').append(option);
+                            }
+                        }
+                    }
+                });
+            });
+            $('#branch_id').change(function(e){
+                var id = $(this).val();
+                $('#department_id').find('option').not(':first').remove();
+
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_department/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        var len = 0;
+                        if(response != null){
+                            len = response['data'].length;
+                        }
+                        if(len>0){
+                            for(var i=0;i<len;i++){
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].dep_name;
+                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                $('#department_id').append(option);
+                            }
+                        }
+                    }
+                });
+            });
+            $('#department_id').change(function(e){
+                var id = $(this).val();
+                $('#employee_id').find('option').not(':first').remove();
+
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_user/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        var len = 0;
+                        if(response != null){
+                            len = response['data'].length;
+                        }
+                        if(len>0){
+                            for(var i=0;i<len;i++){
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].first_name;
+                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                $('#employee_id').append(option);
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+
+
+
 @endpush

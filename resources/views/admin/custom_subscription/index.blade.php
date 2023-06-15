@@ -25,11 +25,14 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if($subscription->count()>0)
+                              
                                 @foreach ($subscription as $subscription)
+                     
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $subscription->plan }}</td>
-                                        <td>{{ $subscription->employer->company }}</td>
+                                        <td>@if(isset($subscription->employer->company)) {{ $subscription->employer->company}} @else - @endif</td>
                                         <td>{{ $subscription->range_from }} - {{$subscription->range_to}}</td>
                                         <td>{{ $subscription->rate_per_employee }}</td>
                                         <td>@if (isset($subscription->rate_per_month ))
@@ -71,6 +74,9 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                @else
+                                <span> No records</span>
+                                @endif
                             </tbody>
                         </table>
                     </div>
