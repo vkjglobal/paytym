@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use App\Exports\Employer\EmployeePeriodExport;
 use App\Exports\Employer\EmployeeReportExport;
+use App\Exports\Employer\EmployerReportExport;
 use App\Exports\Employer\PayrollExport;
 use App\Exports\Employer\PayslipReportExport;
 use App\Exports\Employer\ProjectBudgetExport;
@@ -174,6 +175,7 @@ class ReportController extends Controller
         return Excel::download(new EmployeeReportExport, 'employee_report_export-'.Carbon::now().'.xlsx');
     }
 
+    
 /////status_list
     public function status_list_index()
     {

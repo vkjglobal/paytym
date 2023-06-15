@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Exports\Admin\ReportExport;
+use App\Exports\Employer\EmployerReportExport;
 use App\Models\Invoice;
 use App\Models\Subscription;
 use Maatwebsite\Excel\Facades\Excel;
@@ -83,4 +84,11 @@ class ReportController extends Controller
         $status = $request->status;
         return view('admin.reports.invoice_list', compact('invoices', 'breadcrumbs', 'status'));
     }
+
+
+    public function employer_list_export() 
+    {
+        return Excel::download(new EmployerReportExport, 'employer_report_export-'.Carbon::now().'.xlsx');
+    }
+
 }

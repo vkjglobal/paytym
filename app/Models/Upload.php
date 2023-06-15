@@ -17,7 +17,7 @@ class Upload extends Model
     }
     public function filetype(){
 
-        return $this->belongsTo(FileType::class,'file_type_id');
+        return $this->belongsTo(FileType::class,'file_type_id','id');
 
     }
 }

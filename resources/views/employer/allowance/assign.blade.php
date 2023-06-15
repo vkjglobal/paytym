@@ -217,7 +217,7 @@
 
                 $.ajax({
                     type: 'get',
-                    url: '/employer/report/employment_period/get_branch/'+id,
+                    url:     '/employer/report/employment_period/get_branch/'+id,
                     dataType: 'json',
                     success: function(response){
                         var len = 0;

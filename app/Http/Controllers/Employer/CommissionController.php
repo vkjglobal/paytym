@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Commission;
+use App\Models\Department;
+use App\Models\EmployerBusiness;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +23,10 @@ class CommissionController extends Controller
         $employer_id = Auth::guard('employer')->id();
         $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
         $commissions = Commission::where('employer_id', $employer_id)->get();
-        return view('employer.commission.index', compact('breadcrumbs','commissions', 'users'));
+        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        return view('employer.commission.index', compact('businesses','branches','departments','breadcrumbs','commissions', 'users'));
     }
 
     /**

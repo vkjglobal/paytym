@@ -8,6 +8,14 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title">Employers</h6>
+                    <div class="float-right mb-3">
+                      
+                          <!-- <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("admin.report.employer.export")}}'">
+                            <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                            Download Report
+                          </button>  -->
+                    
+                    </div>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>

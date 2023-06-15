@@ -225,6 +225,7 @@ Route::middleware('employer.auth')->group(function () {
     Route::get('report/employee/filter',[ReportController::class,'employee_list_filter'])->name('report.employee.filter');
     Route::get('report/employee/export',[ReportController::class,'employee_list_export'])->name('report.employee.export');
 
+
     // Route::get('report/status',[ReportController::class,'status_list_index'])->name('report.status');
 
     Route::get('report/status/business',[ReportController::class,'status_business'])->name('report.status.business');
