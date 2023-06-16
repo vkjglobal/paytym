@@ -10,12 +10,21 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class EmployerReportExport implements FromView
 {
+
+// public function collection()
+//     {
+//         return YourModel::all();
+//     }
+
+
     public function view(): View
     {
-        return $employees = Employer::get();
-        // return view('employer.report.export.employee_list', [
-        //     'employees' => $employees
-        // ]);
+        
+        
+
+        //$employers = Employer::latest()->get();
+        $employers = Employer::with('country')->latest()->get();
+        return view('admin.employers.employers_table', compact('employers'));
     }
 
 }
