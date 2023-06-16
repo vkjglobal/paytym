@@ -53,7 +53,8 @@
                         </div> -->
 
                         </div><!-- Row -->
-                        @if($roster->user->salary_type == 0)
+                        @if ($roster->user!=null)
+                        @if(isset($roster->user->salary_type) == 0)
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -75,6 +76,7 @@
                             </div><!-- Col -->
                             
                         </div><!-- Row -->
+                        @endif
                         @endif
 
                         

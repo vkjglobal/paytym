@@ -179,8 +179,6 @@ class LeaveRequestController extends Controller
         $pending_leaves = LeaveRequest::where('employer_id', $request->employer_id)->where('status', '0')->count();
         $active_employees_count = User::where('employer_id', $request->employer_id)->where('status', '1')->count();
 
-
-
         return response()->json([
             'message' => "Dashboard details listed",
             // 'leave' => $leave,
@@ -219,13 +217,13 @@ class LeaveRequestController extends Controller
         $now = new \DateTime();
         $leaveRequest = LeaveRequest::with('user:id,first_name,last_name,branch_id,department_id')->where('employer_id', $employer_id)->where('status', 0);
         if ($status == '1') {
-            $leaveRequest = $leaveRequest->whereMonth('created_at', Carbon::now()->month)->get();
+            $leaveRequest = $leaveRequest->whereMonth('created_at', Carbon::now()->month)->orderBy('id', 'desc')->get();
         } elseif ($status == '2') {
-            $leaveRequest = $leaveRequest->whereDate('created_at', '=', Carbon::yesterday())->get();
+            $leaveRequest = $leaveRequest->whereDate('created_at', '=', Carbon::yesterday())->orderBy('id', 'desc')->get();
         } elseif ($status == '3') {
-            $leaveRequest = LeaveRequest::with('user:id,first_name,last_name,branch_id,department_id')->where('employer_id', $employer_id)->whereYear('created_at', '=', Carbon::now())->get();
+            $leaveRequest = LeaveRequest::with('user:id,first_name,last_name,branch_id,department_id')->where('employer_id', $employer_id)->whereYear('created_at', '=', Carbon::now())->orderBy('id', 'desc')->get();
         } else {
-            $leaveRequest = $leaveRequest->get();
+            $leaveRequest = $leaveRequest->orderBy('id', 'desc')->get();
         }
 
         return response()->json([
