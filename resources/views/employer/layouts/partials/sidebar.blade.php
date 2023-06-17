@@ -59,7 +59,7 @@
                     <span class="link-title">Subscription</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/upload*') ? 'show' : '' }}  id="subscription">
+                <div class="collapse {{ request()->is('employer/subscription*') ? 'show' : ''}}"  id="subscription">
                     <ul class="nav sub-menu">
 
                         <li class="nav-item {{ request()->is('employer/billing*') ? 'active' : '' }}">
@@ -215,14 +215,14 @@
 
             <!-- Budget -->
 
-            <li class="nav-item {{ request()->is('employer/budget_head*') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('employer/budget_head*') ? 'active' : '' }} {{ request()->is('employer/file_type*') ? 'show' : '' }}">
 
                 <a class="nav-link" data-toggle="collapse" href="#budget_head" role="button" aria-expanded="false" aria-controls="requests">
                     <i class="link-icon" data-feather="upload"></i>
                     <span class="link-title">Budget</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/budget_head*') ? 'show' : '' }}  id="budget_head">
+                <div class="collapse {{ request()->is('employer/budget_head*') ? 'show' : '' }}"  id="budget_head">
                     <ul class="nav sub-menu">
 
                         <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
@@ -313,7 +313,7 @@
                     <span class="link-title">Employees</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/business_head*') ? 'show' : '' }}  id="employees_head">
+                <div class="collapse {{ request()->is('employer/business_head*') ? 'show' : '' }}" id="employees_head">
                     <ul class="nav sub-menu">
 
 
@@ -362,7 +362,7 @@
                     <span class="link-title">User Capabilities</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/business_head*') ? 'show' : '' }}  id="capabilities_head">
+                <div class="collapse {{ request()->is('employer/business_head*') ? 'show' : '' }}"  id="capabilities_head">
                     <ul class="nav sub-menu">
 
 
@@ -578,7 +578,7 @@
                     <span class="link-title">Payroll</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/budget_head*') ? 'show' : '' }}  id="payroll_head">
+                <div class="collapse {{ request()->is('employer/budget_head*') ? 'show' : '' }}"  id="payroll_head">
                     <ul class="nav sub-menu">
 
                         <li class="nav-item {{ request()->is('employer/payroll') ? 'active' : '' }}">
@@ -692,14 +692,14 @@
 
             <!---Emp Adjustment---->
 
-            <li class="nav-item {{ request()->is('employer/budget_head*') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('employer/emp_adjustmnet*') ? 'active' : '' }}">
 
                 <a class="nav-link" data-toggle="collapse" href="#emp_adjustmnet" role="button" aria-expanded="false" aria-controls="requests">
                     <i class="link-icon" data-feather="upload"></i>
                     <span class="link-title">Employee Adjustment</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse {{ request()->is('employer/budget_head*') ? 'show' : '' }}  id="emp_adjustmnet">
+                <div class="collapse {{ request()->is('employer/budget_head*') ? 'show' : '' }}"  id="emp_adjustmnet">
                     <ul class="nav sub-menu">
 
                         <li class="nav-item  {{ request()->is('employer/allowance*') ? 'active' : '' }}">
