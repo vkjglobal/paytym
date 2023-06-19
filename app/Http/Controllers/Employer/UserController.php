@@ -23,11 +23,15 @@ use App\Jobs\SendEmployeeInfo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use App\Jobs\EmployeeCreationPushNotification;
+use App\Mail\EmployeeCredentialsMail;
 use App\Models\EmployeeExtraDetails;
 use App\Models\SplitPayment;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash as FacadesHash;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Mail;
+use Illuminate\Support\Str;
+
 
 class UserController extends Controller
 {
@@ -119,6 +123,8 @@ class UserController extends Controller
      $user->employment_end_date = $validated['end_date'];
      $user->check_in_default = $request->get('start_time');
      $user->check_out_default = $request->get('end_time');
+     $password =  Str::random(8);
+     $user->password = FacadesHash::make($password);
      if($request->get('check_out_reqd') != Null)
      {
      $user->check_out_requred = '1';
@@ -172,8 +178,13 @@ class UserController extends Controller
         $employeeBranch = Branch::where('id',$validated['branch'])->first()->name;
         $position = Role::where('id', $validated['position'])->first()->role_name;
         EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$position,$employeeName);
+      
+        $email = new EmployeeCredentialsMail($user,$password);
         //mail confirmation
         //mail
+        FacadesMail::to($validated['email'])->send($email);
+        //FacadesMail::to($validated['email'])->send(new Employee($employer,$password));
+
         notify()->success(__('Created successfully'));
             } else {
                 notify()->error(__('Failed to Create. Please try again'));
