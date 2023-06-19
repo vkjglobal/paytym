@@ -13,8 +13,8 @@ Employment Start Date: {{optional($employee)->employment_start_date ?? 'No data'
 Yours login credentials is as follows: <br>
 email : {{$employee->email}}<br>
 password: {{$password}}<br>
-Please use the following link for downloading the application: <br>
-    Playstore link
+<!-- Please use the following link for downloading the application: <br>
+    Playstore link -->
 
 Thanks,<br>
 {{ config('app.name') }}
