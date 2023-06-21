@@ -67,7 +67,7 @@ class EmployerController extends Controller
         $employer->company = $validated['company'];
         $employer->name = $validated['name'];
         $employer->email = $validated['email'];
-        $password = Str::random(6);
+        $password = Str::random(8);
         $employer->password=Hash::make($password);
         $employer->phone = $validated['phone'];
         $employer->company_phone = $validated['company_phone'];
@@ -105,7 +105,6 @@ class EmployerController extends Controller
             );
             $employer->logo = $path;
         }
-
         $res = $employer->save();
 
         if ($res) {

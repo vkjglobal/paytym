@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Models\EmployerBusiness;
 use App\Models\ProvidentFund;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class ProvidentFundController extends Controller
             [(__('Provident Fund')), null],
         ];
         $employees = ProvidentFund::where('employer_id', Auth::guard('employer')->id())->get();
+
         return view('employer.providentfund.index', compact('breadcrumbs','employees'));
     }
 
@@ -39,7 +41,8 @@ class ProvidentFundController extends Controller
             [(__('Create')), null],
         ];
         $employees = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
-        return view('employer.providentfund.create', compact('breadcrumbs','employees'));
+        $business = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.providentfund.create', compact('breadcrumbs','employees','business'));
     }
 
     /**

@@ -772,11 +772,11 @@
                                     <!--  <span>Free</span> -->
                                     <span>${{ $sub->rate_per_employee }}/employee</span>
                                 </div>
-                                <div class="btn-started text-center">
+                                <!-- <div class="btn-started text-center">
                                     <button class="btn" type="button" onclick="window.location='{{ route('paytym.home.subplan', $sub->id) }}'">Get Started </button>
 
 
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -799,9 +799,9 @@
                                     <!--  <span>Free</span> -->
                                     <span>${{ $sub->rate_per_employee }}/employee</span>
                                 </div>
-                                <div class="btn-started text-center">
+                                <!-- <div class="btn-started text-center">
                                     <button class="btn" type="button" onclick="window.location='{{ route('paytym.home.subplan', $sub->id) }}'">Get Started </button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -824,10 +824,10 @@
                                     <!--  <span>Free</span> -->
                                     <span>${{ $sub->rate_per_employee }}/employee</span>
                                 </div>
-                                <div class="btn-started text-center">
+                                <!-- <div class="btn-started text-center">
                                     <button class="btn" type="button" onclick="window.location='{{ route('paytym.home.subplan', $sub->id) }}'">Get Started </button>
 
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
