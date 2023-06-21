@@ -47,16 +47,13 @@ class EmployerRegisterEmail extends Mailable
         return new Content(
             markdown: 'mail.send-employer-credentials',
             with: [
-                'employee' => $this->employer,
+                'employer' => $this->employer,
                 'password' => $this->password
-
             ]
         );
 
 
-        return new Content(
-            view: 'view.name',
-        );
+       
     }
 
     /**
