@@ -72,7 +72,21 @@ class LeaveRequestController extends Controller
         $user_id = Auth::user()->id;
         $user = Auth::user();
         $employer_id = $user->employer_id;
-        $allowed_details = AllowedDetail::first();          
+        $allowed_details = AllowedDetail::first();
+
+
+        if ($allowed_details == null) {
+            $allowed_absent = 0;
+            $allowed_sick_leave = 0;
+            $allowed_annual_leave = 0;
+            $allowed_late_arrival = 0;
+        } else {
+            $allowed_absent = $allowed_details->allowed_absent;
+            $allowed_sick_leave = $allowed_details->allowed_sick_leave;
+            $allowed_annual_leave = $allowed_details->allowed_annual_leave;
+            $allowed_late_arrival = $allowed_details->allowed_late_arrival;
+        }
+
         if ($user) {
             $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
             $casual = $leave->where('type', 'casual')->get();
@@ -85,41 +99,41 @@ class LeaveRequestController extends Controller
             $halfday = $halfday->count();
             $sick = $leave->where('type', 'sick')->count();
             $lastCheckedIn = Null;
-            $lastAttendance = Attendance::where('user_id',$user->id)->latest()->first();
-            if($lastAttendance){
-                if(is_null($lastAttendance->check_out)){
+            $lastAttendance = Attendance::where('user_id', $user->id)->latest()->first();
+            if ($lastAttendance) {
+                if (is_null($lastAttendance->check_out)) {
                     $lastCheckedIn = $lastAttendance->check_in;
                 }
             }
 
             $roster = Roster::where('user_id', $user_id)->where('start_date', '<=', Carbon::today())
-                                ->where('end_date', '>=', Carbon::today())->get();
-            if(!$roster->isEmpty()){
-                $roster_check_in_time = Roster::where('user_id', $user_id)->value('start_time');    
-            }else{
-                $roster_check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');    
+                ->where('end_date', '>=', Carbon::today())->get();
+            if (!$roster->isEmpty()) {
+                $roster_check_in_time = Roster::where('user_id', $user_id)->value('start_time');
+            } else {
+                $roster_check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');
             }
 
-            try{
+            try {
                 $late_arrival = Attendance::where('user_id', $user_id)
-                                        ->whereTime('check_in', '>', $roster_check_in_time)->count();
-            }catch(Exception $e){
+                    ->whereTime('check_in', '>', $roster_check_in_time)->count();
+            } catch (Exception $e) {
                 $late_arrival = 0;
             }
 
             $total_work_days = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::now()->format('Y'))->count();
-            $next_shift = Roster::where('user_id', $user_id)->whereDate('start_date','<=',Carbon::today())
-                                        ->whereDate('end_date','>=',Carbon::today())->orderBy('id', 'desc')->first();
+            $next_shift = Roster::where('user_id', $user_id)->whereDate('start_date', '<=', Carbon::today())
+                ->whereDate('end_date', '>=', Carbon::today())->orderBy('id', 'desc')->first();
             // $total_work_hours = ;
             (float)$hours = 0;
-                $attendances = Attendance::where('user_id', $user_id)->whereBetween('date',[$user->employment_start_date, Carbon::today()])->get();
-                foreach($attendances as $attend){
-                    $check_in = Carbon::parse($attend->check_in);
-                    $check_out = Carbon::parse($attend->check_out);
-                    if ($check_in != NULL && $check_out != NULL){
-                        $hours += $check_in->diffInHours($check_out);
-                    }
+            $attendances = Attendance::where('user_id', $user_id)->whereBetween('date', [$user->employment_start_date, Carbon::today()])->get();
+            foreach ($attendances as $attend) {
+                $check_in = Carbon::parse($attend->check_in);
+                $check_out = Carbon::parse($attend->check_out);
+                if ($check_in != NULL && $check_out != NULL) {
+                    $hours += $check_in->diffInHours($check_out);
                 }
+            }
 
             return response()->json([
                 'message' => "Dashboard details listed",
@@ -134,10 +148,10 @@ class LeaveRequestController extends Controller
                 'roster_check_in_time' => $roster_check_in_time,
                 'next shift' => $next_shift,
                 'last_checked_in' => $lastCheckedIn,
-                'allowed_absent' => $allowed_details->allowed_absent,
-                'allowed_sick_leave' => $allowed_details->allowed_sick_leave,
-                'allowed_annual_leave' => $allowed_details->allowed_annual_leave,
-                'allowed_late_arrival' => $allowed_details->allowed_late_arrival,
+                'allowed_absent' => $allowed_absent,
+                'allowed_sick_leave' => $allowed_sick_leave,
+                'allowed_annual_leave' => $allowed_annual_leave,
+                'allowed_late_arrival' => $allowed_late_arrival,
             ], 200);
         } else {
             return response()->json([
@@ -168,7 +182,7 @@ class LeaveRequestController extends Controller
         // $projects = Project::where('employer_id', $request->employer_id)->get();
         // $meetings = Meeting::where('employer_id', $request->employer_id)->get();
         // $attendance = Attendance::where('employer_id', $request->employer_id)->get();
-        
+
         $today = Carbon::today();
         $projects_count = Project::where('employer_id', $request->employer_id)->count();
         $employees_count = User::where('employer_id', $request->employer_id)->count();
@@ -266,7 +280,7 @@ class LeaveRequestController extends Controller
             $issave = $leave_request->save();
             if ($issave) {
                 $otherController = new AuthController();
-                $result = $otherController->push_notification($request,$request->employee_id,$message);
+                $result = $otherController->push_notification($request, $request->employee_id, $message);
                 return response()->json([
                     'message' => "Leave Request Status Updated",
                 ], 200);
@@ -294,12 +308,12 @@ class LeaveRequestController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-        $leaveTypes = LeaveType::where('employer_id',$request->employer_id)->get();
-        if(count($leaveTypes)>0){
+        $leaveTypes = LeaveType::where('employer_id', $request->employer_id)->get();
+        if (count($leaveTypes) > 0) {
             return response()->json([
                 'leave-types' => $leaveTypes
-            ],200);
-        }else{
+            ], 200);
+        } else {
             return response()->json([
                 'message' => "No Record Found",
             ], 400);
