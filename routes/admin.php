@@ -20,6 +20,10 @@ use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('privacy_policy', function () {
+    return view('home.privacy_policy');
+})->name('privacy_policy');
+
 // Dashboard
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('contact_store', [ContactController::class, 'store'])->name('contact.store');
@@ -114,5 +118,10 @@ Route::middleware('admin.auth')->group(function () {
 
 
      Route::get('report/employer/export',[ReportController::class,'employer_list_export'])->name('report.employer.export');
+
+
+    // Route::get('/privacy_policy', [HomeController::class, 'index'])->name('home');
+
+   
 
     });

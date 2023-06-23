@@ -68,7 +68,7 @@
             <!-- partial -->
         @endif
 
-        <div class="page-wrapper">
+        <div class="page-wrapper mx-auto">
 
             @if (auth()->guard('employer')->user())
                 <!-- partial:partials/_navbar.html -->

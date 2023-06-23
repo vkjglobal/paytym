@@ -209,7 +209,7 @@
                             </span>
                             <div class="card-body pt-3">
                                 @if(is_null($payroll_management))
-                                <h5 class="card-title pt-2 text-center">Payroll Management</h5>
+                                <h5 class="card-title pt-2 text-center">Payroll Tax and Contribution</h5>
                                 <p class="card-text pt-3 text-center">Automatically calculate and process employee salaries and benefits, such as vacation and leaves, tax
                                     deductions, and other deductions.</p>
                                 @else
@@ -309,6 +309,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="d-flex justify-content-center my-3">
+                    <a class="btn btn-typ1" href="{{ route('employer.register') }}">Register Today, Pay Later - Onboard Employees and Start Processing Payroll</a>
+                </div>
+
             </div>
         </div>
     </section>
@@ -528,8 +532,8 @@
                             <img src="{{asset('home_assets/images/svg/1.svg')}}" alt="">
                         </div>
                         <div class="title-wrp">
-                            Employer Chooses a
-                            <strong>PLAN & REGISTERS</strong>
+                            Employer visits
+                            <strong>Website and Registers</strong>
                         </div>
                     </div>
                 </div>
@@ -539,8 +543,8 @@
                             <img src="{{asset('home_assets/images/svg/2.svg')}}" alt="">
                         </div>
                         <div class="title-wrp">
-                            Employer on-boarding
-                            <strong>EMPLOYEES</strong>
+                            Employer on-boards
+                            <strong>Employees</strong>
                         </div>
                     </div>
                 </div>
@@ -550,8 +554,8 @@
                             <img src="{{asset('home_assets/images/svg/3.svg')}}" alt="">
                         </div>
                         <div class="title-wrp">
-                            Share login details with
-                            <strong>EMPLOYEES</strong>
+                            Login details shared with
+                            <strong>Employees</strong>
                         </div>
                     </div>
                 </div>
@@ -601,7 +605,7 @@
     <!-- testimonial-section -->
 
     <section class="testimonial-section" id="testimonial">
-      
+
 
         <div class="container" data-aos="fade-down" data-aos-duration="2000">
             <div class="row justify-content-center">
@@ -964,6 +968,9 @@
             </div>
  -->
             </div>
+            <div class="d-flex justify-content-center my-3">
+                    <a class="btn btn-typ1" href="{{ route('employer.register') }}">Register Today, Pay Later - Onboard Employees and Start Processing Payroll</a>
+                </div>
         </div>
     </section>
 
@@ -1091,7 +1098,7 @@
                             <li><a href="#pricing">Pricing</a></li>
                             <li><a href="#contact">Contact Us</a></li>
 
-                            <!-- <li><a href="#" >Privacy Policy</a></li> -->
+                            <li><a href="{{ route('admin.privacy_policy') }}" >Privacy Policy</a></li>
                             <!-- <li><a href="#" >Terms and Conditions</a></li> -->
                             <!-- <li><a href="#" >Post a Job</a></li> -->
                         </ul>
