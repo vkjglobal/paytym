@@ -77,6 +77,24 @@
                                 </ul>
                             </div>
                         </li>
+
+                        <li class="nav-item {{ request()->is('employer/invoice*') ? 'active' : '' }}">
+                            <a class="nav-link" data-toggle="collapse" href="#invoice" role="button" aria-expanded="false" aria-controls="requests">
+                                <span>Invoice</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse {{ request()->is('employer/invoice*') ? 'show' : '' }}" id="invoice">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a href="{{ route('employer.invoice.index') }}" class="nav-link {{ request()->is('employer/invoice/index') ? 'active' : '' }}">
+                                            List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
                     </ul>
                 </div>
             </li>

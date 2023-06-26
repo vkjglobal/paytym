@@ -38,6 +38,7 @@ use App\Http\Controllers\Employer\PayrollBudgetController;
 use App\Http\Controllers\Employer\SplitPaymentController;
 use App\Http\Controllers\Employer\UserRoleController;
 use App\Http\Controllers\Employer\AssignBenefitController;
+use App\Http\Controllers\Employer\InvoiceController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -293,6 +294,11 @@ Route::middleware('employer.auth')->group(function () {
 
     //splitpayment
     Route::get('split_payment',[SplitPaymentController::class,'index'])->name('split_payment.wallet');
+
+    //invoice
+        Route::resource('invoice', InvoiceController::class);
+    //Route::get('split_payment',[SplitPaymentController::class,'index'])->name('split_payment.wallet');
+
 
   });
 
