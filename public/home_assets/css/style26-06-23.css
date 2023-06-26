@@ -261,9 +261,6 @@ header{
     background-color: #02aaeb;
     padding-bottom: 60px;
     padding-top: 116px;
-    display: flex;
-    align-items: center;
-    min-height: 60vh;
 }
 .sticky-button{
     position: fixed;
@@ -340,8 +337,14 @@ hero-section */
 }
 .about-title p{
     font-size: 13px;
-    color: #adadad;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
     
+}
+.testimonial-section .about-title p, .pricing-plan .about-title p {
+    text-align: center;
 }
 .feature-wrp{
     border: 1px solid #dddddd;
@@ -429,36 +432,13 @@ hero-section */
     color: #6b696d;
     display: flex;
     flex-direction: column;
-    align-items: start;
-    padding: 25px 25px 25px 25px;
+    align-items: center;
+    padding: 25px 15px 15px 15px;
     border: none;
-    box-shadow: 0px 4px 4px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-width: 20px 0 0 0;
-    border-style: solid;
+    /* min-height: 205px; */
 }
-.card1{
-    border-color: #E748A2;
-}
-.card2{
-    border-color: #32BFCE;
-}
-.card3{
-    border-color: #43BD46;
-}
-.card4{
-    border-color: #C5C816;
-}
-.card5{
-    border-color: #B05CEC;
-}
-.card6{
-    border-color: #4854BB;
-}
-
-
 .card-about .card-title{
     font-size: 16px;
     font-weight: 600;
@@ -475,7 +455,7 @@ hero-section */
 }
 .card-about .icon-back{
     position: relative;
-    /* background: linear-gradient(180deg, #0818a8 0%, #02aaeb 100%); */
+    background: linear-gradient(180deg, #0818a8 0%, #02aaeb 100%);
     padding: 12px 12px 12px 12px;
     border-radius: 100px;
     width: 64px;
@@ -484,52 +464,12 @@ hero-section */
     align-items: center;
     justify-content: center;
 }
-.card-about.card1 .icon-back{
-    background-color: #E748A2;
-}
-.card-about.card2 .icon-back{
-    background-color: #32BFCE;
-}
-.card-about.card3 .icon-back{
-    background-color: #43BD46;
-}
-.card-about.card4 .icon-back{
-    background-color: #C5C816;
-}
-.card-about.card5 .icon-back{
-    background-color: #B05CEC;
-}
-.card-about.card6 .icon-back{
-    background-color: #4854BB;
-}
 .card-about .icon-back svg{
    width: 25px;
    height: auto;
 
 }
-.btn-typ3{
-    background-color: #4854BB;
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.25) !important;
-    font-weight: 500;
-    color: #ffffff;
-    border-radius: 15px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    -ms-border-radius: 15px;
-    -o-border-radius: 15px;
-    white-space: break-spaces;
-}
-.btn-typ3 strong{
-    font-weight: 900;
-}
-.btn-typ3:hover{
-    background-color: #ffffff;
-    color: #8F8F8F;
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.25) !important;
-}
-.btn-typ3:hover strong{
-    color: #4854BB;
-}
+
 /* .card-about:hover{
     background-color:#9292EF;
     color:#fff;
@@ -882,6 +822,48 @@ hero-section */
 .card-price-light-blue h4 strong{
     color: #009fb3;
 }
+/***************************************************************************************/
+.pricing-plan .form-row .col:nth-child(2) .card-price-blue{
+    border-top-color: #ED6950 !important;
+}
+.pricing-plan .form-row .col:nth-child(2) .card-price-blue h4 strong{
+    color: #ED6950;
+}
+.pricing-plan .form-row .col:nth-child(2) .card-price-blue .btn-started button{
+    background-color: #ED6950;
+}
+/***********/
+.pricing-plan .form-row .col:nth-child(3) .card-price-blue{
+    border-top-color: #ea9500 !important;
+}
+.pricing-plan .form-row .col:nth-child(3) .card-price-blue h4 strong{
+    color: #ea9500;
+}
+.pricing-plan .form-row .col:nth-child(3) .card-price-blue .btn-started button{
+    background-color: #ea9500;
+}
+/*************/
+.pricing-plan .form-row .col:nth-child(4) .card-price-blue{
+    border-top-color: #b900ca !important;
+}
+.pricing-plan .form-row .col:nth-child(4) .card-price-blue h4 strong{
+    color: #b900ca;
+}
+.pricing-plan .form-row .col:nth-child(4) .card-price-blue .btn-started button{
+    background-color: #b900ca;
+}
+/*************/
+.pricing-plan .form-row .col:last-child .card-price-blue{
+    border-top-color: #009fb3 !important;
+}
+.pricing-plan .form-row .col:last-child .card-price-blue h4 strong{
+    color: #009fb3;
+}
+.pricing-plan .form-row .col:last-child .card-price-blue .btn-started button{
+    background-color: #009fb3;
+}
+/*************/
+/***************************************************************************************/
 /* our-expert-section */
 .our-expert{
     padding-bottom: 60px;
@@ -907,20 +889,10 @@ hero-section */
 
 
  /* get-in-touch-section */
-.get-in-touch{
-    /* padding-bottom: 60px; */
+ .get-in-touch{
+    padding-bottom: 60px;
     background: #02aaeb;
 }
-.get-in-touch .img-wrp{
-    opacity: 0.3;
-    background: url(../images/hr-img2.jpg) no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 500px;
-}
-/* .get-in-touch .img-wrp img{
-    max-width: 100%;
-} */
 .get-in-touch .get-title{
     color: white;
 }
@@ -1468,7 +1440,7 @@ input.btn-typ2{
     .pricing-plan, .our-expert, .get-in-touch {
         padding-bottom: 40px;
     } */
-    .testimonial-section, .forEmployees-section, .pricing-plan{
+    .testimonial-section, .forEmployees-section, .pricing-plan, .get-in-touch{
         padding-bottom: 40px;
     }
     .work-img-wrp{
@@ -1494,9 +1466,6 @@ input.btn-typ2{
     .pricing-plan .form-row > .col {
         max-width: 33.33%;
         min-width: 33.33%;
-    }
-    .title-wrp strong{
-        font-size: 16px;
     }
 }
 @media only screen and (max-width: 1023px) {
@@ -1584,5 +1553,8 @@ input.btn-typ2{
         margin-top: 15px;
         margin-bottom: 15px;
         height: auto;
+    }
+    .title-wrp strong{
+        font-size: 16px;
     }
 }
