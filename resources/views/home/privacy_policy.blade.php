@@ -103,7 +103,7 @@
                     <li>
                         <strong>Payment:</strong>
                         <p>
-                            The Service is offered on a subscription basis. You will be charged a monthly fee for access to the Service and also a fee based on the number of registered employees under your account. You can view the subscription plans on our website at <a href="https://www.paytym.net">https://www.paytym.net</a> or by clicking <a href="https://www.paytym.net">here</a>.  The fees are non-refundable, and you are responsible for payment even if you do not use the Service.  In order for payments to be discontinued, you must inform Paytym in writing to make your account inactive by specifying a precise date for inactivation.
+                            The Service is offered on a subscription basis. You will be charged a monthly fee for access to the Service and also a fee based on the number of registered employees under your account. You can view the subscription plans on our website at <a href="https://paytym.net/">https://paytym.net</a> or by clicking <a href="https://paytym.net/">here</a>.  The fees are non-refundable, and you are responsible for payment even if you do not use the Service.  In order for payments to be discontinued, you must inform Paytym in writing to make your account inactive by specifying a precise date for inactivation.
                         </p>
                     </li>
                     <li>
