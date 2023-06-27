@@ -1044,7 +1044,24 @@
     <!-- get-in-touch-section -->
 
     <section class="get-in-touch" id="contact">
-    <div class="img-wrp">
+    <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4 my-2">
+                    <div class="img-wrp">
+                        <img src="{{ asset('home_assets/images/SCREEN-1.png') }}" alt="">
+                    </div>
+                </div>
+                <div class="col-md-4 my-2">
+                    <div class="img-wrp">
+                    <img src="{{ asset('home_assets/images/SCREEN-2.png') }}" alt="">
+                    </div>
+                </div>
+                <div class="col-md-4 my-2">
+                    <div class="img-wrp">
+                    <img src="{{ asset('home_assets/images/SCREEN-3.png') }}" alt="">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- <div class="container get-title pt-5 text-center">

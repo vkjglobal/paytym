@@ -299,6 +299,13 @@ Route::middleware('employer.auth')->group(function () {
         Route::resource('invoice', InvoiceController::class);
     //Route::get('split_payment',[SplitPaymentController::class,'index'])->name('split_payment.wallet');
 
+    //Route::get('/view_invoice/{id}', 'InvoiceController@index')->name('example');
+
+
+
+    Route::get('view_invoice/{id}',[InvoiceController::class,'view_invoice'])->name('view_invoice');
+
+
 
   });
 
