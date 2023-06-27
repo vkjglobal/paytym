@@ -341,7 +341,14 @@ hero-section */
 .about-title p{
     font-size: 13px;
     color: #adadad;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
     
+}
+.testimonial-section .about-title p, .pricing-plan .about-title p {
+    text-align: center;
 }
 .feature-wrp{
     border: 1px solid #dddddd;
@@ -882,6 +889,48 @@ hero-section */
 .card-price-light-blue h4 strong{
     color: #009fb3;
 }
+/***************************************************************************************/
+.pricing-plan .form-row .col:nth-child(2) .card-price-blue{
+    border-top-color: #ED6950 !important;
+}
+.pricing-plan .form-row .col:nth-child(2) .card-price-blue h4 strong{
+    color: #ED6950;
+}
+.pricing-plan .form-row .col:nth-child(2) .card-price-blue .btn-started button{
+    background-color: #ED6950;
+}
+/***********/
+.pricing-plan .form-row .col:nth-child(3) .card-price-blue{
+    border-top-color: #ea9500 !important;
+}
+.pricing-plan .form-row .col:nth-child(3) .card-price-blue h4 strong{
+    color: #ea9500;
+}
+.pricing-plan .form-row .col:nth-child(3) .card-price-blue .btn-started button{
+    background-color: #ea9500;
+}
+/*************/
+.pricing-plan .form-row .col:nth-child(4) .card-price-blue{
+    border-top-color: #b900ca !important;
+}
+.pricing-plan .form-row .col:nth-child(4) .card-price-blue h4 strong{
+    color: #b900ca;
+}
+.pricing-plan .form-row .col:nth-child(4) .card-price-blue .btn-started button{
+    background-color: #b900ca;
+}
+/*************/
+.pricing-plan .form-row .col:last-child .card-price-blue{
+    border-top-color: #009fb3 !important;
+}
+.pricing-plan .form-row .col:last-child .card-price-blue h4 strong{
+    color: #009fb3;
+}
+.pricing-plan .form-row .col:last-child .card-price-blue .btn-started button{
+    background-color: #009fb3;
+}
+/*************/
+/***************************************************************************************/
 /* our-expert-section */
 .our-expert{
     padding-bottom: 60px;
@@ -911,16 +960,16 @@ hero-section */
     /* padding-bottom: 60px; */
     background: #02aaeb;
 }
-.get-in-touch .img-wrp{
+/* .get-in-touch .img-wrp{
     opacity: 0.3;
     background: url(../images/hr-img2.jpg) no-repeat;
     background-position: center;
     background-size: cover;
     height: 500px;
-}
-/* .get-in-touch .img-wrp img{
-    max-width: 100%;
 } */
+.get-in-touch .img-wrp img{
+    max-width: 100%;
+}
 .get-in-touch .get-title{
     color: white;
 }
@@ -1584,5 +1633,38 @@ input.btn-typ2{
         margin-top: 15px;
         margin-bottom: 15px;
         height: auto;
+    }
+    .title-wrp strong{
+        font-size: 16px;
+    }
+}
+.img-right{
+    animation: growCircle 3s linear infinite;
+    -webkit-animation: growCircle 3s linear infinite;
+}
+.img-right::before{
+    animation: growCircleBig 3s linear infinite;
+    -webkit-animation: growCircleBig 3s linear infinite;
+}
+@keyframes growCircle {
+    0% {
+        background-size: 60%;
+    }
+    50% {
+        background-size: 80%;
+    }
+    100% {
+        background-size: 60%;
+    }
+}
+@keyframes growCircleBig {
+    0% {
+        background-size: 90%;
+    }
+    50% {
+        background-size: 60%;
+    }
+    100% {
+        background-size: 90%;
     }
 }

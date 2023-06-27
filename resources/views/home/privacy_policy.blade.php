@@ -5,10 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><b> Privacy Policy</b></div>
+               
+                <!-- <h2>Privacy Policy</h2> -->
 
                 <div class="card-body">
-               
+                <div class="card-header"><h3> Privacy Policy</h3></div>
                 <div class="my-3">
                 <p>
                     At Paytym, protecting our users’ privacy and personal information is of the utmost importance. This
@@ -74,7 +75,8 @@
                 </ol>
             </div>
             <div class="my-3">
-                <h2>Terms and Conditions</h2>
+            <div class="card-header mb-3"><h3> Terms and Conditions</h3></div>
+                <!-- <h2>Terms and Conditions</h2> -->
                 <ol class="pl-3">
                     <li>
                         <strong>Acceptance of Terms:</strong>
@@ -103,7 +105,7 @@
                     <li>
                         <strong>Payment:</strong>
                         <p>
-                            The Service is offered on a subscription basis. You will be charged a monthly fee for access to the Service and also a fee based on the number of registered employees under your account. You can view the subscription plans on our website at <a href="https://paytym.net/">https://paytym.net</a> or by clicking <a href="https://paytym.net/">here</a>.  The fees are non-refundable, and you are responsible for payment even if you do not use the Service.  In order for payments to be discontinued, you must inform Paytym in writing to make your account inactive by specifying a precise date for inactivation.
+                            The Service is offered on a subscription basis. You will be charged a monthly fee for access to the Service and also a fee based on the number of registered employees under your account. You can view the subscription plans on our website at <a href="https://paytym.net/">https://paytym.net</a> or by clicking <a href="https://paytym.net/#pricing">here</a>.  The fees are non-refundable, and you are responsible for payment even if you do not use the Service.  In order for payments to be discontinued, you must inform Paytym in writing to make your account inactive by specifying a precise date for inactivation.
                         </p>
                     </li>
                     <li>

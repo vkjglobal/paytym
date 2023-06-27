@@ -18,8 +18,17 @@ class InvoiceController extends Controller
         ];
 
         $plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->get();
-
         return view('employer.invoice.index', compact('breadcrumbs', 'plan'));
     }
+
+   public function view_invoice($id)
+   {
+$breadcrumbs = [
+    [(__('Dashboard')), route('employer.invoice.index')],
+    [(__('Vew Bill')), null],
+];
+
+$plan = Invoice::with('plan')->where('id', $id)->first();
+   }
 
 }

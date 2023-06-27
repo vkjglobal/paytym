@@ -8,27 +8,38 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title">Invoice</h6>
-                    
                     <div>
 						<div>
 							<div class="table-responsive">
 								<table id="dataTableExample" class="table">
 									<thead>
 										<tr>
-
 											<th>Plan</th>
-											<th>Description</th>
-											{{-- <th>Status</th> --}}
-											<th>Amount</th>
+											<th>Range</th>
+											<!-- <th>Date</th> -->
+											<th>Active Employees</th>
+											<th>Rate Per Employee</th>
+											<th>Rate Per Month</th>
+											<th>Status</th>
+											<th>Invoice</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<th>{{$plan->plan}}</th>
-											<th>{{$plan->range_from}} to {{$plan->range_to}} people</th>
-											{{-- <th>Pending</th>  --}}
-											<th>${{$plan->rate_per_month}}</th>
+									@foreach ($plan as $key => $plan)
+									<tr>
+											<td>{{$plan->plan->plan}}</td>
+											<td>{{$plan->plan->range_from}} to {{$plan->plan->range_to}} people</td>
+											<!-- <th>{{$plan->date}}</td> -->
+											<td>{{$plan->active_employees}}</td>
+											<td>${{$plan->plan->rate_per_employee}}</td>
+											<td>${{$plan->plan->rate_per_month}}</td>
+											<td>${{$plan->plan->status}}</td>
+											<!-- <a href="{{ route('employer.view_invoice', ['id' => $plan->id]) }}">Link</a> -->
+
+											<td><a href="{{ route('employer.view_invoice', ['id' => $plan->id]) }}" type="button" class="btn btn-primary">View</a></td>
+											<th></td>
 										</tr>
+										@endforeach
 									</tbody>
 								</table>	
 						</div>	
@@ -65,10 +76,10 @@
 
 						<div class="row pt-3 pb-5 mb-2">
 						
-						<div class="col-sm-6 mb-3">
+						<!-- <div class="col-sm-6 mb-3">
 							<button id="btnpage" class="btn btn-style-1 btn-primary btn-block" >
-							<i class="fe-icon-credit-card"></i>&nbsp;Checkout</button>
-						</div>
+							<i class="fe-icon-credit-card"></i>Checkout</button>
+						</div> -->
 					</div>
 
 
