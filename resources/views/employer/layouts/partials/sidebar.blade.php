@@ -94,7 +94,6 @@
                             </div>
                         </li>
 
-
                     </ul>
                 </div>
             </li>
@@ -262,6 +261,35 @@
                             </div>
                         </li>
 
+                            <!-- Payroll budget -->
+
+            <li class="nav-item  {{ request()->is('employer/payroll-budget*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#payroll-budget" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="user-plus"></i>
+                    <span class="link-title">Payroll Budget</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/payroll-budget*') ? 'show' : '' }}" id="payroll-budget">
+                    <ul class="nav sub-menu">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payroll-budget.create') }}" class="nav-link {{ request()->is('employer/payroll-budget/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.payroll-budget.index') }}" class="nav-link {{ request()->is('employer/payroll-budget') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+
+            <!-- Payroll budget end -->
+
 
                         <li class="nav-item {{ request()->is('employer/project*') ? 'active' : '' }}">
                             <a class="nav-link" data-toggle="collapse" href="#project" role="button" aria-expanded="false" aria-controls="requests">
@@ -285,7 +313,6 @@
                                 </ul>
                             </div>
                         </li>
-
 
                     </ul>
                 </div>
@@ -1199,34 +1226,7 @@
 
 
 
-            <!-- Payroll budget -->
-
-            <li class="nav-item  {{ request()->is('employer/payroll-budget*') ? 'active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#payroll-budget" role="button" aria-expanded="false" aria-controls="requests">
-                    <i class="link-icon" data-feather="user-plus"></i>
-                    <span class="link-title">Payroll Budget</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->is('employer/payroll-budget*') ? 'show' : '' }}" id="payroll-budget">
-                    <ul class="nav sub-menu">
-
-                        <li class="nav-item">
-                            <a href="{{ route('employer.payroll-budget.create') }}" class="nav-link {{ request()->is('employer/payroll-budget/create') ? 'active' : '' }}">
-                                Create
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employer.payroll-budget.index') }}" class="nav-link {{ request()->is('employer/payroll-budget') ? 'active' : '' }}">
-                                List
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-
-
-            <!-- Payroll budget end -->
+        
 
 
 

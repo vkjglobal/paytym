@@ -22,4 +22,5 @@ class PayrollFunctionsController extends Controller
 
     return array_values($weeks);
 }
+
 }
