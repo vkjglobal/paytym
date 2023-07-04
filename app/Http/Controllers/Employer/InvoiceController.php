@@ -29,6 +29,7 @@ $breadcrumbs = [
 ];
 
 $plan = Invoice::with('plan')->where('id', $id)->first();
+return view('employer.invoice.monthly_invoice', compact('breadcrumbs', 'plan'));
    }
 
 }

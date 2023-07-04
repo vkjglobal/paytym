@@ -147,7 +147,7 @@ class PayrollController extends Controller
     }
 
     public function generate_hourly_payroll($employee,$fromDate,$payDate){
-            $endDate = $payDate ;
+            $endDate = $payDate;
            
             $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$payDate])->get();
             if($attendances){
@@ -304,7 +304,7 @@ class PayrollController extends Controller
                    $annualIncome = $weeklySalary * 52; 
                    $F = 52;      
              }else{
-                 $annualIncome = $weeklySalary * 26 ;  
+                 $annualIncome = $weeklySalary * 26;  
                  $F =  26;    //C1
              }
              $A2 = $annualIncome * ($srtRate/ 100);
@@ -316,8 +316,6 @@ class PayrollController extends Controller
              }
             }
             $total_tax = $srtToWithhold + $IncomeTaxToWithhold;
-
-
 
                 //FNPF calculation
             $empTotalSalary = $employee->total_hours_per_week * $employee->rate;
@@ -376,7 +374,7 @@ class PayrollController extends Controller
 
             
             $res = $payroll->save();
-            
+            $flag_payroll=1;
             // Payslip Generation
 
             PayslipGeneration::dispatch($employee,
@@ -519,13 +517,13 @@ class PayrollController extends Controller
                     $A2 = $annualIncome * ($srt_rate/ 100);
                     $G = 5;
                     $B2 = 4;
-                    $srtToWithhold = (($A2/$F * $G) - $B2 );
+                    $srtToWithhold = (($A2/$F * $G) - $B2);
                     if($srtToWithhold < 0){
                         $srtToWithhold = 0;
                     
             }
 
-        $totalTaxAmount = $srtToWithhold + $incomeTaxToWithhold ;
+        $totalTaxAmount = $srtToWithhold + $incomeTaxToWithhold;
 
         //FNPF calculation
         $fnpf_amount = 0;
@@ -605,7 +603,7 @@ class PayrollController extends Controller
         }
         
 
-            $lwopAmount = $lwop * $perDaySalary ;
+            $lwopAmount = $lwop * $perDaySalary;
 
             //Total salary calculation
             $base_pay = $employee->rate; 
@@ -638,29 +636,29 @@ class PayrollController extends Controller
             $payroll -> end_date = $endDate;
             
             $res = $payroll->save();
-
+$flag_payroll=1;
             //Payslip generation
-            // PayslipGeneration::dispatch($employee,
-            //                             $base_pay,
-            //                             $grossSalary,
-            //                             $netSalary,
-            //                             $totalSalary,
-            //                             $totalAllowance,
-            //                             $totalDeduction,
-            //                             $allowances,
-            //                             $deductions,
-            //                             $incomeTaxToWithhold,
-            //                             $fnpf_amount,
-            //                             $srtToWithhold,
-            //                             $payroll,
-            //                             $fromDate,
-            //                             $endDate,
-            //                             $commission_amount,
-            //                             $total_bonus,
-            //                             $lwop,
-            //                             $nonHolidayDates
+            PayslipGeneration::dispatch($employee,
+                                        $base_pay,
+                                        $grossSalary,
+                                        $netSalary,
+                                        $totalSalary,
+                                        $totalAllowance,
+                                        $totalDeduction,
+                                        $allowances,
+                                        $deductions,
+                                        $incomeTaxToWithhold,
+                                        $fnpf_amount,
+                                        $srtToWithhold,
+                                        $payroll,
+                                        $fromDate,
+                                        $endDate,
+                                        $commission_amount,
+                                        $total_bonus,
+                                        $lwop,
+                                        $nonHolidayDates
 
-            //                             );
+                                        );
 
            
         
