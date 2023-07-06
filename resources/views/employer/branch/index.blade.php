@@ -36,7 +36,7 @@
                             
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="control-label">Town <span class="text-danger">*</span></label>
+                                    <label class="control-label">Town/City <span class="text-danger">*</span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('company_phone')) is-invalid @endif"
                                         name="town" value="{{ old('town') }}"
@@ -55,7 +55,7 @@
                                 </div>
                             </div><!-- Col -->
 
-                            <div class="col-sm-4">
+                            <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">City <span class="text-danger">*</span></label>
                                     <input type="text"
@@ -63,7 +63,9 @@
                                         name="city" value="{{ old('city') }}" placeholder="Enter City" required>
                                     <div class="invalid-feedback">{{ $errors->first('city') }}</div>
                                 </div>
-                            </div><!-- Col -->
+                            </div>
+                             -->
+                            <!-- Col -->
 
                             <div class="col-sm-4">
                                 <div class="form-group">
