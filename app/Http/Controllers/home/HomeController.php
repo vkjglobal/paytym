@@ -32,9 +32,6 @@ class HomeController extends Controller
         $analytics_report = Cms::where('cms_type', 'like', '% Analytics and Report%')->where('status', '1')->first();
         $chat = Cms::where('cms_type', 'like', '%Chat%')->where('status', '1')->first();
         $employer = Auth::guard('employer')->user();
-        
-       
-
 
         return view('home.index', compact('chat','analytics_report','payroll_tax','deposit','payroll_management','employee_management','subscription', 'banner', 'bannercount', 'cms', 'about', 'foremployers', 'foremployees', 'showcase', 'howitworks', 'empwebfeatures', 'testimonial', 'pricing', 'employer'));
     }

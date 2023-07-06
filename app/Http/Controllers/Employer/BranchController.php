@@ -43,7 +43,7 @@ class BranchController extends Controller
             $branch->employer_id = Auth::guard('employer')->user()->id;
             $branch->name = $validated['name'];
             $branch->employer_business_id = $validated['business'];
-            $branch->city = $validated['city'];
+           // $branch->city = $validated['city'];
             $branch->town = $validated['town'];
             $branch->postcode = $validated['postcode'];
             $branch->country = $validated['country'];
@@ -91,7 +91,7 @@ class BranchController extends Controller
             $branch = Branch::findOrFail($id);
             $branch->employer_id = Auth::guard('employer')->user()->id;
             $branch->name = $validated['name'];
-            $branch->city = $validated['city'];
+          //  $branch->city = $validated['city'];
             $branch->town = $validated['town'];
             $branch->postcode = $validated['postcode'];
             $branch->country = $validated['country'];

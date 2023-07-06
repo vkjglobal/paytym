@@ -26,7 +26,6 @@ class UpdateBranchRequest extends FormRequest
         return [
             
                 'name' => 'required',
-                'city' => 'required',
                 'town' => 'required',
                 'postcode' => 'required',
                 'country' => 'required',
