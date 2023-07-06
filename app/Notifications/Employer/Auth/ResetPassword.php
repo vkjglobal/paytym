@@ -57,11 +57,11 @@ class ResetPassword extends Notification
         }
         return (new MailMessage)
             ->subject(Lang::get('Reset Password Notification'))
-                        ->line(Lang::get('Hi,'))
+                        // ->line(Lang::get('Hi,'))
             ->line(Lang::get('As per your request, you can now reset your password by entering the verification code below.
             Please note that this code will expire after 60 minutes.'))
             ->action(Lang::get('Reset Password'), url(config('app.url').route('employer.password.reset', ['token' => $this->token, 'email' => $notifiable->getEmailForPasswordReset()], false)))
-            ->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.employers.expire')]))
+            // ->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.employers.expire')]))
             ->line(Lang::get('If you did not make any request, then please send us an email on contact@paytym.net as soon as possible.'));
     }
 
