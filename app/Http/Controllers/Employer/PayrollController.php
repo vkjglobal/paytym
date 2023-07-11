@@ -151,7 +151,6 @@ class PayrollController extends Controller
            
             $attendances = Attendance::where('user_id' ,$employee->id )->whereBetween('date',[$fromDate,$payDate])->get();
             if($attendances){
-
             $attendance_dup = $attendances; 
             $holidays = Leaves::whereBetween('date',[$fromDate ,$payDate])->get();
             
@@ -515,8 +514,8 @@ class PayrollController extends Controller
                         $F =  12;    //C1
                     }
                     $A2 = $annualIncome * ($srt_rate/ 100);
-                    $G = 5;
-                    $B2 = 4;
+                    $G = 5; //should be made dynamic - No of completed pay period including current
+                    $B2 = 4;  //should be made dynamic - tax witheheld to date 
                     $srtToWithhold = (($A2/$F * $G) - $B2);
                     if($srtToWithhold < 0){
                         $srtToWithhold = 0;
