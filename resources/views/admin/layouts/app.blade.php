@@ -24,6 +24,9 @@
     @notifyCss
 
     <style>
+        .table th, .table td{
+            white-space: break-spaces;
+        }
         .notify {
             z-index: 999999999 !important;
         }

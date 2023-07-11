@@ -31,17 +31,17 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a data-toggle="modal" data-target="#sharePublicInfo" class="mr-1 text-info share-info-btn" data-message="{{ $cms->content }}" data-toggle="tooltip" data-placement="top" title="Share Information">
+                                        <a data-toggle="modal" data-target="#sharePublicInfo" class="mr-1 text-info share-info-btn p-2" data-message="{{ $cms->content }}" data-toggle="tooltip" data-placement="top" title="Share Information">
                                             <i data-feather="share"></i>
                                         </a>
 
 
                                         <!-- Edit button -->
-                                        <a href="{{ route('admin.cms.edit', $cms->id) }}" class="mr-1 text-warning" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <a href="{{ route('admin.cms.edit', $cms->id) }}" class="mr-1 text-warning p-2" data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i data-feather="edit"></i>
                                         </a>
                                         <!-- Delete button -->
-                                        <button type="button" class="text-danger" onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
+                                        <button type="button" class="btn text-danger border-0 p-2" onclick="event.preventDefault(); if(confirm('Are you sure to delete ?')){
                                                         document.getElementById('delete-data-{{ $cms->id }}').submit();}" data-toggle="tooltip" data-placement="top" title="Delete">
                                             <i data-feather="trash"></i>
                                         </button>
