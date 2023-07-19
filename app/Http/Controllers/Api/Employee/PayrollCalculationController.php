@@ -133,17 +133,15 @@ class PayrollCalculationController extends Controller
                             $payrollcontroller = new PayrollController;
                             $fromDate = $week->getStartDate();
                             $endDate = $week->getEndDate();
-                            $payrollcontroller->generate_hourly_payroll($employee, $fromDate, $endDate);
+                          
+                            $payrollcontroller->generate_hourly_payroll($employee, $fromDate, $endDate,$EmployerId);
                             $salaryEndDate = $endDate;
                         $employee->payed_date = $salaryEndDate;
                         $employee->save();
                         }
                     }
-
-                        
                        
                 }
-                
             }
             //Fixed salary type
             else if ($employee->salary_type == "0" && $employee->status == "1") {
@@ -195,7 +193,7 @@ class PayrollCalculationController extends Controller
                         $salaryStartDate = $payPeriod['start_date'];
                         $salaryEndDate = $payPeriod['end_date'];
                         $payrollcontroller = new PayrollController;
-                        $payrollcontroller->generate_fixed_payroll($employee, $salaryStartDate, $salaryEndDate);
+                        $payrollcontroller->generate_fixed_payroll($employee, $salaryStartDate, $salaryEndDate,$EmployerId);
                     }
 
                     if(isset($salaryEndDate)){
