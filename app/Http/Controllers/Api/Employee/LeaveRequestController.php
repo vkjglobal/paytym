@@ -88,16 +88,49 @@ class LeaveRequestController extends Controller
         }
 
         if ($user) {
-            $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
-            $casual = $leave->where('type', 'casual')->get();
-            $casual = $casual->count();
-            $absence = $leave->get();
+            // $leave = LeaveRequest::where('status', '1')->where('user_id',$user_id);
+
+            // $casual = $leave->with(['leaveType' => function ($query) {
+            //     $query->where('leave_type', 'LIKE', '%casual%');
+            // }])->get();
+            $sickleave = LeaveRequest::where('status', '1')
+            ->where('user_id', $user_id);
+         
+            $sickJoinTable = $sickleave->join('leave_types', 'leave_requests.type', 'leave_types.id');
+            $sicks = $sickJoinTable->where('leave_types.leave_type', 'LIKE', '%sick%')->get();
+            $sick = $sicks->count();
+
+            $casualleave = LeaveRequest::where('status', '1')
+            ->where('user_id', $user_id);
+            $casualJoinTable = $casualleave->join('leave_types', 'leave_requests.type', 'leave_types.id');
+            $casuals = $casualJoinTable->where('leave_types.leave_type', 'LIKE', '%casual%')->get();
+            $casual = $casuals->count();
+            $absenceleave = LeaveRequest::where('status', '1')
+            ->where('user_id', $user_id);
+        
+            $absence = $absenceleave->get();
             $absence = $absence->count();
-            $annual = $leave->where('type', 'annual')->get();
+
+            $annualleave = LeaveRequest::where('status', '1')
+            ->where('user_id', $user_id);
+            $annualJoinTable = $annualleave->join('leave_types', 'leave_requests.type', 'leave_types.id');
+            $annual = $annualJoinTable->where('leave_types.leave_type', 'LIKE', '%annual%')->get();
             $annual = $annual->count();
-            $halfday = $leave->where('type', 'halfday')->get();
+
+            $halfdayleave = LeaveRequest::where('status', '1')
+            ->where('user_id', $user_id);
+
+            $halfdayJoinTable = $halfdayleave->join('leave_types', 'leave_requests.type', 'leave_types.id');
+            $halfday = $halfdayJoinTable->where('leave_types.leave_type', 'LIKE', '%annual%')->get();
             $halfday = $halfday->count();
-            $sick = $leave->where('type', 'sick')->count();
+
+
+            // $halfdayJoinTable = $leave->join('leave_types', 'leave_requests.type', 'leave_types.id');
+            // $halfday = $halfdayJoinTable->where('leave_types.leave_type', 'LIKE', '%annual%')->get();
+            // $halfday = $halfday->count();
+        
+            
+        
             $lastCheckedIn = Null;
             $lastAttendance = Attendance::where('user_id', $user->id)->latest()->first();
             if ($lastAttendance) {

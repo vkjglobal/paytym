@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -631,21 +630,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/2.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                 <div class="owl-item">
                                     <div class="test-item row">
                                         <div class="col-md-3">
@@ -676,21 +661,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/5.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                 <div class="owl-item">
                                     <div class="test-item row">
                                         <div class="col-md-3">
@@ -710,15 +681,15 @@
                                 @foreach ($testimonial as $testimonials)
                                 <div class="owl-item">
                                     <div class="test-item row">
-                                        <!-- <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/1.jpg')}}" alt="">
-                                        </div> -->
+                                        <div class="col-md-3">
+                                            <img src="{{asset('uploads/cms/'.$testimonials->img)}}" alt="">
+                                        </div>
                                         <div class="test-info col-md-9">
                                             <div class="txt-cntnt">
                                                 {{$testimonials->content}}
                                             </div>
-                                            <!-- <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span> -->
+                                            <strong>{{$testimonials->content1}}</strong>
+                                            <span>{{$testimonials->content2}}</span>
                                         </div>
                                     </div>
                                 </div>

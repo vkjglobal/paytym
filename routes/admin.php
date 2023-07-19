@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\SupportTicketController;
 use App\Http\Controllers\TwilioSMSController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\TaxSettingsController;
+use App\Http\Controllers\Admin\TaxSettingsSrtController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
@@ -122,6 +124,10 @@ Route::middleware('admin.auth')->group(function () {
 
     // Route::get('/privacy_policy', [HomeController::class, 'index'])->name('home');
 
-   
+   // Tax Settings
+
+   Route::resource('tax_settings', TaxSettingsController::class)->except(['show']);
+
+   Route::resource('tax_settings_srt', TaxSettingsSrtController::class)->except(['show']);
 
     });

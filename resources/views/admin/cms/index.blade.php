@@ -24,7 +24,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $cms->cms_type }}</td>
-                                <td>{{ $cms->content }}</td>
+                                <td style="white-space: unset;width: 100%;">{{ $cms->content }}</td>
 
                                 <td>
                                     <input data-id="{{ $cms->id }}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $cms->status ? 'checked' : '' }}>

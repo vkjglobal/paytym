@@ -73,6 +73,60 @@
 
             <!----End Country----->
 
+
+      <!---Tax Settings--->
+      <li class="nav-item {{ request()->is('admin/tax_settings*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#tax_menu" role="button" aria-expanded="false" aria-controls="tax_settings">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Tax Settings</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/tax_settings*') ? 'show' : '' }}" id="tax_menu">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.tax_settings.index') }}" class="nav-link {{ request()->is('admin/country') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.tax_settings.create') }}" class="nav-link {{ request()->is('admin/country/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li> 
+
+            <!----End Tax Settings----->
+
+
+
+               <!---Tax Settings SRT--->
+      <li class="nav-item {{ request()->is('admin/tax_settings_srt*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#tax_menu" role="button" aria-expanded="false" aria-controls="tax_settings">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Tax Settings- SRT</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/tax_settings_srt*') ? 'show' : '' }}" id="tax_menu">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.tax_settings_srt.index') }}" class="nav-link {{ request()->is('admin/country') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.tax_settings_srt.create') }}" class="nav-link {{ request()->is('admin/country/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li> 
+            <!----End Tax Settings SRT----->
+
+
+
             <!---Subscriptions--->
             <li class="nav-item {{ request()->is('admin/subscriptions*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#subscriptions" role="button" aria-expanded="false" aria-controls="subscriptions">
