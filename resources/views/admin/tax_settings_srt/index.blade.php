@@ -15,8 +15,6 @@
                                     <th>Sl #</th>
                                     <th>Country</th>
                                     <th>Annual Income Range</th>
-                                    <th>IT(%)</th>
-                                    <th>IT (Addon)</th>
                                     <th>SRT(%)</th>
                                     <th>SRT(Addon)</th>
                                     <th>Actions</th>
@@ -28,15 +26,13 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $tax->country->name }}</td>
                                         <td>{{ $tax->annualincome_from }} - {{ $tax->annualincome_to }}</td>
-                                        <td>{{ $tax->income_tax_rate }}</td>
-                                        <td>{{ $tax->income_tax_value }}</td>
                                         <td>{{ $tax->srt_tax }}</td>
                                         <td>{{ $tax->srt_value }}</td>
                                      
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                                 <!-- Edit button -->
-                                                <a href="{{ route('admin.tax_settings.edit', $tax->id) }}"
+                                                <a href="{{ route('admin.tax_settings_srt.edit', $tax->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
                                                     title="Edit">
                                                     <i data-feather="edit"></i>
@@ -49,7 +45,7 @@
                                                     <i data-feather="trash"></i>
                                                 </button>
                                                 <form id="delete-data-{{ $tax->id }}"
-                                                    action="{{ route('admin.tax_settings.destroy', $tax->id) }}"
+                                                    action="{{ route('admin.tax_settings_srt.destroy', $tax->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')

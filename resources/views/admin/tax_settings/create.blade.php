@@ -63,28 +63,6 @@
 
                     </div><!-- Row -->
 
-
-
-                    <label class="control-label" style="color: blue;">Social Responsibility Tax(SRT)</label>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">SRT Rate(%)<span class="text-danger">*</span></label>
-                                <input type="number" class="form-control @if ($errors->has('srt_tax')) is-invalid @endif" name="srt_tax" value="{{ old('srt_tax') }}" placeholder="Enter TaxRate">
-                                <div class="invalid-feedback">{{ $errors->first('srt_tax') }}</div>
-                            </div>
-                        </div><!-- Col -->
-
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">IncomeTax(Addon)<span class="text-danger">*</span></label>
-                                <input type="number" class="form-control @if ($errors->has('srt_value')) is-invalid @endif" name="srt_value" value="{{ old('srt_value') }}" placeholder="Enter TaxRate">
-                                <div class="invalid-feedback">{{ $errors->first('srt_value') }}</div>
-                            </div>
-                        </div><!-- Col -->
-
-                    </div><!-- Row -->
-
                     <input type="submit" class="btn btn-primary submit" value="Submit">
                 </form>
 

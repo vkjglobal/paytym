@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTaxSettingsSrtRequest;
 use App\Models\Country;
-use App\Models\TaxSettings;
+use App\Models\TaxSettingsSrtModel;
 use Illuminate\Http\Request;
 
 class TaxSettingsSrtController extends Controller
@@ -15,7 +16,7 @@ class TaxSettingsSrtController extends Controller
             [(__('Dashboard')), route('admin.home')],
             [(__('TaxSettings- SRT')), null],
         ];
-        $tax_settings = TaxSettings::with('country')->get();
+        $tax_settings = TaxSettingsSrtModel::with('country')->get();
         return view('admin.tax_settings_srt.index', compact('breadcrumbs', 'tax_settings'));
     }
 
@@ -33,10 +34,10 @@ class TaxSettingsSrtController extends Controller
 
         //
          //store
-    public function store(TaxSettingsSrtController $request)
+    public function store(StoreTaxSettingsSrtRequest $request)
     {
         $request = $request->validated();
-        $tax_settings = new TaxSettings();
+        $tax_settings = new TaxSettingsSrtModel();
         $tax_settings->country_id = $request['country_id'];
         $tax_settings->annualincome_from = $request['annual_income_from'];
         $tax_settings->annualincome_to = $request['annual_income_to'];
@@ -59,16 +60,16 @@ class TaxSettingsSrtController extends Controller
                 [(__('Dashboard')), route('admin.home')],
                 [(__('Tax Settings')), null],
             ];
-            $tax = TaxSettings::find($id)->first();
+            $tax = TaxSettingsSrtModel::find($id)->first();
             $countries = Country::get();
             return view('admin.tax_settings_srt.edit', compact('breadcrumbs', 'tax', 'countries'));
         }
     
     
-        public function update(TaxSettingsSrtController $request, $id)
+        public function update(StoreTaxSettingsSrtRequest $request, $id)
         {
             $request = $request->validated();
-            $tax_settings = TaxSettings::find($id)->first();
+            $tax_settings = TaxSettingsSrtModel::find($id)->first();
             $tax_settings->country_id = $request['country_id'];
             $tax_settings->annualincome_from = $request['annual_income_from'];
             $tax_settings->annualincome_to = $request['annual_income_to'];
@@ -85,7 +86,7 @@ class TaxSettingsSrtController extends Controller
     
     
         //destroy
-        public function destroy(TaxSettings $tax)
+        public function destroy(TaxSettingsSrtModel $tax)
         {
             $res = $tax->delete();
             if ($res) {
