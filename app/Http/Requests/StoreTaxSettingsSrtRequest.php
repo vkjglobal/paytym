@@ -13,7 +13,7 @@ class StoreTaxSettingsSrtRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class StoreTaxSettingsSrtRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+             'country_id' => 'required',
+             'annual_income_from' => 'required',
+             'annual_income_to' => '',
+             'srt_tax' => 'required',
+             'srt_value' => 'required'
         ];
     }
 }

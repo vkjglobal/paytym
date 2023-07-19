@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title">Create Tax Rates</h6>
-                <form method="POST" action="{{ route('admin.tax_settings.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.tax_settings_srt.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
 
@@ -43,27 +43,6 @@
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
-                    <label class="control-label" style="color: blue;">Income Tax</label>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">IncomeTax(%)<span class="text-danger">*</span></label>
-                                <input type="number" class="form-control @if ($errors->has('income_tax_rate')) is-invalid @endif" name="income_tax_rate" value="{{ old('income_tax_rate') }}" placeholder="Enter TaxRate">
-                                <div class="invalid-feedback">{{ $errors->first('income_tax_rate') }}</div>
-                            </div>
-                        </div><!-- Col -->
-
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">IncomeTax(Addon)<span class="text-danger">*</span></label>
-                                <input type="number" class="form-control @if ($errors->has('income_tax_value')) is-invalid @endif" name="income_tax_value" value="{{ old('income_tax_value') }}" placeholder="Enter TaxRate">
-                                <div class="invalid-feedback">{{ $errors->first('income_tax_value') }}</div>
-                            </div>
-                        </div><!-- Col -->
-
-                    </div><!-- Row -->
-
-
 
                     <label class="control-label" style="color: blue;">Social Responsibility Tax(SRT)</label>
                     <div class="row">
@@ -77,7 +56,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">IncomeTax(Addon)<span class="text-danger">*</span></label>
+                                <label class="control-label">SRT-Tax(Addon)<span class="text-danger">*</span></label>
                                 <input type="number" class="form-control @if ($errors->has('srt_value')) is-invalid @endif" name="srt_value" value="{{ old('srt_value') }}" placeholder="Enter TaxRate">
                                 <div class="invalid-feedback">{{ $errors->first('srt_value') }}</div>
                             </div>

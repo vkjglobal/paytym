@@ -43,8 +43,6 @@ class TaxSettingsController extends Controller
         $tax_settings->annualincome_to = $request['annual_income_to'];
         $tax_settings->income_tax_rate = $request['income_tax_rate'];
         $tax_settings->income_tax_value = $request['income_tax_value'];
-        $tax_settings->srt_tax = $request['srt_tax'];
-        $tax_settings->srt_value = $request['srt_value'];
         $res = $tax_settings->save();
         if ($res) {
             notify()->success(__('Created successfully'));
@@ -78,8 +76,6 @@ class TaxSettingsController extends Controller
         $tax_settings->annualincome_to = $request['annual_income_to'];
         $tax_settings->income_tax_rate = $request['income_tax_rate'];
         $tax_settings->income_tax_value = $request['income_tax_value'];
-        $tax_settings->srt_tax = $request['srt_tax'];
-        $tax_settings->srt_value = $request['srt_value'];
 
         $res = $tax_settings->save();
         if ($res) {

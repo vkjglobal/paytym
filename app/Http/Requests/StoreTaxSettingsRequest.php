@@ -29,8 +29,6 @@ class StoreTaxSettingsRequest extends FormRequest
             'annual_income_to' => '',
             'income_tax_rate' => 'required',
             'income_tax_value' => 'required',
-            'srt_tax' => 'required',
-            'srt_value' => 'required',
         ];
     }
 }

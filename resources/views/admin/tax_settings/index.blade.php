@@ -17,8 +17,6 @@
                                     <th>Annual Income Range</th>
                                     <th>IT(%)</th>
                                     <th>IT (Addon)</th>
-                                    <th>SRT(%)</th>
-                                    <th>SRT(Addon)</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -30,8 +28,6 @@
                                         <td>{{ $tax->annualincome_from }} - {{ $tax->annualincome_to }}</td>
                                         <td>{{ $tax->income_tax_rate }}</td>
                                         <td>{{ $tax->income_tax_value }}</td>
-                                        <td>{{ $tax->srt_tax }}</td>
-                                        <td>{{ $tax->srt_value }}</td>
                                      
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
