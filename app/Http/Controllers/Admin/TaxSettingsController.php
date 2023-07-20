@@ -88,8 +88,9 @@ class TaxSettingsController extends Controller
 
 
     //destroy
-    public function destroy(TaxSettings $tax)
+    public function destroy($id)
     {
+        $tax=TaxSettings::find($id);
         $res = $tax->delete();
         if ($res) {
             notify()->success(__('Deleted successfully'));
