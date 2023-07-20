@@ -36,6 +36,33 @@ class CmsController extends Controller
         //   dd($request->get('person_name'));
         $cms = new CMS();
         $cms->cms_type = $validated['cms_type'];
+        $type=$validated['cms_type'];
+        if($type=="Employee Management")
+        {
+            $cms->identifier=1;
+        }
+        else if($type=="Payroll Management")
+        {
+            $cms->identifier=2;
+            
+        }
+        else if($type=="Deposit To Employee Account")
+        {
+            $cms->identifier=3;
+        }
+        else if($type=="Payroll Tax and Contribution")
+        {
+            $cms->identifier=4;
+        }
+        else if($type=="Analytics and Report")
+        {
+            $cms->identifier=5;
+        }
+        else if($type=="Chat")
+        {
+            $cms->identifier=6;
+        }
+        // $cms->cms_type_without_space = str_replace(' ', '', $type);
         $cms->content = $validated['content'];
 
         if ($request->hasFile('img')) {

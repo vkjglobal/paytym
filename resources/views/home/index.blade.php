@@ -252,13 +252,13 @@
                                 </svg>
                             </span>
                             <div class="card-body pt-3 px-0">
-                                @if(is_null($employee_management))
-                                <h5 class="card-title pt-2  ">Analytics and Report</h5>
+                                @if(is_null($payroll_tax))
+                                <h5 class="card-title pt-2  ">Payroll Tax and Contribution</h5>
                                 <p class="card-text pt-3 ">Manage and view payroll summaries, trends, comparisons, employee breakdowns and tax
                                     compliance reports at a click.</p>
                                 @else
-                                <h5 class="card-title pt-2 ">{{ $employee_management->cms_type}}</h5>
-                                <p class="card-text pt-3 ">{{ $employee_management->cms_type}}</p>
+                                <h5 class="card-title pt-2 ">{{ $payroll_tax->cms_type}}</h5>
+                                <p class="card-text pt-3 ">{{ $payroll_tax->content}}</p>
                                 @endif
                             </div>
 
@@ -281,7 +281,7 @@
                                     compliance reports at a click.</p>
                                 @else
                                 <h5 class="card-title pt-2 ">{{ $analytics_report->cms_type}}</h5>
-                                <p class="card-text pt-3 ">{{ $analytics_report->cms_type}}</p>
+                                <p class="card-text pt-3 ">{{ $analytics_report->content}}</p>
                                 @endif
                             </div>
 
@@ -302,7 +302,7 @@
                                     the relevant groups.</p>
                                 @else
                                 <h5 class="card-title pt-2 ">{{ $chat->cms_type}}</h5>
-                                <p class="card-text pt-3 ">{{ $chat->cms_type}}</p>
+                                <p class="card-text pt-3 ">{{ $chat->content}}</p>
 
                                 @endif
 
