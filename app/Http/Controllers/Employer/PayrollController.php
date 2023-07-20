@@ -22,6 +22,7 @@ use Carbon\CarbonPeriod;
 use App\Jobs\PayslipGeneration;
 use App\Models\Employer;
 use App\Models\TaxSettings;
+use App\Models\TaxSettingsSrtModel;
 use Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -300,20 +301,14 @@ class PayrollController extends Controller
                 if ($value['annualincome_from'] == '0' && $annualIncome < $value['annualincome_to']) {
                     $taxRate = $value['income_tax_rate'];
                     $taxAddon = $value['income_tax_value'];
-                    $srtRate = $value['srt_tax'];
-                    $srtAddon = $value['srt_value'];
                     $flag = 1;
                 } else if ($value['annualincome_to'] == null && $annualIncome > $value['annualincome_from']) {
                     $taxRate = $value['income_tax_rate'];
                     $taxAddon = $value['income_tax_value'];
-                    $srtRate = $value['srt_tax'];
-                    $srtAddon = $value['srt_value'];
                     $flag = 2;
                 } else if ($annualIncome > $value['annualincome_from'] && $annualIncome < $value['annualincome_to']) {
                     $taxRate = $value['income_tax_rate'];
                     $taxAddon = $value['income_tax_value'];
-                    $srtRate = $value['srt_tax'];
-                    $srtAddon = $value['srt_value'];
                     $flag = 3;
                 }
 
@@ -357,7 +352,33 @@ class PayrollController extends Controller
                 //     $srtToWithhold = 0;
                 // }
             }
+
+
+            $srtRates = TaxSettingsSrtModel::where('country_id', $employer->country_id)->get();
+
+            foreach ($srtRates as $key => $value) {
+                if ($value['annualincome_from'] == '0' && $annualIncome < $value['annualincome_to']) {
+                    $srtRate = $value['srt_tax'];
+                    $srtAddon = $value['srt_value'];
+                    $flag = 1;
+                } else if ($value['annualincome_to'] == null && $annualIncome > $value['annualincome_from']) {
+                    $srtRate = $value['srt_tax'];
+                    $srtAddon = $value['srt_value'];
+                    $flag = 2;
+                } else if ($annualIncome > $value['annualincome_from'] && $annualIncome < $value['annualincome_to']) {
+                    $srtRate = $value['srt_tax'];
+                    $srtAddon = $value['srt_value'];
+                    $flag = 3;
+                }
+            }
+
+
+
+
             //      dd($annualIncome . "," . $value['annualincome_from'] . "," . $taxRate . "," . $taxAddon);
+          
+          
+          
             $A1 = ($annualIncome -  $value['annualincome_from']) * ($taxRate / 100) + $taxAddon;  // IncomeTax
             // dd($A1); 
             $C2 = $annualIncome + $total_bonus;   // Income + Bonus
@@ -373,6 +394,11 @@ class PayrollController extends Controller
             if ($srtToWithhold < 0) {
                 $srtToWithhold = 0;
             }
+
+
+
+
+
             $total_tax = $srtToWithhold + $IncomeTaxToWithhold;
 
 
