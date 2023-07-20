@@ -86,8 +86,9 @@ class TaxSettingsSrtController extends Controller
     
     
         //destroy
-        public function destroy(TaxSettingsSrtModel $tax)
+        public function destroy($id)
         {
+            $tax=TaxSettingsSrtModel::find($id);
             $res = $tax->delete();
             if ($res) {
                 notify()->success(__('Deleted successfully'));
