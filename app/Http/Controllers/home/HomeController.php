@@ -25,12 +25,13 @@ class HomeController extends Controller
         $testimonial = Cms::where('cms_type', 'like', '%Testimonials%')->where('status', '1')->get();
         $showcase = Cms::where('cms_type', 'like', '%showcase%')->where('status', '1')->first();
         $pricing = Cms::where('cms_type', 'like', '%pricing%')->where('status', '1')->first();
-        $employee_management = Cms::where('cms_type', 'like', '%Employee Management%')->where('status', '1')->first();
-        $payroll_management = Cms::where('cms_type', 'like', '%Payroll Management%')->where('status', '1')->first();
-        $deposit = Cms::where('cms_type', 'like', '%Deposit To Employee Account%')->where('status', '1')->first();
-        $payroll_tax = Cms::where('cms_type', 'like', '%Payroll Tax and Contribution%')->where('status', '1')->first();
-        $analytics_report = Cms::where('cms_type', 'like', '% Analytics and Report%')->where('status', '1')->first();
-        $chat = Cms::where('cms_type', 'like', '%Chat%')->where('status', '1')->first();
+        $employee_management = Cms::where('identifier', 1)->where('status', '1')->first();
+        $payroll_management = Cms::where('identifier', 2)->where('status', '1')->first();
+        $deposit = Cms::where('identifier', 3)->where('status', '1')->first();
+        $payroll_tax = Cms::where('identifier', 4)->where('status', '1')->first();
+        
+        $analytics_report = Cms::where('identifier', 5)->where('status', '1')->first();
+        $chat = Cms::where('identifier', 6)->where('status', '1')->first();
         $employer = Auth::guard('employer')->user();
 
         return view('home.index', compact('chat','analytics_report','payroll_tax','deposit','payroll_management','employee_management','subscription', 'banner', 'bannercount', 'cms', 'about', 'foremployers', 'foremployees', 'showcase', 'howitworks', 'empwebfeatures', 'testimonial', 'pricing', 'employer'));
@@ -38,7 +39,6 @@ class HomeController extends Controller
 
     public function subscriptionPayment($id)
     {
-        //dd($id);
         $subscription = Subscription::where('status', '1')->get();
         $pricing = Cms::where('cms_type', 'like', '%pricing%')->first();
         $plan = Subscription::find($id);
