@@ -123,11 +123,6 @@ class MeetingsController extends Controller
                 //     return view('index');
                 //   //  return response()->json(['error' => 'API call failed'], $response->status());
                 // }
-
-
-
-
-
                
             }
         }
