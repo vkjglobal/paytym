@@ -10,6 +10,9 @@ use App\Http\Controllers\Api\Admin\ProjectsController;
 use App\Http\Controllers\Api\Admin\ReportsController;
 use App\Http\Controllers\Api\Admin\SplitpaymentController;
 use App\Http\Controllers\Api\Admin\UploadsController;
+use App\Http\Controllers\Api\BranchController;
+use App\Http\Controllers\Api\BusinessController;
+use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\Employee\AuthController;
 use App\Http\Controllers\Api\Employee\ChatController;
 use App\Http\Controllers\Api\Employee\LeaveRequestController;
@@ -195,5 +198,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //mpaisa
     Route::get('mpaisa', [MpaisaController::class, 'send_req']);
+
+
+    // Get Business
+    Route::post('get_business', [BusinessController::class, 'get_business']);
+
+    // Get Branch 
+    Route::post('get_branch', [BranchController::class, 'get_branch']);
+
+      // Get Department
+      Route::post('get_department', [DepartmentController::class, 'get_department']);
+
+
+      
 
 });

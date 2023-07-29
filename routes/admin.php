@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\ConfirmPasswordController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
+use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\CmsController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CustomSubscriptionController;
@@ -129,5 +130,8 @@ Route::middleware('admin.auth')->group(function () {
    Route::resource('tax_settings', TaxSettingsController::class)->except(['show']);
 
    Route::resource('tax_settings_srt', TaxSettingsSrtController::class)->except(['show']);
+
+// 27-07-23
+   Route::resource('bank', BankController::class)->except(['show']);
 
     });

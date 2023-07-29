@@ -7,12 +7,17 @@ use App\Models\Meeting;
 use App\Models\MeetingAttendees;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class MeetingsController extends Controller
 {
+
+
     public function list_meetings(Request $request)
     {
+       // dd(Auth::guard('employer')->user()->id);
+
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
 
@@ -29,6 +34,23 @@ class MeetingsController extends Controller
                 'message' => "Success",
                 'meetings liste' => $meetings,
             ], 200);
+
+            // if (request()->is('api/*')) {
+            //     // This is an API request
+            //     return response()->json([
+            //         'message' => "Success",
+            //         'meetings liste' => $meetings,
+            //     ], 200);
+            // } else {
+            //     // This is a web request
+            //     $breadcrumbs = [
+            //         [(__('Dashboard')), route('admin.home')],
+            //         [(__('Meetings')), null],
+            //     ];
+            //  //   $tax_settings = TaxSettingsSrtModel::with('country')->get();
+            //     return view('employer.meetings.index', compact('breadcrumbs', 'meetings'));
+            // }
+           
         } else {
 
             return response()->json([
@@ -81,10 +103,27 @@ class MeetingsController extends Controller
             $issave=MeetingAttendees::insert($answers);
             if($issave)
             {
+
                 return response()->json([
                     'message' => "Success",
                     'chats' => $meetings,
                 ], 200);
+
+                // $apiUrl  = env('APP_URL');
+                // $response = Http::get($apiUrl);
+                // if ($response->successful()) {
+                //     // If the API call is successful, return the API response as JSON
+                //     return response()->json([
+                //         'message' => "Success",
+                //         'chats' => $meetings,
+                //     ], 200);
+                   
+                // } else {
+                //     // Handle API error response
+                //     return view('index');
+                //   //  return response()->json(['error' => 'API call failed'], $response->status());
+                // }
+               
             }
         }
     }

@@ -74,6 +74,34 @@
             <!----End Country----->
 
 
+            <!---Banks---->
+
+            <li class="nav-item {{ request()->is('admin/banks*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#banks" role="button" aria-expanded="false" aria-controls="banner">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Manage Bank</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/banks*') ? 'show' : '' }}" id="banks">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.bank.index') }}" class="nav-link {{ request()->is('admin/banks') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.bank.create') }}" class="nav-link {{ request()->is('admin/banks/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li> 
+
+
+            <!----End Bank------>
+
+
       <!---Tax Settings--->
       <li class="nav-item {{ request()->is('admin/tax_settings*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#tax_menu" role="button" aria-expanded="false" aria-controls="tax_settings">

@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
         $schedule->command('send:login_credentials')->twiceDaily(24 ,18);
-        $schedule->command('invoices:add')->monthlyOn(31, '23:50');
+        $schedule->command('invoices:add')->monthlyOn(30, '23:50');
     }
 
     /**
