@@ -30,15 +30,22 @@ class DbBackup extends Command
     public function handle()
     {
         // return Command::SUCCESS;
+        // return Command::SUCCESS;
+        // $filename = "backup_".strtotime(now()).'_'.Carbon::today()->format('d-m-Y').".sql";
+        // $command = "mysqldump --user=".env('DB_USERNAME')." --password="
+        // .env('DB_PASSWORD')." --host=".env('DB_HOST')." ".env('DB_DATABASE')." > "
+        // .'storage/app/backup/'.$filename;
+        // dd($command);
+
         $filename = "backup_".strtotime(now()).'_'.Carbon::today()->format('d-m-Y').".sql";
-        $command = "mysqldump --user=".env('DB_USERNAME')." --password="
+        $command = "/opt/lampp/bin/mysqldump --user=".env('DB_USERNAME')." --password="
         .env('DB_PASSWORD')." --host=".env('DB_HOST')." ".env('DB_DATABASE')." > "
         .'storage/app/backup/'.$filename;
         // dd($command);
         exec($command);
         
         $filepath = 'storage/app/backup/'.$filename;
-        $localpath = 'C:/Users/Aswinjith/Downloads/'.$filename;
+        $localpath = '/home/reubro/Downloads/db/'.$filename;
 
         if (file_exists($filepath)) {
             // Copy the file to the local directory

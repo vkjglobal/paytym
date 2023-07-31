@@ -492,6 +492,36 @@
 
             <!-- Roster End -->
 
+
+   <!-- Meetings -->
+
+   <!-- <li class="nav-item  {{ request()->is('employer/roster*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#meetings" role="button" aria-expanded="false" aria-controls="requests">
+                    <i class="link-icon" data-feather="clipboard"></i>
+                    <span class="link-title">Meetings</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('employer/roster*') ? 'show' : '' }}" id="meetings">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('employer.meetings.create') }}" class="nav-link {{ request()->is('employer/meetings/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="{{ route('employer.meetings.index', ['id' => Auth::guard('employer')->user()->id]) }}" class="nav-link {{ request()->is('employer/meetings') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li> -->
+
+            <!-- Meetings End -->
+
+
+
             <!----Projects--->
 
             <li class="nav-item {{ request()->is('employer/project*') ? 'active' : '' }}">

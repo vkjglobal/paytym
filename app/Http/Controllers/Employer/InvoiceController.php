@@ -21,15 +21,14 @@ class InvoiceController extends Controller
         return view('employer.invoice.index', compact('breadcrumbs', 'plan'));
     }
 
-   public function view_invoice($id)
-   {
-$breadcrumbs = [
-    [(__('Dashboard')), route('employer.invoice.index')],
-    [(__('Vew Bill')), null],
-];
+    public function view_invoice($id)
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.invoice.index')],
+            [(__('Vew Bill')), null],
+        ];
 
-$plan = Invoice::with('plan')->where('id', $id)->first();
-return view('employer.invoice.monthly_invoice', compact('breadcrumbs', 'plan'));
-   }
-
+        $plan = Invoice::with('plan')->where('id', $id)->first();
+        return view('employer.invoice.monthly_invoice', compact('breadcrumbs', 'plan'));
+    }
 }
