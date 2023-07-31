@@ -39,6 +39,7 @@ use App\Http\Controllers\Employer\SplitPaymentController;
 use App\Http\Controllers\Employer\UserRoleController;
 use App\Http\Controllers\Employer\AssignBenefitController;
 use App\Http\Controllers\Employer\InvoiceController;
+use App\Http\Controllers\Employer\MeetingController;
 use App\Http\Controllers\Employer\MeetingsController as EmployerMeetingsController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
@@ -309,6 +310,10 @@ Route::middleware('employer.auth')->group(function () {
 
     //24-07-23
     Route::resource('meetings', EmployerMeetingsController::class)->except(['show']);
+
+      //Meetings
+      Route::resource('meeting', MeetingController::class)->except(['show']);
+      Route::get('meeting/view/{id}', [MeetingController::class, 'view_details'])->name('meeting.details');
 
   });
 
