@@ -21,13 +21,17 @@
                                     <option selected="true" disabled="disabled" >Select Group</option>
                                     @foreach($groups as $group)
                                         <option {{ old('group', $group->id) == $groupmembers->group_chat_id ? "selected" : "" }}
-                                        value="{{$group->id}}">{{$group->group_name}}</option>
+                                        value="{{$group->id}}" disabled="disabled">{{$group->group_name}}</option>
                                     @endforeach
-                                </select>                                
+                              <input type="hidden" name="group" value="{{$groupmembers->group_chat_id}}">  
+                             </select>                                
                                 <div class="invalid-feedback">{{ $errors->first('group') }}</div>
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
+                   
+                                                    
+                          
 
                     <div class="row" id="" >
                         <div class="col-sm-6">

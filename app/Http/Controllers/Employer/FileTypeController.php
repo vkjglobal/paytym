@@ -20,8 +20,8 @@ class FileTypeController extends Controller
             [(__('Dashboard')), route('employer.home')],
             [(__('File Types')), null],
         ];
-
-        $filetypes = FileType::get();
+        $employer = Auth::guard('employer')->id();
+        $filetypes = FileType::where('employer_id',$employer)->get();
 
         return view('employer.filetype.index', compact('breadcrumbs', 'filetypes'));
     }

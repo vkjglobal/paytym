@@ -121,8 +121,8 @@ class GroupMembersAddController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'employee' => 'required',
-            'group' => 'required',
+            'employee' => 'required'
+            //'group' => 'required',
         ]);
             $data = GroupChatMembers::where('id', $id)->first();
             // $data->employer_id = Auth::guard('employer')->id();
@@ -139,10 +139,11 @@ class GroupMembersAddController extends Controller
                 }else{
                     notify()->error(__('Failed to Update.'));
                 }
-            }
+           // }
              
             return redirect()->route('employer.groupmember.index');
     }
+}
 
     /**
      * Remove the specified resource from storage.

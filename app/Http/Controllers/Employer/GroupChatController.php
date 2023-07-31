@@ -60,9 +60,9 @@ class GroupChatController extends Controller
             $data->admin_id = $request->employee;
             $data->group_name = $request->group_name;
             
-            $user = GroupChat::where('group_name', 'like',  $request->group_name)->first();  
+            $user = GroupChat::where('group_name', 'like',  $request->group_name)->where('employer_id',Auth::guard('employer')->id())->first();  
             if($user){
-                notify()->error(__('Already exists'));
+                notify()->error(__('This group already exists'));
             }else{
                 $res = $data->save();
                 $members = new GroupChatMembers();
@@ -140,10 +140,11 @@ class GroupChatController extends Controller
                 }else{
                     notify()->error(__('Failed to Update.'));
                 }
-            }
+            //}
              
             return redirect()->route('employer.groupchat.index');
     }
+}
 
     /**
      * Remove the specified resource from storage.
