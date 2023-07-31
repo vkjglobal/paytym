@@ -8,7 +8,9 @@ use App\Notifications\AdminContact;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\ContactRequest;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
-use Mail;
+use symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
@@ -24,32 +26,39 @@ class ContactController extends Controller
     }
 
     public function store(Request $request){
-        // $validated = $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required',
-        //     'message' => 'required'
-        // ]);
-        // if($validated->fail()){
-        //     return redirect()->back()->withErrors($validated);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'Error Occured');
+        }
+        else{
+            Mail::send('mail.send-contactusmsg',
+            array(
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'msg' => $request->get('message'),
+            ), function($msg) use ($request)
+              {
+               $mail=trim($request->get('email'));
+                 $msg->to('buzzmefiji@gmail.com');
+                 $msg->subject('New Customer Enquiry');
+              });
+      
+        }
+
+
+        //  try{
+            
+        //  } catch (TransportExceptionInterface $e){
+        //     return redirect()->back()->with('error', 'Error Occured');
         // }
         $result = Contact::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'message' => $request['message']
         ]);
-         \Mail::send('mail.send-contactusmsg',
-             array(
-                 'name' => $request->get('name'),
-                 'email' => $request->get('email'),
-                 'msg' => $request->get('message'),
-             ), function($msg) use ($request)
-               {
-                  $msg->from($request->email);
-                  $msg->to('neena.reubro@gmail.com');
-                  $msg->subject('New Customer Enquiry');
-               }); 
-        //Mail::to('neena.reubro@gmail.com')->send(new SendMail($result));
-        //dd($result);
         if ($result) {
             return redirect()->back()->with('success', 'Send successfully!');
 

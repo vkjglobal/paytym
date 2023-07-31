@@ -1,461 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{asset('payslip/style.css')}}">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payslip</title>
 </head>
 <body>
-
-  <div class="salary-slip" >
-    <table class="empDetail">
-      <tr height="100px" style='background-color: #c2d69b'>
-        <td colspan='4'>
-          <img height="90px" src='https://organisationmedia.toggleflow.com/demo/logo.png' /></td>
-        <td colspan='4' class="companyName"> Co-Operative Bank Ltd.</td>
-      </tr>
-      <tr>
-        <th>
-          Name
-  </th>
-        <td>
-          Example
-  </td>
-        <td></td>
-        <th>
-          Bank Code
-  </th>
-        <td>
-          ABC123
-  </td>
-        <td></td>
-        <th>
-          Branch Name
-  </th>
-        <td>
-          ABC123
-  </td>
-      </tr>
-      <tr>
-        <th>
-          Employee Code
-  </th>
-        <td>
-          XXXXXXXXXXX
-  </td>
-        <td></td>
-        <th>
-          Bank Name
-  </th>
-        <td>
-          XXXXXXXXXXX
-  </td>
-        <td></td>
-        <th>
-          Payslip no.
-  </th>
-        <td>
-          XXXXXXXXXX
-  </td>
-      </tr>
-      <tr>
-        <th>
-          Cost Centre
-  </th>
-        <td>
-          XXXXXXXXXXX
-  </td><td></td>
-        <th>
-          Bank Branch
-  </th>
-        <td>
-          XXXXXXXXXX
-  </td><td></td>
-        <th>
-          Pay Period
-  </th>
-        <td>
-          XXXXXXXXXXX
-  </td>
-      </tr>
-      <tr>
-        <th>
-          CC Description:
-  </th>
-        <td>
-          XXXXXXXXXXX
-  </td><td></td>
-        <th>
-          Bank A/C no.
-  </th>
-        <td>
-          XXXXXXXXXX
-  </td><td></td>
-        <th>
-          Personel Area
-  </th>
-        <td>
-          XXXXXXXXXX
-  </td>
-      </tr>
-      <tr>
-        <th>
-          Grade:
-  </th>
-        <td>
-          18
-  </td><td></td>
-        <th>
-          Employee Group
-  </th>
-        <td>
-          Sales Manager
-  </td><td></td>
-        <th>
-          PAN No:
-  </th>
-        <td>
-          MOP72182E
-  </td>
-      </tr>
-      <tr class="myBackground">
-        <th colspan="2">
-          Payments
-  </th>
-        <th >
-          Particular
-  </th>
-        <th class="table-border-right">
-          Amount (Rs.)
-  </th>
-        <th colspan="2">
-          Deductions
-  </th>
-        <th >
-          Particular
-  </th>
-        <th >
-          Amount (Rs.)
-  </th>
-      </tr>
-      <tr>
-        <th colspan="2">
-          Basic Salary
-  </th>
-        <td></td>
-        <td class="myAlign">
-          4935.00
-  </td>
-        <th colspan="2" >
-          Provident Fund
-  </th >
-        <td></td>
-  
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <th colspan="2">
-          Fixed Dearness Allowance
-  </th>
-        <td></td>
-  
-        <td class="myAlign">
-          00.00
-  </td>
-        <th colspan="2" >
-          LIC
-  </th >
-        <td></td>
-  
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <th colspan="2">
-          Variable Dearness Allowance
-  </th>
-        <td></td>
-  
-        <td class="myAlign">
-          00.00
-  </td>
-        <th colspan="2" >
-          Loan
-  </th >
-        <td></td>
-  
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <th colspan="2">
-          House Rent Allowance
-  </th>
-        <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-        <th colspan="2" >
-          Professional Tax
-  </th >
-        <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <th colspan="2">
-          Graduation Allowance
-  </th>
-        <td></td>
-  
-        <td class="myAlign">
-          00.00
-  </td>
-        <th colspan="2" >
-          Security Deposite(SD)
-  </th >
-        <td></td>
-  
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <th colspan="2">
-          Conveyance Allowance
-  </th> <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-        <th colspan="2" >
-          Staff Benefit(SB)
-  </th >
-        <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <th colspan="2">
-          Post Allowance
-  </th>
-        <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-        <th colspan="2" >
-          Labour Welfare Fund
-  </th >
-        <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <th colspan="2">
-          Special Allowance
-  </th>
-        <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-        <th colspan="2" >
-          NSC
-  </th >
-        <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <td colspan="4" class="table-border-right"></td>
-        <th colspan="2" >
-          Union Thanco Officer(UTO)
-  </th >
-        <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <td colspan="4" class="table-border-right"></td>
-        <th colspan="2" >
-          Advance
-  </th >
-        <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <td colspan="4" class="table-border-right"></td>
-        <th colspan="2" >
-          Income Tax
-  </th > <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr class="myBackground">
-        <th colspan="3">
-          Total Payments
-  </th>
-        <td class="myAlign">
-          10000
-  </td>
-        <th colspan="3" >
-          Total Deductions
-  </th >
-        <td class="myAlign">
-          1000
-  </td>
-      </tr >
-      <tr height="40px">
-        <th colspan="2">
-          Projection for Financial Year:
-        </th>
-        <th>
-        </th>
-        <td class="table-border-right">
-        </td>
-        <th colspan="2" class="table-border-bottom" >
-          Net Salary
-        </th >
-        <td >
-        </td>
-        <td >
-          XXXXXXXXXX
-        </td>
-      </tr >
-      <tr>
-        <td colspan="2">
-          Gross Salary
-        </td> <td></td>
-        <td class="myAlign">
-          00.00
-  </td><td colspan="4"></td>
-      </tr >
-      <tr>
-        <td colspan="2">
-          Aggr. Dedu - P.Tax & Std Ded
-  </td> <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-        <th colspan="2" >
-          Cumulative
-  </th >
-        <td colspan="2"></td>
-      </tr >
-      <tr>
-        <td colspan="2">
-          Gross Total Income
-  </td> <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-        <td colspan="2" >
-          Empl PF Contribution
-  </td > <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-      </tr >
-      <tr>
-        <td colspan="2">
-          Aggr of Chapter "PF"
-  </td> <td></td>
-        <td class="myAlign">
-          00.00
-  </td><td colspan="4"></td>
-      </tr >
-      <tr>
-        <td colspan="2">
-          Total Income
-  </td> <td></td>
-        <td class="myAlign">
-          00.00
-  </td>
-        <td colspan="4"></td>
-      </tr >
-      <tbody class="border-center">
+    <table style="width: 100%; text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.2;">
         <tr>
-          <th>
-            Attend/ Absence
-  </th>
-          <th>
-            Days in Month
-  </th>
-          <th>
-            Days Paid
-  </th>
-          <th>
-            Days Not Paid
-  </th>
-          <th>
-            Leave Position
-  </th>
-          <th>
-            Privilege Leave
-  </th>
-          <th>
-            Sick Leave
-  </th>
-          <th>
-            Casual Leave
-  </th>
+            <td>
+                <table style="width: 100%; margin: 0 auto; border: 1px solid #000000; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 25px; line-height: 1.2; padding: 20px; border-bottom: 1px solid #000000;">{{$employee->employer->company}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border-bottom: 1px solid #000000;">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td valign="top">
+                                            <table style="text-align: left;">
+                                                <tr>
+                                                    <td>Name: <strong>{{$employee->first_name." ".$employee->last_name}}</strong></td>
+                                                </tr>
+                                                <!-- <tr>
+                                                    <td>Employee Code: <strong>123456</strong></td>
+                                                </tr> -->
+                                            </table>
+                                        </td>
+                                        <td valign="top">
+                                            <table style="text-align: left;">
+                                                <tr>
+                                                    <td>Bank Name: <strong>{{$employee->bank}}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Bank Branch: <strong>{{$employee->bank_branch_name}}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Bank A/C No: <strong>{{$employee->account_number}}</strong></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td valign="top">
+                                            <table style="text-align: left;">
+                                                <tr>
+                                                    <td>Payslip No: <strong>{{$paySlipNumber}}</strong></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: 1px solid #000000;">
+                                <table style="width: 100%; text-align: left;">
+                                    <tr>
+                                        <td style="border-right: 1px solid #000000; width: 50%;">
+                                            <table style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 60%; text-align:left;">Allowance</th>
+                                                        <th style="width: 40%; text-align: right;">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($allowances as $allowance)
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">{{ $allowance->allowance->type}} </td>
+                                                        <td style="width: 40%; text-align: right;">{{ $allowance->rate}} </td>
+                                                    </tr>
+                                                    @endforeach
+                                                    <!-- <tr>
+                                                        <td style="width: 60%; text-align:left;">Allowance 2</td>
+                                                        <td style="width: 40%; text-align: right;">1500</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Allowance 3</td>
+                                                        <td style="width: 40%; text-align: right;">3000</td>
+                                                    </tr> -->
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%;">Total</td>
+                                                        <td style="width: 40%; text-align: right;"><strong>{{$totalAllowance}}</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="width: 50%;">
+                                            <table style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 60%; text-align:left;">Deduction</th>
+                                                        <th style="width: 40%; text-align: right;">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>    
+                                                    @foreach($deductions as $deduction)
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">{{$deduction->deduction->name}}</td>
+                                                        <td style="width: 40%; text-align: right;">{{$employee->rate * ($deduction->rate/100) }}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                    <!-- <tr>
+                                                        <td style="width: 60%; text-align:left;">Deduction 2</td>
+                                                        <td style="width: 40%; text-align: right;">100</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Deduction 3</td>
+                                                        <td style="width: 40%; text-align: right;">1000</td>
+                                                    </tr> -->
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%;">Total</td>
+                                                        <td style="width: 40%; text-align: right;"><strong>{{$totalDeduction}}</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: 1px solid #000000;">
+                                <table style="width: 100%; text-align: left;">
+                                    <tr>
+                                        <td style="border-right: 1px solid #000000; width: 50%;">
+                                            <table style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 60%; text-align:left;">Tax:</th>
+                                                        <th style="width: 40%; text-align: right;">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Income Tax:</td>
+                                                        <td style="width: 40%; text-align: right;">{{ $income_tax }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">FNPF</td>
+                                                        <td style="width: 40%; text-align: right;">{{$fnpf}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">SRT</td>
+                                                        <td style="width: 40%; text-align: right;">{{$srt}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Total</td>
+                                                        <td style="width: 40%; text-align: right;"><strong>{{ $income_tax + $fnpf + $srt }}</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="width: 50%;">
+                                            <table style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 60%; text-align:left;">&nbsp;</th>
+                                                        <th style="width: 40%; text-align: right;">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">From date: </td>
+                                                        <td style="width: 40%; text-align: right;">{{$fromDate->format('Y-m-d')}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">End date: </td>
+                                                        <td style="width: 40%; text-align: right;">{{$endDate->format('Y-m-d')}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Commission:</td>
+                                                        <td style="width: 40%; text-align: right;">{{$commission_amount}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Bonus:</td>
+                                                        <td style="width: 40%; text-align: right;">{{$total_bonus}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Gross Salary:</td>
+                                                        <td style="width: 40%; text-align: right;">{{$grossSalary}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Net Salary:</td>
+                                                        <td style="width: 40%; text-align: right;">{{$netSalary}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 60%; text-align:left;">Total Salary</td>
+                                                        <td style="width: 40%; text-align: right;"><strong>{{$totalSalary}}</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table style="width: 100%; border-collapse: collapse; text-align: center;">
+                                    <thead>
+                                        <tr>
+                                            <th style="border: 1px solid #000000;">Working Days</th>
+                                            <th style="border: 1px solid #000000;">LWOP</th>
+                                            <th style="border: 1px solid #000000;">Salary type</th>
+                                            <th style="border: 1px solid #000000;">Commissions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="border: 1px solid #000000;">{{$nonHolidayDates}}</td>
+                                            <td style="border: 1px solid #000000;">{{$lwop}}</td>
+                                            <td style="border: 1px solid #000000;">@if($employee->salary_type == "0") Fixed @elseif ($employee->salary_type == "0") Hourly @endif</td>
+                                            <td style="border: 1px solid #000000;">4</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
         </tr>
-        <tr>
-          <td ></td>
-          <td ></td>
-          <td ></td>
-          <td ></td>
-          <td>Yrly Open Balance</td>
-          <td>0.0</td> <td>0.0</td>
-          <td>0.0</td>
-        </tr >
-        <tr>
-          <th >Current Month</th>
-          <td >31.0</td>
-          <td >31.0</td>
-          <td >31.0</td>
-          <td>Availed</td>
-          <td>0.0</td> <td>0.0</td>
-          <td>0.0</td>
-        </tr >
-        <tr>
-          <td colspan="4"></td>
-          <td>Closing Balance</td>
-          <td>0.0</td> <td>0.0</td>
-          <td>0.0</td>
-        </tr >
-        <tr>
-          <td colspan="4"> &nbsp; </td>
-          <td > </td>
-          <td > </td>
-          <td > </td>
-          <td > </td>
-        </tr >
-        <tr>
-          <td colspan="4"></td>
-          <td>Company Pool Leave Balance</td>
-          <td>1500</td>
-          <td ></td>
-          <td ></td>
-        </tr >
-      </tbody>
-    </table >
-  
-  </div >
-  
-  
+    </table>
 </body>
 </html>
-

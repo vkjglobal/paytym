@@ -23,7 +23,9 @@
                                 @foreach ($employees as $employee)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $employee->employee->first_name }}</td>
+                                        <td>@isset($employee->employee->first_name)
+                                            {{ $employee->employee->first_name }}
+                                        @endisset</td>
                                         <td>{{ $employee->user_rate }}</td>
                                         <td>{{ $employee->employer_rate }}</td>
 
@@ -60,13 +62,13 @@
                                                                     <div class="modal-body">
                                                                         <div class="form-group">
                                                                             <label for="reply_message">User Rate</label>
-                                                                            <input type="number" class="form-control @if ($errors->has('userrate')) is-invalid @endif" 
+                                                                            <input type="float" class="form-control @if ($errors->has('userrate')) is-invalid @endif" 
                                                                             value="{{old('userrate', $employee->user_rate)}}" name="userrate"  required>
                                                                             <div class="invalid-feedback">{{ $errors->first('userrate') }}</div>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="reply_message">Employer Rate</label>
-                                                                            <input type="number" class="form-control @if ($errors->has('employerrate')) is-invalid @endif" 
+                                                                            <input type="float" class="form-control @if ($errors->has('employerrate')) is-invalid @endif" 
                                                                             value="{{old('userrate', $employee->employer_rate)}}" name="employerrate"  required>
                                                                             <div class="invalid-feedback">{{ $errors->first('employerrate') }}</div>
                                                                         </div>

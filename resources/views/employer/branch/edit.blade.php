@@ -6,26 +6,18 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title"> Update Branch</h6>
+                    <h6 class="card-title">Update Branch</h6>
                     <form method="POST" action="{{ route('employer.branch.update',$branch->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        
-                        <div class="row">
-        <div class="col-md-12 stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-title"> Create Branch</h6>
-                    <form method="POST" action="{{ route('employer.branch.store') }}" enctype="multipart/form-data">
-                        @csrf
                         
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Branch Name <span class="text-danger">*</span></label>
                                     <input type="text"
-                                        class="form-control @if ($errors->has('name')) is-invalid @endif"
-                                        name="name" value="{{ old('name',$branch->name) }}" placeholder="Enter Branch Name" required>
+                                        class="form-control @if ($errors->has('email')) is-invalid @endif"
+                                        name="name" value="{{ old('email',$branch->name) }}" placeholder="Enter Branch Name" required>
                                     <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -36,7 +28,7 @@
                                 <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="business" value="{{ old('branch') }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($businesses as $business)
-                                    <option value="{{$business['id']}}" {{ $branch->buisness_id == $business['id'] ? 'selected': ''}}>{{$business['name']}}</option>
+                                    <option value="{{$business['id']}} " {{ $branch->employer_business_id == $business['id'] ? 'selected': ''}}>{{$business['name']}}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('business') }}</div>
@@ -78,7 +70,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Country <span class="text-danger">*</span></label>
                                     <input type="text"
-                                        class="form-control @if ($errors->has('country')) is-invalid @endif"
+                                        class="form-control @if ($errors->has('city')) is-invalid @endif"
                                         name="country" value="{{ old('country',$branch->country) }}" placeholder="Enter Country">
                                     <div class="invalid-feedback">{{ $errors->first('country') }}</div>
                                 </div>
@@ -93,7 +85,7 @@
                                 <div class="form-group">
                                     <label class="control-label">bank <span class="text-danger">*</span></label>
                                     <input type="text"
-                                        class="form-control @if ($errors->has('bank')) is-invalid @endif"
+                                        class="form-control @if ($errors->has('postcode')) is-invalid @endif"
                                         name="bank" value="{{ old('bank',$branch->bank) }}" placeholder="Enter Bank Name">
                                     <div class="invalid-feedback">{{ $errors->first('bank') }}</div>
                                 </div>
@@ -105,21 +97,23 @@
                                 <div class="form-group">
                                     <label class="control-label">Account Number <span class="text-danger">*</span></label>
                                     <input type="text"
-                                        class="form-control @if ($errors->has('account_number')) is-invalid @endif"
+                                        class="form-control @if ($errors->has('country')) is-invalid @endif"
                                         name="account_number" value="{{ old('account-number',$branch->account_number) }}" placeholder="Enter Account Number" required>
                                     <div class="invalid-feedback">{{ $errors->first('account_number') }}</div>
                                 </div>
                             </div><!-- Col -->
 
-                            <div class="col-sm-4">
+                            <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">QR Code <span class="text-danger">*</span></label>
                                     <input type="file"
                                         class="form-control @if ($errors->has('logo')) is-invalid @endif"
                                         name="qr_code" value="{{ old('qr_code') }}" placeholder="Enter logo">
+                                        <img src="{{ asset('storage/' . $branch->qr_code) }}" class="img-thumbnail mt-2" width="200"
+                                        alt="">
                                     <div class="invalid-feedback">{{ $errors->first('qr_code') }}</div>
                                 </div>
-                            </div><!-- Col -->
+                            </div>Col -->
                         </div><!-- Row -->
 
 

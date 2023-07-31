@@ -16,8 +16,15 @@ use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\SupportTicketController;
 use App\Http\Controllers\TwilioSMSController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\TaxSettingsController;
+use App\Http\Controllers\Admin\TaxSettingsSrtController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
+
+
+Route::get('privacy_policy', function () {
+    return view('home.privacy_policy');
+})->name('privacy_policy');
 
 // Dashboard
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -83,11 +90,17 @@ Route::middleware('admin.auth')->group(function () {
     Route::post('contact', [ContactController::class, 'sendReply']);
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
 
+    
+    // Invoices
+    Route::resource('invoice', InvoiceController::class);
+
     //Support Tickets
     Route::get('supportticket', [SupportTicketController::class, 'index'])->name('supportticket');
     Route::get('supportticket-change-status', [SupportTicketController::class, 'changeStatus'])->name('supportticket.change.status');
     //Route::post('supportticket', [SupportTicketController::class, 'sendReply']);
     Route::delete('supportticket/{id}', [SupportTicketController::class, 'destroy'])->name('supportticket.destroy');
+    Route::post('supportticket-send-reply', [SupportTicketController::class, 'sendReply'])->name('supportticket.send.reply');
+
 
     //Country
     Route::resource('country', CountryController::class)->except(['show']);
@@ -99,4 +112,22 @@ Route::middleware('admin.auth')->group(function () {
      //Report
      Route::get('report/main_report',[ReportController::class, 'index'])->name('main_report');
      Route::get('report/main_report/export/', [ReportController::class, 'export'])->name('main_report.download');
-});
+     Route::post('report/main_report/filter', [ReportController::class, 'filter'])->name('main_report.filter');
+
+     Route::get('report/invoice',[ReportController::class, 'invoice_index'])->name('report.invoice');
+     Route::get('report/invoice/export/', [ReportController::class, 'invoice_export'])->name('report.invoice.download');
+     Route::post('report/invoice/filter', [ReportController::class, 'invoice_filter'])->name('report.invoice.filter');
+
+
+     Route::get('report/employer/export',[ReportController::class,'employer_list_export'])->name('report.employer.export');
+
+
+    // Route::get('/privacy_policy', [HomeController::class, 'index'])->name('home');
+
+   // Tax Settings
+
+   Route::resource('tax_settings', TaxSettingsController::class)->except(['show']);
+
+   Route::resource('tax_settings_srt', TaxSettingsSrtController::class)->except(['show']);
+
+    });

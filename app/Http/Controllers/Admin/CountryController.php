@@ -88,8 +88,6 @@ class CountryController extends Controller
             [(__('Dashboard')), route('admin.home')],
             [(__('Country')), null],
         ];
-
-
         return view('admin.country.edit', compact('breadcrumbs','country'));
     }
 

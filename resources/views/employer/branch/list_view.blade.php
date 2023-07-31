@@ -15,8 +15,7 @@
                                     <th>Sl #</th>
                                     <th>Name</th>
                                     <th>Business</th>
-                                    <th>City</th>
-                                    <th>Town</th>
+                                    <th>Town/City</th>
                                     <th>Post Code</th>
                                     <th>Country</th>
                                     <th>Bank</th>
@@ -30,8 +29,8 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $branch->name }}</td>
-                                        <td>{{ $branch->buisness_id }}</td>
-                                        <td>{{ $branch->city }}</td>
+                                        <td>{{ optional($branch->business)->name ?? 'no-data' }}</td>
+                                        <!-- <td>{{ $branch->city }}</td> -->
                                         <td>{{ $branch->town }}</td>
                                         <td>{{ $branch->postcode }}</td>
                                         <td>{{ $branch->country }}</td>

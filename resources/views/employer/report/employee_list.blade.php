@@ -1,7 +1,7 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -182,7 +182,7 @@
             $('#filter_employee').on('click', function(e) {
                 $.ajax({
                     type: "get",
-                    url: "{{url('employer/report/employee/filter')}}",
+                    url: "{{url('/employer/report/employee/filter')}}",
                     // url: '/fetch_brandwise_rx',
                     async: true,
                     data: {
@@ -202,10 +202,6 @@
                     }
                 });
             });
-
-
-
-
         })(jQuery);
     </script>
 @endpush

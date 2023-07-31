@@ -28,9 +28,48 @@
                                         <form method="POST" action="{{ route('employer.commission.store') }}">
                                             @csrf
                                             <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="control-label">Business<span class="text-danger">*</span></label>
+                                <select name="type_id" id="business_id"  class="@if ($errors->has('type_id')) is-invalid @endif">
+                                    <option selected="true" disabled="disabled" >Select Business</option>
+                                    @foreach($businesses as $business)
+                                        <option value="{{$business->id}}">{{$business->name}}</option>
+                                    @endforeach
+                                </select>                                
+                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="control-label">Branch<span class="text-danger">*</span></label>
+                                <select name="type_id" id="branch_id" class="@if ($errors->has('type_id')) is-invalid @endif">
+                                    <option selected="true"  >Select Branch</option>
+                                    @foreach($branches as $branch)
+                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                    @endforeach
+                                </select>                                
+                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="control-label">Department<span class="text-danger">*</span></label>
+                                <select name="type_id" id="department_id" class="@if ($errors->has('type_id')) is-invalid @endif">
+                                    <option selected="true"  >Select Department</option>
+                                    @foreach($departments as $department)
+                                        <option value="{{$department->id}}">{{$department->dep_name}}</option>
+                                    @endforeach
+                                </select>                                
+                                <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                            </div>
+
+
+
                                                 <div class="form-group">
                                                     <label for="reply_message">User</label>
-                                                    <select name="employee_id" id="" required>
+                                                    <select name="employee_id"  id="employee_id" required>
                                                         <option disabled="disabled" selected>Select User</option>
                                                         @foreach($users as $user)
                                                             <option value="{{$user->id}}">{{$user->first_name}}</option>
@@ -40,7 +79,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="reply_message">Commission Amount</label>
-                                                    <input type="number" class="form-control" name="rate"  required>
+                                                    <input type="number" step=any class="form-control" name="rate"  required>
                                                     <div class="invalid-feedback">{{ $errors->first('rate') }}</div>
                                                 </div>
                                             </div>
@@ -110,7 +149,7 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="reply_message">Commission Rate</label>
-                                                                            <input type="number" class="form-control @if ($errors->has('user_rate')) is-invalid @endif" name="rate"  
+                                                                            <input type="number" step=any class="form-control @if ($errors->has('user_rate')) is-invalid @endif" name="rate"  
                                                                             value="{{old('rate', $commission->rate)}}" required>
                                                                         </div>
                                                                         <div class="invalid-feedback">{{ $errors->first('rate') }}</div>                                
@@ -162,5 +201,84 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script>
+
+    let token = "{{csrf_token()}}";
+            $('#business_id').change(function(e){
+                var id = $(this).val();
+                console.log('id====',id);
+                $('#branch_id').find('option').not(':first').remove();
+
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_branch/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        var len = 0;
+                        if(response != null){
+                            len = response['data'].length;
+                        }
+                        if(len>0){
+                            for(var i=0;i<len;i++){
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].name;
+                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                $('#branch_id').append(option);
+                            }
+                        }
+                    }
+                });
+            });
+            $('#branch_id').change(function(e){
+                var id = $(this).val();
+                $('#department_id').find('option').not(':first').remove();
+
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_department/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        var len = 0;
+                        if(response != null){
+                            len = response['data'].length;
+                        }
+                        if(len>0){
+                            for(var i=0;i<len;i++){
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].dep_name;
+                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                $('#department_id').append(option);
+                            }
+                        }
+                    }
+                });
+            });
+            $('#department_id').change(function(e){
+                var id = $(this).val();
+                $('#employee_id').find('option').not(':first').remove();
+
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_user/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        var len = 0;
+                        if(response != null){
+                            len = response['data'].length;
+                        }
+                        if(len>0){
+                            for(var i=0;i<len;i++){
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].first_name;
+                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                $('#employee_id').append(option);
+                            }
+                        }
+                    }
+                });
+            });
+
+</script>
+
 
 @endpush

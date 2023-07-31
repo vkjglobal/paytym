@@ -26,13 +26,12 @@ class UpdateBranchRequest extends FormRequest
         return [
             
                 'name' => 'required',
-                'city' => 'required',
                 'town' => 'required',
                 'postcode' => 'required',
                 'country' => 'required',
                 'bank' => 'nullable',
                 'account_number' => 'nullable',
-                'qr_code' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
+                // 'qr_code' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
     
         ];
     }

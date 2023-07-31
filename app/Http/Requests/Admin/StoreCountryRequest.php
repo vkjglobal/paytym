@@ -26,10 +26,10 @@ class StoreCountryRequest extends FormRequest
         return [
             'name' => 'required',
             'currency' => 'required',
-            'tax' => 'required',
-            'fnpf' => 'required',
-            'srt' => 'required',
-            'ecal' => 'required',
+            'tax' => '',
+            'fnpf' => '',
+            'srt' => '',
+            'ecal' => '',
         ];
     }
 }

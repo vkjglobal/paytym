@@ -1,7 +1,8 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="{{ route('admin.home') }}" class="sidebar-brand">
-            Paytym
+        <img src="{{ asset('home_assets/images/logo.png') }}" style="max-width: 120px;" alt="PayTym" />
+
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
@@ -71,6 +72,60 @@
             </li> 
 
             <!----End Country----->
+
+
+      <!---Tax Settings--->
+      <li class="nav-item {{ request()->is('admin/tax_settings*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#tax_menu" role="button" aria-expanded="false" aria-controls="tax_settings">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Tax Settings</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/tax_settings*') ? 'show' : '' }}" id="tax_menu">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.tax_settings.index') }}" class="nav-link {{ request()->is('admin/country') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.tax_settings.create') }}" class="nav-link {{ request()->is('admin/country/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li> 
+
+            <!----End Tax Settings----->
+
+
+
+               <!---Tax Settings SRT--->
+      <li class="nav-item {{ request()->is('admin/tax_settings_srt*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#tax_srt_menu" role="button" aria-expanded="false" aria-controls="tax_settings">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Tax Settings- SRT</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/tax_settings_srt*') ? 'show' : '' }}" id="tax_srt_menu">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.tax_settings_srt.index') }}" class="nav-link {{ request()->is('admin/country') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.tax_settings_srt.create') }}" class="nav-link {{ request()->is('admin/country/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li> 
+            <!----End Tax Settings SRT----->
+
+
 
             <!---Subscriptions--->
             <li class="nav-item {{ request()->is('admin/subscriptions*') ? 'active' : '' }}">
@@ -173,14 +228,23 @@
             <!----End Banner----->
 
 
- <!-- Support Tickets -->
+            <!-- Support Tickets -->
             <li class="nav-item {{ request()->is('admin/support-tickets') ? 'active' : '' }}">
                 <a href="{{ route('admin.supportticket') }}" class="nav-link">
                     <i class="link-icon" data-feather="layers"></i>
                     <span class="link-title">Support Tickets</span>
                 </a>
             </li>
-            
+            <!----End Support Tickets----->
+
+            <!-- Invoices -->
+            <li class="nav-item {{ request()->is('admin/invoice') ? 'active' : '' }}">
+                <a href="{{ route('admin.invoice.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <span class="link-title">Employer Invoices</span>
+                </a>
+            </li>
+            <!----End Invoices----->
             
 
 
@@ -207,16 +271,16 @@
                                 Employers
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ route('admin.country.create') }}" class="nav-link {{ request()->is('admin/country/create') ? 'active' : '' }}">
-                                Create
+                        <li class="nav-item">
+                            <a href="{{ route('admin.report.invoice') }}" class="nav-link {{ request()->is('admin/report/invoice') ? 'active' : '' }}">
+                                Employers Invoice
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </div>
             </li> 
 
-            <!----End Country----->
+            <!----End Reports----->
 
         </ul>
     </div>

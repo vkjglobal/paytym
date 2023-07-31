@@ -21,7 +21,7 @@ class UploadController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('admin.home')],
-            [(__('Leave Requests')), null],
+            [(__('Files')), null],
         ];
         $employer = Auth::guard('employer')->id();
         $employees = User::where('employer_id', $employer)->get();
@@ -65,7 +65,7 @@ class UploadController extends Controller
         if ($request->hasFile('file')) {
             $path =  $request->file('file')->storeAs(  
                 'uploads/employees',
-                urlencode(time()) . '_' . uniqid() . '_' . $request->file->getClientOriginalName(),
+                urlencode(time()) . '_' . uniqid() . '/' . $request->file->getClientOriginalName(),
                 'public'
             );
             $upload->file = $path;
@@ -75,7 +75,7 @@ class UploadController extends Controller
                 } else {
             notify()->error(__('Failed to Create. Please try again'));
                 }
-        return redirect()->back();
+        return redirect()->route('employer.uploads.show',$request->employee_id);
         }
     }
 
@@ -92,10 +92,10 @@ class UploadController extends Controller
 
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('Uploads')), null],
+            [(__('Manage Files')), null],
         ];
 
-        return view('employer.uploads.show', compact('breadcrumbs', 'ups','id'));
+        return view('employer.Uploads.show', compact('breadcrumbs', 'ups','id'));
 
     }
 

@@ -1,7 +1,7 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -44,11 +44,11 @@
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
                                                 <!-- Edit button -->
-                                                <a href="{{ route('employer.groupchat.edit', $groupchat->id) }}"
+                                                <!-- <a href="{{ route('employer.groupchat.edit', $groupchat->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
                                                     title="Edit">
                                                     <i data-feather="edit"></i>
-                                                </a>
+                                                </a> -->
 
                                                 <!-- Delete button -->
                                                 <button type="button" class="text-danger"

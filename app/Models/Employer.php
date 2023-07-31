@@ -63,6 +63,9 @@ class Employer extends Authenticatable
     public function country(){
         return $this->belongsTo(Country::class);
     }
+    public function surcharge(){
+        return $this->hasOne(Surcharge::class);
+    }
 
     public function get_active_employees()
     {
@@ -74,6 +77,30 @@ class Employer extends Authenticatable
     {
         $inactive_employees = User::where('employer_id', $this->id)->where('status', 'like', '0')->count();
         return $inactive_employees;
+    }
+
+    public function subscription_name()
+    {
+
+                $total_active_employees = User::where('employer_id', $this->id)->where('status', '1')->count();
+
+                if($total_active_employees == 0){
+                    $plan = Subscription::first();
+                }elseif($total_active_employees > Subscription::orderBy('id', 'desc')->get()->value('range_to')){
+                    $plan = Subscription::orderBy('id', 'desc')->first();
+                }else{
+                    $plan = Subscription::where('range_from', '<=', $total_active_employees)->where('range_to', '>=', $total_active_employees)->first();
+                }
+
+                $custom_plan = CustomSubscription::where('employer_id', $this->id)->first();
+
+                if($custom_plan == null){
+                    $plan_name = $plan->plan;
+                }else{
+                    $plan_name = $custom_plan->plan;
+                }
+
+        return $plan_name;
     }
 
 }

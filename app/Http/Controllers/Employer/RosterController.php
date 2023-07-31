@@ -3,16 +3,26 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Employer\StoreRosterRequest;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\JobType;
 use App\Models\Roster;
+use App\Models\EmployerBusiness;
+use App\Models\Branch;
+use App\Models\Department;
+use App\Traits\EmployeeFilter;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\Employer\RosterExport;
+
 use Auth;
 
 class RosterController extends Controller
 {
+    use EmployeeFilter;
+    public $successStatus = 200;
     /**
      * Display a listing of the resource.
      *
@@ -21,13 +31,17 @@ class RosterController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.roster.index')],
-            [(__('Rosters')), null],
+            [(__('Dashboard')),route('employer.home') ],
+            [(__('Rosters')), route('employer.roster.index')],
+            [(__('List')), null]
         ];
 
         $rosters = Roster::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
 
-        return view('employer.roster.index', compact('breadcrumbs', 'rosters'));
+        return view('employer.roster.index', compact('breadcrumbs', 'rosters','businesses','branches','departments'));
     }
 
     /**
@@ -39,12 +53,18 @@ class RosterController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
+            [(__('Rosters')), route('employer.roster.index')],
             [(__('Create')), null]
         ];
-        $users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $projects = Project::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $users = User::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $job_types = JobType::get();
-        return view('employer.roster.create', compact('breadcrumbs','users','projects','job_types'));
+        return view('employer.roster.create', compact('breadcrumbs',
+                                                      'users',
+                                                      'job_types',
+                                                      'businesses',
+                                                      'departments'));
     }
 
     /**
@@ -54,15 +74,31 @@ class RosterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRosterRequest $request)
-    {
+    {   
+        $user = User::where('id',$request['employee'])->first();
+        $salaryType = User::findOrFail($request['employee'])->salary_type;
         $request = $request->validated();
         $roster = new Roster();
         $roster->user_id = $request['employee'];
-        $roster->project_id = $request['project'];
+        $roster->business_id = $user->business->id;
+        $roster->branch_id = $user->branch->id;
+        $roster->department_id = $user->department->id;
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
-        $roster->start_time = $request['start_time'];
-        $roster->end_time = $request['end_time'];
+        if($salaryType == 0){
+            $roster->start_time = $request['start_time'];
+            $roster->end_time = $request['end_time'];
+        }
+        else{
+            $roster->mon = $request['mon_start']."/".$request['mon_end'];
+            $roster->tue = $request['tue_start']."/".$request['tue_end'];
+            $roster->wed = $request['wed_start']."/".$request['wed_end'];
+            $roster->thu = $request['thu_start']."/".$request['thu_end'];
+            $roster->fri = $request['fri_start']."/".$request['fri_end'];
+            $roster->sat = $request['sat_start']."/".$request['sat_end'];
+            $roster->sun = $request['sun_start']."/".$request['sun_end'];
+        }
+        
         $roster->employer_id = Auth::guard('employer')->user()->id;
         $issave = $roster->save();
         if($issave){
@@ -99,7 +135,9 @@ class RosterController extends Controller
         $users = User::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $projects = Project::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $job_types = JobType::get();
-        return view('employer.roster.edit',compact('roster','breadcrumbs','users','projects','job_types'));
+        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.roster.edit',compact('roster','breadcrumbs','users','projects','job_types','businesses','departments'));
     }
 
     /**
@@ -109,15 +147,29 @@ class RosterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRosterRequest $request,Roster $roster)
-    {
+    public function update(StoreRosterRequest $request, Roster $roster)
+    {   
+        $user = User::where('id',$request['employee'])->first();
+        $salaryType = $roster->user->salary_type;
         $request = $request->validated();
         $roster->user_id = $request['employee'];
-        $roster->project_id = $request['project'];
+        $roster->business_id = $user->business->id;
+        $roster->branch_id = $user->branch->id;
+        
         $roster->start_date = $request['start_date'];
         $roster->end_date = $request['end_date'];
+        if($salaryType == 0){
         $roster->start_time = $request['start_time'];
         $roster->end_time = $request['end_time'];
+        }else{
+            $roster->mon = $request['mon_start']."/".$request['mon_end'];
+            $roster->tue = $request['tue_start']."/".$request['tue_end'];
+            $roster->wed = $request['wed_start']."/".$request['wed_end'];
+            $roster->thu = $request['thu_start']."/".$request['thu_end'];
+            $roster->fri = $request['fri_start']."/".$request['fri_end'];
+            $roster->sat = $request['sat_start']."/".$request['sat_end'];
+            $roster->sun = $request['sun_start']."/".$request['sun_end'];
+        }
         $roster->employer_id = Auth::guard('employer')->user()->id;
         $issave = $roster->save();
         if($issave){
@@ -125,7 +177,7 @@ class RosterController extends Controller
                 } else {
                     notify()->error(__('Failed to Update. Please try again'));
                 }
-                return redirect()->back();
+                return redirect()->route('employer.roster.index');
     }
 
     /**
@@ -143,5 +195,25 @@ class RosterController extends Controller
             notify()->error(__('Failed to Delete. Please try again'));
         }
         return redirect()->back();
+    }
+
+    public function roster_filter(Request $request)
+    {
+        $employerId = Auth::guard('employer')->id();
+    if ($request->ajax()){
+        $rosters = $this->rosterFilter($request,$employerId); 
+        $businesses = EmployerBusiness::where('employer_id', $employerId)->get();
+        $branches = Branch::where('employer_id', $employerId)->get();
+        $departments = Department::where('employer_id', $employerId)->get();
+        // $emp = User::find($request->employee);
+        return view('employer.roster.table.roster_list_table',compact('rosters', 'businesses','branches', 'departments'));
+    }else {
+        return response()->json(['success' => 0, 'message' => 'No data found'], $this->successStatus);
+    } 
+    }
+
+    public function roster_report(){
+        return Excel::download(new RosterExport, 'roster_report_export-'.Carbon::now().'.xlsx');
+
     }
 }

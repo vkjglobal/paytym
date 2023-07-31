@@ -7,7 +7,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Files</h6>
+                    <h6 class="card-title">Manage Files</h6>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
@@ -23,7 +23,7 @@
                                 @foreach ($ups as $up)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $up->filetype->file_type }}</td>
+                                        <td>{{ optional($up->filetype)->file_type ?? 'no data' }}</td>
                                         <td>{{basename($up->file)}}</td>
                                         <td> <div class="btn-group" role="group" aria-label="Basic example">
                                             <a href="{{route('employer.upload.download',$up->id)}}" class="btn btn-primary">Download</a>

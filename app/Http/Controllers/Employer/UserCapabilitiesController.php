@@ -18,15 +18,14 @@ class UserCapabilitiesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        {
+    { {
             $breadcrumbs = [
                 [(__('Dashboard')), route('employer.usercapabilities.index')],
                 [(__('User Capabilities')), null],
             ];
-    
-            $usercapability = UserCapabilities::with('role')->where('employer_id',Auth::guard('employer')->user()->id)->latest()->get();
-    
+
+            $usercapability = UserCapabilities::with('role')->where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
+
             return view('employer.user-capabilities.index', compact('breadcrumbs', 'usercapability'));
         }
     }
@@ -43,9 +42,9 @@ class UserCapabilitiesController extends Controller
             [(__('User Capabilities')), route('employer.usercapabilities.index')],
             [(__('Create')), null]
         ];
-        
-        $roles = Role::get();
-        return view('employer.user-capabilities.create', compact('breadcrumbs','roles'));
+
+        $roles = Role::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.user-capabilities.create', compact('breadcrumbs', 'roles'));
     }
 
     /**
@@ -76,19 +75,17 @@ class UserCapabilitiesController extends Controller
         $usercapability->calculate_payroll = $validated['calculate_payroll'];
         $usercapability->edit_deduction = $validated['edit_deduction'];
         $usercapability->employer_id = Auth::guard('employer')->user()->id;
-        $role_id = UserCapabilities::where('role_id', '=', $request->input('role_name'))->where('employer_id',$usercapability->employer_id)->first();
-         if($role_id)
-         {
-            notify()->error(__('User Capabilities already created for this role')); 
-         } 
-         else{
-              $issave = $usercapability->save();
-              if ($issave) {
-            notify()->success(__('Created successfully'));
-                } else {
-            notify()->error(__('Failed to Create. Please try again'));
-             }
- }
+        $role_id = UserCapabilities::where('role_id', '=', $request->input('role_name'))->where('employer_id', $usercapability->employer_id)->first();
+        if ($role_id) {
+            notify()->error(__('User Capabilities already created for this role'));
+        } else {
+            $issave = $usercapability->save();
+            if ($issave) {
+                notify()->success(__('Created successfully'));
+            } else {
+                notify()->error(__('Failed to Create. Please try again'));
+            }
+        }
         return redirect()->back();
     }
 
@@ -117,9 +114,9 @@ class UserCapabilitiesController extends Controller
             [(__('User Capabilities')), route('employer.usercapabilities.index')],
             [(__('Edit')), null]
         ];
-        $roles = Role::get();
-       
-        return view('employer.user-capabilities.edit', compact('breadcrumbs', 'usercapability','roles'));
+        $roles = Role::where('employer_id',Auth::guard('employer')->user()->id)->get();
+
+        return view('employer.user-capabilities.edit', compact('breadcrumbs', 'usercapability', 'roles'));
     }
 
     /**
@@ -155,7 +152,7 @@ class UserCapabilitiesController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->back();
+        return redirect()->route('employer.usercapabilities.index');
     }
 
     /**
@@ -175,5 +172,20 @@ class UserCapabilitiesController extends Controller
             notify()->error(__('Failed to Delete. Please try again'));
         }
         return redirect()->back();
+    }
+
+    public function userrolecreate()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('User Roles')), route('employer.usercapabilities.index')],
+            [(__('Create')), null]
+        ];
+
+        $roles = Role::get();
+        return view('employer.user-role.create', compact('breadcrumbs', 'roles'));
+
+
+
     }
 }

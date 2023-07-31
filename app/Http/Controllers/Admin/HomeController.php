@@ -5,8 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Employer;
 use App\Models\Contact;
+use App\Models\EmployerSubscription;
+use App\Models\Project;
 use App\Models\Subscription;
+use App\Models\SupportTicket;
+use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class HomeController extends Controller
 {
@@ -25,10 +30,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index() {
-        $employers= Employer::get()->all();
-        $contacts= Contact::get()->all();
-        $subscriptions= Subscription::get()->all();
-        return view('admin.home',compact('employers','contacts','subscriptions'));
+    public function index()
+    {
+        $employers = Employer::all();
+        $contacts = Contact::get()->all();
+        $subscriptions = Subscription::get()->all();
+        $projects = Project::get()->all();
+
+        //$estimate=EmployerSubscription::with('subscription')->all();
+
+//         foreach($estimate as $key => $value)
+//         {
+// $totalestimate=
+//         }
+
+        return view('admin.home', compact('employers', 'contacts', 'subscriptions', 'projects'));
     }
 }

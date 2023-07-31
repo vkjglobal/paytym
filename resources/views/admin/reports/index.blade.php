@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
-    {{-- @component('admin.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('admin.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -20,6 +20,33 @@
                           </button> 
                     
                     </div>
+
+                    {{-- <form method="POST" action="{{ route('admin.report.invoice.filter') }}" enctype="multipart/form-data">
+                        @csrf
+                        
+                        <div class="row mt-4 mb-4" id="" >
+                            
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label">Plan<span class="text-danger"></span></label>
+                                    <select name="status" id="status1" class="@if ($errors->has('status')) is-invalid @endif" >
+                                        <option selected="true" value="" disabled>All</option>
+                                        @foreach ($plans as $plan)
+                                        <option value="{{$plan->id}}" {{ old('status') === 0 ? 'selected' : '' }}>{{$plan->plan}}</option>
+                                        @endforeach
+                                        <option value="0" {{ old('status') === 0 ? 'selected' : '' }}>Custom</option>
+                                        
+                                    </select>                                
+                                    <div class="invalid-feedback">{{ $errors->first('status') }}</div>
+                                </div>
+                            </div><!-- Col -->
+                            
+                            <div class="col-sm-2"> 
+                                <button class="btn btn-info mt-4 p-2" id="filter_employee">Filter</button>
+                            </div>
+                        </div><!-- Row -->
+                    </form> --}}
+
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
@@ -28,14 +55,12 @@
                                     <th>Company</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Plan</th>
                                     <th>Company phone</th>
                                     <th>City/Town</th>
+                                    <th>Date of Registration</th>
                                     <th>Active Employees</th>
                                     <th>Inctive Employees</th>
-                                    {{-- <th>View</th> --}}
-                                    {{-- <th>FNPF</th>
-                                    <th>Status</th>
-                                    <th>Actions</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,11 +70,12 @@
                                         <td>{{ $company->company }}</td>
                                         <td>{{ $company->name }}</td>
                                         <td>{{ $company->email }}</td>
+                                        <td>{{ $company->subscription_name() }}</td>
                                         <td>{{ $company->company_phone  }}</td>
                                         <td>{{ $company->city }}</td>
+                                        <td>{{ optional($company->created_at)->format('d-M-Y') ?? 'no data' }}</td>
                                         <td>{{ $company->get_active_employees() }}</td>
                                         <td>{{ $company->get_inactive_employees() }}</td>
-                                       
                                     </tr>
                                 @endforeach
                             </tbody>

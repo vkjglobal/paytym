@@ -1,7 +1,7 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -16,8 +16,8 @@
                                     <th>Name</th>
                                     <th>Date</th>
                                     <th>Check-in-time</th>
-                                    <th>Check-out-time</th>
-                                    <th>Status</th>
+                                    <th>Extra Hours</th>
+                                    <!-- <th>Status</th> -->
                                     <th>Action</th>
 
                                 </tr>
@@ -28,15 +28,17 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>@isset($attendance->user->first_name) {{ $attendance->user->first_name }}@endisset</td>
                                         <td>{{ $attendance->date }}</td>
-                                        <td>{{ date('H:i', strtotime($attendance->check_in)) }}</td>
-                                        <td>{{ date('H:i', strtotime($attendance->check_out)) }}</td>
-                                        <td>
+                                        <td>{{ date('h:i A', strtotime($attendance->check_in)) }}</td>
+                                        <td>{{ $attendance->extra_hours }}</td>
+                                        <!-- <td>{{ date('H:i', strtotime($attendance->check_out)) }}</td> -->
+                                        
+                                        <!-- <td>
                                             @if($attendance->status == 1)
                                                 <a href="#" class="btn btn-success">Fullday</a>
                                             @else
                                                 <a href="#" class="btn btn-danger">Halfday</a>   
                                             @endif
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 

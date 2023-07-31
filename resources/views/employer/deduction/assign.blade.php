@@ -1,14 +1,14 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title float-left m-2">Assign Deduction</h6>
-                        <button name="reject" type="submit" value="" class="btn btn-success m-3 float-right" title="Reject"
+                        <button name="reject" type="submit" value="" class="btn btn-success m-3 float-right" title="ADD"
                              data-toggle="modal" data-target="#assigndeduction">
                                 ADD
                         </button>
@@ -29,8 +29,38 @@
                                             @csrf
                                             <div class="modal-body">
                                                 <div class="form-group">
+                                                    <label class="control-label">Business<span class="text-danger"></span></label>
+                                                    <select name="business" id="business1" class="@if ($errors->has('business')) is-invalid @endif" >
+                                                        <option selected="true" value=" ">All Business</option>
+                                                        @foreach($businesses as $business)
+                                                        <option value="{{$business->id}}">{{$business->name}}</option>
+                                                        @endforeach
+                                                    </select>                                
+                                                    <div class="invalid-feedback">{{ $errors->first('business') }}</div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Branch<span class="text-danger"></span></label>
+                                                    <select name="branch" id="branch1" class="@if ($errors->has('branch')) is-invalid @endif" >
+                                                        <option selected="true" value=" ">All Branch</option>
+                                                        @foreach($branches as $branch)
+                                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                                        @endforeach
+                                                    </select>                                
+                                                    <div class="invalid-feedback">{{ $errors->first('branch') }}</div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Department<span class="text-danger"></span></label>
+                                                    <select name="department" id="department" class="@if ($errors->has('department')) is-invalid @endif" >
+                                                        <option selected="true" value=" ">All Department</option>
+                                                        @foreach($departments as $department)
+                                                        <option value="{{$department->id}}">{{$department->dep_name}}</option>
+                                                        @endforeach
+                                                    </select>                                
+                                                    <div class="invalid-feedback">{{ $errors->first('department') }}</div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="reply_message">User</label>
-                                                    <select name="employee_id" id="">
+                                                    <select name="employee_id" id="user">
                                                         <option disabled="disabled" selected>Select User</option>
                                                         @foreach($users as $user)
                                                             <option value="{{$user->id}}">{{$user->first_name}}</option>
@@ -48,7 +78,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="reply_message">Deduction Amount</label>
-                                                    <input type="number" class="form-control" name="rate"  required>
+                                                    <input type="number" step=any class="form-control" name="rate"  required>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -78,7 +108,9 @@
                                         <td>@isset($assign_deduction->employee->first_name)
                                             {{ $assign_deduction->employee->first_name }}
                                         @endisset</td>
-                                        <td>{{ $assign_deduction->deduction->name }}</td>
+                                        <td>@isset($assign_deduction->deduction->name)
+                                            {{ $assign_deduction->deduction->name }}
+                                        @endisset</td>
                                         <td>{{ $assign_deduction->rate }}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
@@ -87,6 +119,8 @@
                                                     data-toggle="modal" data-target="#assigndeductionupdate{{$assign_deduction->id}}">
                                                         <i data-feather="edit" ></i>
                                                 </button>
+                                                
+                                                
 
                                                 <!-- Send Reply Modal -->
                                                         <div class="modal fade" id="assigndeductionupdate{{$assign_deduction->id}}" tabindex="-1" role="dialog"
@@ -177,7 +211,81 @@
     <script src="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('admin_assets/js/data-table.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script type="text/javascript">
+        let token = "{{csrf_token()}}";
+        (function($) {
+            $('#business1').change(function(e){
+                var id = $(this).val();
+                $('#branch1').find('option').not(':first').remove();
 
-  
-  
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_branch/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        var len = 0;
+                        if(response != null){
+                            len = response['data'].length;
+                        }
+                        if(len>0){
+                            for(var i=0;i<len;i++){
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].name;
+                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                $('#branch1').append(option);
+                            }
+                        }
+                    }
+                });
+            });
+            $('#branch1').change(function(e){
+                var id = $(this).val();
+                $('#department').find('option').not(':first').remove();
+
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_department/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        var len = 0;
+                        if(response != null){
+                            len = response['data'].length;
+                        }
+                        if(len>0){
+                            for(var i=0;i<len;i++){
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].dep_name;
+                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                $('#department').append(option);
+                            }
+                        }
+                    }
+                });
+            });
+            $('#department').change(function(e){
+                var id = $(this).val();
+                $('#user').find('option').not(':first').remove();
+
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_user/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        var len = 0;
+                        if(response != null){
+                            len = response['data'].length;
+                        }
+                        if(len>0){
+                            for(var i=0;i<len;i++){
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].first_name;
+                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                $('#user').append(option);
+                            }
+                        }
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
 @endpush

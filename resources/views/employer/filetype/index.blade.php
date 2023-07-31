@@ -14,6 +14,7 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>File Type</th>
+                                    <th>Visible Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -22,6 +23,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $filetype->file_type }}</td>
+                                        <td>{{ $filetype->visible_status == '0' ? 'All' : 'HR only' }}</td>
                                         
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">

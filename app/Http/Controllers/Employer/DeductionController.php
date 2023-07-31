@@ -19,7 +19,7 @@ class DeductionController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
-            [(__('deductions')), null],
+            [(__('Deductions')), null],
         ];
 
         $deductions = Deduction::where('employer_id',Auth::guard('employer')->user()->id)->get();
@@ -36,6 +36,7 @@ class DeductionController extends Controller
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
+            [(__('Deductions')), route('employer.deduction.index')],
             [(__('Create')), null]
         ];
         
@@ -118,7 +119,7 @@ class DeductionController extends Controller
         } else {
             notify()->error(__('Failed to Update. Please try again'));
         }
-        return redirect()->back();
+        return redirect()->route('employer.deduction.index');
     }
 
     /**

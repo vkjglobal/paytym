@@ -14,17 +14,27 @@ class OverTimeController extends Controller
     //
     public function list_overtime(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'employer_id' =>  'required',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()->first()
-            ], 400);
+        // $validator = Validator::make($request->all(), [
+        //     'employer_id' =>  'required',
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'message' => $validator->errors()->first()
+        //     ], 400);
+        // }
+
+        if(isset($request->employer_id))
+        {
+            $employer_id = $request->employer_id;
+            $overtime_requests = Overtime::with('user.branch')->orderBy('id', 'desc')->where('employer_id', $employer_id)->get();
+        }
+        else
+        {
+            $employee_id = $request->employee_id;
+            $overtime_requests = Overtime::with('user.branch')->orderBy('id', 'desc')->where('employee_id', $employee_id)->get();
         }
 
-        $employer_id = $request->employer_id;
-        $overtime_requests = Overtime::where('employer_id', $employer_id)->get();
+    
         if ($overtime_requests) {
             return response()->json([
                 'message' => "Listed Successfully",
@@ -98,12 +108,14 @@ class OverTimeController extends Controller
                 if (isset($request->reason)) {
                     $overtime->reason = $request->reason;
                 }
+                $overtime->status = '1';
             } else {
                 return response()->json([
                     'message' => "No Records Found"
                 ], 200);
             }
         }
+        // $overtime->status ='1';
         $issave = $overtime->save();
         if ($issave) {
             return response()->json([
@@ -117,7 +129,38 @@ class OverTimeController extends Controller
         }
     }
 
-    // public function edit_overtime(Request $request)
-    // {
-    // }
+    public function hr_store_overtime(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+            'employee_id' => 'required',
+            'date' => 'required',
+            'total_hours' => 'required',
+            'reason' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+
+        $overtime = new Overtime();
+        $overtime->employer_id = $request->employer_id;
+        $overtime->employee_id = $request->employee_id;
+        $overtime->date = $request->date;
+        $overtime->total_hours = $request->total_hours;
+        $overtime->reason = $request->reason;
+        $overtime->status = '1';
+        $issave = $overtime->save();
+
+        if ($issave) {
+            return response()->json([
+                'message' => "Overtime added Successfully",
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Something went Wrong"
+            ], 400);
+        }
+    }
 }

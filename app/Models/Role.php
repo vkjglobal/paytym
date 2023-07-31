@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    public $timestamps = false;
     use HasFactory;
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class,'position');
     }
 }

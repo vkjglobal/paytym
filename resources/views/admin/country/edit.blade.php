@@ -31,7 +31,7 @@
                 <div class="row">
                 <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Tax<span class="text-danger">*</span></label>
+                                <!-- <label class="control-label">Tax<span class="text-danger">*</span></label> -->
                                 <input type="number" class="form-control @if ($errors->has('cms_type')) is-invalid @endif" name="tax" value="{{ old('tax',$country->tax) }}" placeholder="Enter Tax">
                                 <div class="invalid-feedback">{{ $errors->first('tax') }}</div>
                             </div>
@@ -39,7 +39,7 @@
 
                 <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">SRT<span class="text-danger">*</span></label>
+                                <!-- <label class="control-label">SRT<span class="text-danger">*</span></label> -->
                                 <input type="number" class="form-control @if ($errors->has('srt')) is-invalid @endif" name="srt" value="{{ old('srt',$country->srt_tax) }}" placeholder="Enter SRT">
                                 <div class="invalid-feedback">{{ $errors->first('srt') }}</div>
                             </div>
@@ -47,7 +47,7 @@
 
                 <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">ECAL<span class="text-danger">*</span></label>
+                                <!-- <label class="control-label">ECAL<span class="text-danger">*</span></label> -->
                                 <input type="number" class="form-control @if ($errors->has('ecal')) is-invalid @endif" name="ecal" value="{{ old('ecal',$country->ecal_tax) }}" placeholder="Enter ECAL">
                                 <div class="invalid-feedback">{{ $errors->first('ecal') }}</div>
                             </div>
@@ -55,7 +55,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">FNPF<span class="text-danger">*</span></label>
+                                <!-- <label class="control-label">FNPF<span class="text-danger">*</span></label> -->
                                 <input type="number" class="form-control @if ($errors->has('fnpf')) is-invalid @endif" name="fnpf" value="{{ old('fnpf',$country->fnpf) }}" placeholder="Enter FNPF">
                                 <div class="invalid-feedback">{{ $errors->first('fnpf') }}</div>
                             </div>

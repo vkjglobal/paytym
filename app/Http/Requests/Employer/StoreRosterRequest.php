@@ -25,11 +25,24 @@ class StoreRosterRequest extends FormRequest
     {
         return [
             'employee' => 'required',
-            'project' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
+            'start_time' => 'nullable',
+            'end_time' => 'nullable',
             'start_date' => 'required',
             'end_date' => 'required',
+            'mon_start' => 'nullable',
+            'mon_end' => 'nullable',
+            'tue_start' => 'nullable',
+            'tue_end' => 'nullable',
+            'wed_start' => 'nullable',
+            'wed_end' => 'nullable',
+            'thu_start' => 'nullable',
+            'thu_end' => 'nullable',
+            'fri_start' => 'nullable',
+            'fri_end' => 'nullable',
+            'sat_start' => 'nullable',
+            'sat_end' => 'nullable',
+            'sun_start' => 'nullable',
+            'sun_end' => 'nullable',
         ];
     }
 }

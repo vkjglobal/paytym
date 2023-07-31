@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreEmployerRequest;
 use App\Http\Requests\Admin\UpdateEmployerRequest;
+use App\Mail\EmployerRegisterEmail;
 use App\Models\Employer;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+
 
 class EmployerController extends Controller
 {
@@ -64,7 +67,8 @@ class EmployerController extends Controller
         $employer->company = $validated['company'];
         $employer->name = $validated['name'];
         $employer->email = $validated['email'];
-        $employer->password = Hash::make($employer->email);
+        $password = Str::random(8);
+        $employer->password=Hash::make($password);
         $employer->phone = $validated['phone'];
         $employer->company_phone = $validated['company_phone'];
         $employer->street = $validated['street'];
@@ -73,6 +77,7 @@ class EmployerController extends Controller
         $employer->country_id = $validated['country'];
         $employer->tin = $validated['tin'];
         $employer->website = $validated['website'];
+        $employer->status = '1';
 
         if ($request->hasFile('registration_certificate')) {
             $path =  $request->file('registration_certificate')->storeAs(
@@ -100,10 +105,12 @@ class EmployerController extends Controller
             );
             $employer->logo = $path;
         }
-
         $res = $employer->save();
 
         if ($res) {
+
+            Mail::to($validated['email'])->send(new EmployerRegisterEmail($employer,$password));
+
             notify()->success(__('Created successfully'));
         } else {
             notify()->error(__('Failed to Create. Please try again'));

@@ -1,8 +1,8 @@
 @extends('employer.layouts.app')
 
 @section('content')
-{{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-@endcomponent --}}
+@component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+@endcomponent
 
 <div class="row">
     <div class="col-md-12 stretch-card">
@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label class="control-label">Admin<span class="text-danger">*</span></label>
                                 <select name="employee" class="@if ($errors->has('employee')) is-invalid @endif" >
-                                    <option selected="true" disabled="disabled" >Select User</option>
+                                    <option selected="true" disabled="disabled" >Select Admin</option>
                                     @foreach($employees as $employee)
                                         <option value="{{$employee->id}}">{{$employee->first_name}}</option>
                                     @endforeach

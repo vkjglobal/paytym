@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Employer;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EmployerBusiness;
 use App\Http\Requests\Employer\StoreBusinessRequest;
+use Illuminate\Contracts\View\View;
+
+
 use Auth;
+
 
 class BusinessController extends Controller
 {
@@ -15,14 +20,16 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() : View
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.department.index')],
-            [(__('departments')), null],
+            [(__('Business')), null],
         ];
 
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+
+
 
         return view('employer.business.index', compact('breadcrumbs', 'businesses'));
     }
@@ -32,7 +39,7 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() : View
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
@@ -83,7 +90,7 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(EmployerBusiness $business)
+    public function edit(EmployerBusiness $business) : View
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
@@ -113,7 +120,7 @@ class BusinessController extends Controller
             } else {
                 notify()->error(__('Failed to Update. Please try again'));
             }
-            return redirect()->back();
+            return redirect()->route('employer.business.index');
     }
 
     /**

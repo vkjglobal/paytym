@@ -1,13 +1,13 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Attendance Create</h6>
+                    <h6 class="card-title">Add Attendance </h6>
                     <form method="POST" action="{{ route('employer.attendance.store') }}" enctype="multipart/form-data">
                         @csrf
                         
@@ -45,8 +45,21 @@
                                         name="date1" value=""   >
                                     <div class="invalid-feedback">{{ $errors->first('date1') }}</div>
                                 </div>
-                            </div><!-- Col -->
+                            </div>
+
+
                             <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label"> Extra Hours <span class="text-danger"></span></label>
+                                    <input type="time"
+                                        class="form-control @if ($errors->has('extra_hours')) is-invalid @endif"
+                                        name="extra_hours" value=""   >
+                                    <div class="invalid-feedback">{{ $errors->first('extra_hours') }}</div>
+                                </div>
+                            </div>
+
+                            <!-- Col -->
+                            <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label"> Check-out-date <span class="text-danger"></span></label>
                                     <input type="datetime-local"
@@ -54,9 +67,10 @@
                                         name="date2" value=""     >
                                     <div class="invalid-feedback">{{ $errors->first('date2') }}</div>
                                 </div>
-                            </div><!-- Col --><br>
+                            </div> -->
+                            <!-- Col --><br>
                             
-                            <div class="col-sm-4">
+                            <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label"> Status <span class="text-danger"></span></label>
                                     <select name="status" id="">
@@ -68,7 +82,9 @@
                                         name="status" value=""   > --}}
                                     <div class="invalid-feedback">{{ $errors->first('status') }}</div>
                                 </div>
-                            </div><!-- Col -->
+                            </div> -->
+                            
+                            <!-- Col -->
                         
 
                     </div>

@@ -26,6 +26,7 @@ use App\Http\Controllers\Employer\ReportController;
 use App\Http\Controllers\Api\Employee\PayrollCalculationController;
 use App\Http\Controllers\TwilioSMSController;
 use App\Http\Controllers\Api\Employee\EmployeeDashboardController;
+use App\Http\Controllers\Api\Employee\MpaisaController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
@@ -152,27 +153,30 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     
 
-    //
+    
     //21-02-23
     Route::post('list_overtime', [OverTimeController::class, 'list_overtime']);
+    Route::post('hr_store_overtime', [OverTimeController::class, 'hr_store_overtime']);
     Route::post('overtime_request_approve_decline_edit', [OverTimeController::class, 'overtime_request_approve_decline_edit']);
     Route::post('list_file_types', [UploadsController::class, 'list_file_types']);
+    Route::post('list_employee_file_types', [UploadsController::class, 'list_employee_file_types']);
     Route::post('upload_files', [UploadsController::class, 'upload_files']);
+    Route::post('employee_upload_files', [UploadsController::class, 'employee_upload_files']);
 
     //24-02-23
     Route::post('list_files', [UploadsController::class, 'list_files']);
     Route::post('list_projects', [ProjectsController::class, 'list_projects']);
     Route::post('project_details', [ProjectsController::class, 'project_details']);
-     Route::post('list_files', [UploadsController::class, 'list_files']);
-     Route::post('list_projects', [ProjectsController::class, 'list_projects']);
-     Route::post('project_details', [ProjectsController::class, 'project_details']);
+    
 
      //25-02-23
      Route::post('admin_dashboard', [LeaveRequestController::class, 'admin_dashboard']);
 
          //20-02-23
     Route::post('payroll-calculation', [PayrollCalculationController::class,'payroll']);
+    Route::post('payroll-list', [DeductionsController::class,'payroll_list']);
      
+    Route::post('get-leave-types',[LeaveRequestController::class,'get_leave_types']) ;
      
 
     //25-02-23
@@ -180,4 +184,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('sms_send_api', [TwilioSMSController::class, 'sms_send_api']);
     Route::post('split_payment', [SplitpaymentController::class, 'split_payment']);
+    Route::post('split_payment_list', [SplitpaymentController::class, 'split_payment_list']);
+
+
+    //06-02-23
+    //Route::post('split_payment', [SplitpaymentController::class, 'split_payment']);
+
+    //
+    Route::post('apply_device_id', [AuthController::class, 'apply_device_id']);
+
+    //mpaisa
+    Route::get('mpaisa', [MpaisaController::class, 'send_req']);
+
 });

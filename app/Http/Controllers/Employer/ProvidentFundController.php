@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Models\EmployerBusiness;
 use App\Models\ProvidentFund;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,10 +20,11 @@ class ProvidentFundController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('FNPF')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Provident Fund')), null],
         ];
         $employees = ProvidentFund::where('employer_id', Auth::guard('employer')->id())->get();
+
         return view('employer.providentfund.index', compact('breadcrumbs','employees'));
     }
 
@@ -34,11 +36,13 @@ class ProvidentFundController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
-            [(__('FNPF')), null],
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Provident Fund')), route('employer.providentfund.index')],
+            [(__('Create')), null],
         ];
-        $employees = User::where('employer_id', Auth::guard('employer')->id())->get();
-        return view('employer.providentfund.create', compact('breadcrumbs','employees'));
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $business = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        return view('employer.providentfund.create', compact('breadcrumbs','employees','business'));
     }
 
     /**
@@ -60,7 +64,8 @@ class ProvidentFundController extends Controller
         $data->user_rate = $request->user_rate;
         $data->employer_rate = $request->employer_rate;
 
-        $user = ProvidentFund::where('user_id', $request->employee)->first();
+        $user = ProvidentFund::where('employer_id', Auth::guard('employer')->id())
+                            ->where('user_id', $request->employee)->first();
 
         if($user){
             notify()->error(__('Already exists'));

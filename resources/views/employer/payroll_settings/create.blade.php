@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Over time rate<span class="text-danger">*</span></label>
-                                    <input type="number"
+                                    <input type="number" step=any
                                         class="form-control @if ($errors->has('over_time_rate')) is-invalid @endif"
                                         name="over_time_rate" value="{{ old('over_time_rate') }}" placeholder="Enter Over time rate" required>
                                     <div class="invalid-feedback">{{ $errors->first('over_time_rate') }}</div>
@@ -23,7 +23,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Double time rate <span class="text-danger">*</span></label>
-                                    <input type="number"
+                                    <input type="number" step=any
                                         class="form-control @if ($errors->has('double_time_rate')) is-invalid @endif"
                                         name="double_time_rate" value="{{ old('double_time_rate') }}" placeholder="Enter Double time rate" required>
                                     <div class="invalid-feedback">{{ $errors->first('double_time_rate') }}</div>

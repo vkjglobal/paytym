@@ -1,7 +1,7 @@
 @extends('employer.layouts.app')
 @section('content')
-    {{-- @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
-    @endcomponent --}}
+    @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+    @endcomponent
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -43,7 +43,7 @@
                                     <div class="invalid-feedback">{{ $errors->first('date1') }}</div>
                                 </div>
                             </div><!-- Col -->
-                            <div class="col-sm-4">
+                            <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label"> Check-out-date <span class="text-danger"></span></label>
                                     <input type="text"
@@ -51,11 +51,12 @@
                                         name="date2" value="{{old('date2', $attendance->check_out) }}"     >
                                     <div class="invalid-feedback">{{ $errors->first('date2') }}</div>
                                 </div>
-                            </div><!-- Col --><br>
+                            </div> -->
+                            <!-- Col --><br>
                             <div class="col-sm-4">
                                 
                             </div><!-- Col -->
-                            <div class="col-sm-4">
+                            <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label"> Status <span class="text-danger"></span></label>
                                     <select name="status" id="">
@@ -64,7 +65,8 @@
                                     </select>
                                     <div class="invalid-feedback">{{ $errors->first('status') }}</div>
                                 </div>
-                            </div><!-- Col -->
+                            </div> -->
+                            <!-- Col -->
                         
 
                     </div>

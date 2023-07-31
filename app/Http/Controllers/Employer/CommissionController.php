@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Commission;
+use App\Models\Department;
+use App\Models\EmployerBusiness;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,13 +17,16 @@ class CommissionController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.project.index')],
+            [(__('Dashboard')), route('employer.home')],
             [(__('Commission')), null],
         ];
         $employer_id = Auth::guard('employer')->id();
-        $users = User::where('employer_id', $employer_id)->get();
+        $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
         $commissions = Commission::where('employer_id', $employer_id)->get();
-        return view('employer.commission.index', compact('breadcrumbs','commissions', 'users'));
+        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        return view('employer.commission.index', compact('businesses','branches','departments','breadcrumbs','commissions', 'users'));
     }
 
     /**
@@ -90,13 +96,7 @@ class CommissionController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         // $employee = Commission::where('user_id', $request->employee_id)->first();
