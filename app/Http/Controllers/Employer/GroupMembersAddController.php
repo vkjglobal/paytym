@@ -143,6 +143,7 @@ class GroupMembersAddController extends Controller
              
             return redirect()->route('employer.groupmember.index');
     }
+}
 
     /**
      * Remove the specified resource from storage.

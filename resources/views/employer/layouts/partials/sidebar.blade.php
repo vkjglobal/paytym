@@ -1181,6 +1181,30 @@
 
             </li>
 
+            <li class="nav-item {{ request()->is('employer/meeting*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#meeting" role="button" aria-expanded="false" aria-controls="meeting">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Meetings</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse  {{ request()->is('employer/meeting*') ? 'show' : '' }}" id="meeting">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('employer.meeting.create')}}" class="nav-link {{ request()->is('employer/meeting/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('employer.meeting.index') }}" class="nav-link {{ request()->is('employer/meeting') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </li>
+
+
       
 
 

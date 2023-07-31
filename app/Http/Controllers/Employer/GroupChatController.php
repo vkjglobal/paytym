@@ -144,6 +144,7 @@ class GroupChatController extends Controller
              
             return redirect()->route('employer.groupchat.index');
     }
+}
 
     /**
      * Remove the specified resource from storage.

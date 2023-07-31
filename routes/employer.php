@@ -39,6 +39,7 @@ use App\Http\Controllers\Employer\SplitPaymentController;
 use App\Http\Controllers\Employer\UserRoleController;
 use App\Http\Controllers\Employer\AssignBenefitController;
 use App\Http\Controllers\Employer\InvoiceController;
+use App\Http\Controllers\Employer\MeetingController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -305,7 +306,8 @@ Route::middleware('employer.auth')->group(function () {
 
     Route::get('view_invoice/{id}',[InvoiceController::class,'view_invoice'])->name('view_invoice');
 
-
-
+    //Meetings
+    Route::resource('meeting', MeetingController::class)->except(['show']);
+    Route::get('meeting/view/{id}', [MeetingController::class, 'view_details'])->name('meeting.details');
   });
 
