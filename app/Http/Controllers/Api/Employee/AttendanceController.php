@@ -233,11 +233,11 @@ class AttendanceController extends Controller
         $check_in_time = Employer::select('check_in_time')->where('id', $employer_id)->value('check_in_time');
         $check_out_time = Employer::select('check_out_time')->where('id', $employer_id)->value('check_out_time');
         $ontime = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::today()->format('Y'))
-                            ->whereTime('check_in', '<=', $check_in_time)->count();
+            ->whereTime('check_in', '<=', $check_in_time)->count();
         $late = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::today()->format('Y'))
-                            ->whereTime('check_in', '>', $check_in_time)->count(); 
+            ->whereTime('check_in', '>', $check_in_time)->count();
         $earlyout = Attendance::where('user_id', $user_id)->whereYear('date', Carbon::today()->format('Y'))
-                            ->whereTime('check_out', '<', $check_out_time)->count(); 
+            ->whereTime('check_out', '<', $check_out_time)->count();
         $leaves = LeaveRequest::where('user_id', $user_id)->where('status', 1)->count();
 
         return response()->json([
@@ -270,27 +270,27 @@ class AttendanceController extends Controller
         $employer_id = $user->employer_id;
 
         $roster = Roster::where('user_id', $user_id)->where('start_date', '<=', Carbon::today())
-                                ->where('end_date', '>=', Carbon::today())->get();
+            ->where('end_date', '>=', Carbon::today())->get();
 
-        $pending_attendance = Attendance::with('user.branch:id,name')->where('employer_id',$request->employer_id)->where('approve_reject',null)->orderBy('id', 'desc')->get(); // PayRoll
-       // $pending_attendance = Attendance::where('user_id', $user_id)->whereNull('approve_reject')->orderBy('id', 'desc')->get();
-        if(!$roster->isEmpty()){
-            $check_in_time = Roster::where('user_id', $user_id)->value('start_time');    
-        }else{
-            $check_in_time = Employer::select('check_in_time')->where('id', $request->employer_id)->value('check_in_time');    
+        $pending_attendance = Attendance::with('user.branch:id,name')->where('employer_id', $request->employer_id)->where('approve_reject', null)->orderBy('id', 'desc')->get(); // PayRoll
+        // $pending_attendance = Attendance::where('user_id', $user_id)->whereNull('approve_reject')->orderBy('id', 'desc')->get();
+        if (!$roster->isEmpty()) {
+            $check_in_time = Roster::where('user_id', $user_id)->value('start_time');
+        } else {
+            $check_in_time = Employer::select('check_in_time')->where('id', $request->employer_id)->value('check_in_time');
         }
-        
+
         $history = [];
         $history = Attendance::with('user.branch:id,name')->where('employer_id', $request->employer_id)
-                                ->whereDate('date', $request->date)->get();
+            ->whereDate('date', $request->date)->get();
         $present = Attendance::where('employer_id', $request->employer_id)->whereNotNull('check_in')
-                                ->whereDate('date', $request->date)->count();
+            ->whereDate('date', $request->date)->count();
         // $absent = Attendance::where('employer_id', $request->employer_id)->whereNull('check_in')
         //                      ->whereDate('date', $request->date)->count();
         // $absent = LeaveRequest::where('employer_id', $request->employer_id)->where('status', 1)
         //                         ->whereBetween('start_date','end_date', $request->date)->count();
         $late = Attendance::where('employer_id', $request->employer_id)->whereDate('date', $request->date)
-                                ->whereTime('check_in', '>', $check_in_time)->count();
+            ->whereTime('check_in', '>', $check_in_time)->count();
         $total_count = User::where('employer_id', $request->employer_id)->count();
         $absent = $total_count - $present;
         return response()->json([
@@ -302,5 +302,74 @@ class AttendanceController extends Controller
             'total_count' => $total_count,
             'pending_attendance' => $pending_attendance,
         ], 200);
+    }
+
+
+    // 01-08-23 Robin
+    public function attendance_by_hr(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+            'employee_id' => 'required',
+            'check_in_time' => 'required',
+         //   'check_out_time' => 'required',
+            'date' => 'required',
+        ]);
+
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+
+
+        // $now = new \DateTime();
+         $attendance=Attendance::where('date',$request->date)->where('user_id',$request->employee_id)->first();
+if($attendance)
+{
+    $attendance->user_id = $request->employee_id;
+    $attendance->employer_id = $request->employer_id;
+    $attendance->check_in = $request->check_in_time;
+    $attendance->date = $request->date;
+    if (isset($request->check_out_time)) {
+        $attendance->check_out = $request->check_out_time;
+    }
+    $res = $attendance->save();
+    $flag=0;
+}
+else{
+    $attendance = new Attendance();
+    $attendance->user_id = $request->employee_id;
+    $attendance->employer_id = $request->employer_id;
+    $attendance->check_in = $request->check_in_time;
+    $attendance->date = $request->date;
+    if (isset($request->check_out_time)) {
+        $attendance->check_out = $request->check_out_time;
+    }
+    $res = $attendance->save();
+    $flag=1;
+}
+     
+
+        if ($res) {
+            if($flag==0)
+            {
+                return response()->json([
+                    'message' => "Attendance Updated Successfully",
+                ], 200);
+            }
+            else
+            {
+                return response()->json([
+                    'message' => "Attendance Addedd Successfully",
+                ], 200);
+            }
+           
+        } else {
+            return response()->json([
+                'message' => "Failed to Add"
+            ], 400);
+        }
     }
 }
