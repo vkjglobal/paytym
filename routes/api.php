@@ -209,6 +209,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
       // Get Department
       Route::post('get_department', [DepartmentController::class, 'get_department']);
 
+      // 01-07-23
+
+      // Attendance by HR
+      Route::post('attendance_by_hr', [AttendanceController::class, 'attendance_by_hr']);
 
       
 

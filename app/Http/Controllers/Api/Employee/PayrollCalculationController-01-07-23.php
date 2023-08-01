@@ -31,8 +31,7 @@ class PayrollCalculationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'employer_id' => 'required',
-            'flag' => 'required',
-           // 'id.*' => 'required'
+            // 'payroll_status' => 'required',
         ]);
         $flag_payroll = 0;
         //if validation fails
@@ -43,40 +42,17 @@ class PayrollCalculationController extends Controller
         }
 
         $EmployerId = $request->employer_id;
-        $id = $request->id;
-        $flag = $request->flag;
-        $pending_leaves = 0;
-        $pending_overtime = 0;
-        $pending_attendance = 0;
-
-        if ($flag == "business") {
-            foreach ($id as $id) {
-                $employees = User::where('business_id', $id)->get();
-            }
-        } else if ($flag == "branch") {
-            foreach ($id as $id) {
-                $employees = User::where('branch_id', $id)->get();
-            }
-        } else if ($flag =="department") {
-            foreach ($id as $id) {
-                $employees = User::where('department_id', $id)->get();
-            }
-        } else if ($flag == "all") {
-            $employees = User::where('employer_id', $EmployerId)->get();
-            //Checking for pending approval or rejection leaves , attendance or overtime
-            $pending_leaves = LeaveRequest::where('employer_id', $request->employer_id)->where('status', '0')->get();
-            $pending_overtime = Overtime::where('employer_id', $request->employer_id)->where('status', '0')->get();
-            $pending_attendance = Attendance::where('employer_id', $request->employer_id)->where('approve_reject', null)->get();
-        }
-        else
-          {
-             foreach($id as $id)
-             {
-                $employees[] = User::where('id', $id)->first();
-             }
-        }
 
 
+
+
+        $employees = User::where('employer_id', $EmployerId)->get();
+
+
+        //Checking for pending approval or rejection leaves , attendance or overtime
+        $pending_leaves = LeaveRequest::where('employer_id', $request->employer_id)->where('status', '0')->get();
+        $pending_overtime = Overtime::where('employer_id', $request->employer_id)->where('status', '0')->get();
+        $pending_attendance = Attendance::where('employer_id', $request->employer_id)->where('approve_reject', null)->get();
 
         if ((count($pending_leaves) > 0)) {
             return response()->json([
@@ -93,6 +69,8 @@ class PayrollCalculationController extends Controller
                 'message' => 'There is pending attendance approvals'
             ], 400);
         }
+
+
 
         $today = Carbon::today();
 
@@ -148,6 +126,7 @@ class PayrollCalculationController extends Controller
                             $payrollcontroller = new PayrollController;
                             $fromDate = $week->getStartDate();
                             $endDate = $week->getEndDate();
+
                             $payrollcontroller->generate_hourly_payroll($employee, $fromDate, $endDate, $EmployerId);
                             $salaryEndDate = $endDate;
                             $employee->payed_date = $salaryEndDate;
