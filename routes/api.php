@@ -214,6 +214,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
       // Attendance by HR
       Route::post('attendance_by_hr', [AttendanceController::class, 'attendance_by_hr']);
 
+
+      //02-07-23
+      Route::post('list_employees_businesswise', [EmployeeController::class, 'list_employees_businesswise']);
       
 
 });
