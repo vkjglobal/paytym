@@ -101,4 +101,38 @@ class EmployeeController extends Controller
         }
     }
 
+// 02-08-23
+
+    //list_employees_businesswise
+
+    public function list_employees_businesswise(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' =>  'required',
+            'business_id' =>  'required',
+        ]);
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        $employer_id=$request->employer_id;
+        $business_id=$request->business_id;
+        $employees=User::where('employer_id',$employer_id)->where('business_id',$business_id)->get();
+        if($employees->count()>0)
+        {
+            return response()->json([
+                'message' => "Business wise employees Listed Successfully",
+                'employee_list' =>  $employees,
+            ], 200);
+        }
+        else
+        {
+            return response()->json([
+                'message' => "No Records found"
+            ], 200);
+        }
+    }
+
 }

@@ -24,10 +24,10 @@
                           
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label">No of days allowed <span class="text-danger">*</span></label>
+                                    <label class="control-label">No of days allowed </label>
                                     <input type="number"
                                         class="form-control @if ($errors->has('num_days')) is-invalid @endif"
-                                        name="num_days" value="{{ old('num_days',$leave_type->no_of_days_allowed) }}" placeholder="Enter no of days" required>
+                                        name="num_days" value="{{ old('num_days',$leave_type->no_of_days_allowed) }}" placeholder="Enter no of days">
                                     <div class="invalid-feedback">{{ $errors->first('num_days') }}</div>
                                 </div>
                             </div><!-- Col -->

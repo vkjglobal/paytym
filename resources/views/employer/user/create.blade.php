@@ -216,9 +216,33 @@
 
 
 
-                    </div><!-- Row -->
+                    </div>
+                    
+                    
+                    
+                    <!-- Row -->
 
+                    <!-- <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Start date of employment <span class="text-danger"> *</span></label>
+                                <input type="date" class="form-control @if ($errors->has('start_date')) is-invalid @endif" name="start_date" value="{{ old('start_date') }}" placeholder="Enter Image" required>
+                                <div class="invalid-feedback">{{ $errors->first('start_date') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">End date of employment</label>
+                                <input type="date" class="form-control @if ($errors->has('end_date')) is-invalid @endif" name="end_date" value="{{ old('end_date') }}" placeholder="Enter Image">
+                                <div class="invalid-feedback">{{ $errors->first('end_date') }}</div>
+                            </div>
+                        </div>
 
+                    </div> -->
+                    
+                    <!-- Row -->
+                    
+                    <!-- Row -->
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -243,14 +267,14 @@
                     <div class="row" id="time-row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Check-In Time(Defaut) <span class="text-danger">*</span></label>
+                                <label class="control-label">Check-In Time(Defaut) </label>
                                 <input type="time" class="form-control @if ($errors->has('start_time')) is-invalid @endif" name="start_time" value="{{ old('start_time') }}">
                                 <div class="invalid-feedback">{{ $errors->first('start_time') }}</div>
                             </div>
                         </div><!-- Col -->
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Check-Out Time(Defaut) <span class="text-danger">*</span></label>
+                                <label class="control-label">Check-Out Time(Defaut) </label>
                                 <input type="time" class="form-control @if ($errors->has('end_time')) is-invalid @endif" name="end_time" value="{{ old('end_time') }}">
                                 <div class="invalid-feedback">{{ $errors->first('end_time') }}</div>
                             </div>
