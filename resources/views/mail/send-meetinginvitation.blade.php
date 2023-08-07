@@ -13,7 +13,12 @@ Meeting details: <br><br>
 
 Title:  {{ $title }}<br>
 Location:  {{ $location }}<br>
-Agenda:  {{ $agenda }}<br><br>
+Agenda:  {{ $agenda }}<br>
+Guests: </br>
+@foreach($guests as $guest)
+{{$guest}}</br>
+@endforeach
+</br>
 
 Thanks,</br>
 {{ config('app.name') }}

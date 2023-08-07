@@ -28,8 +28,10 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $meeting->name }}</td>
                                         <td>{{optional(\Carbon\Carbon::createFromFormat('Y-m-d', $meeting->date))->format('d-m-Y') ?? 'No data'}}</td>
-                                        <td>{{ optional(\Carbon\Carbon::createFromFormat('H:i', $meeting->start_time))->format('h:i A') ?? 'No data'}}</td>
-                                        <td>{{ optional(\Carbon\Carbon::createFromFormat('H:i', $meeting->end_time))->format('h:i A') }}? 'No data'</td>
+                                        {{--<td>{{ optional( \Carbon\Carbon::createFromFormat('H:i', $meeting->start_time))->format('h:i A') ?? 'No data' }}</td>--}}
+                                        <td>{{ optional($meeting)->start_time ?? 'No data' }}</td>
+                                        <td>{{ optional($meeting)->end_time ?? 'No data' }}</td>
+                                        {{--<td>{{ optional( \Carbon\Carbon::createFromFormat('H:i', $meeting->end_time))->format('h:i A') ?? 'No data' }}</td>--}}
                                         <td>{{ $meeting->location }}</td>
                                         <td>{{ $meeting->agenda }}</td>
                                        {{--<td>

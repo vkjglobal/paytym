@@ -8,6 +8,7 @@ use App\Models\Employer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Employer\StoreMeetingRequest;
 use App\Http\Requests\Employer\UpdateMeetingRequest;
+use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -70,6 +71,7 @@ class MeetingController extends Controller
                'start_time' => $meeting->start_time,
                'end_time' => $meeting->end_time,
                'agenda' => $meeting->agenda,
+               'guests' => $guests,
                // 'guests' => array_map('htmlspecialchars', $guests),//$guests,
                 
             ), function($msg) use ($request,$receipients,$from_address)
@@ -96,9 +98,7 @@ class MeetingController extends Controller
             [(__('Dashboard')), route('employer.meeting.create')],
             [(__('Meeting')), null],
         ]; 
-        //$employees = User::select('id','first_name')->where('employer_id',Auth::guard('employer')->user()->id)->where('status',1)->get();
-        //$users = User::all();
-        //$meeting = Meeting::findOrFail($id);
+       
         $attendees = MeetingAttendees::with(['users'=> function ($query) {
             $query->select('id', 'first_name','last_name','email'); 
                }])->where('meeting_id', $meeting->id)->get();
@@ -139,7 +139,7 @@ $attendeesToRemove = array_diff($allAttendees, $selectedAttendees);
 //return $selectedAttendees;
 MeetingAttendees::where('meeting_id', $meeting->id)->whereIn('attendee_id', $attendeesToRemove)->delete();
 
-// Add new attendees to the meeting
+// Add new attendees to the meeting\
 $attendeesToAdd = request()->input('new_attendees'); //array_diff($selectedAttendees, $meetingAttendees);
 $newAttendees = [];
 if($attendeesToAdd!=null){
@@ -149,7 +149,6 @@ foreach ($attendeesToAdd as $attendee_id) {
         'attendee_id' => $attendee_id,
     ];
     //$receipients[] = User::where('id',$attendee_id)->first()->email;
-    $guests[] = User::where('id',$attendee_id)->first()->first_name;
 }
 MeetingAttendees::insert($newAttendees);
 $emailallAttendees = array_merge($selectedAttendees, $attendeesToAdd);
@@ -157,25 +156,8 @@ $emailallAttendees = array_merge($selectedAttendees, $attendeesToAdd);
 else
 $emailallAttendees = $selectedAttendees;
 $receipients = User::whereIn('id', $emailallAttendees)->pluck('email')->toArray();
-//return $receipients;
-
-
-           /*  $users = request()->input('users');
-            foreach($users as $user_id) {
-                $attendees[] = [
-                    'meeting_id' => $meeting->id,
-                    'attendee_id' => $user_id,
-                ];
-                $receipients[] = User::where('id',$user_id)->first()->email;
-                $guests[] = User::where('id',$user_id)->first()->first_name;
-               
-        }
-        $meeting_attendees = MeetingAttendees::where('meeting_id', $meeting->id)->get();
-        if($meeting_attendees->count()!=0)
-        $meeting_attendees = MeetingAttendees::where('meeting_id', $meeting->id)->delete();
-        $issave=MeetingAttendees::insert($attendees); */
-
-        $from_address = Employer::where('id',$meeting->employer_id)->first()->email;
+$guests = User::whereIn('id',$emailallAttendees)->pluck('first_name')->toArray();
+$from_address = Employer::where('id',$meeting->employer_id)->first()->email;
 
         \Mail::send('mail.send-meetinginvitation-updated',
        array(
@@ -186,9 +168,10 @@ $receipients = User::whereIn('id', $emailallAttendees)->pluck('email')->toArray(
           'start_time' => $meeting->start_time,
           'end_time' => $meeting->end_time,
           'agenda' => $meeting->agenda,
+          'guests' => $guests,
           // 'guests' => array_map('htmlspecialchars', $guests),//$guests,
            
-       ), function($msg) use ($request,$receipients,$from_address)
+       ), function($msg) use ($request,$receipients,$from_address,$guests)
          {
             $msg->to($receipients);
             $msg->from($from_address);

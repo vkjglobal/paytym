@@ -78,6 +78,7 @@ class ReportController extends Controller
         $employees = $this->report_filter($request); 
         $employeesId = $employees->pluck('id');
         $attendances = Attendance::whereIn('user_id', $employeesId)->whereBetween('date',[$date_from, $date_to])->get();
+        
         return view('employer.report.attendance_list_filter',compact( 'breadcrumbs','employees', 'users', 'date_from', 'date_to', 'request','employer_id'));
     }
     public function attendance_filter_export(Request $request) 
@@ -165,7 +166,7 @@ class ReportController extends Controller
         $branches = Branch::where('employer_id', $this->employer_id())->get();
         $departments = Department::where('employer_id', $this->employer_id())->get();
         $emp = User::find($request->employee);
-        return view('employer.report.table.employee_list_table',compact('employees', 'businesses', 'users', 'branches', 'departments', 'emp'));
+        return view('employer.report.table.employee_list_table',compact('employees', 'businesses', 'users', 'branches', 'departments', 'emp','request'));
     }else {
         return response()->json(['success' => 0, 'message' => 'No data found'], $this->successStatus);
     } 
@@ -308,12 +309,76 @@ public function deduction_index()
             [(__('Dashboard')), route('employer.home')],
             [(__('Report')), null]
         ];
+        //$payrolls = Payroll::where('employer_id', $this->employer_id())->get();
+        //$employees = User::where('employer_id', Auth::guard('employer')->id())->get(); 
+        $users = User::where('employer_id', $this->employer_id())->get();
+        
+        $employees= User::select('id','first_name')->where('employer_id',Auth::guard('employer')->user()->id)->where('status',1)->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        //$payrolls = Payroll::where('employer_id', Auth::guard('employer')->user()->id)->get();
         $payrolls = Payroll::where('employer_id', $this->employer_id())->get();
-        return view('employer.report.payroll_list',compact('breadcrumbs','payrolls'));
+        //return $payrolls;
+        $keyword = 'list';
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        return view('employer.report.payroll_list',compact('breadcrumbs','payrolls','employees','businesses','keyword','branches','departments','users'));
     }
-    public function payroll_export() 
+    public function payroll_filter(Request $request){
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null],
+        ];
+        $users = User::where('employer_id', Auth::guard('employer')->id())->get(); 
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+        $branches = Branch::where('employer_id', $this->employer_id())->get();
+        $departments = Department::where('employer_id', $this->employer_id())->get();
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $employer_id = $this->employer_id();
+        //return $request;
+        $employees = $this->report_filter($request); 
+        $employeesId = $employees->pluck('id');
+        //return $employeesId;
+        if ($employeesId && !$start_date && !$end_date) {
+            $payrolls = Payroll::whereIn('user_id', $employeesId)->get();
+        }
+       
+        if($employeesId && $start_date && $end_date)
+        {
+            //$payrolls = Payroll::whereIn('user_id', $employeesId)->whereBetween('start_date',[$date_from, $date_to])->get();
+            $payrolls = Payroll::whereIn('user_id', $employeesId)
+            ->where(function ($query) use ($start_date, $end_date) {
+                $query->whereBetween('start_date', [$start_date, $end_date])
+                    ->orWhereBetween('end_date', [$start_date, $end_date]);
+            })
+            ->get();
+            
+        }
+        if($start_date && $end_date && !$employeesId)
+        {
+            //$payrolls = Payroll::whereBetween('start_date',[$date_from, $date_to])->get();
+            $payrolls = Payroll::where(function ($query) use ($start_date, $end_date) {
+            $query->whereBetween('start_date', [$start_date, $end_date])
+                    ->orWhereBetween('end_date', [$start_date, $end_date]);
+            })
+            ->get();
+        }
+       else if ($start_date && !$employeesId) {
+            $payrolls = Payroll::where('start_date','>=', $start_date)->get();
+        } else if ($end_date && !$employeesId) {
+            $payrolls = Payroll::where('end_date','<=', $end_date)->get();
+        }
+        //return $payrolls;
+        $keyword = 'search';
+        return view('employer.report.payroll_list_filter',compact( 'breadcrumbs','employees', 'users', 'start_date', 'end_date', 'request','payrolls','keyword','businesses','branches','departments','employer_id'));
+    }
+    /* public function payroll_export() 
     {
         return Excel::download(new PayrollExport, 'payroll_report_export-'.Carbon::now().'.xlsx');
+    } */
+    public function payroll_export(Request $request) 
+    {
+        return Excel::download(new PayrollExport($request), 'payroll_report_export-'.Carbon::now().'.xlsx');
     }
     //////////////////employment_period
     public function providentfund_index()
