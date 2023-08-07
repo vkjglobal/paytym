@@ -363,9 +363,15 @@ public function deduction_index()
             })
             ->get();
         }
-       else if ($start_date && !$employeesId) {
+        if ($start_date && !$employeesId) {
             $payrolls = Payroll::where('start_date','>=', $start_date)->get();
-        } else if ($end_date && !$employeesId) {
+        } if ($end_date && !$employeesId) {
+            $payrolls = Payroll::where('end_date','<=', $end_date)->get();
+        }
+        if ($start_date && !$end_date) {
+            $payrolls = Payroll::where('start_date','>=', $start_date)->get();
+        } 
+        if ($end_date && !$start_date) {
             $payrolls = Payroll::where('end_date','<=', $end_date)->get();
         }
         //return $payrolls;
