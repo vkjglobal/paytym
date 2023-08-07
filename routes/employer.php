@@ -254,6 +254,7 @@ Route::middleware('employer.auth')->group(function () {
 
     Route::get('report/payroll',[ReportController::class,'payroll_index'])->name('report.payroll');
     Route::get('report/payroll/export',[ReportController::class,'payroll_export'])->name('report.payroll.export');
+    Route::post('report/payroll/filter',[ReportController::class,'payroll_filter'])->name('report.payroll.filter');
 
     Route::get('report/providentfund',[ReportController::class,'providentfund_index'])->name('report.providentfund');
     Route::get('report/providentfund/filter',[ReportController::class,'providentfund_filter'])->name('report.providentfund.filter');
