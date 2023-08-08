@@ -220,25 +220,47 @@
                     
                     
                     
+                    <!-- Row  Licence-->
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Licence No </label>
+                                <input type="text" class="form-control @if ($errors->has('licence_no')) is-invalid @endif" name="licence_no" value="{{ old('licence_no') }}" placeholder="Enter Licence No">
+                                <div class="invalid-feedback">{{ $errors->first('licence_no') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Licence Expiry Date</label>
+                                <input type="date" class="form-control @if ($errors->has('licence_expiry_date')) is-invalid @endif" name="licence_expiry_date" value="{{ old('licence_expiry_date') }}" placeholder="Enter Licence Expiry Date">
+                                <div class="invalid-feedback">{{ $errors->first('licence_expiry_date') }}</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
                     <!-- Row -->
 
-                    <!-- <div class="row">
+                       <!-- Row  Passport-->
+
+                    <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Start date of employment <span class="text-danger"> *</span></label>
-                                <input type="date" class="form-control @if ($errors->has('start_date')) is-invalid @endif" name="start_date" value="{{ old('start_date') }}" placeholder="Enter Image" required>
-                                <div class="invalid-feedback">{{ $errors->first('start_date') }}</div>
+                                <label class="control-label">Passport No </label>
+                                <input type="text" class="form-control @if ($errors->has('passport_no')) is-invalid @endif" name="passport_no" value="{{ old('passport_no') }}" placeholder="Enter Passport No">
+                                <div class="invalid-feedback">{{ $errors->first('passport_no') }}</div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">End date of employment</label>
-                                <input type="date" class="form-control @if ($errors->has('end_date')) is-invalid @endif" name="end_date" value="{{ old('end_date') }}" placeholder="Enter Image">
-                                <div class="invalid-feedback">{{ $errors->first('end_date') }}</div>
+                                <label class="control-label">Passport Expiry Date</label>
+                                <input type="date" class="form-control @if ($errors->has('passport_expiry_date')) is-invalid @endif" name="passport_expiry_date" value="{{ old('passport_expiry_date') }}" placeholder="Enter Passport Expiry Date">
+                                <div class="invalid-feedback">{{ $errors->first('passport_expiry_date') }}</div>
                             </div>
                         </div>
 
-                    </div> -->
+                    </div>
                     
                     <!-- Row -->
                     
