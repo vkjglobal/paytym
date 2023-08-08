@@ -56,6 +56,10 @@ class UpdateUserRequest extends FormRequest
             'total_hours_per_week' => 'nullable|numeric',
             'extra_hours_at_base_rate' => 'nullable|numeric',
             'salary_type' => 'required',
+            'licence_no'=>  'nullable',
+            'licence_expiry_date'=>  'nullable',
+            'passport_no'=>  'nullable',
+            'passport_expiry_date'=>  'nullable',
         ];
     }
 }

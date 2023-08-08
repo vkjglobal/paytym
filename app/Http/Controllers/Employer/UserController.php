@@ -129,6 +129,13 @@ class UserController extends Controller
      {
      $user->check_out_requred = '1';
      }
+
+    // Robin 02-08-23
+    $user->licence_no = $request->get('licence_no');
+    $user->licence_expiry_date = $request->get('licence_expiry_date');
+    $user->passport_no = $request->get('passport_no');
+    $user->passport_expiry_date = $request->get('passport_expiry_date');
+
     //  $user->pay_period = $validated['payperiod'];
      
      if(!empty($validated['hourly_rate'])){
@@ -287,6 +294,12 @@ class UserController extends Controller
      if(isset($validated['password'])){
         $user->password = Hash::make($validated['password']);
      }
+
+       // Robin 02-08-23
+    $user->licence_no = $request->get('licence_no');
+    $user->licence_expiry_date = $request->get('licence_expiry_date');
+    $user->passport_no = $request->get('passport_no');
+    $user->passport_expiry_date = $request->get('passport_expiry_date');
      
     //  $user->password = Hash::make($validated['password']);
     
