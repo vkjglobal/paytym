@@ -39,7 +39,7 @@
                                     <label class="control-label">Date <span class="text-danger">*</span></label>
                                     <input type="date"
                                         class="form-control @if ($errors->has('date')) is-invalid @endif"
-                                        name="date" value="{{ old('date',$meeting->date) }}" placeholder="Choose Date">
+                                        id="meeting_date" name="date" value="{{ old('date',$meeting->date) }}" min="{{ now()->toIso8601String() }}" placeholder="Choose Date" required>
                                     <div class="invalid-feedback">{{ $errors->first('date') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -49,7 +49,7 @@
                                     <label class="control-label">Start Time <span class="text-danger">*</span></label>
                                     <input type="time"
                                         class="form-control @if ($errors->has('postcode')) is-invalid @endif"
-                                        name="start_time" value="{{ old('start_time',$meeting->start_time) }}" placeholder="Choose Start Time">
+                                        name="start_time" value="{{ old('start_time',$meeting->start_time) }}" placeholder="Choose Start Time" required>
                                     <div class="invalid-feedback">{{ $errors->first('start_time') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -58,7 +58,7 @@
                                     <label class="control-label">End Time <span class="text-danger">*</span></label>
                                     <input type="time"
                                         class="form-control @if ($errors->has('end_time')) is-invalid @endif"
-                                        name="end_time" value="{{ old('end_time',$meeting->end_time) }}" placeholder="Choose End Time">
+                                        name="end_time" value="{{ old('end_time',$meeting->end_time) }}" placeholder="Choose End Time" required>
                                     <div class="invalid-feedback">{{ $errors->first('end_time') }}</div>
                                 </div>
                             </div><!-- Col -->
@@ -122,6 +122,28 @@
     <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    const meetingDateInput = document.getElementById('meeting_date');
+
+    meetingDateInput.addEventListener('input', function () {
+        const selectedDateTime = new Date(this.value);
+        const now = new Date();
+
+        // Set the seconds and milliseconds to 0 for accurate comparison
+        selectedDateTime.setSeconds(0);
+        selectedDateTime.setMilliseconds(0);
+
+        if (selectedDateTime < now) {
+            this.setCustomValidity('Please choose a date in the future.');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+</script>
+
+
+
+
 
 <script>
     $(document).ready(function() {
