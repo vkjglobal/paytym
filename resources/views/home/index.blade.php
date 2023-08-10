@@ -1098,7 +1098,7 @@
                             <li><a href="#pricing">Pricing</a></li>
                             <!-- <li><a href="#contact">Contact Us</a></li> -->
 
-                            <li><a href="{{ route('admin.privacy_policy') }}">Privacy Policy and Terms of Use</a></li>
+                            <li><a href="{{ route('privacy_policy') }}" target="_blank">Privacy Policy</a></li>
                             <!-- <li><a href="#" >Terms and Conditions</a></li> -->
                             <!-- <li><a href="#" >Post a Job</a></li> -->
                         </ul>
