@@ -71,7 +71,7 @@
                                 </ul>
                                 <span class="download">
                                     <a href="{{Route('employer.login')}}" class="btn btn-typ2">Login</a>
-                                    <a href="#downloadApp" class="btn btn-typ2">Download</a>
+                                    <a href="#footer" class="btn btn-typ2">Download</a>
                                 </span>
                             </div>
                         </nav>
@@ -621,108 +621,15 @@
             </div>
         </div>
     </section>
-
-    <!-- testimonial-section -->
-    <section class="testimonial-section" id="testimonial">
-        <div class="container about-title pt-5 text-center">
-            <h3 class="light-blue-text">Testimonials</h3>
-        </div>
-        <div class="container" data-aos="fade-down" data-aos-duration="2000">
-
-            <div class="row justify-content-center">
-                <div class="col-lg-7">
-                    <div class="owl-carousel testimonial-carousel owl-theme owl-loaded">
-                        <div class="owl-stage-outer">
-                            <div class="owl-stage">
-                                @if(is_null($testimonial))
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/1.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/3.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/4.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/6.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @else
-                                @foreach ($testimonial as $testimonials)
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('uploads/cms/'.$testimonials->img)}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                {{$testimonials->content}}
-                                            </div>
-                                            <strong>{{$testimonials->content1}}</strong>
-                                            <span>{{$testimonials->content2}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endforeach
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="reg-now-section text-center py-5 mt-5">
+        <div class="container">
+            <h4 class="fw-600 mb-3">Why Paytym should be your preferred HR and Payroll Platform?</h4>
+            <div class="fw-600 h5 mb-4">Get started for free and find out for yourself.</div>
+            <a href="#" class="btn btn-typ4 fw-600 px-3 py-1 ml-0 mr-auto mb-2">Register Now - Pay later</a>
+            <p class="small mb-0">(No credit card details required at sign up)</p>
         </div>
     </section>
-
+   
     <!-- pricing-plan section -->
     <section class="pricing-plan" id="pricing">
         <div class="container about-title pt-5 text-center">
@@ -956,7 +863,270 @@
             </div>
         </div>
     </section>
+ <!-- testimonial-section -->
+ @if($testimonial->count()!=0)
+    <section class="testimonial-section" id="testimonial">
+        <div class="container about-title pt-5 text-center">
+            <h3 class="light-blue-text">Testimonials</h3>
+            <p>We do not brag but what others say about us can help you in understanding our ability and ethics well.
+            </p>
+        </div>
+        <div class="container" data-aos="fade-down" data-aos-duration="2000">
 
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="owl-carousel testimonial-carousel owl-theme owl-loaded">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                               {{-- @if(is_null($testimonial))
+                                <div class="owl-item">
+                                    <div class="test-item row">
+                                        <div class="col-md-3">
+                                            <img src="{{asset('home_assets/images/profile-image/1.jpg')}}" alt="">
+                                        </div>
+                                        <div class="test-info col-md-9">
+                                            <div class="txt-cntnt">
+                                                “ Most Dedicated!! These guys are very Dedicated and creative
+                                                you have expected, We will happy after Working with Them”
+                                            </div>
+                                            <strong>Selvedin Durak</strong>
+                                            <span>Datahub</span>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="owl-item">
+                                    <div class="test-item row">
+                                        <div class="col-md-3">
+                                            <img src="{{asset('home_assets/images/profile-image/3.jpg')}}" alt="">
+                                        </div>
+                                        <div class="test-info col-md-9">
+                                            <div class="txt-cntnt">
+                                                “ Most Dedicated!! These guys are very Dedicated and creative
+                                                you have expected, We will happy after Working with Them”
+                                            </div>
+                                            <strong>Selvedin Durak</strong>
+                                            <span>Datahub</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item">
+                                    <div class="test-item row">
+                                        <div class="col-md-3">
+                                            <img src="{{asset('home_assets/images/profile-image/4.jpg')}}" alt="">
+                                        </div>
+                                        <div class="test-info col-md-9">
+                                            <div class="txt-cntnt">
+                                                “ Most Dedicated!! These guys are very Dedicated and creative
+                                                you have expected, We will happy after Working with Them”
+                                            </div>
+                                            <strong>Selvedin Durak</strong>
+                                            <span>Datahub</span>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="owl-item">
+                                    <div class="test-item row">
+                                        <div class="col-md-3">
+                                            <img src="{{asset('home_assets/images/profile-image/6.jpg')}}" alt="">
+                                        </div>
+                                        <div class="test-info col-md-9">
+                                            <div class="txt-cntnt">
+                                                “ Most Dedicated!! These guys are very Dedicated and creative
+                                                you have expected, We will happy after Working with Them”
+                                            </div>
+                                            <strong>Selvedin Durak</strong>
+                                            <span>Datahub</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @else--}}
+                                @foreach ($testimonial as $testimonials)
+                                <div class="owl-item">
+                                    <div class="test-item row">
+                                        <div class="col-md-3">
+                                            <img src="{{asset('uploads/cms/'.$testimonials->img)}}" alt="">
+                                        </div>
+                                        <div class="test-info col-md-9">
+                                            <div class="txt-cntnt">
+                                                {{$testimonials->content}}
+                                            </div>
+                                            <strong>{{$testimonials->content1}}</strong>
+                                            <span>{{$testimonials->content2}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                                {{--@endif--}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endif
+
+{{--<section id="why-paytym" class="pb-5">
+        <div class="container about-title pt-5 text-center">
+            <div class="border pt-5 px-lg-0 px-sm-3 px-0">
+                <h3>Why Choose Paytym’s Cloud-based Software?</h3>
+                <div class="row px-lg-5 px-md-4">
+                    <div class="col-md-6">
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon1.png')}}" class="img-fluid" alt="">
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                    Improve Speed and <br>
+                                    Accuracy
+                                </h6>
+                            </div>
+                            <p>
+                                Discover the efficiency of Paytym’s cloud-basedpayroll services. With a user-friendly interface andautomation, these services eliminate manualcalculations, errors, and workarounds. Ensure youremployees are paid accurately and on time, withoutthe pre-payroll rush. Upgrade from older on-premisepayroll software to a streamlinedcloud solution today.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon2.png')}}" class="img-fluid" alt="">
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                    Offer Mobile <br>
+                                    Accessibility
+                                </h6>
+                            </div>
+                            <p>
+                                Embrace the freedom of Paytym’s cloud-based payroll services. Process and approve payroll from any device, anywhere, even outside the office. It is ideal even for businesses with multiple worksites across different time zones. Field managers can easily review attendance, approve leaves, and stay connected via smartphones or tablets. Embrace the future of remote payroll management with Paytym.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon3.png')}}" class="img-fluid" alt="">
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                    Protect Your <br>
+                                    Data
+                                </h6>
+                            </div>
+                            <p>
+                                Paytym’s cloud-based payroll is a secure choice for
+                                safeguarding sensitive data compared to on-premise
+                                systems. Paytym has invested heavily in data and
+                                infrastructure security, including encryption and
+                                rigorous backups. We use reliable private cloud
+                                hosting, high server uptime, and top-tier certified data
+                                centres with 24/7 security monitoring. Your data is
+                                safe with Paytym.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon4.png') }}" class="img-fluid" alt="">
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                    Easily Scale Your <br>
+                                    Business
+                                </h6>
+                            </div>
+                            <p>
+                                Embrace Paytym's scalable cloud payroll platform,
+                                perfect for seasonal or growing workforces. No more
+                                worries about capacity limits or overpaying. With
+                                Paytym, you only pay based on the number of active
+                                employees in each billing period, ensuring cost
+                                efficiency. Let us handle the infrastructure for you.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon5.png')}}" class="img-fluid" alt="">
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                    Offer Employee Self-Service <br>
+                                    Portals
+                                </h6>
+                            </div>
+                            <p>
+                                Empower your workforce with Paytym’s mobile app
+                                and employee self-service! Access HR and payroll info
+                                anytime, anywhere, right from personal devices.
+                                Employees can view attendance, manage leaves and
+                                documents, download pay slips, chat with
+                                management and much more, freeing up HR and
+                                managers for more essential tasks. Boost efficiency
+                                and satisfaction now!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon6.png')}}" class="img-fluid" alt="">
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                    Reduce Ownership <br>
+                                    Costs
+                                </h6>
+                            </div>
+                            <p>
+                                Opt for Paytym’s cloud-based Software-as-a-Service
+                                (SaaS) solution for a superior return on investment.
+                                With no need for in-house servers, physical set-up, or
+                                upgrade purchases, employers save on initial and
+                                recurring expenses. Updates are seamlessly handled
+                                by Paytym, eliminating downtime. Experience cost
+                                savings and effortless software management with the
+                                Paytym cloud-based SaaS solution.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon7.png')}}" class="img-fluid" alt="">
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                    Become Environmentally <br>
+                                    Friendly
+                                </h6>
+                            </div>
+                            <p>
+                                Adopting Paytym’s cloud-based SaaS solution reduces
+                                energy consumption, lowering your carbon footprint.
+                                Fewer servers and optimized cloud storage lead to
+                                energy savings and efficient resource utilization.
+                                Embrace this eco-conscious and sustainable approach
+                                where environmentally-aware employers can
+                                contribute to a greener future.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon8.png')}}" class="img-fluid" alt="">
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                    Effortless Statutory <br>
+                                    Compliance
+                                </h6>
+                            </div>
+                            <p>
+                                Paytym solution ensures effortless compliance by
+                                automatically updating its systems to meet the latest
+                                statutory regulations, tax laws, labour requirements
+                                and generates reports to fulfill legal obligations.
+                                Employers benefit from a hassle-free, error-free
+                                payroll process, freeing up HR and payroll staff for
+                                more strategic tasks while remaining fully compliant.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>--}}
     <!-- our-expert-section -->
     <!-- <section class="our-expert">
         <div class="container about-title pt-5 text-center">
@@ -1053,7 +1223,7 @@
     </section>
 
     <!-- footer-section -->
-    <footer class="footer-section">
+    <footer id="footer" class="footer-section">
         <div class="container">
             <div class="row mb-4">
                 <div class="col-md-6 foot-img">
@@ -1098,7 +1268,7 @@
                             <li><a href="#pricing">Pricing</a></li>
                             <!-- <li><a href="#contact">Contact Us</a></li> -->
 
-                            <li><a href="{{ route('privacy_policy') }}" target="_blank">Privacy Policy</a></li>
+                            <li><a href="{{ route('privacy_policy') }}" target="_blank">Privacy Policy and Terms of Use</a></li>
                             <!-- <li><a href="#" >Terms and Conditions</a></li> -->
                             <!-- <li><a href="#" >Post a Job</a></li> -->
                         </ul>

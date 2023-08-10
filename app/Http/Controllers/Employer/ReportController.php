@@ -340,13 +340,13 @@ public function deduction_index()
         $employeesId = $employees->pluck('id');
         //return $employeesId;
         if ($employeesId && !$start_date && !$end_date) {
-            $payrolls = Payroll::whereIn('user_id', $employeesId)->get();
+            $payrolls = Payroll::where('employer_id', $this->employer_id())->whereIn('user_id', $employeesId)->get();
         }
        
         if($employeesId && $start_date && $end_date)
         {
             //$payrolls = Payroll::whereIn('user_id', $employeesId)->whereBetween('start_date',[$date_from, $date_to])->get();
-            $payrolls = Payroll::whereIn('user_id', $employeesId)
+            $payrolls = Payroll::where('employer_id', $this->employer_id())->whereIn('user_id', $employeesId)
             ->where(function ($query) use ($start_date, $end_date) {
                 $query->whereBetween('start_date', [$start_date, $end_date])
                     ->orWhereBetween('end_date', [$start_date, $end_date]);
@@ -357,22 +357,30 @@ public function deduction_index()
         if($start_date && $end_date && !$employeesId)
         {
             //$payrolls = Payroll::whereBetween('start_date',[$date_from, $date_to])->get();
-            $payrolls = Payroll::where(function ($query) use ($start_date, $end_date) {
+            $payrolls = Payroll::where('employer_id', $this->employer_id())->where(function ($query) use ($start_date, $end_date) {
             $query->whereBetween('start_date', [$start_date, $end_date])
                     ->orWhereBetween('end_date', [$start_date, $end_date]);
             })
             ->get();
         }
         if ($start_date && !$employeesId) {
-            $payrolls = Payroll::where('start_date','>=', $start_date)->get();
+            $payrolls = Payroll::where('employer_id', $this->employer_id())->where('start_date','>=', $start_date)->get();
         } if ($end_date && !$employeesId) {
-            $payrolls = Payroll::where('end_date','<=', $end_date)->get();
+            $payrolls = Payroll::where('employer_id', $this->employer_id())->where('end_date','<=', $end_date)->get();
         }
         if ($start_date && !$end_date) {
-            $payrolls = Payroll::where('start_date','>=', $start_date)->get();
+            $payrolls = Payroll::where('employer_id', $this->employer_id())->where('start_date','>=', $start_date)->get();
         } 
         if ($end_date && !$start_date) {
-            $payrolls = Payroll::where('end_date','<=', $end_date)->get();
+            $payrolls = Payroll::where('employer_id', $this->employer_id())->where('end_date','<=', $end_date)->get();
+        }
+        if(!$request->business && !$request->user && !$start_date && !$end_date)
+        {
+            $payrolls = Payroll::where('employer_id', $this->employer_id())->get();
+        }
+        if ($start_date && $employeesId && !$end_date) {
+            $payrolls = Payroll::where('employer_id', $this->employer_id())->whereIn('user_id', $employeesId)
+            ->where('start_date','>=', $start_date)->get();
         }
         //return $payrolls;
         $keyword = 'search';
