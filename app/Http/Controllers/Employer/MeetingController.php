@@ -174,7 +174,7 @@ $from_address = Employer::where('id',$meeting->employer_id)->first()->email;
        ), function($msg) use ($request,$receipients,$from_address,$guests)
          {
             $msg->to($receipients);
-            $msg->from($from_address);
+            //$msg->from($from_address);
             $msg->subject('Meeting Invitation!');
          }); 
 
