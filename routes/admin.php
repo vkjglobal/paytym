@@ -23,9 +23,7 @@ use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('privacy_policy', function () {
-    return view('home.privacy_policy');
-})->name('privacy_policy');
+
 
 // Dashboard
 Route::get('/', [HomeController::class, 'index'])->name('home');
