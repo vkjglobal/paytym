@@ -50,24 +50,24 @@
 
 @endforeach -->
 
-                                    <li class="nav-item">
+                                    <!--<li class="nav-item">
                                         <a class="nav-link" href="#about">About</a>
+                                    </li>-->
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#ForEmployers">Employers</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#ForEmployers">For Employers</a>
+                                        <a class="nav-link" href="#ForEmployees">Employees</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#ForEmployees">For Employees</a>
-                                    </li>
-                                    <li class="nav-item">
+                                   <!--  <li class="nav-item">
                                         <a class="nav-link" href="#HowItWork">Registration Process</a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item">
                                         <a class="nav-link" href="#pricing">Pricing</a>
                                     </li>
-                                    <!-- <li class="nav-item">
-                                        <a class="nav-link" href="#contact">Contact</a>
-                                    </li> -->
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#why-paytym">Why Paytym?</a>
+                                    </li>
                                 </ul>
                                 <span class="download">
                                     <a href="{{Route('employer.login')}}" class="btn btn-typ2">Login</a>
@@ -88,11 +88,11 @@
     <section class="header-section hero-section" id="home">
         <div class="container">
             <div class="row ">
-                <div class="col-md-6 text-white  " data-aos="fade-up" data-aos-duration="2000">
-                    <div class="text">
+               <!-- <div class="col-md-6 text-white  " data-aos="fade-up" data-aos-duration="2000">
+                    <div class="text">-->
                         <!-- <h1 class="first-text">Creative <br>Solutions to</h1>
                         <h1 class="sub-text"> Improve your <br>Business.</h1> -->
-                        <div class="banner-txt">
+                       <!-- <div class="banner-txt">
                             Are you looking for an advanced and
                             innovative <strong class="fw-600"> HR management and
                                 Payroll software system?</strong>
@@ -101,11 +101,27 @@
                         </div>
                     </div>
 
+                </div>-->
+                <div class="col-md-8 text-white py-md-0 py-3" data-aos="fade-up" data-aos-duration="2000">
+                    <div class="text d-flex flex-column justify-content-center align-items-start">
+                        <!-- <h1 class="first-text">Creative <br>Solutions to</h1>
+                        <h1 class="sub-text"> Improve your <br>Business.</h1> -->
+                        <h3 class="fw-600 mb-4">
+                            Transform Your Business with <br class="d-lg-block d-none">Paytym's Powerful HR and Payroll <br class="d-lg-block d-none">Automation Platform.
+                        </h3>
+                        <p class="mb-4">
+                            Unlock stress-free payroll processing with Paytym. Save time, costs, and eliminate errors. Hire, pay, and manage your team effortlessly, all in one place!
+                        </p>
+                        <a href="#" class="btn btn-typ4 px-3 py-1 ml-0 mr-auto mb-3">Register Now - Pay later</a>
+                        <p class="small">On-board Employees and Start Processing!</p>
+                    </div>
+
                 </div>
-                <div class="col-md-6 pt-3">
+                <!-- <div class="col-md-6 pt-3"> -->
+                <div class="col-4 d-md-flex d-none h-100 align-items-end align-self-end">
                     <div class="right-img" data-aos="fade-down" data-aos-duration="2000">
                         @if($bannercount == 0)
-                        <img src="{{asset('home_assets/images/Group 82.png')}}" alt="" srcset="">
+                        <img src="{{asset('home_assets/images/banner-bg.png')}}" alt="" srcset="">
                         @else
                         <img src="{{ asset('storage/' . $banner[0]->image) }}" alt="" srcset="">
                         @endif
@@ -311,9 +327,13 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center my-3">
-                    <a class="btn btn-typ3 flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Today, Pay Later</strong> <span>Onboard Employees and Start Processing Payroll</span></a>
+                    <a class="btn btn-typ3 flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span>Onboard Employees and Start Processing Payroll</span></a>
                 </div>
-
+                {{--<button class="fixed-btn">
+                    <span class="small">Up to 9 <br> employees</span>
+                    <strong>Pay $29 only</strong>
+                    <span class="small">For all features!</span>
+                </button>--}}
             </div>
         </div>
     </section>
@@ -572,7 +592,7 @@
                         </div>
                         <div class="title-wrp">
                             Employee downloads
-                            <strong>PayTym Mobile App</strong>
+                            <strong>Paytym Mobile App</strong>
                         </div>
                     </div>
                 </div>
@@ -1078,7 +1098,7 @@
                             <li><a href="#pricing">Pricing</a></li>
                             <!-- <li><a href="#contact">Contact Us</a></li> -->
 
-                            <li><a href="{{ route('admin.privacy_policy') }}">Privacy Policy</a></li>
+                            <li><a href="{{ route('admin.privacy_policy') }}">Privacy Policy and Terms of Use</a></li>
                             <!-- <li><a href="#" >Terms and Conditions</a></li> -->
                             <!-- <li><a href="#" >Post a Job</a></li> -->
                         </ul>

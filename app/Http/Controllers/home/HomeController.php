@@ -17,7 +17,7 @@ class HomeController extends Controller
         $banner = Banner::where('status', '1')->get();
         $bannercount = Banner::where('status', '1')->get()->count();
         $cms = Cms::get();
-        $about = Cms::where('cms_type', 'like', '%About%')->where('status', '1')->first();
+        $about = Cms::where('cms_type', 'like', '%Paytym HR and Payroll%')->where('status', '1')->first();
         $foremployers = Cms::where('cms_type', 'like', '%Employers%')->where('status', '1')->first();
         $foremployees = Cms::where('cms_type', 'like', '%Employees%')->where('status', '1')->first();
         $howitworks = Cms::where('cms_type', 'like', '%registration%')->where('status', '1')->first();
