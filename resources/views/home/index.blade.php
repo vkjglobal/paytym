@@ -112,7 +112,7 @@
                         <p class="mb-4">
                             Unlock stress-free payroll processing with Paytym. Save time, costs, and eliminate errors. Hire, pay, and manage your team effortlessly, all in one place!
                         </p>
-                        <a href="#" class="btn btn-typ4 px-3 py-1 ml-0 mr-auto mb-3">Register Now - Pay later</a>
+                        <a href="{{ route('employer.register') }}" class="btn btn-typ4 px-3 py-1 ml-0 mr-auto mb-3">Register Now - Pay later</a>
                         <p class="small">On-board Employees and Start Processing!</p>
                     </div>
 
@@ -410,7 +410,7 @@
                                                                      
                                 </div> 
                                 @else
-                                @if(is_null($personalprofile->img))
+                                @if(is_null($payslips->img))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 1.png')}}" alt="" srcset="">
                                 </div>
                                 @else
@@ -724,7 +724,7 @@
         <div class="container">
             <h4 class="fw-600 mb-3">Why Paytym should be your preferred HR and Payroll Platform?</h4>
             <div class="fw-600 h5 mb-4">Get started for free and find out for yourself.</div>
-            <a href="#" class="btn btn-typ4 fw-600 px-3 py-1 ml-0 mr-auto mb-2">Register Now - Pay later</a>
+            <a href="{{ route('employer.register') }}" class="btn btn-typ4 fw-600 px-3 py-1 ml-0 mr-auto mb-2">Register Now - Pay later</a>
             <p class="small mb-0">(No credit card details required at sign up)</p>
         </div>
     </section>
@@ -748,8 +748,8 @@
             <div class="form-row justify-content-center pt-2" style="width:auto">
                 @foreach ($subscription as $sub)
                 @if($sub->plan == 'MICRO')
-                <div class="col" style="width:100%">
-                    <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
+                <div class="col">
+                    <div class="card-price-blue white-bg rounded border mt-3">
                         <div class="p-lg-4 p-3">
                             <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
                             <hr>
@@ -775,8 +775,8 @@
                     </div>
                 </div>
                 @elseif($sub->plan == 'MEGA')
-                <div class="col" style="width:100%">
-                    <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
+                <div class="col">
+                    <div class="card-price-blue white-bg rounded border mt-3">
                         <div class="p-lg-4 p-3">
                             <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
                             <hr>
@@ -800,8 +800,8 @@
                     </div>
                 </div>
                 @else
-                <div class="col" style="width:100%">
-                    <div class="card-price-blue white-bg rounded border mt-3" style="width:212px">
+                <div class="col">
+                    <div class="card-price-blue white-bg rounded border mt-3">
                         <div class="p-lg-4 p-3">
                             <h3 class="text-center fw-600">{{ $sub->plan }}</h3>
                             <hr>
