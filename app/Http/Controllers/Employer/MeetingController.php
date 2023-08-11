@@ -77,7 +77,7 @@ class MeetingController extends Controller
             ), function($msg) use ($request,$receipients,$from_address)
               {
                  $msg->to($receipients);
-                 $msg->from($from_address);
+                 //$msg->from($from_address);
                  $msg->subject('Meeting Invitation!');
               }); 
 
