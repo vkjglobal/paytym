@@ -62,6 +62,63 @@ class CmsController extends Controller
         {
             $cms->identifier=6;
         }
+        else if($type=="Pay Slips")
+        {
+            $cms->identifier=7;
+        }
+        else if($type=="Leaves and Time Off")
+        {
+            $cms->identifier=8;
+        }
+        else if($type=="Personal Profile")
+        {
+            $cms->identifier=9;
+        }
+        else if($type=="Deposit Accounts")
+        {
+            $cms->identifier=10;
+        }
+        else if($type=="Shift Roster")
+        {
+            $cms->identifier=11;
+        }
+        else if($type=="App Chat")
+        {
+            $cms->identifier=12;
+            //$cms->cms_type = "Chat";
+        }
+        else if($type=="Improve Speed and Accuracy")
+        {
+            $cms->identifier=13;
+        }
+        else if($type=="Offer Mobile Accessibility")
+        {
+            $cms->identifier=14;
+        }
+        else if($type=="Protect Your Data")
+        {
+            $cms->identifier=15;
+        }
+        else if($type=="Easily Scale Your Business")
+        {
+            $cms->identifier=16;
+        }
+        else if($type=="Offer Employee Self-Service Portals")
+        {
+            $cms->identifier=17;
+        }
+        else if($type=="Reduce Ownership Costs")
+        {
+            $cms->identifier=18;
+        }
+        else if($type=="Become Environmentally Friendly")
+        {
+            $cms->identifier=19;
+        }
+        else if($type=="Effortless Statutory Compliance")
+        {
+            $cms->identifier=20;
+        }
         // $cms->cms_type_without_space = str_replace(' ', '', $type);
         $cms->content = $validated['content'];
 

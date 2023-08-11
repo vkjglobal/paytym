@@ -173,7 +173,7 @@
                 @endif
 
             </div>
-            <div class="feature-wrp">
+            <div class="feature-wrp position-relative">
                 <div class="sub-title text-center pl-md-5 pr-md-5">
                     @if(is_null($empwebfeatures))
                     <h4>Employer Web Features</h4>
@@ -327,13 +327,13 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center my-3">
-                    <a class="btn btn-typ3 flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span>Onboard Employees and Start Processing Payroll</span></a>
+                    <a class="btn btn-typ3 flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span  class="small">Onboard Employees and Start Processing Payroll</span></a>
                 </div>
-                {{--<button class="fixed-btn">
+                <button class="fixed-btn">
                     <span class="small">Up to 9 <br> employees</span>
                     <strong>Pay $29 only</strong>
                     <span class="small">For all features!</span>
-                </button>--}}
+                </button>
             </div>
         </div>
     </section>
@@ -398,63 +398,162 @@
                     </ul> -->
                     <ul class="row about-table">
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
+                       
                             <div class="d-flex">
+                            @if(is_null($payslips))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 1.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
+                               
                                     <strong class="d-block mb-2 black-txt">Pay Slips</strong>
                                     <p class="grey-txt">view and download payslips for each pay.</p>
+                                                                     
+                                </div> 
+                                @else
+                                @if(is_null($personalprofile->img))
+                                <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 1.png')}}" alt="" srcset="">
                                 </div>
+                                @else
+                                <div class="about-icons"><img src="{{asset('uploads/cms/'.$payslips->img)}}" alt="" srcset="">
+                                </div>
+                                @endif
+                              
+                                <div class="text-table">
+                               
+                                    <strong class="d-block mb-2 black-txt">{{$payslips->cms_type}}</strong>
+                                    <p class="grey-txt">{{$payslips->content}}</p>
                             </div>
+                            @endif
+                            </div>
+                           
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
                             <div class="d-flex">
+                            @if(is_null($leaves))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 2.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
                                     <strong class="d-block mb-2 black-txt">Leaves and Time Off</strong>
                                     <p class="grey-txt">apply for leaves and view approvals.</p>
                                 </div>
+                                @else
+                                @if(is_null($leaves->img))
+                                <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 2.png')}}" alt="" srcset="">
+                                </div>
+                                @else
+                                <div class="about-icons"><img src="{{asset('uploads/cms/'.$leaves->img)}}" alt="" srcset="">
+                                </div>
+                                @endif
+                               
+                                <div class="text-table">
+                               
+                                    <strong class="d-block mb-2 black-txt">{{$leaves->cms_type}}</strong>
+                                    <p class="grey-txt">{{$leaves->content}}</p>
+                            </div>
+                            @endif
                             </div>
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
                             <div class="d-flex">
+                                @if(is_null($personalprofile))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 3.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
                                     <strong class="d-block mb-2 black-txt">Personal Profile</strong>
                                     <p class="grey-txt">update your personal profile at any time.</p>
                                 </div>
+                                @else
+                                @if(is_null($personalprofile->img))
+                                <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 3.png')}}" alt="" srcset="">
+                                </div>
+                                @else
+                                <div class="about-icons"><img src="{{asset('uploads/cms/'.$personalprofile->img)}}" alt="" srcset="">
+                                </div>
+                                @endif
+                                <div class="text-table">
+                               
+                                    <strong class="d-block mb-2 black-txt">{{$personalprofile->cms_type}}</strong>
+                                    <p class="grey-txt">{{$personalprofile->content}}</p>
+                            </div>
+                            @endif
                             </div>
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
                             <div class="d-flex">
+                            @if(is_null($depositaccounts))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 4.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
                                     <strong class="d-block mb-2 black-txt">Deposit Accounts</strong>
                                     <p class="grey-txt">update your payment accounts at any time.</p>
                                 </div>
+                                @else
+                                @if(is_null($depositaccounts->img))
+                                <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 4.png')}}" alt="" srcset="">
+                                </div>
+                                @else
+                                <div class="about-icons"><img src="{{asset('uploads/cms/'.$depositaccounts->img)}}" alt="" srcset="">
+                                </div>
+                                @endif
+                               
+                                <div class="text-table">
+                               
+                                    <strong class="d-block mb-2 black-txt">{{$depositaccounts->cms_type}}</strong>
+                                    <p class="grey-txt">{{$depositaccounts->content}}</p>
+                            </div>
+                            @endif
                             </div>
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
                             <div class="d-flex">
+                            @if(is_null($shiftroster))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 4.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
                                     <strong class="d-block mb-2 black-txt">Shift Roster</strong>
                                     <p class="grey-txt">view shifts and scheduled meetings.</p>
                                 </div>
+                                @else
+                                @if(is_null($shiftroster->img))
+                                <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 4.png')}}" alt="" srcset="">
+                                </div>
+                                @else
+                                <div class="about-icons"><img src="{{asset('uploads/cms/'.$shiftroster->img)}}" alt="" srcset="">
+                                </div>
+                                @endif
+                                
+                                <div class="text-table">
+                               
+                                    <strong class="d-block mb-2 black-txt">{{$shiftroster->cms_type}}</strong>
+                                    <p class="grey-txt">{{$shiftroster->content}}</p>
+                            </div>
+                            @endif
                             </div>
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-0">
                             <div class="d-flex">
+                            @if(is_null($appchat))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 4.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
                                     <strong class="d-block mb-2 black-txt">Chat</strong>
                                     <p class="grey-txt">conveniently chat within designated groups.</p>
                                 </div>
+                                @else
+                                @if(is_null($appchat->img))
+                                <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 4.png')}}" alt="" srcset="">
+                                </div>
+                                @else
+                                <div class="about-icons"><img src="{{asset('uploads/cms/'.$appchat->img)}}" alt="" srcset="">
+                                </div>
+                                @endif
+                               
+                                <div class="text-table">
+                               
+                                    <strong class="d-block mb-2 black-txt">{{$appchat->cms_type}}</strong>
+                                    <p class="grey-txt">{{$appchat->content}}</p>
+                            </div>
+                            @endif
                             </div>
                         </li>
                     </ul>
@@ -859,7 +958,7 @@
  -->
             </div>
             <div class="d-flex justify-content-center my-3">
-                <a class="btn btn-typ3 flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Today, Pay Later</strong> <span>Onboard Employees and Start Processing Payroll</span></a>
+                <a class="btn btn-typ3 flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span  class="small">Onboard Employees and Start Processing Payroll</span></a>
             </div>
         </div>
     </section>
@@ -968,12 +1067,14 @@
     </section>
 @endif
 
-{{--<section id="why-paytym" class="pb-5">
+<section id="why-paytym" class="pb-5">
         <div class="container about-title pt-5 text-center">
             <div class="border pt-5 px-lg-0 px-sm-3 px-0">
                 <h3>Why Choose Paytym’s Cloud-based Software?</h3>
                 <div class="row px-lg-5 px-md-4">
+
                     <div class="col-md-6">
+                        @if(is_null($improvespeed))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon1.png')}}" class="img-fluid" alt="">
@@ -986,8 +1087,27 @@
                                 Discover the efficiency of Paytym’s cloud-basedpayroll services. With a user-friendly interface andautomation, these services eliminate manualcalculations, errors, and workarounds. Ensure youremployees are paid accurately and on time, withoutthe pre-payroll rush. Upgrade from older on-premisepayroll software to a streamlinedcloud solution today.
                             </p>
                         </div>
+                        @else
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                @if(is_null($improvespeed->img))
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon1.png')}}" class="img-fluid" alt="">
+                                @else
+                                <img src="{{asset('uploads/cms/'.$improvespeed->img)}}" class="img-fluid" alt="">
+                                @endif
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                {{$improvespeed->cms_type}}
+                                </h6>
+                            </div>
+                            <p>
+                                {{$improvespeed->content}}
+                            </p>
+                        </div>
+                        @endif
                     </div>
+
                     <div class="col-md-6">
+                    @if(is_null($offermobileaccess))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon2.png')}}" class="img-fluid" alt="">
@@ -1000,8 +1120,26 @@
                                 Embrace the freedom of Paytym’s cloud-based payroll services. Process and approve payroll from any device, anywhere, even outside the office. It is ideal even for businesses with multiple worksites across different time zones. Field managers can easily review attendance, approve leaves, and stay connected via smartphones or tablets. Embrace the future of remote payroll management with Paytym.
                             </p>
                         </div>
+                        @else
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                @if(is_null($offermobileaccess->img))
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon2.png')}}" class="img-fluid" alt="">
+                                @else
+                                <img src="{{asset('uploads/cms/'.$offermobileaccess->img)}}" class="img-fluid" alt="">
+                                @endif
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                {{$offermobileaccess->cms_type}}
+                                </h6>
+                            </div>
+                            <p>
+                                {{$offermobileaccess->content}}
+                            </p>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-6">
+                    @if(is_null($protectdata))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon3.png')}}" class="img-fluid" alt="">
@@ -1021,8 +1159,27 @@
                                 safe with Paytym.
                             </p>
                         </div>
+                        @else
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                @if(is_null($protectdata->img))
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon3.png')}}" class="img-fluid" alt="">
+                                @else
+                                <img src="{{asset('uploads/cms/'.$protectdata->img)}}" class="img-fluid" alt="">
+                                @endif
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                {{$protectdata->cms_type}}
+                                </h6>
+                            </div>
+                            <p>
+                                {{$protectdata->content}}
+                            </p>
+                        </div>
+                        @endif
+
                     </div>
                     <div class="col-md-6">
+                    @if(is_null($easilyscalebusiness))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon4.png') }}" class="img-fluid" alt="">
@@ -1040,8 +1197,26 @@
                                 efficiency. Let us handle the infrastructure for you.
                             </p>
                         </div>
+                        @else
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                @if(is_null($easilyscalebusiness->img))
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon4.png')}}" class="img-fluid" alt="">
+                                @else
+                                <img src="{{asset('uploads/cms/'.$easilyscalebusiness->img)}}" class="img-fluid" alt="">
+                                @endif
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                {{$easilyscalebusiness->cms_type}}
+                                </h6>
+                            </div>
+                            <p>
+                                {{$easilyscalebusiness->content}}
+                            </p>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-6">
+                    @if(is_null($offeremployeeservice))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon5.png')}}" class="img-fluid" alt="">
@@ -1061,8 +1236,26 @@
                                 and satisfaction now!
                             </p>
                         </div>
+                        @else
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                @if(is_null($offeremployeeservice->img))
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon5.png')}}" class="img-fluid" alt="">
+                                @else
+                                <img src="{{asset('uploads/cms/'.$offeremployeeservice->img)}}" class="img-fluid" alt="">
+                                @endif
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                {{$offeremployeeservice->cms_type}}
+                                </h6>
+                            </div>
+                            <p>
+                                {{$offeremployeeservice->content}}
+                            </p>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-6">
+                    @if(is_null($reducecost))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon6.png')}}" class="img-fluid" alt="">
@@ -1082,8 +1275,26 @@
                                 Paytym cloud-based SaaS solution.
                             </p>
                         </div>
+                        @else
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                @if(is_null($reducecost->img))
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon6.png')}}" class="img-fluid" alt="">
+                                @else
+                                <img src="{{asset('uploads/cms/'.$reducecost->img)}}" class="img-fluid" alt="">
+                                @endif
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                {{$reducecost->cms_type}}
+                                </h6>
+                            </div>
+                            <p>
+                                {{$reducecost->content}}
+                            </p>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-6">
+                    @if(is_null($envfriendly))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon7.png')}}" class="img-fluid" alt="">
@@ -1102,8 +1313,26 @@
                                 contribute to a greener future.
                             </p>
                         </div>
+                        @else
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                @if(is_null($envfriendly->img))
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon7.png')}}" class="img-fluid" alt="">
+                                @else
+                                <img src="{{asset('uploads/cms/'.$envfriendly->img)}}" class="img-fluid" alt="">
+                                @endif
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                {{$envfriendly->cms_type}}
+                                </h6>
+                            </div>
+                            <p>
+                                {{$envfriendly->content}}
+                            </p>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-6">
+                    @if(is_null($effortlessstat))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon8.png')}}" class="img-fluid" alt="">
@@ -1122,11 +1351,28 @@
                                 more strategic tasks while remaining fully compliant.
                             </p>
                         </div>
+                        @else
+                        <div class="p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                @if(is_null($effortlessstat->img))
+                                <img src="{{asset('home_assets/images/why-paytym-icons/icon8.png')}}" class="img-fluid" alt="">
+                                @else
+                                <img src="{{asset('uploads/cms/'.$effortlessstat->img)}}" class="img-fluid" alt="">
+                                @endif
+                                <h6 class="ml-3 mb-0 text-left fw-600">
+                                {{$effortlessstat->cms_type}}
+                                </h6>
+                            </div>
+                            <p>
+                                {{$effortlessstat->content}}
+                            </p>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
-    </section>--}}
+    </section>
     <!-- our-expert-section -->
     <!-- <section class="our-expert">
         <div class="container about-title pt-5 text-center">
