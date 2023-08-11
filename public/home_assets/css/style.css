@@ -255,7 +255,7 @@ header{
 }
 /* header-section */
 .header-section{
-    background-image: url(images/pexels-fauxels-318435.png);
+    background-image: url(../images/pexels-fauxels-318435.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -367,7 +367,7 @@ hero-section */
     
 }
 .img-right{
-    background-image: url(images/Ellipse-17.png);
+    background-image: url(../images/Ellipse-17.png);
     background-repeat: no-repeat;
     background-size: 60%;
     background-position: center;
@@ -378,7 +378,7 @@ hero-section */
 }
 .img-right::before{
     content: "";
-    background: url(images/Ellipse-16.png);
+    background: url(../images/Ellipse-16.png);
     position: absolute;
     left: auto;
     right: auto;
@@ -596,7 +596,7 @@ hero-section */
 
 /* showcase-section */
 .showcase-section{
-    background-image: url(images/pexels-mart-production-7709221\ 1.png);
+    background-image: url(../images/pexels-mart-production-7709221\ 1.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -689,7 +689,7 @@ hero-section */
 }
 .howwork-section .col-md-4 .card-work:after{
     content: "";
-    background: url(images/blue-arrow.svg) no-repeat;
+    background: url(../images/blue-arrow.svg) no-repeat;
     width: 78px;
     height: 16px;
     background-size: 100%;
