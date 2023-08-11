@@ -28,6 +28,22 @@
                                     <option value="Chat">Chat</option>
                                     <option value="Testimonials">Testimonials</option>
                                     <option value="Showcase">ShowCase</option>
+                                    <option value="Pay Slips">Pay Slips</option>
+                                    <option value="Leaves and Time Off">Leaves and Time Off</option>
+                                    <option value="Personal Profile">Personal Profile</option>
+                                    <option value="Deposit Accounts">Deposit Accounts</option>
+                                    <option value="Shift Roster">Shift Roster</option>
+                                    <option value="App Chat">Chat</option>
+
+                                    <option value="Improve Speed and Accuracy">Improve Speed and Accuracy</option>
+                                    <option value="Offer Mobile Accessibility">Offer Mobile Accessibility</option>
+                                    <option value="Protect Your Data">Protect Your Data</option>
+                                    <option value="Easily Scale Your Business">Easily Scale Your Business</option>
+                                    <option value="Offer Employee Self-Service Portals">Offer Employee Self-Service Portals</option>
+                                    <option value="Reduce Ownership Costs">Reduce Ownership Costs</option>
+                                    <option value="Become Environmentally Friendly">Become Environmentally Friendly</option>
+                                    <option value="Effortless Statutory Compliance">Effortless Statutory Compliance</option>
+
                                 </select>
                                 <!-- <input type="text" class="form-control @if ($errors->has('cms_type')) is-invalid @endif" name="cms_type" value="{{ old('cms_type') }}" placeholder="Enter CMS Type"> -->
                                 <div class="invalid-feedback">{{ $errors->first('cms_type') }}</div>
