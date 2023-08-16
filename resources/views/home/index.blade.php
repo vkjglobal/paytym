@@ -66,7 +66,7 @@
                                         <a class="nav-link" href="#pricing">Pricing</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#why-paytym">Why Paytym?</a>
+                                        <a class="nav-link" href="#why-paytym">Why Paytym</a>
                                     </li>
                                 </ul>
                                 <span class="download">
@@ -87,7 +87,7 @@
 
     <section class="header-section hero-section" id="home">
         <div class="container">
-            <div class="row ">
+            <div class="row justify-content-center">
                <!-- <div class="col-md-6 text-white  " data-aos="fade-up" data-aos-duration="2000">
                     <div class="text">-->
                         <!-- <h1 class="first-text">Creative <br>Solutions to</h1>
@@ -102,26 +102,26 @@
                     </div>
 
                 </div>-->
-                <div class="col-md-8 text-white py-md-0 py-3" data-aos="fade-up" data-aos-duration="2000">
+                <div class="col-xl-5 col-lg-6 col-md-8 text-white py-md-0 py-3" data-aos="fade-up" data-aos-duration="2000">
                     <div class="text d-flex flex-column justify-content-center align-items-start">
                         <!-- <h1 class="first-text">Creative <br>Solutions to</h1>
                         <h1 class="sub-text"> Improve your <br>Business.</h1> -->
                         <h3 class="fw-600 mb-4">
                             Transform Your Business with <br class="d-lg-block d-none">Paytym's Powerful HR and Payroll <br class="d-lg-block d-none">Automation Platform.
                         </h3>
-                        <p class="mb-4">
+                        <p class="mb-4 pr-4">
                             Unlock stress-free payroll processing with Paytym. Save time, costs, and eliminate errors. Hire, pay, and manage your team effortlessly, all in one place!
                         </p>
-                        <a href="{{ route('employer.register') }}" class="btn btn-typ4 px-3 py-1 ml-0 mr-auto mb-3">Register Now - Pay later</a>
-                        <p class="small">On-board Employees and Start Processing!</p>
+                        <a href="{{ route('employer.register') }}" class="btn-typ4 btn-typ-3d px-3 py-2 mx-auto mb-3">Register Now - Pay later</a>
+                        <p class="small mx-auto">On-board Employees and Start Processing!</p>
                     </div>
 
                 </div>
                 <!-- <div class="col-md-6 pt-3"> -->
-                <div class="col-4 d-md-flex d-none h-100 align-items-end align-self-end">
+                <div class="col-xl-5 col-lg-6 col-md-4 d-flex h-100 align-items-end align-self-end justify-content-md-end justify-content-center">
                     <div class="right-img" data-aos="fade-down" data-aos-duration="2000">
                         @if($bannercount == 0)
-                        <img src="{{asset('home_assets/images/banner-bg.png')}}" alt="" srcset="">
+                        <img src="{{asset('home_assets/images/banner-bg1.png')}}" alt="" srcset="">
                         @else
                         <img src="{{ asset('storage/' . $banner[0]->image) }}" alt="" srcset="">
                         @endif
@@ -327,11 +327,11 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center my-3">
-                    <a class="btn btn-typ3 flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span  class="small">Onboard Employees and Start Processing Payroll</span></a>
+                    <a class="btn btn-typ4 btn-typ-3d flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span  class="small">Onboard Employees and Start Processing Payroll</span></a>
                 </div>
-                <button class="fixed-btn">
+                <button class="fixed-btn btn-typ2-3d">
                     <span class="small">Up to 9 <br> employees</span>
-                    <strong>Pay $29 only</strong>
+                    <strong>Pay $39 only</strong>
                     <span class="small">For all features!</span>
                 </button>
             </div>
@@ -558,7 +558,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-6 d-lg-block d-none">
+                <div class="col-md-6">
                     <div class="img-right " data-aos="fade-down" data-aos-duration="2000">
                         <img src="{{asset('home_assets/images/Group 48.png')}}" alt="" srcset="">
                     </div>
@@ -568,7 +568,7 @@
     </section>
 
     <!-- showcase-section -->
-    <section class="showcase-section">
+    <section class="showcase-section mt-4">
         <div class="container">
             <div class="show-title pt-5 text-center">
                 @if(is_null($showcase))
@@ -590,7 +590,7 @@
                 <div class="col-md-2 pt-2">
                     <img src="{{asset('home_assets/images/showcase/showcase-img3.jpg')}}" alt="" srcset="">
                 </div>
-                <div class="col-md-2 dash pt-2">
+                <div class="col-md-2 pt-2">
                     <img src="{{asset('home_assets/images/showcase/showcase-img4.jpg')}}" alt="" srcset="">
                 </div>
                 <div class="col-md-2 pt-2">
@@ -724,7 +724,7 @@
         <div class="container">
             <h4 class="fw-600 mb-3">Why Paytym should be your preferred HR and Payroll Platform?</h4>
             <div class="fw-600 h5 mb-4">Get started for free and find out for yourself.</div>
-            <a href="{{ route('employer.register') }}" class="btn btn-typ4 fw-600 px-3 py-1 ml-0 mr-auto mb-2">Register Now - Pay later</a>
+            <a href="{{ route('employer.register') }}" class="d-inline-flex btn-typ3 btn-typ2-3d fw-600 px-3 py-1 ml-0 mr-auto mb-2">Register Now - Pay later</a>
             <p class="small mb-0">(No credit card details required at sign up)</p>
         </div>
     </section>
@@ -958,7 +958,7 @@
  -->
             </div>
             <div class="d-flex justify-content-center my-3">
-                <a class="btn btn-typ3 flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span  class="small">Onboard Employees and Start Processing Payroll</span></a>
+                <a class="btn btn-typ4 btn-typ-3d flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span  class="small">Onboard Employees and Start Processing Payroll</span></a>
             </div>
         </div>
     </section>
@@ -1532,7 +1532,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <p class="copy-text">Copyright &copy; 2022 Paytym.net . All Rights Reserved</p>
+                    <p class="copy-text">Copyright &copy; 2023 Paytym.net . All Rights Reserved</p>
                 </div>
             </div>
         </div>

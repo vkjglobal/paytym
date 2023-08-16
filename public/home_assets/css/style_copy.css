@@ -6,7 +6,8 @@
 }
 body{
     font-family: 'Poppins', sans-serif;
-    
+    color: #000000;
+    font-size: 16px;
 }
 html {
     scroll-padding-top: 4rem;
@@ -36,7 +37,7 @@ html {
 .fw-900{
     font-weight: 900 !important;
 }
-.fs-11{
+/* .fs-11{
     font-size: 11px !important;
 }
 .fs-12{
@@ -50,7 +51,7 @@ html {
 }
 .fs-15{
     font-size: 15px !important;
-}
+} */
 .fs-16{
     font-size: 16px !important;
 }
@@ -223,7 +224,7 @@ header{
 }
 .header .btn-typ2{
     border: 1px solid #02aaeb;
-    color: #adadad;
+    color: #000000;
     font-size: 13px;
     background-color: transparent;
     transition: 0.3s ease-in-out;
@@ -242,7 +243,7 @@ header{
 .header .navbar-light .navbar-nav .show>.nav-link,
 .header .navbar-light .navbar-nav .nav-link{
     color: #0818a8;
-    font-size: 14px;
+    /* font-size: 14px; */
 }
 .navbar-light .navbar-toggler-icon {
     background-image: none;
@@ -259,11 +260,11 @@ header{
     background-position: center;
     background-size: cover;
     background-color: #02aaeb;
-    padding-bottom: 60px;
+    /* padding-bottom: 60px; */
     padding-top: 116px;
     display: flex;
     align-items: center;
-    min-height: 60vh;
+    /* min-height: 60vh; */
 }
 .sticky-button{
     position: fixed;
@@ -339,8 +340,8 @@ hero-section */
     font-size: 24px;
 }
 .about-title p{
-    font-size: 13px;
-    color: #adadad;
+    /* font-size: 16px; */
+    color: #000000;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
@@ -361,8 +362,8 @@ hero-section */
     color: #26208C;
 }
 .text-content p{
-    font-size: 14px;
-    color: rgb(116, 113, 113);
+    /* font-size: 14px; */
+    color: rgb(0, 0, 0);
     
 }
 .img-right{
@@ -402,12 +403,12 @@ hero-section */
     height: 20%;
 } */
 .text-table {
-    font-size: 14px;
+    /* font-size: 14px; */
     margin-left: 20px;
 }
 .text-table p{
-    color: #575658;
-    font-size: 12px;
+    color: #000000;
+    /* font-size: 12px; */
     }
 .about-table{
     padding: 0;
@@ -433,7 +434,7 @@ hero-section */
     padding-bottom: 60px;
 }
 .card-about{
-    color: #6b696d;
+    color: #000000;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -477,7 +478,7 @@ hero-section */
     color: #2E2C35;
 }
 .card-about .card-text{
-    font-size: 13px;
+    /* font-size: 13px; */
     font-weight: 300;
 }
 .card-about .icon-back{
@@ -531,11 +532,24 @@ hero-section */
 }
 .btn-typ3:hover{
     background-color: #ffffff;
-    color: #8F8F8F;
+    color: #000000;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.25) !important;
 }
 .btn-typ3:hover strong{
     color: #4854BB;
+}
+.btn-typ4{
+    background-color: #002060;
+    color: #ffffff;
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -ms-border-radius: 100px;
+    -o-border-radius: 100px;
+}
+.btn-typ4:hover{
+    background-color: #ffffff;
+    color: #002060;
 }
 /* .card-about:hover{
     background-color:#9292EF;
@@ -563,7 +577,7 @@ hero-section */
     color: #02aaeb;
 }
 .sub-title p{
-    font-size: 13px;
+    /* font-size: 13px; */
 }
 .about-icons {
     width: 60px;
@@ -597,7 +611,7 @@ hero-section */
 }
 .show-title p{
     color: #fff;
-    font-size: 13px;
+    /* font-size: 13px; */
 }
 .showcase-section .row img{
     width: 100%;
@@ -627,7 +641,7 @@ hero-section */
     align-items: center;
 }
 .title-wrp{
-    font-size: 15px;
+    /* font-size: 15px; */
     font-weight: 400;
     text-align: center;
 }
@@ -643,7 +657,7 @@ hero-section */
     font-weight: 500;
 }
 .card-text{
-    font-size: 13px;
+    /* font-size: 13px; */
     color: #000000;
     font-weight: 300;
 }
@@ -705,8 +719,8 @@ hero-section */
 }
 .carousel-item p{
    
-    font-size: 14px;
-    color: #5b5561;
+    /* font-size: 14px; */
+    color: #000000;
 }
 
 .testimonial-section{
@@ -719,11 +733,11 @@ hero-section */
     align-items: center;
 }
 .testimonial-carousel.owl-carousel .test-info .txt-cntnt{
-    font-size: 14px;
-    color: #5b5561;
+    /* font-size: 14px; */
+    color: #000000;
 }
 .testimonial-carousel.owl-carousel .test-info strong{
-    color: #25208c5d;
+    color: #0818a89a;
     margin-top: 15px;
 }
 .testimonial-carousel.owl-carousel .test-info strong,
@@ -771,7 +785,7 @@ hero-section */
     font-size: 18px;
 } */
 .card-price-blue h4{
-    color: #29272e;;
+    color: #000000;
     font-size: 16px;
 }
 .card-price-blue h4 strong{
@@ -794,8 +808,8 @@ hero-section */
     font-size: 14px;
 }
 .ul-list{
-    font-size: 14px;
-    color: #696464;
+    /* font-size: 14px; */
+    color: #000000;
 }
 .btn-started button{
     color: white;
@@ -806,8 +820,8 @@ hero-section */
 }
 .body-card{
     margin-left: 20%;
-    font-size: 16px;
-    color: #696666;
+    /* font-size: 16px; */
+    color: #000000;
 }
 .fee-table{
     width: 100%;
@@ -950,8 +964,8 @@ hero-section */
     padding-right: 150px;
 }
 .our-expert .sub-text{
-    color: #696464;
-    font-size: 12px;
+    color: #000000;
+    /* font-size: 12px; */
 }
 
 
@@ -962,7 +976,7 @@ hero-section */
 }
 /* .get-in-touch .img-wrp{
     opacity: 0.3;
-    background: url(../images/hr-img2.jpg) no-repeat;
+    background: url(images/hr-img2.jpg) no-repeat;
     background-position: center;
     background-size: cover;
     height: 500px;
@@ -1006,7 +1020,7 @@ hero-section */
     font-weight: 400;
 }
 .get-title p{
-    font-size: 13px
+    /* font-size: 13px */
 }
 .get-in-touch .form-floating::placeholder{
     opacity: 0;
@@ -1026,7 +1040,7 @@ hero-section */
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 20px;
-    font-size: 12px;
+    /* font-size: 12px; */
 }
 /* footer-section */
 .footer-section{
@@ -1039,10 +1053,10 @@ hero-section */
    
 }
 .address{
-    font-size: 14px;
+    /* font-size: 14px; */
 }
 .footer-contact-sec, .footer-contact-sec a{
-    font-size: 14px;
+    /* font-size: 14px; */
     font-weight: 400;
     color: #000000;
 }
@@ -1054,7 +1068,8 @@ hero-section */
     margin: 0;
     padding: 0;
     list-style: none;
-    display: flex;
+    /* display: flex; */
+    display: none;
     align-items: center;
 }
 .social-links li{
@@ -1121,7 +1136,7 @@ ul.links li{
     width: 70%;
 }
 .links{
-    font-size: 14px;
+    /* font-size: 14px; */
 }
 
 .btn-typ2{
@@ -1144,6 +1159,46 @@ input.btn-typ2{
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+.reg-now-section{
+    background-color: #002060;
+    color: #ffffff;
+}
+.reg-now-section .btn-typ4{
+    color: #ffffff;
+    background-color: #03AAEB;
+}
+.reg-now-section .btn-typ4:hover{
+    background-color: #ffffff;
+    color: #002060;
+}
+.downloadApp-section{
+    display: none;
+}
+.fixed-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    color: #ffffff;
+    background-color: #03AAEB;
+    border: 3px solid #ffffff95;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.5) !important;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 /********Register Page**********/
 .register-sec {
@@ -1253,7 +1308,7 @@ input.btn-typ2{
 }
 .custom-file-uploader.btn{
     font-weight: 500;
-    font-size: 12px;
+    /* font-size: 12px; */
     line-height: 30px;
     color: #FFFFFF;
     border-radius: 100px;
@@ -1288,15 +1343,15 @@ input.btn-typ2{
     background: none;
     height: auto;
     font-weight: 600;
-    font-size: 12px;
+    /* font-size: 12px; */
     line-height: 12px;
     color: #000000;
 }
 .file-upload-resume .info-txt{
     font-weight: 400;
-    font-size: 13px;
+    /* font-size: 13px; */
     line-height: 30px;
-    color: #797979;
+    color: #000000;
 }
 .form-control{
     box-shadow: none;
@@ -1549,6 +1604,9 @@ input.btn-typ2{
     }
 }
 @media only screen and (max-width: 1023px) {
+    body{
+        font-size: 14px;
+    }
     .img-right{
         align-items: center;
     }
@@ -1637,6 +1695,10 @@ input.btn-typ2{
     .title-wrp strong{
         font-size: 16px;
     }
+    .fixed-btn{
+        position: static;
+        margin: 10px auto;
+}
 }
 .img-right{
     animation: growCircle 3s linear infinite;
