@@ -52,7 +52,6 @@ class AttendanceController extends Controller
 
     public function check_out(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
         ]);
@@ -179,6 +178,7 @@ class AttendanceController extends Controller
 
          // 10-08-23
          $check_out_status=Auth::user()->check_out_requred;
+     
          if($check_out_status=='0')
          {
              return response()->json([

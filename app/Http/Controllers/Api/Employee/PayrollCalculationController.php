@@ -45,12 +45,13 @@ class PayrollCalculationController extends Controller
         $EmployerId = $request->employer_id;
         $id = $request->id;
         $flag = $request->flag;
-        $pending_leaves = 0;
-        $pending_overtime = 0;
-        $pending_attendance = 0;
+        // $pending_leaves = 0;
+        // $pending_overtime = 0;
+        // $pending_attendance = 0;
 
         if ($flag == "business") {
-            foreach ($id as $id) {
+            //dd($id);
+            foreach ($id as  $id) {
                 $employees = User::where('business_id', $id)->get();
             }
         } else if ($flag == "branch") {
@@ -67,6 +68,22 @@ class PayrollCalculationController extends Controller
             $pending_leaves = LeaveRequest::where('employer_id', $request->employer_id)->where('status', '0')->get();
             $pending_overtime = Overtime::where('employer_id', $request->employer_id)->where('status', '0')->get();
             $pending_attendance = Attendance::where('employer_id', $request->employer_id)->where('approve_reject', null)->get();
+        
+            if ((count($pending_leaves) > 0)) {
+                return response()->json([
+                    'message' => 'There is pending leave requests'
+                ], 400);
+            }
+            if ((count($pending_overtime) > 0)) {
+                return response()->json([
+                    'message' => 'There is pending overtime requests'
+                ], 400);
+            }
+            if ((count($pending_attendance) > 0)) {
+                return response()->json([
+                    'message' => 'There is pending attendance approvals'
+                ], 400);
+            }
         }
         else
           {
@@ -74,24 +91,6 @@ class PayrollCalculationController extends Controller
              {
                 $employees[] = User::where('id', $id)->first();
              }
-        }
-
-
-
-        if ((count($pending_leaves) > 0)) {
-            return response()->json([
-                'message' => 'There is pending leave requests'
-            ], 400);
-        }
-        if ((count($pending_overtime) > 0)) {
-            return response()->json([
-                'message' => 'There is pending overtime requests'
-            ], 400);
-        }
-        if ((count($pending_attendance) > 0)) {
-            return response()->json([
-                'message' => 'There is pending attendance approvals'
-            ], 400);
         }
 
         $today = Carbon::today();

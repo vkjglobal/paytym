@@ -198,9 +198,6 @@ class UploadController extends Controller
         $fileName =$file->file;
         $filePath = storage_path('app/public/' . $fileName);
         return response()->download($filePath);
-        
-
-
      
     }
 }
