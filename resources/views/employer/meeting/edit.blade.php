@@ -96,9 +96,9 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Add new Attendees<span class="text-danger">*</span></label>
-                                <select name="new_attendees[]" multiple>
+                                <select name="new_attendees[]" multiple id="attendees">
                                     @foreach($employees as $user)
-                                            <option value="{{ $user->id }}">{{ $user->first_name }}</option>
+                                            <option value="{{ $user->id }}">{{$user->id}} - {{ $user->first_name }}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('user') }}</div>
@@ -121,7 +121,15 @@
 @push('custom_js')
     <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+    $(document).ready(function () {
+        $('#attendees').select2(
+            {   placeholder: "--Select--",
+                allowClear: true});
+        
+    });
+</script>
     <script>
     const meetingDateInput = document.getElementById('meeting_date');
 

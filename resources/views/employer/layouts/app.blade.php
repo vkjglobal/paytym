@@ -93,7 +93,7 @@
         </div>
 
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- core:js -->
     <script src="{{ asset('admin_assets/vendors/core/core.js') }}"></script>
     <!-- endinject -->

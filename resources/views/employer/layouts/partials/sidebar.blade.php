@@ -85,11 +85,11 @@
                             </a>
                             <div class="collapse {{ request()->is('employer/invoice*') ? 'show' : '' }}" id="invoice">
                                 <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                        <a href="{{ route('employer.invoice.index') }}" class="nav-link {{ request()->is('employer/invoice/index') ? 'active' : '' }}">
+                               {{-- <li class="nav-item">
+                                        <a href="{{ route('employer.generate_invoice') }}" class="nav-link {{ request()->is('employer/invoice/index') ? 'active' : '' }}">
                                             View Invoice
                                         </a>
-                                    </li>
+                                    </li>--}}
                                     <li class="nav-item">
                                         <a href="{{ route('employer.invoice.index') }}" class="nav-link {{ request()->is('employer/invoice/index') ? 'active' : '' }}">
                                             List
