@@ -52,7 +52,6 @@ class AttendanceController extends Controller
 
     public function check_out(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
         ]);
@@ -63,6 +62,18 @@ class AttendanceController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
+
+        $user_id = Auth::user()->id;
+
+        // 10-08-23
+        $check_out_status=Auth::user()->check_out_requred;
+        if($check_out_status=='0')
+        {
+            return response()->json([
+                'message' => "No Check-out for this employee ",
+            ], 200);
+        }
+
 
         $now = new \DateTime();
         $date = date('Y-m-d');
@@ -164,6 +175,16 @@ class AttendanceController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
+
+         // 10-08-23
+         $check_out_status=Auth::user()->check_out_requred;
+     
+         if($check_out_status=='0')
+         {
+             return response()->json([
+                 'message' => "No Check-out for this employee",
+             ], 200);
+         }
 
         $qr_code = $request->qr_code;
         $employer_qr_code = Employer::where('id', $request->employer_id)->value('qr_code');
