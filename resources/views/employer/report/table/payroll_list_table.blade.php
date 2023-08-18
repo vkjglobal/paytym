@@ -4,6 +4,7 @@
             <tr>
                 <th>Sl #</th>
                 <th>Name</th>
+                <th>Business</th>
                 <th>Base Salary</th>
                 <th>Net Salary</th>
                 <th>Gross Salary</th>
@@ -14,6 +15,8 @@
                 <th>Total Allowance</th>
                 <th>Total Bonus</th>
                 <th>Total Commission</th>
+                <th>Start Date</th>
+                <th>End Date</th>
 
                 <th>Status</th>
 
@@ -26,6 +29,9 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>@isset($payroll->user->first_name)
                         {{ $payroll->user->first_name }}
+                    @endisset</td>
+                    <td>@isset($payroll->user->business->name)
+                        {{ $payroll->user->business->name }}
                     @endisset</td>
                     <td>@isset($payroll->base_salary)
                         {{ $payroll->base_salary }}
@@ -53,6 +59,12 @@
                     @endisset</td>
                     <td>@isset($payroll->total_commission)
                         {{ $payroll->total_commission }}
+                    @endisset</td>
+                    <td>@isset($payroll->start_date)
+                        {{ $payroll->start_date }}
+                    @endisset</td>
+                    <td>@isset($payroll->end_date)
+                        {{ $payroll->end_date }}
                     @endisset</td>
                     <td>@if($payroll->status == 0)
                             <span class="text-danger">Pending</span>

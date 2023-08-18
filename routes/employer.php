@@ -307,6 +307,7 @@ Route::middleware('employer.auth')->group(function () {
 
 
     Route::get('view_invoice/{id}',[InvoiceController::class,'view_invoice'])->name('view_invoice');
+    Route::get('generate_invoice',[InvoiceController::class,'generate_invoice'])->name('generate_invoice');
 
 
     //24-07-23
