@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{asset('home_assets/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('home_assets/css/owl.theme.default.min.css')}}">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="shortcut icon" href="{{asset('home_assets/images/fevicon.PNG')}}" type="">
+    <link rel="shortcut icon" href="{{asset('home_assets/images/favicon.PNG')}}" type="">
     <link rel="stylesheet" href="{{asset('home_assets/css/style.css')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
@@ -1480,8 +1480,8 @@
                             Email: <a href="mailto:contact@paytym.net">contact@paytym.net</a>
                         </div>
                         <ul class="social-links mt-3">
-                            <li class="fb-icon"><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                            <li class="lnkdn-icon"><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+                            <li class="fb-icon"><a href="https://www.facebook.com/people/Paytym/100089080389947/?mibextid=ZbWKwL"><i class="fa-brands fa-facebook-f"></i></a></li>
+                            <li class="lnkdn-icon"><a href="https://www.linkedin.com/showcase/paytym/"><i class="fa-brands fa-linkedin-in"></i></a></li>
                             <li class="twtr-icon"><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
                             <!-- <li><a href=""><i class="fa-brands fa-instagram"></i></a></li> -->
                         </ul>
