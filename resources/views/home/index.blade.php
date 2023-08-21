@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{asset('home_assets/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('home_assets/css/owl.theme.default.min.css')}}">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="shortcut icon" href="{{asset('home_assets/images/favicon.PNG')}}" type="">
+    <link rel="shortcut icon" href="{{asset('home_assets/images/favicon.png')}}" type="">
     <link rel="stylesheet" href="{{asset('home_assets/css/style.css')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
