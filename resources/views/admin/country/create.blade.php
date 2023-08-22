@@ -28,21 +28,20 @@
                         </div><!-- Col -->
                     </div><!-- Row -->
                     <div class="row">
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                             <div class="form-group">
-                                <!-- <label class="control-label">Tax<span class="text-danger">*</span></label> -->
                                 <input type="number" class="form-control @if ($errors->has('tax')) is-invalid @endif" name="tax" value="{{ old('tax') }}" placeholder="Enter Tax">
                                 <div class="invalid-feedback">{{ $errors->first('tax') }}</div>
                             </div>
-                        </div><!-- Col -->
+                        </div> -->
+                        <!-- Col -->
 
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                             <div class="form-group">
-                                <!-- <label class="control-label">SRT<span class="text-danger">*</span></label> -->
                                 <input type="number" class="form-control @if ($errors->has('srt')) is-invalid @endif" name="srt" value="{{ old('srt') }}" placeholder="Enter SRT">
                                 <div class="invalid-feedback">{{ $errors->first('srt') }}</div>
                             </div>
-                        </div><!-- Col -->
+                        </div> -->
 
                         <div class="col-sm-6">
                             <div class="form-group">

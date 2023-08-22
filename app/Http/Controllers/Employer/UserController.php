@@ -49,7 +49,8 @@ class UserController extends Controller
             ];
     
             $users = User::where('employer_id',Auth::guard('employer')->user()->id)->with('business')->latest()->get();
-            $roles = Role::get();   
+            $roles = Role::where('employer_id',Auth::guard('employer')->user()->id)->get();   
+          
             return view('employer.user.index', compact('breadcrumbs', 'users','roles'));
         }
     }
@@ -70,7 +71,7 @@ class UserController extends Controller
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
         // $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
         $countries = Country::get();
-        $roles = Role::get();
+        $roles = Role::where('employer_id',Auth::guard('employer')->user()->id)->get();  
         return view('employer.user.create',compact('breadcrumbs','branches','roles','departments','businesses','countries'));
     }
 
@@ -125,7 +126,7 @@ class UserController extends Controller
      $user->check_out_default = $request->get('end_time');
      $password =  Str::random(8);
      $user->password = FacadesHash::make($password);
-     if($request->get('check_out_reqd') != Null)
+     if($request->get('check_out_reqd') != null)
      {
      $user->check_out_requred = '1';
      }
@@ -227,7 +228,7 @@ class UserController extends Controller
         $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->where('status', '1')->get();
         $countries = Country::get();
-        $roles = Role::get();
+        $roles = Role::where('employer_id',Auth::guard('employer')->user()->id)->get();  
         
         return view('employer.user.edit',compact('breadcrumbs','user','branches','roles','countries','businesses','departments'));
     }
@@ -266,6 +267,13 @@ class UserController extends Controller
      $user->employment_start_date = $validated['start_date'];
      $user->employment_end_date = $validated['end_date'];
     //  $user->pay_period = $validated['payperiod'];
+    if($request->get('check_out_reqd') == '0')
+     {
+     $user->check_out_requred = '1';
+     }
+     else{
+        $user->check_out_requred = '0';
+     }
      
      if(!empty($validated['hourly_rate'])){
         $user->rate = $validated['hourly_rate'];

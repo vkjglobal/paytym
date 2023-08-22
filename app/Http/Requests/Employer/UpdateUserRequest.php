@@ -60,6 +60,7 @@ class UpdateUserRequest extends FormRequest
             'licence_expiry_date'=>  'nullable',
             'passport_no'=>  'nullable',
             'passport_expiry_date'=>  'nullable',
+            'check_out_reqd'=>  'nullable',
         ];
     }
 }

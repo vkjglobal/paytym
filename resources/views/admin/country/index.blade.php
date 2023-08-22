@@ -15,8 +15,8 @@
                                     <th>Sl #</th>
                                     <th>Name</th>
                                     <th>Currency</th>
-                                    <th>Tax</th>
-                                    <th>SRT</th>
+                                    <!-- <th>Tax</th>
+                                    <th>SRT</th> -->
                                     <th>ECAL</th>
                                     <th>FNPF</th>
                                     <th>Status</th>
@@ -29,8 +29,8 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $country->name }}</td>
                                         <td>{{ $country->currency }}</td>
-                                        <td>{{ $country->tax }}</td>
-                                        <td>{{ $country->srt_tax }}</td>
+                                        <!-- <td>{{ $country->tax }}</td>
+                                        <td>{{ $country->srt_tax }}</td> -->
                                         <td>{{ $country->ecal_tax }}</td>
                                         <td>{{ $country->fnpf }}</td>
                                         <td>

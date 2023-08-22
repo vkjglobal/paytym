@@ -33,14 +33,28 @@
                                 <div class="invalid-feedback">{{ $errors->first('job_title') }}</div>
                             </div>
                         </div><!-- Col -->
-                        <div class="col-sm-4">
+                     
+                    </div><!-- Row -->
+
+                    <div class="row">
+                    <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Email <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control @if ($errors->has('email')) is-invalid @endif" name="email" value="{{ old('email',$user->email) }}" placeholder="Enter Email" required>
                                 <div class="invalid-feedback">{{ $errors->first('email') }}</div>
                             </div>
                         </div><!-- Col -->
-                    </div><!-- Row -->
+                    <div class="col-sm-8">
+                            <label>&nbsp;</label>
+                            <div class="form-check form-check-flat form-check-primary chk-bx-typ2">
+                                    <input class="form-check-input   @if ($errors->has('check_out_reqd')) is-invalid @endif" type="checkbox" name="check_out_reqd" value="{{ old('check_out_reqd',$user->check_out_requred) }}" @if($user->check_out_requred == '1') checked @endif id="check_out_reqd">
+                                    <label class="form-check-label" for="check_out_reqd">Tick if check-out is required for this employee <span></span></label>
+                                </div>
+                           
+                        </div>
+                    </div>
+
+                   
 
                     <div class="row">
                         <div class="col-sm-4">

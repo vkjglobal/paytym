@@ -29,21 +29,19 @@
                         </div><!-- Col -->
                     </div><!-- Row -->
                 <div class="row">
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                             <div class="form-group">
-                                <!-- <label class="control-label">Tax<span class="text-danger">*</span></label> -->
                                 <input type="number" class="form-control @if ($errors->has('cms_type')) is-invalid @endif" name="tax" value="{{ old('tax',$country->tax) }}" placeholder="Enter Tax">
                                 <div class="invalid-feedback">{{ $errors->first('tax') }}</div>
                             </div>
-                        </div><!-- Col -->
+                        </div>
 
                 <div class="col-sm-6">
                             <div class="form-group">
-                                <!-- <label class="control-label">SRT<span class="text-danger">*</span></label> -->
                                 <input type="number" class="form-control @if ($errors->has('srt')) is-invalid @endif" name="srt" value="{{ old('srt',$country->srt_tax) }}" placeholder="Enter SRT">
                                 <div class="invalid-feedback">{{ $errors->first('srt') }}</div>
                             </div>
-                        </div><!-- Col -->
+                        </div> -->
 
                 <div class="col-sm-6">
                             <div class="form-group">

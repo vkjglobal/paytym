@@ -44,9 +44,9 @@
 
                         <div class="col-sm-8">
                             <label>&nbsp;</label>
-                            <div class="form-check form-check-flat form-check-primary">
-                                <label class="form-check-label">
-                                    <input class="form-check-input @if ($errors->has('check_out_reqd')) is-invalid @endif" type="checkbox" name="check_out_reqd" value="{{ old('check_out_reqd') }}" id="check_out_reqd">Tick if check-out is required for this employee<i class="input-frame"></i></label>
+                            <div class="form-check form-check-flat form-check-primary chk-bx-typ2">
+                                <input class="form-check-input @if ($errors->has('check_out_reqd')) is-invalid @endif" type="checkbox" name="check_out_reqd"  id="check_out_reqd">
+                                <label class="form-check-label" for="check_out_reqd">Tick if check-out is required for this employee <span></span></label>
                             </div>
                         </div>
 
@@ -165,16 +165,13 @@
                         </div><!-- Col -->
 
 
-
-
-
                     </div><!-- Row -->
 
 
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Bank Name*<span class="text-danger"> *</span></label>
+                                <label class="control-label">Bank Name<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control @if ($errors->has('bank')) is-invalid @endif" name="bank" value="{{ old('bank') }}" placeholder="Enter Bank">
                                 <div class="invalid-feedback">{{ $errors->first('bank') }}</div>
                             </div>

@@ -60,7 +60,7 @@ class TaxSettingsSrtController extends Controller
                 [(__('Dashboard')), route('admin.home')],
                 [(__('Tax Settings')), null],
             ];
-            $tax = TaxSettingsSrtModel::find($id)->first();
+            $tax = TaxSettingsSrtModel::find($id);
             $countries = Country::get();
             return view('admin.tax_settings_srt.edit', compact('breadcrumbs', 'tax', 'countries'));
         }
