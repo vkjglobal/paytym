@@ -50,9 +50,63 @@
 
         .btn-fixed-width {
          width: 100px !important; /* Set the width to the desired value and add !important flag */
-}
-
-
+        }
+        .form-check.chk-bx-typ2 .form-check-label{
+            position: relative;
+        }
+        .form-check.chk-bx-typ2 .form-check-label::before{
+            content: "";
+            width: 18px;
+            height: 18px;
+            position: absolute;
+            left: -25px;
+            top: 0;
+            border-radius: 2px;
+            border: solid #727cf5;
+            border-width: 2px;
+            -webkit-transition: all;
+            -moz-transition: all;
+            -ms-transition: all;
+            -o-transition: all;
+            transition: all;
+            transition-duration: 0s;
+            -webkit-transition-duration: 250ms;
+            transition-duration: 250ms;
+        }
+        .form-check.chk-bx-typ2 input[type="checkbox"]{
+            opacity: 0;
+        }
+        .form-check.chk-bx-typ2 input[type="checkbox"]:checked ~ .form-check-label::before{
+            background: #727cf5;
+            border-width: 0;
+        }
+        .form-check.chk-bx-typ2 .form-check-label:after {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            left: -25px;
+            top: 0;
+            -webkit-transition: all;
+            -moz-transition: all;
+            -ms-transition: all;
+            -o-transition: all;
+            transition: all;
+            transition-duration: 0s;
+            -webkit-transition-duration: 250ms;
+            transition-duration: 250ms;
+            font-family: feather;
+            content: '\e83f';
+            opacity: 0;
+            font-size: .9375rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .form-check.chk-bx-typ2 input[type="checkbox"]:checked ~ .form-check-label:after {
+            width: 18px;
+            opacity: 1;
+            line-height: 18px;
+        }
     </style>
 
     @stack('custom_css')

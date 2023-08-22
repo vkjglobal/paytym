@@ -33,7 +33,7 @@ class ReportController extends Controller
 
     public function export() 
     {
-        return Excel::download(new ReportExport, 'allowance_export-'.Carbon::now().'.xlsx');
+        return Excel::download(new ReportExport, 'Paytym-EmployersList-'.Carbon::now().'.xlsx');
     }
 
     public function download() 
