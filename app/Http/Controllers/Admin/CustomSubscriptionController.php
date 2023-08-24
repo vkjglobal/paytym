@@ -55,7 +55,8 @@ class CustomSubscriptionController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('admin.custom_subscriptions.index');
     }
 
     public function edit(CustomSubscription $custom_subscription)
@@ -86,7 +87,8 @@ class CustomSubscriptionController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('admin.custom_subscriptions.index');
 
     }
 

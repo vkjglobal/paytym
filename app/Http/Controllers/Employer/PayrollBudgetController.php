@@ -57,7 +57,8 @@ class PayrollBudgetController extends Controller
             }
                 
         }
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('employer.payroll-budget.index');
     }
 
     public function show($id)
@@ -108,7 +109,8 @@ class PayrollBudgetController extends Controller
             }
                 
         // }
-        return redirect()->back();
+        return redirect()->route('employer.payroll-budget.index');
+        //return redirect()->back();
     }
 
     public function destroy($id)

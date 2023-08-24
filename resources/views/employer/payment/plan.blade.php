@@ -52,9 +52,9 @@
                                     <form action="{{Route('employer.billing')}}" method="post">
                                         @csrf
                                     <input type="hidden" name="plan_id" value="{{$sub->id}}">
-                                    <button class="btn" type="submit" > 
+                                    {{--<button class="btn" type="submit" > 
                                         Buy
-                                    </button>
+                                    </button>--}}
                                     </form>
                                 </div>
                             </div>
@@ -83,9 +83,9 @@
                                     <form action="{{Route('employer.billing')}}" method="post">
                                         @csrf
                                     <input type="hidden" name="plan_id" value="{{$sub->id}}">
-                                    <button class="btn" type="submit" > 
+                                   {{-- <button class="btn" type="submit" > 
                                         Buy
-                                    </button>
+                                    </button>--}}
                                     </form>
                                 </div>
                             </div>
@@ -114,9 +114,9 @@
                                     <form action="{{Route('employer.billing')}}" method="post">
                                         @csrf
                                     <input type="hidden" name="plan_id" value="{{$sub->id}}">
-                                    <button class="btn" type="submit" > 
+                                   {{--<button class="btn" type="submit" > 
                                         Buy
-                                    </button>
+                                    </button>--}}
                                     </form>
                                 </div>
                             </div>

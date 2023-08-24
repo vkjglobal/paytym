@@ -74,7 +74,8 @@ class LeaveTypeController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('employer.leave-type.index');
     }
 
     /**
@@ -140,7 +141,8 @@ class LeaveTypeController extends Controller
         } else {
             notify()->error(__('Failed to Update. Please try again'));
         }
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('employer.leave-type.index');
     }
 
     /**

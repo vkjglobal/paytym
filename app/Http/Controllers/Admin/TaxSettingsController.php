@@ -49,7 +49,8 @@ class TaxSettingsController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('admin.tax_settings.index');
     }
 
 
@@ -83,7 +84,8 @@ class TaxSettingsController extends Controller
         } else {
             notify()->error(__('Failed to Update. Please try again'));
         }
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('admin.tax_settings.index');
     }
 
 

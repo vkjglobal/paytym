@@ -84,7 +84,8 @@ class SubscriptionController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('admin.subscriptions.index');
 
     }
 

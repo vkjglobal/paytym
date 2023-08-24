@@ -43,7 +43,8 @@ class UserRoleController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('employer.userroles.index');
     }
 
 
@@ -68,7 +69,8 @@ class UserRoleController extends Controller
         } else {
             notify()->error(__('Failed to Create. Please try again'));
         }
-        return redirect()->back();
+        return redirect()->route('employer.userroles.index');
+        //return redirect()->back();
     }
 
     public function destroy($id)
