@@ -60,8 +60,8 @@ class CountryController extends Controller
     } else {
         notify()->error(__('Failed to Create. Please try again'));
     }
-    return redirect()->back();
-
+    //return redirect()->back();
+    return redirect()->route('admin.country.index');
 
     }
 
@@ -113,7 +113,9 @@ class CountryController extends Controller
     } else {
         notify()->error(__('Failed to Update. Please try again'));
     }
-    return redirect()->back();
+    //return redirect()->back();
+    return redirect()->route('admin.country.index');
+    
     }
 
     /**
