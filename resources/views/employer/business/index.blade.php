@@ -14,7 +14,8 @@
                                 <tr>
                                     <th>Sl #</th>
                                     <th>Name</th>
-                                    <th>Description</th>
+                                    <!-- <th>Description</th> -->
+                                    <th>QR Code</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -24,7 +25,8 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $business->name }}</td>
-                                        <td>{{ $business->description }}</td>
+                                        <!-- <td>{{ $business->description }}</td> -->
+                                        <td><a href="{{ route('employer.business.view_qrcode', $business->id) }}"  class="btn btn-primary" >View QR Code</a></td> 
                                         <td>
                                             <input data-id="{{ $business->id }}" class="toggle-class" type="checkbox"
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"

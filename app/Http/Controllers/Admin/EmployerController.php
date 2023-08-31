@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class EmployerController extends Controller
 {
@@ -108,6 +108,9 @@ class EmployerController extends Controller
         $res = $employer->save();
 
         if ($res) {
+
+            $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
+            $employer->save();
 
             Mail::to($validated['email'])->send(new EmployerRegisterEmail($employer,$password));
 

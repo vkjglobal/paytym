@@ -11,7 +11,8 @@ use Illuminate\Contracts\View\View;
 
 
 use Auth;
-
+use Illuminate\Support\Facades\Redirect;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BusinessController extends Controller
 {
@@ -20,14 +21,14 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() : View
+    public function index(): View
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.department.index')],
             [(__('Business')), null],
         ];
 
-        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
 
 
 
@@ -39,7 +40,7 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() : View
+    public function create(): View
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
@@ -47,8 +48,8 @@ class BusinessController extends Controller
             [(__('Create')), null]
         ];
         //Employer $employer
-        $employer=Auth::guard('employer')->user()->id;
-        return view('employer.business.create', compact('breadcrumbs','employer'));
+        $employer = Auth::guard('employer')->user()->id;
+        return view('employer.business.create', compact('breadcrumbs', 'employer'));
     }
 
     /**
@@ -65,13 +66,13 @@ class BusinessController extends Controller
         $business->description = $request['description'];
         $business->employer_id = Auth::guard('employer')->user()->id;
         $res = $business->save();
-        if($res){
-                notify()->success(__('Created successfully'));
-            } else {
-                notify()->error(__('Failed to Create. Please try again'));
-            }
-            return redirect()->back();
+        if ($res) {
+            notify()->success(__('Created successfully'));
+        } else {
+            notify()->error(__('Failed to Create. Please try again'));
         }
+        return redirect()->back();
+    }
 
     /**
      * Display the specified resource.
@@ -90,7 +91,7 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(EmployerBusiness $business) : View
+    public function edit(EmployerBusiness $business): View
     {
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
@@ -98,7 +99,7 @@ class BusinessController extends Controller
             [(__('Create')), null]
         ];
         //Employer $employer
-        return view('employer.business.edit', compact('breadcrumbs','business'));
+        return view('employer.business.edit', compact('breadcrumbs', 'business'));
     }
 
     /**
@@ -115,12 +116,12 @@ class BusinessController extends Controller
         $business->description = $request['description'];
         $business->employer_id = Auth::guard('employer')->user()->id;
         $res = $business->save();
-        if($res){
-                notify()->success(__('Updated successfully'));
-            } else {
-                notify()->error(__('Failed to Update. Please try again'));
-            }
-            return redirect()->route('employer.business.index');
+        if ($res) {
+            notify()->success(__('Updated successfully'));
+        } else {
+            notify()->error(__('Failed to Update. Please try again'));
+        }
+        return redirect()->route('employer.business.index');
     }
 
     /**
@@ -141,12 +142,47 @@ class BusinessController extends Controller
     }
 
     //Change department Status
-    public function changeStatus(Request $request){
+    public function changeStatus(Request $request)
+    {
         $business = EmployerBusiness::find($request->business_id);
         $business->status = $request->status;
-        $res=$business->save();
-        if($res){
-        return response()->json(['success' => 'Status change successfully.']);
+        $res = $business->save();
+        if ($res) {
+            return response()->json(['success' => 'Status change successfully.']);
         }
     }
+
+    // Robin Update 30-08-23   business QR code view 
+    public function view_qrcode($id)
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.department.index')],
+            [(__('Business')), null],
+        ];
+       $business = EmployerBusiness::where('id', $id)->first();
+        return view('employer.business.qr_code', compact('breadcrumbs', 'business'));
+    }
+
+    public function generate_qrcode($id)
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.department.index')],
+            [(__('Business')), null],
+        ];
+        $business=EmployerBusiness::where('id',$id)->first();
+        $business->qr_code = QrCode::size(250)->format('svg')->generate($id);
+        $res=$business->save();
+        if($res)
+        {
+            return Redirect::back();
+            notify()->success(__('QR code Generated  successfully'));
+        }
+
+     //   return view('employer.business.qr_code', compact('breadcrumbs', 'business'));
+    }
+
+
+   
+
+
 }

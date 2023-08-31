@@ -10,6 +10,8 @@ use App\Models\Branch;
 use App\Models\EmployerBusiness;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BranchController extends Controller
 {
@@ -64,6 +66,8 @@ class BranchController extends Controller
             $res = $branch->save();
     
             if ($res) {
+
+               
                 notify()->success(__('Created successfully'));
             } else {
                 notify()->error(__('Failed to Create. Please try again'));
@@ -116,7 +120,6 @@ class BranchController extends Controller
     
     
             $res = $branch->save();
-    
             if ($res) {
                 notify()->success(__('Updated successfully'));
             } else {
@@ -160,6 +163,39 @@ class BranchController extends Controller
         return response()->json(['success' => 'Status change successfully.']);
         }
     }
+
+
+    // Robin Update 30-08-23   business QR code view 
+    public function view_branch_qrcode($id)
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.department.index')],
+            [(__('Branches')), route('employer.branch.list')],
+        ];
+       
+       $branches = Branch::where('id', $id)->first();
+        return view('employer.branch.qr_code', compact('breadcrumbs', 'branches'));
+    }
+
+    public function generate_branch_qrcode($id)
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.department.index')],
+            [(__('Business')), null],
+        ];
+        $branches=Branch::where('id',$id)->first();
+        $branches->qr_code = QrCode::size(250)->format('svg')->generate($id);
+        $res=$branches->save();
+        if($res)
+        {
+            return Redirect::back();
+            notify()->success(__('QR code Generated  successfully'));
+        }
+
+     //   return view('employer.business.qr_code', compact('breadcrumbs', 'business'));
+    }
+
+    
     
     }
 
