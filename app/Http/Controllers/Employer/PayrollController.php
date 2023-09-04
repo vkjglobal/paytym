@@ -146,7 +146,7 @@ class PayrollController extends Controller
 
     public function generate_form()
     {
-        return view('employer.payroll.generate');
+        return view('employer.Payroll.generate');
     }
 
     public function generate_hourly_payroll($employee, $fromDate, $payDate, $EmployerId)

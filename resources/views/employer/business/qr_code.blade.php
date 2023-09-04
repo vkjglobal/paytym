@@ -11,8 +11,6 @@
                 <h6 class="card-title">{{ $business->description }}</h6>
             </div>
         </div>
-
-
     </div>
 </div>
 <br><br>

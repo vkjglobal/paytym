@@ -7,11 +7,8 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ $branches->name }}</h4>
-
                 </div>
             </div>
-           
-
         </div>
     </div>
     <br><br>
@@ -20,7 +17,6 @@
     <div class="card p-4 text-center">
                     <h6 class="card-title font-weight-bolder">QR code</h6>
                     @if($branches->qr_code)
-               
                     <div id='qr_code' class="m-3 p-5" style="text-align: center;">
                         <div style="display: inline-block; padding: 20px; margin-top: 20px; border:1px solid #000000;">
                             <div style="text-align: center;font-size: 20px; font-weight: bold; text-transform: uppercase; margin-bottom: 20px;">{!! $branches->name !!}</div>
@@ -40,7 +36,6 @@
 @push('custom_js')
     <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
-
     <script>
         function downloadSvg() {
             const svg = document.getElementById('qr_code');
@@ -55,7 +50,5 @@
 
             URL.revokeObjectURL(url);
             }
-
-
     </script>
 @endpush
