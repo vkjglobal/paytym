@@ -20,7 +20,6 @@
         <div class="card-body">
           <form action="{{route('employer.payroll.generate.hourly')}}" method="post">
             @csrf
-           
             <div class="form-group">
               <label for="payDate">Pay Date:</label>
               <input type="date" name="paydate" class="form-control" id="payDate">

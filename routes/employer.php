@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\MeetingsController;
+use App\Http\Controllers\Employer\AdvanceController;
 use App\Http\Controllers\Employer\Auth\ForgotPasswordController;
 use App\Http\Controllers\Employer\Auth\LoginController;
 use App\Http\Controllers\Employer\Auth\RegisterController;
@@ -324,4 +325,14 @@ Route::middleware('employer.auth')->group(function () {
   //Meetings
   Route::resource('meeting', MeetingController::class)->except(['show']);
   Route::get('meeting/view/{id}', [MeetingController::class, 'view_details'])->name('meeting.details');
+
+// Robin Code 01-09-23 Request Advance Approve/Reject etc
+
+Route::resource('advance', AdvanceController::class)->except(['show']);
+Route::get('respond_advance_request', [AdvanceController::class, 'respond_advance_request'])->name('advance.respond_advance_request');
+
+
+//End
+
+
 });

@@ -10,7 +10,6 @@ use Carbon\Carbon;
 
 class PaymentAdvanceController extends Controller
 {
-    //
 
     public function request_advance(Request $request)
     {
