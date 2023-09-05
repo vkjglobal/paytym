@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('invoices:add')
-        ->monthlyOn(05, '16:33')
+        ->monthlyOn(05, '21:00')
         ->timezone('Asia/Kolkata'); 
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
