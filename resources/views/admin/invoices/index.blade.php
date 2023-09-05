@@ -19,7 +19,7 @@
                                     <th>Active Employess</th>
                                     <th>Amount</th>
                                     <th>Status</th>
-                                    {{-- <th>Actions</th> --}}
+                                  <th>Actions</th>  {{--  --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,7 +31,16 @@
                                         <td>{{ isset($invoice) && isset($invoice->date) ? date('M-Y', strtotime($invoice->date)) : 'No data' }}</td>
                                         <td>{{ optional($invoice)->active_employees ?? 'No data' }}</td>
                                         <td>{{ optional($invoice)->amount ?? 'No data' }}</td>
-                                        <td><span class="btn btn-{{ optional($invoice)->status == '0' ? 'danger' : 'success' }}">{{ optional($invoice)->status == '0' ? 'Pending' : 'Paid' }}</span></td>
+                                        {{--<td><span class="btn btn-{{ optional($invoice)->status == '0' ? 'danger' : 'success' }}">{{ optional($invoice)->status == '0' ? 'Pending' : 'Paid' }}</span></td>--}}
+                                        <td><span class="btn btn-{{ optional($invoice)->status == '0' ? 'secondary' :  (optional($invoice)->status == '1' ? 'success' : 'danger') }}">{{ optional($invoice)->status == '0' ? 'Pending' : (optional($invoice)->status == '1' ? 'Paid' : 'Overdue') }}</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button name="approve" type="submit" value="1" title="Paid" data-toggle="modal" onclick="event.preventDefault(); if(confirm('Are you sure you want to change status to paid ?')){
+                                                        document.getElementById('delete-data-{{ $invoice->id }}').submit();}">
+                                                    <i data-feather="check" style="color:#4BB543;" ></i>
+                                                </button>
+    </div>
+    </td>
                                         {{-- <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
