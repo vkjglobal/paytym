@@ -790,11 +790,11 @@
                             </a>
                             <div class="collapse {{ request()->is('employer/advance*') ? 'show' : '' }}" id="advance">
                                 <ul class="nav sub-menu">
-                                    <!-- <li class="nav-item">
-                                        <a href="{{ route('employer.allowance.create') }}" class="nav-link {{ request()->is('employer/allowance/create') ? 'active' : '' }}">
+                                    <li class="nav-item">
+                                        <a href="{{ route('employer.advance.create') }}" class="nav-link {{ request()->is('employer/advance/create') ? 'active' : '' }}">
                                             Create
                                         </a>
-                                    </li> -->
+                                    </li>
                                     <li class="nav-item">
                                         <a href="{{ route('employer.advance.index') }}" class="nav-link {{ request()->is('employer/advance') ? 'active' : '' }}">
                                             List
@@ -810,32 +810,6 @@
 
                         <!-- End of Robin Code 01-09-23 -->
 
-                        <li class="nav-item  {{ request()->is('employer/allowance*') ? 'active' : '' }}">
-                            <a class="nav-link" data-toggle="collapse" href="#allowance" role="button" aria-expanded="false" aria-controls="requests">
-                                <i class="link-icon" data-feather="user-plus"></i>
-                                <span class="link-title">Allowances</span>
-                                <i class="link-arrow" data-feather="chevron-down"></i>
-                            </a>
-                            <div class="collapse {{ request()->is('employer/allowance*') ? 'show' : '' }}" id="allowance">
-                                <ul class="nav sub-menu">
-                                    <li class="nav-item">
-                                        <a href="{{ route('employer.allowance.create') }}" class="nav-link {{ request()->is('employer/allowance/create') ? 'active' : '' }}">
-                                            Create
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('employer.allowance.index') }}" class="nav-link {{ request()->is('employer/allowance') ? 'active' : '' }}">
-                                            List
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('employer.assignallowance.index') }}" class="nav-link {{ request()->is('employer/allowance/assignallowance') ? 'active' : '' }}">
-                                            Assign
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
 
 
                         <li class="nav-item  {{ request()->is('employer/bonus*') ? 'active' : '' }}">

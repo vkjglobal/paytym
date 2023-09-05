@@ -81,21 +81,12 @@ class DeductionsController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-
-        // $name = $request->name;
-        // $amount = $request->amount;
-        // $percentage = $request->percentage;
-        // $description = $request->description;
         $deduction_id = $request->deduction_id;
         $user_id = $request->user_id;
         $employer_id = $request->employer_id;
         $rate = $request->rate;
         $deduction = new AssignDeduction();
         $deduction->employer_id = $employer_id;
-        // $deduction->name = $name;
-        // $deduction->amount = $amount;
-        // $deduction->percentage = $percentage;
-        // $deduction->description = $description;
         $deduction->rate = $rate;
         $deduction->deduction_id = $deduction_id;
         $deduction->user_id = $user_id;
