@@ -35,10 +35,16 @@
                                         <td><span class="btn btn-{{ optional($invoice)->status == '0' ? 'secondary' :  (optional($invoice)->status == '1' ? 'success' : 'danger') }}">{{ optional($invoice)->status == '0' ? 'Pending' : (optional($invoice)->status == '1' ? 'Paid' : 'Overdue') }}</span></td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button name="approve" type="submit" value="1" title="Paid" data-toggle="modal" onclick="event.preventDefault(); if(confirm('Are you sure you want to change status to paid ?')){
+                                        <button name="approve" type="submit" value="1" title="Paid" data-toggle="modal" onclick="event.preventDefault(); if(confirm('Are you sure you want to change status to Paid ?')){
                                                         document.getElementById('delete-data-{{ $invoice->id }}').submit();}">
                                                     <i data-feather="check" style="color:#4BB543;" ></i>
                                                 </button>
+                                                <form id="delete-data-{{ $invoice->id }}"
+                                                    action="{{ route('admin.invoice.change.status', $invoice->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                  
+                                                </form>
     </div>
     </td>
                                         {{-- <td>

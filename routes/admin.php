@@ -19,6 +19,7 @@ use App\Http\Controllers\TwilioSMSController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\TaxSettingsController;
 use App\Http\Controllers\Admin\TaxSettingsSrtController;
+use App\Http\Controllers\Admin\InvoiceController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
@@ -92,6 +93,7 @@ Route::middleware('admin.auth')->group(function () {
     
     // Invoices
     Route::resource('invoice', InvoiceController::class);
+    Route::post('invoice-change-status/{id}', [InvoiceController::class, 'changeStatus'])->name('invoice.change.status');
 
     //Support Tickets
     Route::get('supportticket', [SupportTicketController::class, 'index'])->name('supportticket');

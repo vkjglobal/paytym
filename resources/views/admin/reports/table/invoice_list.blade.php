@@ -21,7 +21,7 @@
                 <td>{{ optional($invoice)->active_employees ?? 'No data' }}</td>
                 <td>{{ optional($invoice)->amount ?? 'No data' }}</td>
                {{-- <td>{{ optional($invoice)->status == '0' ? 'Pending' : 'Paid' }}</td>
-                <td>{{ optional($invoice)->status == '0' ? 'Pending' : (optional($invoice)->status == '1' ? 'Paid' : 'Overdue') }}</td>--}}
+                <td>{{ optional($invoice)->status == '0' ? 'Pending' : (optional($invoice)->status == '1' ? 'Paid' : 'Overdue') }}</td>
                 <td class="status_{{$invoice->id}}">
                                             @if ($invoice->status == 2)
                                                 <span class="btn btn-danger">Overdue</span>
@@ -30,7 +30,8 @@
                                             @else
                                                 <span class="btn btn-success">Paid</span>
                                             @endif
-                                        </td>
+                                        </td>--}}
+                                        <td><span class="btn btn-{{ optional($invoice)->status == '0' ? 'secondary' :  (optional($invoice)->status == '1' ? 'success' : 'danger') }}">{{ optional($invoice)->status == '0' ? 'Pending' : (optional($invoice)->status == '1' ? 'Paid' : 'Overdue') }}</span></td>
             </tr>
 
         @endforeach
