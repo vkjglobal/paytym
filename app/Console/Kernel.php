@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
         "App\Console\Commands\EmploymentOverEmails",
         "App\Console\Commands\SendLoginCredentials",
         "App\Console\Commands\SplitPayment",
-        "App\Console\Commands\AddInvoice",
+        "App\Console\Commands\AddInvoices",
     ];
     
     /**
@@ -24,10 +24,21 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('invoices:add')
+        ->monthlyOn(05, '12:20')
+        ->timezone('Asia/Kolkata'); 
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
-        $schedule->command('send:login_credentials')->twiceDaily(24 ,18);
-        $schedule->command('invoices:add')->monthlyOn(30, '23:50');
+        //$schedule->command('send:login_credentials')->twiceDaily(24 ,18);
+        //$schedule->command('invoices:add')->monthlyOn(30, '23:50');
+        
+      /*   $schedule->command('invoices:add')
+             ->monthlyOn(30, '23:00')
+             ->timezone('Pacific/Fiji');  */
+             
+             
+          
+             
     }
 
     /**

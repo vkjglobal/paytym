@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Carbon\CarbonInterval;
+use Illuminate\Support\Facades\View;
 
 class InvoiceController extends Controller
 {
@@ -23,7 +24,7 @@ class InvoiceController extends Controller
             [(__('Invoice')), null],
         ];
   
-        $plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('date', 'desc')->get();
         return view('employer.invoice.index', compact('breadcrumbs', 'plan'));
     }
 
@@ -34,9 +35,37 @@ class InvoiceController extends Controller
             [(__('Vew Bill')), null],
         ];
 
+        $employer = Auth::guard('employer')->user();
         $plan = Invoice::with('plan')->where('id', $id)->first();
-        return view('employer.invoice.monthly_invoice', compact('breadcrumbs', 'plan'));
+        $total_employee_rate = $plan->plan->rate_per_employee * $plan->active_employees;
+        
+        /* $pdf = PDF::loadView('employer.invoice.view_invoice', compact('breadcrumbs', 'plan','employer','total_employee_rate'));
+        $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $fileName = date('ymd') . time() . '.' . $employer->id;
+        $pdf->save(storage_path('user_assets/invoices/invoice.pdf')); */
+        //return storage_path('app/temp/invoice.pdf');
+
+        return view('employer.invoice.view_invoice', compact('breadcrumbs', 'plan','employer','total_employee_rate'));
+        //return view('employer.invoice.monthly_invoice', compact('breadcrumbs', 'plan','employer','total_employee_rate'));
+
     }
+    public function download_invoice($id)
+{
+    $data = []; // Your invoice data
+    $employer = Auth::guard('employer')->user();
+    $plan = Invoice::with('plan')->where('id', $id)->first();
+    $total_employee_rate = $plan->plan->rate_per_employee * $plan->active_employees;
+    //$htmlContent = View::make('invoices.invoice_template', $data)->render();
+    $htmlContent = View::make('employer.invoice.view_invoice', compact('plan','employer','total_employee_rate'))->render();
+
+    // Set the response headers for downloading an HTML file
+    $headers = [
+        'Content-Type' => 'text/html',
+        'Content-Disposition' => 'attachment; filename="invoice.html"',
+    ];
+
+    return response()->make($htmlContent, 200, $headers);
+}
     public function generate_invoice()
     {
         $breadcrumbs = [
