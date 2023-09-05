@@ -29,6 +29,7 @@
                                         <option selected="true" value="" disabled>All</option>
                                         <option value="0" {{ old('status') === 0 ? 'selected' : '' }}>Pending</option>
                                         <option value="1" {{ old('status') === 1 ? 'selected' : '' }}>Paid</option>
+                                        <option value="2" {{ old('status') === 2 ? 'selected' : '' }}>Overdue</option>
                                     </select>                                
                                     <div class="invalid-feedback">{{ $errors->first('status') }}</div>
                                 </div>

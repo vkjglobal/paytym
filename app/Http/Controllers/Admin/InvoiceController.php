@@ -88,4 +88,18 @@ class InvoiceController extends Controller
     {
         //
     }
+    public function changeStatus($id)
+    {
+        $invoice = Invoice::find($id);
+        //return $id;
+        $invoice->status = 1;
+        $invoice->save();
+
+        if ($invoice) {
+            notify()->success(__('Status changed successfully'));
+        } else {
+            notify()->error(__('Failed to change status. Please try again'));
+        }
+        return redirect()->back();
+    }
 }
