@@ -97,6 +97,7 @@
                 <form method="GET" action="{{ route('employer.advance.respond_advance_request') }}">
                     @csrf
                     <!-- Your form fields -->
+                    <input type="hidden" id="user_id"  name="user_id" value="{{ $request->user->id }}" >
                     <input type="hidden" id="request_id"  name="request_id" value="{{ $request->id }}" >
                     <div class="form-group">
                         <label for="exampleInputEmail1">Requested Amount</label>
