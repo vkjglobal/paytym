@@ -16,11 +16,13 @@
 										<tr>
 											<th>Plan</th>
 											<th>Range</th>
-											<!-- <th>Date</th> -->
+											<th>Date</th>
 											<th>Active Employees</th>
 											<th>Rate Per Employee</th>
 											<th>Rate Per Month</th>
+											<th>Total Amount</th>
 											<th>Status</th>
+											<th></th>
 											<th>Invoice</th>
 										</tr>
 									</thead>
@@ -29,14 +31,29 @@
 									<tr>
 											<td>{{$plan->plan->plan}}</td>
 											<td>{{$plan->plan->range_from}} to {{$plan->plan->range_to}} people</td>
-											<!-- <th>{{$plan->date}}</td> -->
+											<th>@if(!is_null($plan->date))
+												{{\Carbon\Carbon::parse($plan->date)->format('d-m-Y') }}
+												@else
+                                            No data
+                                            @endif</td>
 											<td>{{$plan->active_employees}}</td>
 											<td>${{$plan->plan->rate_per_employee}}</td>
 											<td>${{$plan->plan->rate_per_month}}</td>
-											<td>${{$plan->plan->status}}</td>
+											<td>${{$plan->amount}}</td>
+											<td><span class="btn btn-{{ optional($plan)->status == '0' ? 'danger' : 'success' }}">{{ optional($plan)->status == '0' ? 'Pending' : 'Paid' }}	</span></td>
 											<!-- <a href="{{ route('employer.view_invoice', ['id' => $plan->id]) }}">Link</a> -->
-
-											<td><a href="{{ route('employer.view_invoice', ['id' => $plan->id]) }}" type="button" class="btn btn-primary">View</a></td>
+											<td>@if($plan->status == 0)
+												<form action="{{Route('employer.billing')}}" method="post">
+													@csrf
+												<input type="hidden" name="plan_id" value="{{$plan->plan->id}}">
+												<button class="btn btn-success" type="submit" > 
+												Pay Now
+												</button>
+												</form>
+												
+												@endif
+											</td>
+												<td><a href="{{ route('employer.view_invoice', ['id' => $plan->id]) }}" type="button" class="btn btn-primary">View</a></td>
 											<th></td>
 										</tr>
 										@endforeach

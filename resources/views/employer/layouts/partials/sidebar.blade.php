@@ -56,7 +56,7 @@
 
                 <a class="nav-link" data-toggle="collapse" href="#subscription" role="button" aria-expanded="false" aria-controls="requests">
                     <i class="link-icon" data-feather="upload"></i>
-                    <span class="link-title">Subscription</span>
+                    <span class="link-title">Billing</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse {{ request()->is('employer/subscription*') ? 'show' : ''}}"  id="subscription">
@@ -74,6 +74,11 @@
                                             Plans
                                         </a>
                                     </li>
+                                    {{--<li class="nav-item">
+                                        <a href="{{ route('employer.cards.index') }}" class="nav-link {{ request()->is('employer/cards') ? 'active' : '' }}">
+                                            Cards
+                                        </a>
+                                    </li>--}}
                                 </ul>
                             </div>
                         </li>
