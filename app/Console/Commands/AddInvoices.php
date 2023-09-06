@@ -67,12 +67,12 @@ class AddInvoices extends Command
 
                 if($custom_plan == null){
                     $invoice->plan_id = $plan->id;
-                    $invoice->amount = $plan->rate_per_month + ($total_active_employees*$plan->rate_per_employee);
-                }else{
-                    $invoice->custom_plan_id = $custom_plan->id;
                     $invoice->amount = 0; // Initialize the amount
 
                     if (is_numeric($plan->rate_per_month) && is_numeric($plan->rate_per_employee)) 
+                    $invoice->amount = $plan->rate_per_month + ($total_active_employees*$plan->rate_per_employee);
+                }else{
+                    $invoice->custom_plan_id = $custom_plan->id;
                     $invoice->amount = $custom_plan->rate_per_month + ($total_active_employees*$custom_plan->rate_per_employee);
                 }
                 
@@ -93,7 +93,7 @@ class AddInvoices extends Command
                 $invoice->invoice_number = $invoiceNumber;
               $invoice->save();
            // Mail::to($employer->email)->send(new InvoiceEmail($invoiceDetails));
-           // Mail::to($employer->email)->send(new InvoiceEmail($employer,$invoice,$plan,$total_employee_rate,$invoiceNumber));
+            Mail::to($employer->email)->send(new InvoiceEmail($employer,$invoice,$plan,$total_employee_rate,$invoiceNumber));
         }
             
 
