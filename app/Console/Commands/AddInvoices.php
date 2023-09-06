@@ -69,7 +69,7 @@ class AddInvoices extends Command
                     $invoice->plan_id = $plan->id;
                     $invoice->amount = 0; // Initialize the amount
 
-                    if (is_numeric($plan->rate_per_month) && is_numeric($plan->rate_per_employee)) 
+                    
                     $invoice->amount = $plan->rate_per_month + ($total_active_employees*$plan->rate_per_employee);
                 }else{
                     $invoice->custom_plan_id = $custom_plan->id;
@@ -79,7 +79,7 @@ class AddInvoices extends Command
                 $invoice->date = $date;
                 $invoice->active_employees = $total_active_employees;
                 $total_employee_rate=0;
-                if (is_numeric($plan->rate_per_employee) && is_numeric($invoice->active_employees)) 
+               
                 $total_employee_rate = $plan->rate_per_employee * $invoice->active_employees;
                 $currentYear = Carbon::now()->format('Y');
         
