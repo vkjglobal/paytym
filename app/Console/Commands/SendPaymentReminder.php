@@ -44,7 +44,7 @@ class SendPaymentReminder extends Command
             })
             ->get();
             foreach ($employersWithPendingPayments as $employer) {
-                //Mail::to($employer->email)->send(new PaymentReminderEmail($employer));
+                Mail::to($employer->email)->send(new PaymentReminderEmail($employer));
                 $employer->invoice->where('status', '0')->each(function ($invoice) {
                     $invoice->update(['status' => '2']); // Set status to '2' (overdue)
                 });
