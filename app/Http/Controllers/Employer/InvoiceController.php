@@ -38,14 +38,15 @@ class InvoiceController extends Controller
         $employer = Auth::guard('employer')->user();
         $plan = Invoice::with('plan')->where('id', $id)->first();
         $total_employee_rate = $plan->plan->rate_per_employee * $plan->active_employees;
-        
+        $totalamount = $plan->plan->rate_per_month + ($plan->active_employees*$plan->plan->rate_per_employee);
+        //return $totalamount;
         /* $pdf = PDF::loadView('employer.invoice.view_invoice', compact('breadcrumbs', 'plan','employer','total_employee_rate'));
         $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         $fileName = date('ymd') . time() . '.' . $employer->id;
         $pdf->save(storage_path('user_assets/invoices/invoice.pdf')); */
         //return storage_path('app/temp/invoice.pdf');
 
-        return view('employer.invoice.view_invoice', compact('breadcrumbs', 'plan','employer','total_employee_rate'));
+        return view('employer.invoice.view_invoice', compact('breadcrumbs', 'plan','employer','total_employee_rate','totalamount'));
         //return view('employer.invoice.monthly_invoice', compact('breadcrumbs', 'plan','employer','total_employee_rate'));
 
     }

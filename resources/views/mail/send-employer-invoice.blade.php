@@ -65,7 +65,7 @@
                                     </tr>
                                     <tr>
                                         <td style="text-align: left;">
-                                            {{ $employer->name }} <br>
+                                            {{ $employer->company }} <br>
                                             {{ $employer->street }}, <br>
                                             {{ $employer->city }}  - {{ $employer->postcode }},
                                             {{ $employer->country->name }} <br>
@@ -79,13 +79,13 @@
                             <td style="border-bottom: 1px solid #000000;">
                                 <table style="width: 50%;">
                                     <tr>
-                                        <td style="vertical-align: top; text-align: left; font-weight: bold;">Packages Details:</td>
+                                        <td style="vertical-align: top; text-align: left; font-weight: bold;">Plan Details:</td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: left;">
-                                            Plan : <strong>{{$plan->plan}}: </strong> <br>
+                                            Plan : <strong>{{$plan->plan}} </strong> <br>
                                             Employee - Range : <strong>{{$plan->range_from}} - {{$plan->range_to}} </strong> <br>
-                                            Rate per Employee : <strong>${{$plan->rate_per_employee}} </strong>
+                                            Rate per Employee : <strong>${{$plan->rate_per_employee}}</strong>
                                         </td>
                                     </tr>
                                 </table>
@@ -102,37 +102,42 @@
                                                     <td style="text-align: right; border: 1px solid #000000; padding: 10px 5px; width: 50%;"><strong>Amount</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">Package Amount per Month</td>
+                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">Service Period: {{ date('F Y') }}</td>
+                                                    <td style="text-align: right; padding: 5px;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">Monthly Subscription as per Plan:</td>
                                                     <td style="text-align: right; padding: 5px;">${{$plan->rate_per_month}} </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">
                                                   
                                                     Rate per Employee: ${{$plan->rate_per_employee}} <br>
-                                                        Total No. of Employees: {{$invoice->active_employees}} <br>
+                                                        Active No. of Employees: {{$invoice->active_employees}} <br>
                                                         Total Employees Rate: ${{$plan->rate_per_employee}} * {{$invoice->active_employees}}
                                                     </td>
-                                                    <td style="text-align: right; padding: 5px; vertical-align: bottom;">${{$total_employee_rate}}</td>
+                                                    <td style="text-align: right; padding: 5px; vertical-align: bottom;">${{ number_format($total_employee_rate, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 16px; text-align: left; padding: 10px 5px; width: 50%; border-bottom: 1px solid #000000; border-top: 2px solid #000000;
-                                                    "><strong>Total</strong></td>
-                                                    <td style="font-size: 16px; text-align: right; padding: 10px 5px; width: 50%; border-bottom: 1px solid #000000; border-top: 2px solid #000000;"><strong>${{$invoice->amount}}</strong></td>
+                                                    "><strong>Total Tax Inclusive Amount Due</strong></td>
+                                                    <td style="font-size: 16px; text-align: right; padding: 10px 5px; width: 50%; border-bottom: 1px solid #000000; border-top: 2px solid #000000;"><strong>${{ number_format($invoice->amount, 2) }}</strong></td>
                                                 </tr>
                                             </table>
                                         </td>
-                                    </tr>
+                                    </tr><br>
                                     <tr>
                                         <td style="font-size: 18px; font-weight: 600; padding: 10px 5px;">
-                                            Payable
+                                        Click Here To Pay (You will be redirected to payment section)
+                                        <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
+
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td style="font-size: 16px; padding: 10px 5px 20px; ">
-                                            <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; color: #000000; text-decoration: none;">To Pay</a>
-                                            Click on this button, it will be redirected to the payment section.
-                                        </td>
-                                    </tr>
+                                    
+                                        
+                                   <tr><td style="font-size: 16px; padding: 10px 5px 20px">
+                                            
+                                        </td> </tr>
                                 </table>
                             </td>
                         </tr>

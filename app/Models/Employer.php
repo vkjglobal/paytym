@@ -102,5 +102,9 @@ class Employer extends Authenticatable
 
         return $plan_name;
     }
+    public function invoice()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 
 }
