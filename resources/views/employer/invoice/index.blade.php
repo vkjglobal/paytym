@@ -40,9 +40,11 @@
 											<td>${{$plan->plan->rate_per_employee}}</td>
 											<td>${{$plan->plan->rate_per_month}}</td>
 											<td>${{$plan->amount}}</td>
-											<td><span class="btn btn-{{ optional($plan)->status == '0' ? 'danger' : 'success' }}">{{ optional($plan)->status == '0' ? 'Pending' : 'Paid' }}	</span></td>
+											{{--<td><span class="btn btn-{{ optional($plan)->status == '0' ? 'danger' : 'success' }}">{{ optional($plan)->status == '0' ? 'Pending' : 'Paid' }}	</span></td>--}}
+											<td><span class="btn btn-{{ optional($plan)->status == '0' ? 'secondary' :  (optional($plan)->status == '1' ? 'success' : 'danger') }}">{{ optional($plan)->status == '0' ? 'Pending' : (optional($plan)->status == '1' ? 'Paid' : 'Overdue') }}</span></td>
 											<!-- <a href="{{ route('employer.view_invoice', ['id' => $plan->id]) }}">Link</a> -->
-											<td>@if($plan->status == 0)
+											
+											<td>@if($plan->status == 0 || $plan->status==2)
 												<form action="{{Route('employer.billing')}}" method="post">
 													@csrf
 												<input type="hidden" name="plan_id" value="{{$plan->plan->id}}">
