@@ -78,6 +78,8 @@ class AddInvoices extends Command
                 
                 $invoice->date = $date;
                 $invoice->active_employees = $total_active_employees;
+                $total_employee_rate=0;
+                if (is_numeric($plan->rate_per_employee) && is_numeric($invoice->active_employees)) 
                 $total_employee_rate = $plan->rate_per_employee * $invoice->active_employees;
                 $currentYear = Carbon::now()->format('Y');
         
