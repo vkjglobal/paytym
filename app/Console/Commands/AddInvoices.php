@@ -93,7 +93,7 @@ class AddInvoices extends Command
                 $invoice->invoice_number = $invoiceNumber;
               $invoice->save();
            // Mail::to($employer->email)->send(new InvoiceEmail($invoiceDetails));
-           // Mail::to($employer->email)->send(new InvoiceEmail($employer,$invoice,$plan,$total_employee_rate,$invoiceNumber));
+            Mail::to($employer->email)->send(new InvoiceEmail($employer,$invoice,$plan,$total_employee_rate,$invoiceNumber));
         }
             
 
