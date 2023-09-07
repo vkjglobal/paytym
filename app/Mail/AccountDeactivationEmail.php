@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PaymentReminderEmail extends Mailable
+class AccountDeactivationEmail extends Mailable
 {
     use Queueable, SerializesModels;
     public $employer;
@@ -32,7 +32,7 @@ class PaymentReminderEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Unpaid Paytym Invoice - Pay Now to Avoid Deactivation!',
+            subject: 'Account Deactivation Email',
         );
     }
 
@@ -43,9 +43,8 @@ class PaymentReminderEmail extends Mailable
      */
     public function content()
     {
-        
         return new Content(
-            markdown: 'mail.send-employer-paymentreminder',
+            markdown: 'mail.send-employer-deactivation',
             with: [
                 'employer' => $this->employer
                 

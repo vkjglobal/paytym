@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employer Payment Reminder</title>
+    <title>Employer Deactivation</title>
 </head>
 
 <body>
@@ -27,18 +27,23 @@
                             <h4>Dear {{ $employer->company }},</h4>
 
                             <br>
-                            A kind reminder that your payment for Paytym HR and Payroll services for the month of <?php
-                                                     $previousMonth = date('F Y', strtotime('-1 month'));?>
-                                                     {{ $previousMonth }} remains unpaid.
+                       
 
-There is still time to make the payment within the next 2 days.  Kindly note that if the due invoice remains unpaid, your account shall be deactivated by the system automatically.
+Good day!<br><br><br/>
 
-Please make the payment at the earliest in order to avoid account deactivation and use of the superior Paytym HR and Payroll services.
+A quick note to let you know that your due invoice for Paytym HR and Payroll services has been successfully paid and you can continue using your account. 
+<br><br>
+Thank you for being a valued customer of Paytym.
+<br><br>
+Should you have any queries or require any further information, please do not hesitate to <a href="mailto:contact@paytym.net" style="">contact us.</a>
+
+
+               
 <br><br><br/>
                         </td>
                     </tr>
                     <tr>
-                        <td style="height: 15px;"> <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
+                        <td style="height: 15px;">
                     <br/>  <br/>
                     </td>
                     </tr>
@@ -52,8 +57,8 @@ Please make the payment at the earliest in order to avoid account deactivation a
                             The Paytym Team
                         </td>
                         <tr>
-                        <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;"">
-                            <a href="mailto:contact@paytym.net" style="">contact@paytym.net</a>
+                        <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;">
+                            
                         </td>
                     </tr>
                 </table>
