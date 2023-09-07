@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
         "App\Console\Commands\SendLoginCredentials",
         "App\Console\Commands\SplitPayment",
         "App\Console\Commands\AddInvoices",
+        "App\Console\Commands\SendPaymentReminder",
+        "App\Console\Commands\SendAccountDeactivationEmail"
     ];
     
     /**
@@ -25,11 +27,13 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('invoices:add')
-        ->monthlyOn(01, '00:00')
+        ->monthlyOn(07, '16:40')
         ->timezone('Asia/Kolkata'); 
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
-        $schedule->command('send:payment-reminder')->monthlyOn(6, '00:00');
+        $schedule->command('send:payment-reminder')->monthlyOn(7, '16:41');
+        $schedule->command('email:account-deactivation')
+        ->monthlyOn(7, '16:42');
         //$schedule->command('send:login_credentials')->twiceDaily(24 ,18);
         //$schedule->command('invoices:add')->monthlyOn(30, '23:50');
         

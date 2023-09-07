@@ -319,6 +319,7 @@ Route::middleware('employer.auth')->group(function () {
   Route::get('view_invoice/{id}', [InvoiceController::class, 'view_invoice'])->name('view_invoice');
   Route::get('generate_invoice', [InvoiceController::class, 'generate_invoice'])->name('generate_invoice');
   Route::get('download_invoice/{id}', [InvoiceController::class, 'download_invoice'])->name('download_invoice');
+  Route::get('download_email_invoice/{id}', [InvoiceController::class, 'download_email_invoice'])->name('download_email_invoice');
 
   //Cards 04-09-23
   Route::resource('cards', CardController::class)->except(['show']);

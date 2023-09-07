@@ -5,20 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employer Invoice</title>
+    <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
+<script>
+    function downloadInvoice(Id) {
+        
+        var url = '{{ route("employer.download_email_invoice", ":id") }}';
+        url = url.replace(':id', Id);
+        //window.location = url;
+
+        const tableContent = document.getElementById('invoiceTable').outerHTML;
+
+        // Create a Blob containing the table HTML
+        const blob = new Blob([tableContent], { type: 'text/html' });
+
+        // Create a temporary URL to the Blob
+        const url1 = window.URL.createObjectURL(blob);
+
+        // Create a link to trigger the download
+        const a = document.createElement('a');
+        a.href = url1;
+        a.download = 'invoice.html'; // Set the desired filename
+
+        // Trigger a click event on the link to start the download
+        a.click();
+
+        // Release the temporary URL
+        window.URL.revokeObjectURL(url1);
+    }
+</script>
 </head>
 
 <body>
     <table style="width: 100%; text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.2;">
     <tr>
                                         <td style="text-align: left;">
-                                            <h4>Dear {{ $employer->name }},</h4>
+                                            <h4>Dear {{ $employer->company }},</h4>
 
                                             <br>
-                                            Please find your invoice details below: <br>
-                                            <br>
-                                          
+                                            Please note your Paytym invoice for services provided for the month of   <?php
+                                                     $previousMonth = date('F Y', strtotime('-1 month'));?>
+                                                     {{ $previousMonth }}. The outstanding balance due is ${{ number_format($invoice->amount, 2) }}
+                                            <br><br>
+                                            
                                         </td>
                                     </tr>   
+                                    <tr>{{--<a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>--}}</tr><br><br>
+                                  
     <tr>
             <td>
                 <table style="width: 1000px; margin: 0 auto; border: 1px solid #000000; border-collapse: collapse;">
@@ -102,7 +135,10 @@
                                                     <td style="text-align: right; border: 1px solid #000000; padding: 10px 5px; width: 50%;"><strong>Amount</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">Service Period: {{ date('F Y') }}</td>
+                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">Service Period: 
+                                                    <?php
+                                                     $previousMonth = date('F Y', strtotime('-1 month'));?>
+                                                     {{ $previousMonth }}</td>
                                                     <td style="text-align: right; padding: 5px;"></td>
                                                 </tr>
                                                 <tr>
@@ -129,22 +165,41 @@
                                     <tr>
                                         <td style="font-size: 18px; font-weight: 600; padding: 10px 5px;">
                                         Click Here To Pay (You will be redirected to payment section)
-                                        <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
+                                        
 
                                         </td>
                                     </tr>
                                     
                                         
                                    <tr><td style="font-size: 16px; padding: 10px 5px 20px">
-                                            
-                                        </td> </tr>
+                                   <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
+                                       {{--<a href="{{ route('employer.download_email_invoice', ['id' => $employer->id]) }}" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Download</a> 
+                                       <button type="button" class="btn btn-primary btn-icon-text" onclick="downloadInvoice({{ $employer->id }})">
+                            <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                            Download Invoice
+                          </button> 
+                                       <button type="button" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;" onclick="window.location='{{route("employer.download_email_invoice", $employer->id)}}'">
+                            <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                            Download 
+                          </button>--}}</td>
+                                       <td></td> </tr>
                                 </table>
                             </td>
-                        </tr>
+                        </tr><tr></tr>
                     </tbody>
                 </table>
             </td>
-        </tr>
+        </tr><br><br>
+        <tr>
+                        <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;">
+                            The Paytym Team
+                        </td>
+                        <tr>
+                        <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;"">
+                            <a href="mailto:contact@paytym.net" style="">contact@paytym.net</a>
+                        </td>
+                    </tr>
+                    </tr>
     </table>
 </body>
 </html>

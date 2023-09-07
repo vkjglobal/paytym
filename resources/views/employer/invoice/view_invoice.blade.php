@@ -103,7 +103,10 @@
                                                     <td style="text-align: right; border: 1px solid #000000; padding: 10px 5px; width: 50%;"><strong>Amount</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">Service Period: {{ date('F Y') }}</td>
+                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">
+                                                    Service Period:  <?php
+                                                     $previousMonth = date('F Y', strtotime('-1 month'));?>
+                                                     {{ $previousMonth }} </td>
                                                     <td style="text-align: right; padding: 5px;"></td>
                                                 </tr>
                                                 <tr>

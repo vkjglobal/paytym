@@ -67,6 +67,40 @@ class InvoiceController extends Controller
 
     return response()->make($htmlContent, 200, $headers);
 }
+
+public function download_email_invoice($id)
+{
+    //$Id = $request->input('id'); 
+    
+    // Get the email with the given ID (you need to implement this logic)
+    $email = Employer::find($Id);
+ return $email;
+    // Check if the email has attachments
+    if ($email->hasAttachments()) {
+        // Get the attachments
+       $attachments = $email->getAttachments();
+
+        // In this example, we assume there's only one attachment, but you can loop through $attachments if there are multiple attachments
+        $attachment = $attachments[0];
+
+        // Download the attachment
+        return response()->stream(
+            function () use ($attachment) {
+                echo $attachment->getContent();
+            },
+            200,
+            [
+                'Content-Type' => $attachment->getContentType(),
+                'Content-Disposition' => 'attachment; filename="' . $attachment->getFilename() . '"',
+            ]
+        );
+    } else {
+        // Handle the case where no attachments are found
+        return response()->json(['message' => 'No attachments found in the email'], 404);
+    }
+}
+
+
     public function generate_invoice()
     {
         $breadcrumbs = [

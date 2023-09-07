@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employer Payment Reminder</title>
+    <title>Employer Deactivation</title>
 </head>
 
 <body>
@@ -27,18 +27,31 @@
                             <h4>Dear {{ $employer->company }},</h4>
 
                             <br>
-                            A kind reminder that your payment for Paytym HR and Payroll services for the month of <?php
+                            "URGENT" <br><br/>
+
+Due to the unpaid invoice for Paytym HR and Payroll services for the month of <?php
                                                      $previousMonth = date('F Y', strtotime('-1 month'));?>
-                                                     {{ $previousMonth }} remains unpaid.
+                                                     {{ $previousMonth }}, your account with Paytym has been deactivated.
 
-There is still time to make the payment within the next 2 days.  Kindly note that if the due invoice remains unpaid, your account shall be deactivated by the system automatically.
+This means your access to the superior benefits of the Paytym HR and Payroll web services is now restricted.  <br><br><br/>
+Furthermore, your employees and staff no longer have access to the Paytym mobile application services, as they have been fully restricted.
 
-Please make the payment at the earliest in order to avoid account deactivation and use of the superior Paytym HR and Payroll services.
+<br><br><br/>To swiftly reactivate your account and regain access to these essential services, you can still pay the due invoice by clicking on the following link:<br><br/>
+
+    <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; color:#0818a8; text-decoration: none;">Click Here To Pay</a><br><br/>
+
+Once your payment is processed successfully, please allow up to one business day for your Paytym account to be reactivated.
+
+<br><br/>
+If you have any questions or require any assistance, please let us know.
+<br><br></br>
+Thank you.
+               
 <br><br><br/>
                         </td>
                     </tr>
                     <tr>
-                        <td style="height: 15px;"> <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
+                        <td style="height: 15px;">
                     <br/>  <br/>
                     </td>
                     </tr>
