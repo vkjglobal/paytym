@@ -39,7 +39,7 @@ class InvoiceEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Invoice Email',
+            subject: 'Invoice Due Now',
         );
     }
 

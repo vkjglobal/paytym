@@ -31,8 +31,8 @@
                                                      $previousMonth = date('F Y', strtotime('-1 month'));?>
                                                      {{ $previousMonth }} remains unpaid.
 
-There is still time to make the payment within the next 2 days.  Kindly note that if the due invoice remains unpaid, your account shall be deactivated by the system automatically.
-
+<br><br>There is still time to make the payment within the next 2 days.  Kindly note that if the due invoice remains unpaid, your account shall be deactivated by the system automatically.
+<br><br>
 Please make the payment at the earliest in order to avoid account deactivation and use of the superior Paytym HR and Payroll services.
 <br><br><br/>
                         </td>
@@ -48,12 +48,12 @@ Please make the payment at the earliest in order to avoid account deactivation a
                         </td>
                     </tr>
                     <tr>
-                    <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;">
+                    <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;font-size: 17px;">
                             The Paytym Team
                         </td>
                         <tr>
-                        <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;"">
-                            <a href="mailto:contact@paytym.net" style="">contact@paytym.net</a>
+                        <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;">
+                            <a href="mailto:contact@paytym.net" style="font-size: 14px;">contact@paytym.net</a>
                         </td>
                     </tr>
                 </table>

@@ -32,7 +32,7 @@ class AccountDeactivationEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Account Deactivation Email',
+            subject: 'Account Deactivation Notice',
         );
     }
 
