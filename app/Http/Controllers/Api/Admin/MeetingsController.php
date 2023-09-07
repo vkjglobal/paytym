@@ -87,6 +87,7 @@ class MeetingsController extends Controller
         $meetings->start_time = $request->start_time;
         $meetings->end_time = $request->end_time;
         $meetings->name = $request->name;
+        $meetings->agenda = $request->description;
         $meetings->location = $request->location;
 
         $issave = $meetings->save();
