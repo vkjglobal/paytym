@@ -51,7 +51,7 @@ Thank you.
                         </td>
                     </tr>
                     <tr>
-                        <td style="height: 15px;">
+                        <td style="height: 15px;"><a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
                     <br/>  <br/>
                     </td>
                     </tr>
@@ -61,12 +61,12 @@ Thank you.
                         </td>
                     </tr>
                     <tr>
-                    <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;">
+                    <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;font-size: 17px;">
                             The Paytym Team
                         </td>
                         <tr>
-                        <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;"">
-                            <a href="mailto:contact@paytym.net" style="">contact@paytym.net</a>
+                        <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;">
+                            <a href="mailto:contact@paytym.net" style="font-size: 14px;">contact@paytym.net</a>
                         </td>
                     </tr>
                 </table>

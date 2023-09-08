@@ -33,7 +33,7 @@ class SendPaymentReminder extends Command
     public function handle()
     {
         $today = Carbon::today();
-        $sixthOfMonth = $today->copy()->day(7);
+        $sixthOfMonth = $today->copy()->day(8);
 
         // Send payment reminder emails
         if ($today->isSameDay($sixthOfMonth)) {

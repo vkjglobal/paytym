@@ -53,7 +53,7 @@ Should you have any queries or require any further information, please do not he
                         </td>
                     </tr>
                     <tr>
-                    <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;">
+                    <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;font-size: 17px;">
                             The Paytym Team
                         </td>
                         <tr>
