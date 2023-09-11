@@ -19,4 +19,16 @@ class CardController extends Controller
         $card = CreditCard::where('employer_id', Auth::guard('employer')->user()->id)->get();
         return view('employer.card.index', compact('breadcrumbs', 'card'));
     }
+
+    public function create()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Cards')), route('employer.cards.index')],
+            [(__('Create')), null]
+        ];
+        //Employer $employer
+        $employer = Auth::guard('employer')->user()->id;
+        return view('employer.card.create', compact('breadcrumbs', 'employer'));
+    }
 }

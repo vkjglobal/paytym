@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use App\Models\BillingEmail;
 use Illuminate\Http\Request;
 use Mail;
 use App\Mail\PaymentSuccessEmail;
@@ -96,7 +97,17 @@ class InvoiceController extends Controller
         //return $id;
         $invoice->status = 1;
         $invoice->save();
-        Mail::to($invoice->employer->email)->send(new PaymentSuccessEmail($invoice->employer));
+        $invoice->employer->status =1;
+        $invoice->employer->save();
+        $billingEmails = BillingEmail::where('employer_id',$invoice->employer->id)->pluck('email');
+                if ($billingEmails->isEmpty()) {
+                 Mail::to($invoice->employer->email)->send(new PaymentSuccessEmail($invoice->employer));
+                }
+                else
+                {
+                    $recipients = collect([$invoice->employer->email])->concat($billingEmails);
+                    Mail::to($recipients->toArray())->send(new PaymentSuccessEmail($invoice->employer));
+                }
 
         if ($invoice) {
             notify()->success(__('Status changed successfully'));
