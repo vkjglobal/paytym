@@ -28,7 +28,12 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ optional($invoice->employer)->name ?? 'No data' }}</td>
                                         <td>{{ is_null($invoice->custom_plan_id) ? optional($invoice->plan)->plan ?? 'No data' : optional($invoice->custom_plan)->plan ?? 'No data' }}</td>
-                                        <td>{{ isset($invoice) && isset($invoice->date) ? date('M-Y', strtotime($invoice->date)) : 'No data' }}</td>
+                                        {{--<td>{{ isset($invoice) && isset($invoice->date) ? date('M-Y', strtotime($invoice->date)) : 'No data' }}</td>--}}
+                                        <td>@if(!is_null($invoice->date))
+												{{\Carbon\Carbon::parse($invoice->date)->format('d-m-Y') }}
+												@else
+                                            No data
+                                            @endif</td>
                                         <td>{{ optional($invoice)->active_employees ?? 'No data' }}</td>
                                         <td>{{ optional($invoice)->amount ?? 'No data' }}</td>
                                         {{--<td><span class="btn btn-{{ optional($invoice)->status == '0' ? 'danger' : 'success' }}">{{ optional($invoice)->status == '0' ? 'Pending' : 'Paid' }}</span></td>--}}
