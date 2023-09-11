@@ -147,5 +147,11 @@ public function download_email_invoice($id)
         $plan = Invoice::with('plan')->where('id', $id)->first();
         return view('employer.invoice.monthly_invoice', compact('breadcrumbs', 'plan'));
     }
+    public function list_invoice()
+    {
+        
+        $plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('date', 'desc')->get();
+        return view('employer.invoice.list_invoice', compact('plan'));
+    }
     
 }

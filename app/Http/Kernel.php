@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'employer.auth' => \App\Http\Middleware\RedirectIfNotEmployer::class,
         'employer.guest' => \App\Http\Middleware\RedirectIfEmployer::class,
+        'check.employer.status' => \App\Http\Middleware\CheckEmployerStatus::class,
         // 'employer.verified' => \App\Http\Middleware\EnsureEmployerEmailIsVerified::class,
         // 'employer.password.confirm' => \App\Http\Middleware\RequireEmployerPassword::class,
         'admin.auth' => \App\Http\Middleware\RedirectIfNotAdmin::class,

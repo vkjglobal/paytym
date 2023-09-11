@@ -12,8 +12,8 @@ class CardController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.invoice.index')],
-            [(__('Invoice')), null],
+            [(__('Dashboard')), route('employer.cards.index')],
+            [(__('Cards')), null],
         ];
   
         $card = CreditCard::where('employer_id', Auth::guard('employer')->user()->id)->get();

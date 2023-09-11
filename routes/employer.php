@@ -42,6 +42,7 @@ use App\Http\Controllers\Employer\AssignBenefitController;
 use App\Http\Controllers\Employer\InvoiceController;
 use App\Http\Controllers\Employer\MeetingController;
 use App\Http\Controllers\Employer\CardController;
+use App\Http\Controllers\Employer\BillingEmailController;
 use App\Http\Controllers\Employer\MeetingsController as EmployerMeetingsController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
@@ -72,9 +73,9 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 // Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
 // Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
 // Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
-
+Route::get('list_invoice', [InvoiceController::class, 'list_invoice'])->name('list_invoice');
 Route::middleware('employer.auth')->group(function () {
-
+  //Route::middleware(['employer.auth', 'check.employer.status'])->group(function () {
   // Profile
   Route::get('profile', [ProfileController::class, 'index'])->name('profile');
   Route::post('profile', [ProfileController::class, 'store']);
@@ -319,10 +320,13 @@ Route::middleware('employer.auth')->group(function () {
   Route::get('view_invoice/{id}', [InvoiceController::class, 'view_invoice'])->name('view_invoice');
   Route::get('generate_invoice', [InvoiceController::class, 'generate_invoice'])->name('generate_invoice');
   Route::get('download_invoice/{id}', [InvoiceController::class, 'download_invoice'])->name('download_invoice');
-  Route::get('download_email_invoice/{id}', [InvoiceController::class, 'download_email_invoice'])->name('download_email_invoice');
+  Route::get('email_invoice_download/{id}', [InvoiceController::class, 'download_email_invoice'])->name('email_invoice_download');
 
   //Cards 04-09-23
   Route::resource('cards', CardController::class)->except(['show']);
+
+  //BillingEmails
+  Route::resource('billing_emails', BillingEmailController::class)->except(['show']);
 
   //24-07-23
   Route::resource('meetings', EmployerMeetingsController::class)->except(['show']);

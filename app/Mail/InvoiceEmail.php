@@ -17,18 +17,20 @@ class InvoiceEmail extends Mailable
     public $plan;
     public $total_employee_rate;
     public $invoiceNumber;
+    public $pdfInvoice;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($employer,$invoice,$plan,$total_employee_rate,$invoiceNumber)
+    public function __construct($employer,$invoice,$plan,$total_employee_rate,$invoiceNumber,$pdfInvoice)
     {
         $this->employer = $employer;
         $this->invoice = $invoice;
         $this->plan = $plan;
         $this->total_employee_rate = $total_employee_rate;
         $this->invoiceNumber = $invoiceNumber;
+        $this->pdfInvoice = $pdfInvoice;
     }
 
     /**
@@ -50,7 +52,12 @@ class InvoiceEmail extends Mailable
      */
     public function content()
     {
-      
+      //$pdfInvoice = generatePdfInvoice($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber);
+
+
+    $this->attachData($this->pdfInvoice, 'invoice.pdf', [
+        'mime' => 'application/pdf',
+    ]);
         return new Content(
             markdown: 'mail.send-employer-invoice',
             with: [
@@ -59,7 +66,9 @@ class InvoiceEmail extends Mailable
                 'plan' => $this->plan,
                 'total_employee_rate' => $this->total_employee_rate,
                 'invoiceNumber' => $this->invoiceNumber
-            ]
+            ],
+            
+            
         );
         
 
