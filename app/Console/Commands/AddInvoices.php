@@ -7,10 +7,13 @@ use App\Models\Employer;
 use App\Models\Invoice;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Models\BillingEmail;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceEmail;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
@@ -67,9 +70,6 @@ class AddInvoices extends Command
 
                 if($custom_plan == null){
                     $invoice->plan_id = $plan->id;
-                    //$invoice->amount = 0; // Initialize the amount
-
-                    // (is_numeric($plan->rate_per_month) && is_numeric($plan->rate_per_employee)) 
                     $invoice->amount = $plan->rate_per_month + ($total_active_employees*$plan->rate_per_employee);
                 }else{
                     $invoice->custom_plan_id = $custom_plan->id;
@@ -78,8 +78,6 @@ class AddInvoices extends Command
                 
                 $invoice->date = $date;
                 $invoice->active_employees = $total_active_employees;
-                //$total_employee_rate=0;
-                //if (is_numeric($plan->rate_per_employee) && is_numeric($invoice->active_employees)) 
                 $total_employee_rate = $plan->rate_per_employee * $invoice->active_employees;
                 $currentYear = Carbon::now()->format('Y');
         
@@ -94,8 +92,20 @@ class AddInvoices extends Command
                 $invoiceNumber = "{$currentYear}-{$paddedSequenceNumber}";
                 $invoice->invoice_number = $invoiceNumber;
               $invoice->save();
-           // Mail::to($employer->email)->send(new InvoiceEmail($invoiceDetails));
-            Mail::to($employer->email)->send(new InvoiceEmail($employer,$invoice,$plan,$total_employee_rate,$invoiceNumber));
+           $pdfInvoice = $this->generatePdfInvoice($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber);
+            
+           $billingEmails = BillingEmail::where('employer_id',$employer->id)->pluck('email');
+           if ($billingEmails->isEmpty()) {
+            // No billing email addresses, send the email only to the primary employer's email.
+            Mail::to($employer->email)
+                ->send(new InvoiceEmail($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber, $pdfInvoice));
+        } else {
+            // Send the email to the primary employer's email and add billing emails as carbon copy recipients.
+            $recipients = collect([$employer->email])->concat($billingEmails);
+            Mail::to($recipients->toArray())
+            ->send(new InvoiceEmail($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber, $pdfInvoice));
+           
+        }
         }
             
 
@@ -110,5 +120,40 @@ class AddInvoices extends Command
         throw $e;
     }
     }
+
+    public function generatePdfInvoice($employer,$invoice, $plan, $total_employee_rate, $invoiceNumber)
+    {
+        // Create PDF options
+        $pdfOptions = new Options();
+        //$pdfOptions->set('isHtml5ParserEnabled', true);
+        $pdfOptions->set('isRemoteEnabled', true);
+        $pdfOptions->set('isPhpEnabled', true);
+        
+
+        // Initialize PDF
+        $dompdf = new Dompdf($pdfOptions);
+        //$dompdf->setBasePath(asset('home_assets/images/logo.png'));
+
+        // Generate HTML for the invoice (you can put your HTML here)
+        $html = view('mail.invoice-pdf', [
+            'employer' => $employer,
+            'invoice' => $invoice,
+            'plan' => $plan,
+            'total_employee_rate' => $total_employee_rate,
+            'invoiceNumber' => $invoiceNumber,
+        ])->render();
+
+        // Load HTML content
+        $dompdf->loadHtml($html);
+
+        // Render PDF (optional: adjust size and orientation)
+        //$dompdf->setPaper('A4', 'portrait');
+        
+        $dompdf->render();
+
+        // Return the generated PDF content
+        return $dompdf->output();
+    }
+
     
 }

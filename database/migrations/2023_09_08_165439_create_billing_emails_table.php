@@ -13,28 +13,24 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('card', function (Blueprint $table) {
+        Schema::create('billing_emails', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employer_id');
-            $table->string('card_type')->nullable();
-            $table->string('card_number');
-            $table->string('expiry_date');
-            $table->string('cvv')->nullable();
-            $table->string('name_on_card');
-            $table->boolean('is_default')->default(0)->comment('0-No, 1-Yes');
+            $table->string('name');
+            $table->string('email')->unique();
             $table->timestamps();
             $table->foreign('employer_id')->references('id')->on('employers')->onDelete('cascade');
            
         });
     }
 
-    /*
+    /**
      * Reverse the migrations.
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('card');
+        Schema::dropIfExists('billing_emails');
     }
 };
