@@ -4,6 +4,113 @@
     @endcomponent
 
     <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                   {{-- <h6 class="card-title"> Create Card</h6>--}}
+                    <form method="POST" action="{{ route('employer.cards.store') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                <h3 class="card-title"><u>Primary Card Details</u></h3>
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Card Number : <span class="text-danger"></span></label>
+                                    {{ optional($card)->primary_card_number ?? 'No data' }}
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Name on Card : <span class="text-danger"></span></label>
+                                    {{ optional($card)->primary_name_on_card ?? 'No data' }}
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+                     
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Expiry Date : <span class="text-danger"></span></label>
+                                    {{ optional($card)->primary_expiry_date ?? 'No data' }}
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+                    </div>
+                </div>
+            </div>
+                        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                <h3 class="card-title"><u>Secondary Card Details</u></h3>
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Card Number : <span class="text-danger"></span></label>
+                                    {{ optional($card)->secondary_card_number ?? 'No data' }}
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Name on Card : <span class="text-danger"></span></label>
+                                    {{ optional($card)->secondary_name_on_card ?? 'No data' }}
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+                     
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Expiry Date : <span class="text-danger"></span></label>
+                                    {{ optional($card)->secondary_expiry_date ?? 'No data' }}
+                                    
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+
+                       
+
+                </div>
+            </div>
+        </div>
+        @if(isset($card))
+        <div class="col-md-12 mt-3 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    @if($card->primary_is_default ==1)
+                                    <strong>Your default card is your Primary Card.</strong>
+                                    @else
+                                    <strong>Your default card is your Secondary Card.</strong>
+                               @endif
+                                </div>
+                                {{--<button type="submit" class="btn btn-primary submit">Update Cards</button>--}}
+                                {{--<a href="{{ route('employer.cards.edit', ['card' => $card->id]) }}" type="button" class="btn btn-primary">Update Cards</a>--}}
+                    </form>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+</div></div></div>@endif
+
+    </div>
+
+    {{--<div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -69,7 +176,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
+
 @endsection
 @push('custom_css')
     <link rel="stylesheet" href="{{ asset('admin_assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
