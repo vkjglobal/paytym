@@ -30,7 +30,7 @@
                                 <table style="width: 100%;">
                                     <tr>
                                         <td style="text-align: left; font-size: 35px; font-weight: 700;">
-                                        <img src="https://paytym.net/home_assets/images/logo.png" style="display: block; width: 150px;" alt="">
+                                       {{-- <img src="https://paytym.net/home_assets/images/logo.png" style="display: block; width: 150px;" alt="">--}}
                                         </td>
                                     </tr>
                                  
