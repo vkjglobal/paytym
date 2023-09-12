@@ -101,10 +101,26 @@ class AddInvoices extends Command
                 ->send(new InvoiceEmail($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber, $pdfInvoice));
         } else {
             // Send the email to the primary employer's email and add billing emails as carbon copy recipients.
-            $recipients = collect([$employer->email])->concat($billingEmails);
-            Mail::to($recipients->toArray())
-            ->send(new InvoiceEmail($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber, $pdfInvoice));
+            //$recipients = collect([$employer->email])->concat($billingEmails);
+            //$recipients = $billingEmails->prepend($employer->email);
+            
+            
+            $recipients = $billingEmails->toArray();
+            //info($recipients);
+            Mail::to($employer->email)
+            ->cc($recipients)
+        ->send(new InvoiceEmail($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber, $pdfInvoice));
+            
+        
+        //Mail::to($recipients->toArray())
+            //->send(new InvoiceEmail($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber, $pdfInvoice));
            
+            /*$recipients = collect([$employer->email])->concat($billingEmails)->toArray();
+            foreach($recipients as $rcpt)
+            {
+                Mail::to($rcpt)
+            ->send(new InvoiceEmail($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber, $pdfInvoice));
+            }*/
         }
         }
             
