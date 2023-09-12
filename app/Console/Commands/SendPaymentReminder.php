@@ -34,7 +34,7 @@ class SendPaymentReminder extends Command
     public function handle()
     {
         $today = Carbon::today();
-        $sixthOfMonth = $today->copy()->day(11);
+        $sixthOfMonth = $today->copy()->day(12);
 
         // Send payment reminder emails
         if ($today->isSameDay($sixthOfMonth)) {
@@ -50,8 +50,13 @@ class SendPaymentReminder extends Command
                     Mail::to($employer->email)->send(new PaymentReminderEmail($employer));
                 }
                 else{
-                    $recipients = collect([$employer->email])->concat($billingEmails);
-                    Mail::to($recipients->toArray())->send(new PaymentReminderEmail($employer));
+                    $recipients = $billingEmails->toArray();
+                    Mail::to($employer->email)
+                    ->cc($recipients)
+                    ->send(new PaymentReminderEmail($employer));
+                   /* $recipients = collect([$employer->email])->concat($billingEmails);
+                    Mail::to($recipients->toArray())->send(new PaymentReminderEmail($employer));*/
+
                 }
                 $employer->invoice->where('status', '0')->each(function ($invoice) {
                     $invoice->update(['status' => '2']); // Set status to '2' (overdue)

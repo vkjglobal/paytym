@@ -105,8 +105,12 @@ class InvoiceController extends Controller
                 }
                 else
                 {
-                    $recipients = collect([$invoice->employer->email])->concat($billingEmails);
-                    Mail::to($recipients->toArray())->send(new PaymentSuccessEmail($invoice->employer));
+                    $recipients = $billingEmails->toArray();
+                    Mail::to($invoice->employer->email)
+                    ->cc($recipients)
+                    ->send(new PaymentSuccessEmail($invoice->employer));
+                    /*$recipients = collect([$invoice->employer->email])->concat($billingEmails);
+                    Mail::to($recipients->toArray())->send(new PaymentSuccessEmail($invoice->employer));*/
                 }
 
         if ($invoice) {
