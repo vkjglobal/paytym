@@ -62,7 +62,15 @@ class PayrollCalculationController extends Controller
             foreach ($id as $id) {
                 $employees = User::where('department_id', $id)->get();
             }
-        } else if ($flag == "all") {
+           
+        } 
+        else if($flag =="choose_employee")
+        {
+            foreach ($id as $id) {
+                $employees = User::where('id', $id)->get();
+            }
+        }
+        else if ($flag == "all") {
             $employees = User::where('employer_id', $EmployerId)->get();
             //Checking for pending approval or rejection leaves , attendance or overtime
             $pending_leaves = LeaveRequest::where('employer_id', $request->employer_id)->where('status', '0')->get();

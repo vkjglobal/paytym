@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\Employee\PayrollCalculationController;
 use App\Http\Controllers\TwilioSMSController;
 use App\Http\Controllers\Api\Employee\EmployeeDashboardController;
 use App\Http\Controllers\Api\Employee\MpaisaController;
+use App\Http\Controllers\Employer\PayrollController;
 use App\Http\Middleware\CheckStatus;
 use App\Models\PaymentRequest;
 use Illuminate\Http\Request;
@@ -219,5 +220,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
       //02-07-23
       Route::post('list_employees_businesswise', [EmployeeController::class, 'list_employees_businesswise']);
       
+
+      // 13-09-23 Revert PayRoll
+      Route::post('revert_payroll', [PayrollController::class,'revert_payroll']);
+
+
 
 });
