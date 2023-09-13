@@ -218,13 +218,13 @@
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="d-flex align-items-center">
-                                <input type="checkbox" class="" id="manage_roles" name="manage_roles" value="{{ $usercapability->manage_roles}}" {{ ($usercapability->manage_roles == 1 ? 'checked' : '')}}>>
+                                <input type="checkbox" class="" id="manage_roles" name="manage_roles" value="{{ $usercapability->manage_roles}}" {{ ($usercapability->manage_roles == 1 ? 'checked' : '')}}>
                                 <label for="" class="control-label mb-0 ml-2">Create/Edit Roles </label>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="d-flex align-items-center">
-                                <input type="checkbox" class="" id="view_roles" name="view_roles" value="{{ $usercapability->view_roles}}" {{ ($usercapability->view_roles == 1 ? 'checked' : '')}}>>
+                                <input type="checkbox" class="" id="view_roles" name="view_roles" value="{{ $usercapability->view_roles}}" {{ ($usercapability->view_roles == 1 ? 'checked' : '')}}>
                                 <label for="" class="control-label mb-0 ml-2">View Roles</label>
                             </div>
                         </div>
@@ -270,7 +270,7 @@
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="d-flex align-items-center">
-                                <input type="checkbox" class="" id="projects" name="projects" value="{{ $usercapability->projects}}" {{ ($usercapability->projects == 1 ? 'checked' : '')}}>>
+                                <input type="checkbox" class="" id="projects" name="projects" value="{{ $usercapability->projects}}" {{ ($usercapability->projects == 1 ? 'checked' : '')}}>
                                 <label for="" class="control-label mb-0 ml-2">Create/Edit Projects</label>
                             </div>
                         </div>
