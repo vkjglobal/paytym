@@ -75,7 +75,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('employer.cards.create') }}" class="nav-link {{ request()->is('employer/cards') ? 'active' : '' }}">
+                                        <a href="{{ route('employer.cards.index') }}" class="nav-link {{ request()->is('employer/cards') ? 'active' : '' }}">
                                             Cards
                                         </a>
                                     </li>

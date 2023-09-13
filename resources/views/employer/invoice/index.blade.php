@@ -44,8 +44,8 @@
 											<td><span class="btn btn-{{ optional($plan)->status == '0' ? 'secondary' :  (optional($plan)->status == '1' ? 'success' : 'danger') }}">{{ optional($plan)->status == '0' ? 'Pending' : (optional($plan)->status == '1' ? 'Paid' : 'Overdue') }}</span></td>
 											<!-- <a href="{{ route('employer.view_invoice', ['id' => $plan->id]) }}">Link</a> -->
 											
-											<td>@if($plan->status == 0 || $plan->status==2)
-												<form action="{{Route('employer.billing')}}" method="post">
+											{{--<td>@if($plan->status == 0 || $plan->status==2)
+												<form action="{{Route('employer.pay_invoice',  ['id' => $plan->id])}}" method="get">
 													@csrf
 												<input type="hidden" name="plan_id" value="{{$plan->plan->id}}">
 												<button class="btn btn-success" type="submit" > 
@@ -54,7 +54,13 @@
 												</form>
 												
 												@endif
+											</td>--}}
+											<td>
+											@if($plan->status == 0 || $plan->status==2)
+												<a href="{{ route('employer.pay_invoice', ['id' => $plan->id]) }}" type="button" class="btn btn-success">Pay Now</a>
+											@endif
 											</td>
+											
 												<td><a href="{{ route('employer.view_invoice', ['id' => $plan->id]) }}" type="button" class="btn btn-primary">View</a></td>
 											<th></td>
 										</tr>

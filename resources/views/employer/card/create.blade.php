@@ -117,11 +117,15 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                 <label>
-                                    <input type="radio" name="default_card_type" value="primary" checked> Set Primary Card as Default
+                                Set Primary Card as Default : <br>
+                                <input type="radio" name="primary_is_default" value="1" checked> Yes
+                                    <input type="radio" name="primary_is_default" value="0"> No
                                 </label><br>
 
-                                <label>
-                                    <input type="radio" name="default_card_type" value="secondary"> Set Secondary Card as Default
+                                <label>Set Secondary Card as Default : <br>
+                                <input type="radio" name="secondary_is_default" value="1"> Yes
+                                <input type="radio" name="secondary_is_default" value="0" checked> No
+
                                 </label>
                                 </div>
                                 <button type="submit" class="btn btn-primary submit">Submit</button>
@@ -135,4 +139,23 @@
 @push('custom_js')
     <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
+    <script>
+$(document).ready(function () {
+    $('input[name="primary_is_default"]').change(function () {
+        if ($(this).val() === '1') {
+            $('input[name="secondary_is_default"][value="0"]').prop('checked', true);
+        } else if ($(this).val() === '0') {
+            $('input[name="secondary_is_default"][value="1"]').prop('checked', true);
+        }
+    });
+
+    $('input[name="secondary_is_default"]').change(function () {
+        if ($(this).val() === '1') {
+            $('input[name="primary_is_default"][value="0"]').prop('checked', true);
+        } else if ($(this).val() === '0') {
+            $('input[name="primary_is_default"][value="1"]').prop('checked', true);
+        }
+    });
+});
+</script>
 @endpush

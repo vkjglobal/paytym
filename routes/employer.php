@@ -73,9 +73,10 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 // Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
 // Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
 // Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
-Route::get('list_invoice', [InvoiceController::class, 'list_invoice'])->name('list_invoice');
-Route::middleware('employer.auth')->group(function () {
-  //Route::middleware(['employer.auth', 'check.employer.status'])->group(function () {
+Route::get('list_invoice/{id}', [InvoiceController::class, 'list_invoice'])->name('list_invoice');
+Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout'])->name('invoice_checkout');
+//Route::middleware('employer.auth')->group(function () {
+  Route::middleware(['employer.auth', 'check.employer.status'])->group(function () {
   // Profile
   Route::get('profile', [ProfileController::class, 'index'])->name('profile');
   Route::post('profile', [ProfileController::class, 'store']);
@@ -321,7 +322,7 @@ Route::middleware('employer.auth')->group(function () {
   Route::get('generate_invoice', [InvoiceController::class, 'generate_invoice'])->name('generate_invoice');
   Route::get('download_invoice/{id}', [InvoiceController::class, 'download_invoice'])->name('download_invoice');
   Route::get('email_invoice_download/{id}', [InvoiceController::class, 'download_email_invoice'])->name('email_invoice_download');
-
+  Route::get('pay_invoice/{id}', [InvoiceController::class, 'pay_invoice'])->name('pay_invoice');
   //Cards 04-09-23
   Route::resource('cards', CardController::class)->except(['show']);
 
