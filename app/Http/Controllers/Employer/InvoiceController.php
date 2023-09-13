@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\User;
 use App\Models\Subscription;
 use App\Models\Employer;
+use App\Models\CreditCard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -147,11 +148,38 @@ public function download_email_invoice($id)
         $plan = Invoice::with('plan')->where('id', $id)->first();
         return view('employer.invoice.monthly_invoice', compact('breadcrumbs', 'plan'));
     }
-    public function list_invoice()
+    public function list_invoice($invoiceId)
     {
+        /*$plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('date', 'desc')->get();
+        return view('employer.invoice.list_invoice', compact('plan'));*/
+        $employer = Auth::guard('employer')->user();
+        $plan = Invoice::with('plan')->where('id', $invoiceId)->first();
+        $total_employee_rate = $plan->plan->rate_per_employee * $plan->active_employees;
+        $totalamount = $plan->plan->rate_per_month + ($plan->active_employees*$plan->plan->rate_per_employee);
+        //return $plan;
         
-        $plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('date', 'desc')->get();
-        return view('employer.invoice.list_invoice', compact('plan'));
+        return view('employer.invoice.list_invoice', compact('plan','employer','total_employee_rate','totalamount'));
+
+    }
+
+    public function pay_invoice($invoiceId)
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.invoice.index')],
+            [(__('Pay Invoice')), null],
+        ];
+        $invoice = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->where('id',$invoiceId)->first();
+        //return $invoice;
+        $card = CreditCard::where('employer_id', Auth::guard('employer')->user()->id)->first();
+        return view('employer.invoice.pay_invoice', compact('breadcrumbs','invoice', 'card'));
+    }
+
+    public function invoice_checkout($invoiceId)
+    {
+        $invoice = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->where('id',$invoiceId)->first();
+        //return $invoice;
+        $card = CreditCard::where('employer_id', Auth::guard('employer')->user()->id)->first();
+        return view('employer.invoice.invoice_checkout', compact('invoice', 'card'));
     }
     
 }

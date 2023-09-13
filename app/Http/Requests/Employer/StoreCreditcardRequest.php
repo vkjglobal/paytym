@@ -30,7 +30,9 @@ class StoreCreditcardRequest extends FormRequest
             'primary_expiry_date' =>'required',
             'secondary_card_number' => 'required|numeric',
             'secondary_name_on_card' => 'required',
-            'secondary_expiry_date' =>'required'
+            'secondary_expiry_date' =>'required',
+            'primary_is_default' => 'required',
+            'secondary_is_default' => 'required'
         ];
         
     }

@@ -54,11 +54,16 @@ class CardController extends Controller
             //$card->secondary_is_default = $validated['secondary_is_default'];
 
             $card->employer_id = Auth::guard('employer')->user()->id;
-            if ($request->input('default_card_type') === 'primary') {
+            /*if ($request->input('default_card_type') === 'primary') {
                 $card->primary_is_default = 1;
+                $card->secondary_is_default = 0;
             } elseif ($request->input('default_card_type') === 'secondary') {
                 $card->secondary_is_default = 1;
-            }
+                $card->primary_is_default = 0;
+            }*/
+            $card->primary_is_default = $request->primary_is_default;
+            $card->secondary_is_default = $request->secondary_is_default;
+
 
             $res = $card->save();
             if ($res) {
@@ -83,6 +88,7 @@ class CardController extends Controller
             [(__('Create')), null]
         ];
         //Employer $employer
+        //return $card->primary_is_default;
         return view('employer.card.edit', compact('breadcrumbs', 'card'));
     }
 
@@ -99,7 +105,11 @@ class CardController extends Controller
         $card->secondary_expiry_date = $request['secondary_expiry_date'];
         
         $card->employer_id = Auth::guard('employer')->user()->id;
-        if (isset($request['default_card_type'])) { 
+        $card->primary_is_default = $request['primary_is_default'];
+        $card->secondary_is_default = $request['secondary_is_default'];
+       // $defaultCardOption = $request->input('default_card');
+
+       /* if (isset($request['default_card_type'])) { 
             if ($request['default_card_type'] === 'primary') {
                 $card->primary_is_default = 1;
                 $card->secondary_is_default = 0; // Ensure the secondary is not set as default
@@ -108,12 +118,24 @@ class CardController extends Controller
                 $card->primary_is_default = 0; // Ensure the primary is not set as default
             }
         }
-        /*if ($request['default_card_type'] == 'primary'){
+        if ($request['default_card_type'] == 'primary'){
             $card->primary_is_default = 1;
             $card->secondary_is_default = 0; // Ensure the secondary is not set as default
         } elseif ($request->default_card_type == 'secondary') {
             $card->secondary_is_default = 1;
             $card->primary_is_default = 0; // Ensure the primary is not set as default
+        }
+
+        if ($request['default_card'] === 'primary') {
+            $card->update([
+                'primary_is_default' => 1,
+                'secondary_is_default' => 0,
+            ]);
+        } elseif ($request->input('default_card') === 'secondary') {
+            $card->update([
+                'primary_is_default' => 0,
+                'secondary_is_default' => 1,
+            ]);
         }*/
     
     

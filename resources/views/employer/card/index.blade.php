@@ -102,11 +102,22 @@
                                @endif
                                 </div>
                                 {{--<button type="submit" class="btn btn-primary submit">Update Cards</button>--}}
-                                {{--<a href="{{ route('employer.cards.edit', ['card' => $card->id]) }}" type="button" class="btn btn-primary">Update Cards</a>--}}
+                                <a href="{{ route('employer.cards.edit', ['card' => $card->id]) }}" type="button" class="btn btn-primary">Update Cards</a>
                     </form>
                             </div><!-- Col -->
                         </div><!-- Row -->
-</div></div></div>@endif
+</div></div></div>
+@else
+<div class="col-md-12 mt-3 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                            <div class="col-sm-6">
+                                <a href="{{ route('employer.cards.create')}}" type="button" class="btn btn-primary">Create Card</a>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+</div></div></div>
+@endif
 
     </div>
 

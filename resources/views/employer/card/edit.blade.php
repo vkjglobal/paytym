@@ -117,20 +117,47 @@
                     <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                  {{-- <label>
-        <input type="radio" name="default_card_type" value="primary" {{ $card->primary_is_default == '1' ? 'checked' : '' }} > Set as Primary Default Card
+                             
+                                <label>
+                                Set Primary Card as Default : <br>
+                                <input type="radio" name="primary_is_default" value="1" {{ $card->primary_is_default == 1 ? 'checked' : '' }}> Yes
+                                    <input type="radio" name="primary_is_default" value="0" {{ $card->primary_is_default == 0? 'checked' : '' }}> No
+                                </label><br>
+
+                                <label>Set Secondary Card as Default : <br>
+                                <input type="radio" name="secondary_is_default" value="1" {{ $card->secondary_is_default == 1 ? 'checked' : '' }}> Yes
+                                <input type="radio" name="secondary_is_default" value="0" {{ $card->secondary_is_default == 0? 'checked' : '' }}> No
+
+                                </label>
+
+
+        {{--   <input type="radio" name="default_card" value="primary" {{ $card->primary_is_default ? 'checked' : '' }}>
+        Set Primary Card as Default
     </label><br>
 
     <label>
-        <input type="radio" name="default_card_type" value="secondary" {{ $card->secondary_is_default == '1' ? 'checked' : '' }} > Set as Secondary Default Card
-    </label>--}}
+        <input type="radio" name="default_card" value="secondary" {{ $card->secondary_is_default ? 'checked' : '' }}>
+        Set Secondary Card as Default
+    </label>
+
+                             <input type="radio" name="default_card_type" value="0" {{ $card->primary_is_default == 1 ? 'checked' : '' }}> Male
+                                        <input type="radio" name="default_card_type" value="1" {{ $card->primary_is_default == 0 ? 'checked' : '' }}> Female
+                               
+        <input type="radio" name="default_card_type" value="primary" <?php if($card->primary_is_default == 1){ echo "checked";} ?> > Set as Primary Default Card
+   <br>
+
+   
+        <input type="radio" name="default_card_type" value="secondary" <?php if($card->secondary_is_default == 1){ echo "checked";} ?> > Set as Secondary Default Card
+    <br>
+    <input type="radio" name="default_card_type"  value="primary" 
+                          {{ $card->primary_is_default == '1' ? 'checked' : '' }} >aa
     <label>
                                     <input type="radio" name="default_card_type" value="primary" checked> Set Primary Card as Default
                                 </label><br>
 
                                 <label>
                                     <input type="radio" name="default_card_type" value="secondary"> Set Secondary Card as Default
-                                </label>
+                                </label>--}}
                                    
                                                          
    
@@ -146,4 +173,24 @@
 @push('custom_js')
     <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
+    <script>
+$(document).ready(function () {
+    $('input[name="primary_is_default"]').change(function () {
+        if ($(this).val() === '1') {
+            $('input[name="secondary_is_default"][value="0"]').prop('checked', true);
+        } else if ($(this).val() === '0') {
+            $('input[name="secondary_is_default"][value="1"]').prop('checked', true);
+        }
+    });
+
+    $('input[name="secondary_is_default"]').change(function () {
+        if ($(this).val() === '1') {
+            $('input[name="primary_is_default"][value="0"]').prop('checked', true);
+        } else if ($(this).val() === '0') {
+            $('input[name="primary_is_default"][value="1"]').prop('checked', true);
+        }
+    });
+});
+</script>
+
 @endpush
