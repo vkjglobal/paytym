@@ -17,6 +17,6 @@ class Meeting extends Model
 
     public function meeting_attendees()
     {
-        return $this->belongsTo(MeetingAttendees::class,'meeting_id');
+        return $this->hasMany(MeetingAttendees::class,'meeting_id');
     }
 }

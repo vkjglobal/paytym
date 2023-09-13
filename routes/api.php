@@ -103,6 +103,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Request Payment 21-11-22
     Route::post('meetings', [MeetingsController::class, 'meetings']);
 
+        Route::post('meetings_list', [MeetingsController::class, 'meetings_list']);
     // End Robin 
     // Chats
     Route::get('get-chat', [ChatController::class, 'index']);

@@ -13,7 +13,7 @@ class MeetingsController extends Controller
     public function meetings()
     {
         $user_id = Auth::user()->id;
-        $meetings = MeetingAttendees::with('meetings', 'meetings.user', 'meetings.user.role')->orderBy('id', 'desc')->where('attendee_id', Auth::user()->id)->get();
+        $meetings = MeetingAttendees::with('meetings','meetings.meeting_attendees.users:id,employer_id,job_title,first_name,last_name,image','meetings.user', 'meetings.user.role')->orderBy('id', 'desc')->where('attendee_id', Auth::user()->id)->get();
         if ($meetings) {
             return response()->json([
                 'message' => "Success",
@@ -25,4 +25,6 @@ class MeetingsController extends Controller
             ], 400);
         }
     }
+
+    
 }
