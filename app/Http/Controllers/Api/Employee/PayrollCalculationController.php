@@ -32,7 +32,7 @@ class PayrollCalculationController extends Controller
         $validator = Validator::make($request->all(), [
             'employer_id' => 'required',
             'flag' => 'required',
-           // 'id.*' => 'required'
+            // 'id.*' => 'required'
         ]);
         $flag_payroll = 0;
         //if validation fails
@@ -58,25 +58,17 @@ class PayrollCalculationController extends Controller
             foreach ($id as $id) {
                 $employees = User::where('branch_id', $id)->get();
             }
-        } else if ($flag =="department") {
+        } else if ($flag == "department") {
             foreach ($id as $id) {
                 $employees = User::where('department_id', $id)->get();
             }
-           
-        } 
-        else if($flag =="choose_employee")
-        {
-            foreach ($id as $id) {
-                $employees = User::where('id', $id)->get();
-            }
-        }
-        else if ($flag == "all") {
+        } else if ($flag == "all") {
             $employees = User::where('employer_id', $EmployerId)->get();
             //Checking for pending approval or rejection leaves , attendance or overtime
             $pending_leaves = LeaveRequest::where('employer_id', $request->employer_id)->where('status', '0')->get();
             $pending_overtime = Overtime::where('employer_id', $request->employer_id)->where('status', '0')->get();
             $pending_attendance = Attendance::where('employer_id', $request->employer_id)->where('approve_reject', null)->get();
-        
+
             if ((count($pending_leaves) > 0)) {
                 return response()->json([
                     'message' => 'There is pending leave requests'
@@ -92,17 +84,26 @@ class PayrollCalculationController extends Controller
                     'message' => 'There is pending attendance approvals'
                 ], 400);
             }
-        }
-        else
-          {
-             foreach($id as $id)
-             {
+        } else {
+            $i = 0;
+            $idResponse = $id;
+            foreach ($idResponse as $key => $value) {
+                $values = explode(',', $value);
+                foreach ($values as $v) {
+                    $newIdResponse[$key][] = (int) $v;
+                }
+            }
+            $newid = $newIdResponse;
+            foreach ($newid as $id) {
+                $i = $i + 1;
+                // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
                 $employees[] = User::where('id', $id)->first();
-             }
+                // $employees[] = $employee; // Add the fetched user to the $employees array.
+            }
+            dd($employees);
         }
 
         $today = Carbon::today();
-
         foreach ($employees as $employee) {
             if ($employee->salary_type == "1" && $employee->status == "1") {
                 //Taking each employees 
