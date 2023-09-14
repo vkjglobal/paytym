@@ -7,32 +7,66 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Projects</h6>
+                    <h6 class="card-title">Project Expense</h6>
+                    <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                <h3 class="card-title"><u>Project : {{$project->name}}</u></h3>
+                                </div>
+                            </div><!-- Col -->
+                            <div class="col-sm-6">
+                            <div class="form-group">
+                            <h3 class="card-title"><u>Start Date : {{$project->start_date}}</u></h3>
+                            </div>
+                        </div><!-- Col -->
+                        </div><!-- Row -->
+                        <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <h3 class="card-title"><u>Budget : ${{$project->budget}}</u></h3>
+                            </div>
+                        </div><!-- Col -->
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                            <h3 class="card-title"><u>End Date : {{$project->end_date}}</u></h3>
+                            </div>
+                        </div><!-- Col -->
+                    </div><!-- Row -->
+                       
+                       
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                <h3 class="card-title"><u></u></h3>
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sl #</th>
-                                    <th>Project</th>
-                                    <th>Branch</th>
-                                    <th>Business</th>
-                                    <th>Description</th>
-                                    <th>Budget</th>
+                                    <th>Employee</th>
+                                    <th>Expense From</th>
+                                    <th>Expense To</th>
+                                    <th>Expense Amount</th>
+                                    {{--<th>Budget</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
+                                    <th>Actions</th>--}}
+                                </tr>   
                             </thead>
                             <tbody>
-                                @foreach ($projects as $project)
+                                @foreach ($expense as $exp)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $project->name  }}</td>
-                                        <td>{{ optional($project->branch)->name ?? 'no data' }}</td>
-                                        <td>{{ optional($project->business)->name ?? 'no data' }}</td>
-                                        <td>{{ $project->description}}</td>
+                                        <td>{{ optional($exp->user)->first_name ?? 'no data' }}</td>
+                                        <td>{{ optional($exp->project)->start_date ?? 'no data' }}</td>
+                                        <td>{{ $current_date }}</td>
+                                        <td>{{ $exp->expense_amount}}</td>
                         
                                         
-                                        <td>@isset($project->budget)
+                                       {{-- <td>@isset($project->budget)
                                             {{ $project->budget}}
                                         @endisset</td>
                                         
@@ -43,7 +77,7 @@
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
                                                 data-on="Active" data-off="InActive"
                                                 {{ $project->status ? 'checked' : '' }}>
-                                                {{--<a href="{{ route('employer.calculate_project_expense', ['id' => $project->id]) }}" type="button" class="btn btn-primary">View Expense</a>--}}
+                                                <a href="{{ route('employer.calculate_project_expense', ['id' => $project->id]) }}" type="button" class="btn btn-primary">View Expense</a>
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
@@ -70,12 +104,33 @@
                                                 </form>
 
                                             </div>
-                                        </td>
+                                        </td>--}}
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
+                    </div><br><br>
+                    <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                <h3 class="card-title"><u>Total Project Expense till date : ${{$total_expense_amount}}</u></h3>
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                <h3 class="card-title"><u>Total Budget : ${{$project->budget}}</u></h3>
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                <h3 class="card-title"><u>Remaining Budget : ${{$remaining_budget}}</u></h3>
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
                 </div>
             </div>
         </div>
