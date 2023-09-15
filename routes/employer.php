@@ -43,6 +43,7 @@ use App\Http\Controllers\Employer\InvoiceController;
 use App\Http\Controllers\Employer\MeetingController;
 use App\Http\Controllers\Employer\CardController;
 use App\Http\Controllers\Employer\BillingEmailController;
+use App\Http\Controllers\Employer\ProjectExpenseController;
 use App\Http\Controllers\Employer\MeetingsController as EmployerMeetingsController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
@@ -161,6 +162,9 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::get('project-change-status', [ProjectController::class, 'changeStatus'])->name('project.change.status');
   Route::resource('project/assign', AssignEmployerController::class)->except(['show']);
   Route::get('project/assign/search', [AssignEmployerController::class, 'search'])->name('project.assign.search'); //project assign
+
+//Project Expense
+  Route::get('project-expense/{id}', [ProjectExpenseController::class, 'calculate_project_expense'])->name('calculate_project_expense');
 
   //Rosters
   Route::resource('roster', RosterController::class)->except(['show']);

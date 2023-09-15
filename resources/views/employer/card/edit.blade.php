@@ -44,10 +44,11 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Expiry Date<span class="text-danger">*</span></label>
-                                    <input type="text"
+                                    <input type="text" id="dateInput" pattern="(0[1-9]|1[0-2])/\d{4}"
                                         class="form-control @if ($errors->has('primary_expiry_date')) is-invalid @endif"
                                         name="primary_expiry_date" value="{{ old('primary_expiry_date', $card->primary_expiry_date) }}" placeholder="MM/YYYY" required>
-                                   {{-- <input type="date"
+                                        <span id="dateError" style="color: red;"></span>
+                                        {{-- <input type="date"
                                         class="form-control @if ($errors->has('expiry_date')) is-invalid @endif"
                                         name="expiry_date" value="{{ old('expiry_date') }}" placeholder="Choose Expiry Date" required>--}}
                                     <div class="invalid-feedback">{{ $errors->first('primary_expiry_date') }}</div>
@@ -95,10 +96,11 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Expiry Date <span class="text-danger">*</span></label>
-                                    <input type="text"
+                                    <input type="text" id="dateInput1" pattern="(0[1-9]|1[0-2])/\d{4}"
                                         class="form-control @if ($errors->has('secondary_expiry_date')) is-invalid @endif"
                                         name="secondary_expiry_date" value="{{ old('secondary_expiry_date',$card->secondary_expiry_date) }}" placeholder="MM/YYYY" required>
-                                    {{--<input type="date"
+                                        <span id="dateError1" style="color: red;"></span>
+                                        {{--<input type="date"
                                         class="form-control @if ($errors->has('expiry_date')) is-invalid @endif"
                                         name="expiry_date" value="{{ old('expiry_date') }}" placeholder="Choose Expiry Date" required>--}}
                                     <div class="invalid-feedback">{{ $errors->first('secondary_expiry_date') }}</div>
@@ -191,6 +193,26 @@ $(document).ready(function () {
         }
     });
 });
+</script>
+
+<script>
+    const dateInput = document.getElementById('dateInput');
+    const dateError = document.getElementById('dateError');
+
+    dateInput.addEventListener('input', function () {
+        const isValid = this.checkValidity();
+        dateError.textContent = isValid ? '' : 'Please enter a valid date in mm/YYYY format.';
+    });
+</script>
+
+<script>
+    const dateInput1 = document.getElementById('dateInput1');
+    const dateError1 = document.getElementById('dateError1');
+
+    dateInput1.addEventListener('input', function () {
+        const isValid = this.checkValidity();
+        dateError1.textContent = isValid ? '' : 'Please enter a valid date in mm/YYYY format.';
+    });
 </script>
 
 @endpush
