@@ -345,8 +345,9 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
 Route::resource('advance', AdvanceController::class)->except(['show']);
 Route::get('respond_advance_request', [AdvanceController::class, 'respond_advance_request'])->name('advance.respond_advance_request');
 
-
 //End
+// Robin 14-09-23
+Route::get('generate_web', [PayrollController::class, 'generate_web'])->name('payroll.generate.web');
 
 
 });

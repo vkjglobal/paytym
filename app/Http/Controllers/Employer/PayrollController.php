@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Exports\Employer\PaymentExport;
+use App\Http\Controllers\Api\Employee\PayrollCalculationController;
 use App\Http\Controllers\Controller;
 use App\Models\Payroll;
 use App\Models\User;
@@ -20,12 +21,16 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Jobs\PayslipGeneration;
+use App\Models\Branch;
+use App\Models\Department;
 use App\Models\Employer;
+use App\Models\EmployerBusiness;
 use App\Models\TaxSettings;
 use App\Models\TaxSettingsSrtModel;
 use Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PayrollController extends Controller
@@ -146,7 +151,12 @@ class PayrollController extends Controller
 
     public function generate_form()
     {
-        return view('employer.Payroll.generate');
+        $employer_id = Auth::guard('employer')->user()->id;
+        $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $branches = Branch::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        return view('employer.Payroll.generate', compact('users', 'businesses', 'branches', 'departments'));
     }
 
     public function generate_hourly_payroll($employee, $fromDate, $payDate, $EmployerId)
@@ -376,9 +386,9 @@ class PayrollController extends Controller
 
 
             //      dd($annualIncome . "," . $value['annualincome_from'] . "," . $taxRate . "," . $taxAddon);
-          
-          
-          
+
+
+
             $A1 = ($annualIncome -  $value['annualincome_from']) * ($taxRate / 100) + $taxAddon;  // IncomeTax
             // dd($A1); 
             $C2 = $annualIncome + $total_bonus;   // Income + Bonus
@@ -717,6 +727,8 @@ class PayrollController extends Controller
         $payroll->total_fnpf = $fnpf_amount;
         $payroll->start_date = $fromDate;
         $payroll->end_date = $endDate;
+        $payroll->paid_status = '0';
+        $payroll->pay_date = $formattedDate;
 
         $res = $payroll->save();
         $flag_payroll = 1;
@@ -744,8 +756,74 @@ class PayrollController extends Controller
 
         );
     }
+
+    public function revert_payroll(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employer_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first(),
+            ], 400);
+        }
+        // Step 1: Retrieve the last date
+        $lastRecord = Payroll::where('employer_id', $request->employer_id)->where('paid_status', '0')->latest()->first();
+        if ($lastRecord) {
+
+
+            $lastDate = $lastRecord->pay_date;
+
+            // Step 2: Delete rows with the last date
+            $result = Payroll::where('employer_id', $request->employer_id)->where('pay_date', $lastDate)->where('paid_status', '0')->delete();
+            if ($result) {
+                return response()->json([
+                    'message' => 'Payroll Revert successfully.',
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Something went wrong',
+                ], 400);
+            }
+        } else {
+            return response()->json([
+                'message' => 'No record Found',
+            ], 400);
+        }
+    }
+
     // public function export() 
     // {
     //     return Excel::download(new PaymentExport, ''.Carbon::today()->format('Y-m-d').'payroll.csv',\Maatwebsite\Excel\Excel::CSV);
     // }
+
+    public function generate_web(Request $request)
+    {
+        $payroll_type = $request->payroll_type;
+        $payrollcontroller = new PayrollCalculationController;
+        // $request = ['employer_id' => '15', 'flag' => 'department', 'id' => '[12,13]'];
+        //  dd($req);
+     
+
+        if ($payroll_type == '1') {
+            // All Employees Payroll Section
+$flag='all';
+
+        } else {
+            // Choose Employee Payroll Section
+
+        }
+
+        $requestData = [
+            'employer_id' => Auth::guard('employer')->user()->id,
+            'flag' => 'aaa',
+            'id' => $request->users
+            // Add more field-value pairs as needed
+        ];
+
+        $request = new Request($requestData);
+        $result = $payrollcontroller->payroll($request);
+        return $result;
+    }
 }

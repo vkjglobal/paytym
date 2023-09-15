@@ -37,7 +37,16 @@ class AuthController extends Controller
 
         // auth attempt
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+
             $authUser = Auth::user();
+            if($authUser->status=='0')
+            {
+                return response()->json([
+                    'message' => "Inactive Person",
+                ], 200);
+            }
+            else{
+            
             $success['token'] =  $authUser->createToken($authUser->first_name . '-MyToken')->plainTextToken;
             $casual = 0;
             $absence = 0;
@@ -77,8 +86,10 @@ class AuthController extends Controller
                 'halfday' => $halfday,
                 'capabilities' => $capabilities,
                 // 'capabilities_list' => $capabilities_list,
-                'last_checked_in' => $lastCheckedIn
+                'last_checked_in' => $lastCheckedIn,
+                
             ], 200);
+        }
         } else {
             return response()->json([
                 'message' => "Wrong credentials. Please try again."
