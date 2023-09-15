@@ -23,7 +23,7 @@
                         <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <h3 class="card-title"><u>Budget : ${{$project->budget}}</u></h3>
+                                <h3 class="card-title"><u>Budget : ${{number_format($project->budget,2)}}</u></h3>
                             </div>
                         </div><!-- Col -->
 
@@ -63,7 +63,7 @@
                                         <td>{{ optional($exp->user)->first_name ?? 'no data' }}</td>
                                         <td>{{ optional($exp->project)->start_date ?? 'no data' }}</td>
                                         <td>{{ $current_date }}</td>
-                                        <td>{{ $exp->expense_amount}}</td>
+                                        <td>${{ $exp->expense_amount}}</td>
                         
                                         
                                        {{-- <td>@isset($project->budget)
@@ -120,14 +120,14 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                <h3 class="card-title"><u>Total Budget : ${{$project->budget}}</u></h3>
+                                <h3 class="card-title"><u>Total Budget : ${{number_format($project->budget,2)}}</u></h3>
                                 </div>
                             </div><!-- Col -->
                         </div><!-- Row -->
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                <h3 class="card-title"><u>Remaining Budget : ${{$remaining_budget}}</u></h3>
+                                <h3 class="card-title"><u>Remaining Budget : ${{number_format($remaining_budget,2)}}</u></h3>
                                 </div>
                             </div><!-- Col -->
                         </div><!-- Row -->

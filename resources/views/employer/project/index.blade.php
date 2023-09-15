@@ -43,7 +43,12 @@
                                                 data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
                                                 data-on="Active" data-off="InActive"
                                                 {{ $project->status ? 'checked' : '' }}>
-                                                {{--<a href="{{ route('employer.calculate_project_expense', ['id' => $project->id]) }}" type="button" class="btn btn-primary">View Expense</a>--}}
+
+                                                @if ($project->end_date < now())
+                                                <button onclick="showAlert()" class="btn btn-primary" >View Expense</button>
+                                                @else
+                                                <a href="{{ route('employer.calculate_project_expense', ['id' => $project->id]) }}" type="button" class="btn btn-primary">View Expense</a>
+                                                @endif
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
@@ -112,4 +117,9 @@
             })
         })
     </script> 
+    <script>
+    function showAlert() {
+    alert("Project has ended. Expenses can no longer be viewed.");
+}
+</script>
 @endpush
