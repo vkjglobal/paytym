@@ -159,6 +159,14 @@ class PayrollController extends Controller
         return view('employer.Payroll.generate', compact('users', 'businesses', 'branches', 'departments'));
     }
 
+
+    public function revert_form()
+    {
+        $payrolls = Payroll::where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
+
+      return view('employer.Payroll.revert',compact('payrolls'));
+    }
+
     public function generate_hourly_payroll($employee, $fromDate, $payDate, $EmployerId)
     {
         $endDate = $payDate;
@@ -798,26 +806,48 @@ class PayrollController extends Controller
     //     return Excel::download(new PaymentExport, ''.Carbon::today()->format('Y-m-d').'payroll.csv',\Maatwebsite\Excel\Excel::CSV);
     // }
 
+    public function revert_web()
+    {
+
+        $requestData = [
+            'employer_id' => Auth::guard('employer')->user()->id,
+        ];
+
+        $request = new Request($requestData);
+        $result= $this->revert_payroll($request);
+        return redirect()->back()->with('message',$result);
+        
+    }
+
+   
+
     public function generate_web(Request $request)
     {
+       // dd($request->all());
         $payroll_type = $request->payroll_type;
         $payrollcontroller = new PayrollCalculationController;
         if ($payroll_type == '1') {
             // All Employees Payroll Section
             $flag = 'all';
-            $id=$request->users;
+            $id[]=$request->users;
         } else {
             // Choose Employee Payroll Section
-            if ($request->department != null) {
+            if($request->users != null)
+            {
+                $flag = 'others';
+                $id[]=$request->users;
+            }
+           else if ($request->department != null) {
                 $flag = "department";
-                $id=$request->department;
+                $id[]=$request->department;
             } else if ($request->branch != null) {
                 $flag = "branch";
-                $id=$request->branch;
+                $id[]=$request->branch;
             } else if ($request->business != null) {
                 $flag = "business";
-                $id=$request->business;
+                $id[]=$request->business;
             }
+           
             
         }
         $requestData = [
@@ -829,6 +859,7 @@ class PayrollController extends Controller
 
         $request = new Request($requestData);
         $result = $payrollcontroller->payroll($request);
-        return $result;
+        return redirect()->back()->with('message',$result);
+//        return $result;
     }
 }

@@ -349,5 +349,11 @@ Route::get('respond_advance_request', [AdvanceController::class, 'respond_advanc
 // Robin 14-09-23
 Route::get('generate_web', [PayrollController::class, 'generate_web'])->name('payroll.generate.web');
 
+//robin 18-09-23
+Route::get('payroll-revert-form', [PayrollController::class, 'revert_form'])->name('payroll.revert.form');
+
+Route::get('revert_web', [PayrollController::class, 'revert_web'])->name('payroll.revert.web');
+
+
 
 });
