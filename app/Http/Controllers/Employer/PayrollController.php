@@ -802,23 +802,28 @@ class PayrollController extends Controller
     {
         $payroll_type = $request->payroll_type;
         $payrollcontroller = new PayrollCalculationController;
-        // $request = ['employer_id' => '15', 'flag' => 'department', 'id' => '[12,13]'];
-        //  dd($req);
-     
-
         if ($payroll_type == '1') {
             // All Employees Payroll Section
-$flag='all';
-
+            $flag = 'all';
+            $id=$request->users;
         } else {
             // Choose Employee Payroll Section
-
+            if ($request->department != null) {
+                $flag = "department";
+                $id=$request->department;
+            } else if ($request->branch != null) {
+                $flag = "branch";
+                $id=$request->branch;
+            } else if ($request->business != null) {
+                $flag = "business";
+                $id=$request->business;
+            }
+            
         }
-
         $requestData = [
             'employer_id' => Auth::guard('employer')->user()->id,
-            'flag' => 'aaa',
-            'id' => $request->users
+            'flag' => $flag,
+            'id' => $id
             // Add more field-value pairs as needed
         ];
 

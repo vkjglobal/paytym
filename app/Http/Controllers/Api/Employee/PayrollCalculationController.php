@@ -50,7 +50,7 @@ class PayrollCalculationController extends Controller
         // $pending_attendance = 0;
 
         if ($flag == "business") {
-            //dd($id);
+            dd($id);
             foreach ($id as  $id) {
                 $employees = User::where('business_id', $id)->get();
             }
