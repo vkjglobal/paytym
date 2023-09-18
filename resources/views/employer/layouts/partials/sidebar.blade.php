@@ -1024,12 +1024,12 @@
                             <a href="{{ route('employer.report.payslip') }}" class="nav-link {{ request()->is('employer/report/payslip*') ? 'active' : '' }}">
                                 Payslip Report
                             </a>
-                        </li>
+                        </li>-->
                         <li class="nav-item">
                             <a href="{{ route('employer.report.projectreport') }}" class="nav-link {{ request()->is('employer/report/projectreport*') ? 'active' : '' }}">
-                                Project Report
+                                Project Expense
                             </a>
-                        </li> -->
+                        </li> 
 
                     </ul>
                 </div>

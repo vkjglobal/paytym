@@ -36,11 +36,13 @@ use App\Models\LeaveRequest;
 use App\Models\Payroll;
 use App\Models\PayrollBudget;
 use App\Models\Project;
+use App\Models\ProjectExpense;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\EmployeeFilter;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use DB;
 
 class ReportController extends Controller
 {
@@ -536,8 +538,19 @@ public function projectreport_index()
         ];
         $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
         $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $projects = Project::where('employer_id',Auth::guard('employer')->user()->id)->get();
-         return view('employer.report.export.project.index',compact('breadcrumbs', 'projects','branches','businesses'));
+        //$projects = Project::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        
+        $projectexpense = ProjectExpense::with('project')->where('employer_id',Auth::guard('employer')->user()->id)->get();
+        //return $projectexpense;
+        $projects = Project::select('id', 'name', 'start_date','budget')
+        ->where('employer_id', Auth::guard('employer')->user()->id)
+        ->withCount([
+            'projectExpenses as total_expense' => function ($query) {
+                $query->select(DB::raw('SUM(expense_amount)'));
+            },
+        ])
+        ->get();
+        return view('employer.report.export.project.index',compact('breadcrumbs', 'projects','branches','businesses','projectexpense'));
     }
 
 

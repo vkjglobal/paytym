@@ -2,7 +2,11 @@
 @section('content')
     @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
     @endcomponent
-
+    @if(session('message'))
+    <div class="alert alert-light">
+        {{ session('message') }}
+    </div>
+@endif
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
