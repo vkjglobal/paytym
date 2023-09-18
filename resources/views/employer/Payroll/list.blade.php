@@ -1,0 +1,84 @@
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                    <!-- <h6 class="card-title col-md-9">Payroll</h6> -->
+                    {{-- <a class="btn btn-success float-right col-md-3 mb-3" href="{{route('employer.payroll.export')}}">
+                        Download Latest Payroll CSV
+                    </a> --}}
+                    </div>
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sl #</th>
+                                    <th>Name</th>
+                                    <th>Start date</th>
+                                    <th>End date</th>
+                                    <th>Base salary</th>
+                                    <th>Net salary</th>
+                                    <th>Gross salary</th>
+                                    <th>Paid salary</th>
+                                    <th>Total tax</th>
+                                    <th>Total Deduction</th>
+                                    <th>Total allowance</th>
+                                    <th>Total bonus</th>
+                                    <th>Total commission</th>
+                                    <th>Total FNPF</th>
+                                    <th>Status</th>
+                                    <th>Payslip</th>
+                                    {{-- <td>Actions</td> --}}
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($payrolls as $payroll)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ optional($payroll->user)->first_name ?? 'Not added' }}</td>
+                                        <td>{{ $payroll->start_date }}</td>
+                                        <td>{{ $payroll->end_date }}</td>
+                                        <td>{{ $payroll->base_salary }}</td>
+                                        <td>{{ $payroll->net_salary }}</td>
+                                        <td>{{ $payroll->gross_salary }}</td>
+                                        <td>{{ $payroll->paid_salary }}</td>
+                                        <td>{{ $payroll->total_tax }}</td>
+                                        <td>{{ $payroll->total_deduction }}</td>
+                                        <td>{{ $payroll->total_allowance }}</td>
+                                        <td>{{ $payroll->total_bonus }}</td>
+                                        <td>{{ $payroll->total_commission }}</td>
+                                        <td>{{ $payroll->total_fnpf }}</td>
+                                        <td>
+                                            @if($payroll->salary - $payroll->total_deduction == $payroll->paid_salary)
+                                                <a href="#" class="btn btn-success">Completed</a>
+                                            @else
+                                                <a href="#" class="btn btn-danger">Pending</a>   
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <form method="GET" action="{{route('employer.payroll.show', $payroll->id)}}">
+                                                <button name="approve" type="submit" value="">
+                                                    <i data-feather="eye" class="text-info"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        {{-- <td>
+                                            <form method="GET" action="{{route('employer.attendance.edit', $payroll->id)}}">
+                                                <button name="approve" type="submit" value="">
+                                                    <i data-feather="edit" class="text-warning"></i>
+                                                </button>
+                                            </form>
+                                        </td> --}}
+
+                                        {{-- <td>@isset($employee->employer->company) {{ $employee->employer->company }}@endisset</td> --}}
+
+                                        
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    

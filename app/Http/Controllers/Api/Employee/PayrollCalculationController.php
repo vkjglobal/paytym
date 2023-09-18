@@ -50,7 +50,6 @@ class PayrollCalculationController extends Controller
         // $pending_attendance = 0;
 
         if ($flag == "business") {
-            //dd($id);
             foreach ($id as  $id) {
                 $employees = User::where('business_id', $id)->get();
             }
@@ -86,7 +85,8 @@ class PayrollCalculationController extends Controller
             }
         } else {
             $i = 0;
-            $idResponse = $id;
+            $idResponse = $id[0];
+            //dd($idResponse[0]);
             foreach ($idResponse as $key => $value) {
                 $values = explode(',', $value);
                 foreach ($values as $v) {
@@ -100,7 +100,6 @@ class PayrollCalculationController extends Controller
                 $employees[] = User::where('id', $id)->first();
                 // $employees[] = $employee; // Add the fetched user to the $employees array.
             }
-            dd($employees);
         }
 
         $today = Carbon::today();

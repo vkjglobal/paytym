@@ -663,6 +663,12 @@
                                     </li>
 
                                     <li class="nav-item">
+                                        <a href="{{ route('employer.payroll.revert.form') }}" class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
+                                            Revert
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
                                         <a href="{{ route('employer.payroll.index') }}" class="nav-link {{ request()->is('employer/payroll') ? 'active' : '' }}">
                                             List
                                         </a>
