@@ -26,7 +26,8 @@ class ProjectExpenseController extends Controller
         $employees_in_project = EmployeeProject::with('user')->where('project_id',$projectId)->get();//->pluck('employee_id');
         $project = Project::where('id',$projectId)->first();
        // return $employees_in_project;
-       
+       if($employees_in_project->count() != 0)
+       {
        foreach($employees_in_project as $employees)
         {
             $employee = $employees->user;
@@ -119,7 +120,7 @@ class ProjectExpenseController extends Controller
                     $daily_expense->employer_id = Auth::guard('employer')->user()->id;
                     $daily_expense->project_id = $projectId;
                     $daily_expense->employee_id = $employee->id;
-                    $daily_expense->date = $today;
+                    $daily_expense->date = Carbon::today()->format('Y-m-d');//$today;
                     $daily_expense->worked_hours = 8;
                     $daily_expense->expense_amount = $totalEarnings;
                     $daily_expense->employee_status = $employee->status;
@@ -260,7 +261,7 @@ class ProjectExpenseController extends Controller
                                     $daily_expense->employer_id = Auth::guard('employer')->user()->id;
                                     $daily_expense->project_id = $projectId;
                                     $daily_expense->employee_id = $employee->id;
-                                    $daily_expense->date = $today;
+                                    $daily_expense->date = Carbon::today()->format('Y-m-d');//$today;
                                     $daily_expense->worked_hours = 8;
                                     $daily_expense->expense_amount = $totalEarnings;
                                     $daily_expense->employee_status = $employee->status;
@@ -303,7 +304,11 @@ class ProjectExpenseController extends Controller
             [(__('Project Expense')), null],
         ];
         return view('employer.project.view_expense', compact('breadcrumbs','expense','total_expense_amount','project','current_date','remaining_budget'));
-
+    }
+    else
+    {
+        return redirect()->back()->with('message', 'No employees are assigned to this project yet!');;
+    }
         
     }
 
