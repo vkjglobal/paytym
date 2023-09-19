@@ -22,8 +22,8 @@
     <link rel="shortcut icon" href="{{ asset('admin_assets/images/favicon.png') }}" />
     <!-- custom styles -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    @notifyCss
 
+@notifyCss
     <style>
         .notify {
             z-index: 999999999 !important;
@@ -108,6 +108,7 @@
             line-height: 18px;
         }
     </style>
+
 
     @stack('custom_css')
 </head>

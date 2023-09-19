@@ -29,11 +29,11 @@ class AssignAllowanceController extends Controller
         $assign_allowances = AssignAllowance::where('employer_id', $employer_id)->get();
         $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
         $allowances = Allowance::where('employer_id', $employer_id)->get();
-        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $branches = Branch::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id', Auth::guard('employer')->user()->id)->get();
         // return($assign_allowances);
-        return view('employer.allowance.assign', compact('breadcrumbs','assign_allowances',  'users', 'allowances', 'businesses', 'branches', 'departments'));
+        return view('employer.allowance.assign', compact('breadcrumbs', 'assign_allowances',  'users', 'allowances', 'businesses', 'branches', 'departments'));
     }
 
     /**
@@ -54,25 +54,41 @@ class AssignAllowanceController extends Controller
      */
     public function store(Request $request)
     {
-        $allowance = AssignAllowance::where('user_id', $request->employee_id)->
-                                    where('allowance_id', $request->allowance)->first();
-
-
+        $business = $request->business;
+        $branch = $request->branch;
+        $department = $request->department;
+        $user = $request->employee_id;
         $employer_id = Auth::guard('employer')->id();
-        $data = new AssignAllowance();
-        $data->employer_id = $employer_id;
-        $data->user_id = $request->employee_id;
-        $data->allowance_id = $request->allowance;
-        $data->rate = $request->rate;
 
-        if($allowance){
-            notify()->error(__('Already exists'));
-        }else{
-            $res = $data->save();
-            if ($res) {
-                notify()->success(__('Added successfully.'));
+        if ($business == '0') {
+            $employee = User::Where('employer_id', $employer_id)->select('id')->get();
+        } else if ($branch == '0') {
+            $employee = User::Where('employer_id', $employer_id)->where('business_id', $business)->get();
+        } else if ($department == '0') {
+            $employee = User::Where('employer_id', $employer_id)->where('branch_id', $branch)->get();
+        } else if ($user == '0') {
+            $employee = User::Where('employer_id', $employer_id)->where('department_id', $department)->get();
+        } else {
+            $employee = [];
+            $employee[]['id'] = $request->employee_id;
+        }
+
+        foreach ($employee as $key => $value) {
+            $allowance = AssignAllowance::where('user_id', $value['id'])->where('allowance_id', $request->allowance)->first();
+            if ($allowance) {
+              //  notify()->error(__('Already exists'));
             } else {
-                notify()->error(__('Failed to add. Please try again'));
+                $data = new AssignAllowance();
+                $data->employer_id = $employer_id;
+                $data->user_id = $value['id'];
+                $data->allowance_id = $request->allowance;
+                $data->rate = $request->rate;
+                $res = $data->save();
+                if ($res) {
+                    notify()->success(__('Added successfully.'));
+                } else {
+                    notify()->error(__('Failed to add. Please try again'));
+                }
             }
         }
 
@@ -111,7 +127,7 @@ class AssignAllowanceController extends Controller
     public function update(Request $request, $id)
     {
         $data = AssignAllowance::find($id);
-        $data->allowance_id= $request->allowance;
+        $data->allowance_id = $request->allowance;
         $data->rate = $request->rate;
 
         $res = $data->save();
@@ -121,7 +137,7 @@ class AssignAllowanceController extends Controller
             notify()->error(__('Failed to update. Please try again'));
         }
 
-        
+
 
         return redirect()->back();
     }
