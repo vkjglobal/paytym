@@ -21,10 +21,18 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Card Number <span class="text-danger">*</span></label>
-                                    <input type="text"
+                                   {{-- <input type="text"
                                         class="form-control @if ($errors->has('primary_card_number')) is-invalid @endif"
                                         name="primary_card_number" value="{{ old('primary_card_number',$card->primary_card_number) }}" placeholder="Enter Card Number" required>
-                                    <div class="invalid-feedback">{{ $errors->first('primary_card_number') }}</div>
+                                   --}} <div class="invalid-feedback">{{ $errors->first('primary_card_number') }}</div>
+                                    <?php
+                            function getTruncatedCCNumber($ccNum){
+                                return str_replace(range(0,9), "*", substr($ccNum, 0, -4)) .  substr($ccNum, -4);
+                            }
+                                ?>
+                                <input type="text"
+                                        class="form-control @if ($errors->has('primary_card_number')) is-invalid @endif"
+                                        name="primary_card_number" value="  <?php echo getTruncatedCCNumber($card->primary_card_number); ?> " placeholder="Enter Card Number" required>
                                 </div>
                             </div><!-- Col -->
                         </div><!-- Row -->
@@ -73,10 +81,18 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Card Number <span class="text-danger">*</span></label>
-                                    <input type="text"
+                                   {{--<input type="text"
                                         class="form-control @if ($errors->has('secondary_card_number')) is-invalid @endif"
-                                        name="secondary_card_number" value="{{ old('secondary_card_number',$card->secondary_card_number) }}" placeholder="Enter Card Number" required>
+                                        name="secondary_card_number" value="{{ old('secondary_card_number',$card->secondary_card_number) }}" placeholder="Enter Card Number" required>--}}
                                     <div class="invalid-feedback">{{ $errors->first('secondary_card_number') }}</div>
+                                    <?php
+                            function getTruncatedCCNumber1($ccNum){
+                                return str_replace(range(0,9), "*", substr($ccNum, 0, -4)) .  substr($ccNum, -4);
+                            }
+                                ?>
+                                <input type="text"
+                                        class="form-control @if ($errors->has('secondary_card_number')) is-invalid @endif"
+                                        name="secondary_card_number" value="  <?php echo getTruncatedCCNumber1($card->secondary_card_number); ?> " placeholder="Enter Card Number" required>
                                 </div>
                             </div><!-- Col -->
                         </div><!-- Row -->

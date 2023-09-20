@@ -21,7 +21,19 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Card Number : <span class="text-danger"></span></label>
-                                    {{ optional($card)->primary_card_number ?? 'No data' }}
+                                    {{--{{ optional($card)->primary_card_number ?? 'No data' }}--}}
+                                    @if(isset($card->primary_card_number))
+                                    
+                                    <?php
+                            function getTruncatedCCNumber($ccNum){
+                                return str_replace(range(0,9), "*", substr($ccNum, 0, -4)) .  substr($ccNum, -4);
+                            }
+                                ?>
+                                 <?php echo getTruncatedCCNumber($card->primary_card_number); ?> 
+                                    @else
+                                    No data
+                                    @endif
+                                    
                                 </div>
                             </div><!-- Col -->
                         </div><!-- Row -->
@@ -60,7 +72,18 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Card Number : <span class="text-danger"></span></label>
-                                    {{ optional($card)->secondary_card_number ?? 'No data' }}
+                                    {{--{{ optional($card)->secondary_card_number ?? 'No data' }}--}}
+                                    @if(isset($card->secondary_card_number))
+                                    
+                                    <?php
+                            function getTruncatedCCNumbersec($ccNum){
+                                return str_replace(range(0,9), "*", substr($ccNum, 0, -4)) .  substr($ccNum, -4);
+                            }
+                                ?>
+                                 <?php echo getTruncatedCCNumbersec($card->secondary_card_number); ?> 
+                                    @else
+                                    No data
+                                    @endif
                                 </div>
                             </div><!-- Col -->
                         </div><!-- Row -->

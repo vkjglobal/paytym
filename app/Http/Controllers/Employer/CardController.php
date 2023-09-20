@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Employer\StoreCreditcardRequest;
+use App\Http\Requests\Employer\UpdateCreditcardRequest;
 use App\Models\CreditCard;
 use Illuminate\Http\Request;
 use Auth;
@@ -92,15 +93,28 @@ class CardController extends Controller
         return view('employer.card.edit', compact('breadcrumbs', 'card'));
     }
 
-    public function update(StoreCreditcardRequest $request, CreditCard $card)
+    public function update(UpdateCreditcardRequest $request, CreditCard $card)
     {
        //dd($request)->all();
         $request = $request->validated();
-        $card->primary_card_number = $request['primary_card_number'];
+         if (strpos($request['primary_card_number'], '*') !== false) {
+            $card->primary_card_number = $card->primary_card_number;
+         }
+         else{
+            $card->primary_card_number = $request['primary_card_number'];
+         }
+         if (strpos($request['secondary_card_number'], '*') !== false) {
+            $card->secondary_card_number = $card->secondary_card_number;
+         }
+         else{
+            $card->secondary_card_number = $request['secondary_card_number'];
+         }
+
+        //$card->primary_card_number = $request['primary_card_number'];
         $card->primary_name_on_card = $request['primary_name_on_card'];
         $card->primary_expiry_date = $request['primary_expiry_date'];
 
-        $card->secondary_card_number = $request['secondary_card_number'];
+       // $card->secondary_card_number = $request['secondary_card_number'];
         $card->secondary_name_on_card = $request['secondary_name_on_card'];
         $card->secondary_expiry_date = $request['secondary_expiry_date'];
         
