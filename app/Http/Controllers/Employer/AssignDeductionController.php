@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\GeneralController;
 use Illuminate\Http\Request;
 use App\Models\AssignAllowance;
 use App\Models\AssignDeduction;
@@ -30,11 +31,11 @@ class AssignDeductionController extends Controller
         $assign_deductions = AssignDeduction::where('employer_id', $employer_id)->get();
         $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
         $deductions = Deduction::where('employer_id', $employer_id)->get();
-        $businesses = EmployerBusiness::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $branches = Branch::where('employer_id',Auth::guard('employer')->user()->id)->get();
-        $departments = Department::where('employer_id',Auth::guard('employer')->user()->id)->get();
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $branches = Branch::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $departments = Department::where('employer_id', Auth::guard('employer')->user()->id)->get();
         // return($assign_allowances);
-        return view('employer.deduction.assign', compact('breadcrumbs','assign_deductions',  'users', 'deductions', 'businesses', 'branches', 'departments'));
+        return view('employer.deduction.assign', compact('breadcrumbs', 'assign_deductions',  'users', 'deductions', 'businesses', 'branches', 'departments'));
     }
 
     /**
@@ -55,25 +56,25 @@ class AssignDeductionController extends Controller
      */
     public function store(Request $request)
     {
-        $deduction = AssignDeduction::where('user_id', $request->employee_id)->
-                                    where('deduction_id', $request->deduction)->first();
-
-
-        $employer_id = Auth::guard('employer')->id();
-        $data = new AssignDeduction();
-        $data->employer_id = $employer_id;
-        $data->user_id = $request->employee_id;
-        $data->deduction_id = $request->deduction;
-        $data->rate = $request->rate;
-
-        if($deduction){
-            notify()->error(__('Already exists'));
-        }else{
-            $res = $data->save();
-            if ($res) {
-                notify()->success(__('Added successfully.'));
+        $otherController = new GeneralController();
+        $employee = $otherController->fetch_employees($request);
+        foreach ($employee as $key => $value) {
+            $deduction = AssignDeduction::where('user_id', $value['id'])->where('deduction_id', $request->deduction)->first();
+            if ($deduction) {
+                //  notify()->error(__('Already exists'));
             } else {
-                notify()->error(__('Failed to add. Please try again'));
+                $employer_id = Auth::guard('employer')->id();
+                $data = new AssignDeduction();
+                $data->employer_id = $employer_id;
+                $data->user_id = $value['id'];
+                $data->deduction_id = $request->deduction;
+                $data->rate = $request->rate;
+                $res = $data->save();
+                // if ($res) {
+                //     //notify()->success(__('Added successfully.'));
+                // } else {
+                //    // notify()->error(__('Failed to add. Please try again'));
+                // }
             }
         }
 
@@ -112,7 +113,7 @@ class AssignDeductionController extends Controller
     public function update(Request $request, $id)
     {
         $data = AssignDeduction::find($id);
-        $data->deduction_id= $request->deduction;
+        $data->deduction_id = $request->deduction;
         $data->rate = $request->rate;
 
         $res = $data->save();
@@ -122,7 +123,7 @@ class AssignDeductionController extends Controller
             notify()->error(__('Failed to update. Please try again'));
         }
 
-        
+
 
         return redirect()->back();
     }

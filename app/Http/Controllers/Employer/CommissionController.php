@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\GeneralController;
 use App\Models\Branch;
 use App\Models\Commission;
 use App\Models\Department;
@@ -23,10 +24,10 @@ class CommissionController extends Controller
         $employer_id = Auth::guard('employer')->id();
         $users = User::where('employer_id', $employer_id)->where('status', 1)->get();
         $commissions = Commission::where('employer_id', $employer_id)->get();
-        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
-        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
-        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
-        return view('employer.commission.index', compact('businesses','branches','departments','breadcrumbs','commissions', 'users'));
+        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        return view('employer.commission.index', compact('businesses', 'branches', 'departments', 'breadcrumbs', 'commissions', 'users'));
     }
 
     /**
@@ -47,30 +48,28 @@ class CommissionController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'employee_id' => 'required',
-            'rate' => 'required|numeric',
-        ]);
-        
-        $employee = Commission::where('user_id', $request->employee_id)->first();
-
-        $employer_id = Auth::guard('employer')->id();
-        $data = new Commission();
-        $data->employer_id = $employer_id;
-        $data->user_id = $request->employee_id;
-        $data->rate = $request->rate;
-
-        if($employee){
-            notify()->error(__('Already exists'));
-        }else{
-            $res = $data->save();
-            if ($res) {
-                notify()->success(__('Added successfully.'));
+        $otherController = new GeneralController();
+        $employee = $otherController->fetch_employees($request);
+        foreach ($employee as $key => $value) {
+            $employee = Commission::where('user_id', $value['id'])->first();
+            if ($employee) {
+                notify()->error(__('Already exists'));
             } else {
-                notify()->error(__('Failed to add. Please try again'));
+
+                $employer_id = Auth::guard('employer')->id();
+                $data = new Commission();
+                $data->employer_id = $employer_id;
+                $data->user_id = $value['id'];
+                $data->rate = $request->rate;
+
+                $res = $data->save();
+                if ($res) {
+                    notify()->success(__('Added successfully.'));
+                } else {
+                    notify()->error(__('Failed to add. Please try again'));
+                }
             }
         }
-
         return redirect()->back();
     }
 
@@ -101,7 +100,7 @@ class CommissionController extends Controller
     {
         // $employee = Commission::where('user_id', $request->employee_id)->first();
         // $employer_id = Auth::guard('employer')->id();
-        $validated = $request->validate([   
+        $validated = $request->validate([
             'rate' => 'required|numeric',
         ]);
 
@@ -115,7 +114,7 @@ class CommissionController extends Controller
             notify()->error(__('Failed to update. Please try again'));
         }
 
-        
+
 
         return redirect()->back();
     }
