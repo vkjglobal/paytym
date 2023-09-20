@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\GeneralController;
 use App\Models\Allowance;
 use Illuminate\Http\Request;
 use App\Models\AssignAllowance;
@@ -54,24 +55,9 @@ class AssignAllowanceController extends Controller
      */
     public function store(Request $request)
     {
-        $business = $request->business;
-        $branch = $request->branch;
-        $department = $request->department;
-        $user = $request->employee_id;
-        $employer_id = Auth::guard('employer')->id();
 
-        if ($business == '0') {
-            $employee = User::Where('employer_id', $employer_id)->select('id')->get();
-        } else if ($branch == '0') {
-            $employee = User::Where('employer_id', $employer_id)->where('business_id', $business)->get();
-        } else if ($department == '0') {
-            $employee = User::Where('employer_id', $employer_id)->where('branch_id', $branch)->get();
-        } else if ($user == '0') {
-            $employee = User::Where('employer_id', $employer_id)->where('department_id', $department)->get();
-        } else {
-            $employee = [];
-            $employee[]['id'] = $request->employee_id;
-        }
+        $otherController = new GeneralController();
+         $employee = $otherController->fetch_employees($request);
 
         foreach ($employee as $key => $value) {
             $allowance = AssignAllowance::where('user_id', $value['id'])->where('allowance_id', $request->allowance)->first();
@@ -79,15 +65,15 @@ class AssignAllowanceController extends Controller
               //  notify()->error(__('Already exists'));
             } else {
                 $data = new AssignAllowance();
-                $data->employer_id = $employer_id;
+                $data->employer_id = Auth::guard('employer')->id();
                 $data->user_id = $value['id'];
                 $data->allowance_id = $request->allowance;
                 $data->rate = $request->rate;
                 $res = $data->save();
                 if ($res) {
-                    notify()->success(__('Added successfully.'));
+                   // notify()->success(__('Added successfully.'));
                 } else {
-                    notify()->error(__('Failed to add. Please try again'));
+                   // notify()->error(__('Failed to add. Please try again'));
                 }
             }
         }

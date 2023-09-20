@@ -8,6 +8,7 @@ use App\Models\LeaveRequest;
 use App\Models\User;
 use App\Models\UserCapabilities;
 use App\Models\Attendance;
+use App\Models\Employer;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,9 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
 
             $authUser = Auth::user();
-            if($authUser->status=='0')
+            $employer=Employer::where('id',Auth::guard('employer')->id());
+
+            if($employer->status=='0')
             {
                 return response()->json([
                     'message' => "Inactive Person",

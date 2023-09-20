@@ -167,7 +167,6 @@
         let token = "{{csrf_token()}}";
             $('#business_id').change(function(e){
                 var id = $(this).val();
-                console.log('id====',id);
                 $('#branch_id').find('option').not(':first').remove();
 
                 $.ajax({
