@@ -156,7 +156,8 @@ class PayrollController extends Controller
         $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
         $branches = Branch::where('employer_id', Auth::guard('employer')->user()->id)->get();
         $departments = Department::where('employer_id', Auth::guard('employer')->user()->id)->get();
-        return view('employer.Payroll.generate', compact('users', 'businesses', 'branches', 'departments'));
+        $payrolls = Payroll::where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
+        return view('employer.Payroll.generate', compact('users', 'businesses', 'branches', 'departments','payrolls'));
     }
 
 
