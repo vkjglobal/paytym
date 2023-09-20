@@ -1,5 +1,4 @@
 @extends('employer.layouts.app')
-
 @section('content')
 @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
 @endcomponent

@@ -40,7 +40,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
 
             $authUser = Auth::user();
-            $employer=Employer::where('id',Auth::guard('employer')->id());
+            $employer=Employer::where('id',$authUser->employer_id)->first();
 
             if($employer->status=='0')
             {

@@ -103,6 +103,8 @@
   </div>
 </div>
 
+@include('employer.Payroll.list')
+
 
 @endsection
 @push('custom_js')
