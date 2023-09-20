@@ -12,6 +12,19 @@ use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\ProjectExpense;
 
+use App\Models\Country;
+use App\Models\AssignAllowance;
+use App\Models\ProvidentFund;
+use App\Models\Commission;
+use App\Models\AssignDeduction;
+use App\Models\Bonus;
+use App\Models\Branch;
+use App\Models\Department;
+use App\Models\Employer;
+use App\Models\EmployerBusiness;
+use App\Models\TaxSettings;
+use App\Models\TaxSettingsSrtModel;
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -111,7 +124,9 @@ class ProjectExpenseController extends Controller
                                    }
                                    $base_pay = ($employee->rate * ($employee->total_hours_per_week));
                             $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / 1));
-                                    $totalEarnings = $base_pay + isset($total_pay) + isset($doubleTimeRate) ?? 0;
+                                    //$totalEarnings = $base_pay + isset($total_pay) + isset($doubleTimeRate) ?? 0;
+                                    $totalEarnings = $base_pay + $totalHours;//($perDaySalary * $attendances->count());
+                                    //return $attendances->count();
                                     //$totalEarnings = $attendances->count() * $perDaySalary;
                                     //return $totalEarnings;
                     }
@@ -251,7 +266,8 @@ class ProjectExpenseController extends Controller
                                         //added later
                             $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / 1));
                             //$totalEarnings = $attendance->count()*$perDaySalary;
-                                        $totalEarnings = $base_pay;
+                            //return $attendances->count();
+                                        $totalEarnings = $base_pay + ($attendances->count()*$perDaySalary);
                                         //return $totalEarnings;
                                     }
     
