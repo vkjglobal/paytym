@@ -27,13 +27,13 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('invoices:add')
-        ->monthlyOn(16, '10:30')
+        ->monthlyOn(21, '13:24')
         ->timezone('Asia/Kolkata'); 
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
-        $schedule->command('send:payment-reminder')->monthlyOn(12, '10:21');
+        $schedule->command('send:payment-reminder')->monthlyOn(21, '10:21');
         $schedule->command('email:account-deactivation')
-        ->monthlyOn(12, '10:22');
+        ->monthlyOn(21, '12:47');
         //$schedule->command('send:login_credentials')->twiceDaily(24 ,18);
         //$schedule->command('invoices:add')->monthlyOn(30, '23:50');
         

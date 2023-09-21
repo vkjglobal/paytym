@@ -393,6 +393,16 @@ class UserController extends Controller
         return redirect()->route('employer.user.index');
        
     }
+
+    public function importEmployee()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.user.index')],
+            [(__('Users')), null],
+        ];
+
+        return view('employer.user.user_import', compact('breadcrumbs'));
+    }
     
     
 }

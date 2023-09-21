@@ -38,7 +38,7 @@ Furthermore, your employees and staff no longer have access to the Paytym mobile
 
 <br><br><br/>To swiftly reactivate your account and regain access to these essential services, you can still pay the due invoice by clicking on the following link:<br><br/>
 
-    <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; color:#0818a8; text-decoration: none;">Click Here To Pay</a><br><br/>
+    <a href="{{ route('employer.list_invoice', ['id' => $invoice->id]) }}" style="font-size: 16px; font-weight: 600; padding: 10px 5px; color:#0818a8; text-decoration: none;">Click Here To Pay</a><br><br/>
 
 Once your payment is processed successfully, please allow up to one business day for your Paytym account to be reactivated.
 
@@ -50,8 +50,13 @@ Thank you.
 <br><br><br/>
                         </td>
                     </tr>
-                    <tr>
+                   {{--<tr>
                         <td style="height: 15px;"><a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
+                    <br/>  <br/>
+                    </td>
+                    </tr>--}}
+                    <tr>
+                        <td style="height: 15px;"><a href="{{ route('employer.list_invoice', ['id' => $invoice->id]) }}" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
                     <br/>  <br/>
                     </td>
                     </tr>

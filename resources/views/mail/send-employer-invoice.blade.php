@@ -172,7 +172,7 @@
                                     
                                         
                                    <tr><td style="font-size: 16px; padding: 10px 5px 20px">
-                                   <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
+                                   <a href="{{ route('employer.view_invoice', ['id' => $invoice->id]) }}" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
                                        {{--<a href="{{ route('employer.email_invoice_download', ['id' => $employer->id]) }}" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Download</a> 
                                        <button type="button" class="btn btn-primary btn-icon-text" onclick="downloadInvoice({{ $employer->id }})">
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>

@@ -130,6 +130,7 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::resource('user', UserController::class)->except(['show']);
   Route::get('user-change-status', [UserController::class, 'changeStatus'])->name('user.changestatus');
   Route::post('user-shareinfo', [UserController::class, 'SendMailWithPublicInfo'])->name('user.user-shareinfo');
+  Route::get('user-import', [UserController::class, 'importEmployee'])->name('user.import');
 
 
   //Events
