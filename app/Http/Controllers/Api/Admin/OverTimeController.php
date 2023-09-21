@@ -49,7 +49,6 @@ class OverTimeController extends Controller
 
     public function overtime_request_approve_decline_edit(Request $request)
     {
-        dd($request->all());
         $validator = Validator::make($request->all(), [
             'status' =>  'required',
         ]);

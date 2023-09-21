@@ -31,16 +31,15 @@ class MeetingsController extends Controller
         $meetings = Meeting::with('user.position','meeting_attendees.users:id,employer_id,job_title,first_name,last_name,image')->where('employer_id', $request->employer_id)->get();
        
         // $meetings = Meeting::with('user.position', 'meeting_attendees.users:id,employer_id,job_title,first_name,last_name,image')
-        // ->select('desired_column1', 'desired_column2', ...) // Specify the columns you want to retrieve
+        // ->select('user.position', 'desired_column2', ...) // Specify the columns you want to retrieve
         // ->where('employer_id', $request->employer_id)
         // ->get();
     
        
-       
         if ($meetings) {
             return response()->json([
                 'message' => "Success",
-                'meetings liste' => $[meetings],
+                'meetings liste' => $meetings,
             ], 200);
 
             // if (request()->is('api/*')) {
