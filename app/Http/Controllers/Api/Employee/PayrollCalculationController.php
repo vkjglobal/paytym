@@ -34,6 +34,7 @@ class PayrollCalculationController extends Controller
             'flag' => 'required',
             // 'id.*' => 'required'
         ]);
+        // dd($request->all());
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -45,6 +46,9 @@ class PayrollCalculationController extends Controller
         $EmployerId = $request->employer_id;
         $id = $request->id;
         $flag = $request->flag;
+
+
+        //dd($id);
         // $pending_leaves = 0;
         // $pending_overtime = 0;
         // $pending_attendance = 0;
@@ -85,23 +89,38 @@ class PayrollCalculationController extends Controller
             }
         } else {
             $i = 0;
+            $newIdResponse = [];
             $idResponse = $id[0];
-            //dd($idResponse[0]);
-            foreach ($idResponse as $key => $value) {
+            // dd($idResponse);
+
+            $inputString = $idResponse;
+            $values = explode(',', $inputString);
+
+            $result = array_map(function ($val) {
+                return [$val];
+            }, $values);
+
+             dd($result);
+           // $idResponse = $result;
+            foreach ($result as $key => $value) {
                 $values = explode(',', $value);
                 foreach ($values as $v) {
                     $newIdResponse[$key][] = (int) $v;
                 }
             }
+            dd($newIdResponse);
             $newid = $newIdResponse;
+            // dd($newid);
             foreach ($newid as $id) {
+                //dd($id);
                 $i = $i + 1;
                 // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
                 $employees[] = User::where('id', $id)->first();
+                //dd($employees);
                 // $employees[] = $employee; // Add the fetched user to the $employees array.
             }
         }
-
+        dd($employees);
         $today = Carbon::today();
         foreach ($employees as $employee) {
             if ($employee->salary_type == "1" && $employee->status == "1") {
