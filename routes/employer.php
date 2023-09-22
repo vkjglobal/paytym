@@ -131,6 +131,7 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::get('user-change-status', [UserController::class, 'changeStatus'])->name('user.changestatus');
   Route::post('user-shareinfo', [UserController::class, 'SendMailWithPublicInfo'])->name('user.user-shareinfo');
   Route::get('user-import', [UserController::class, 'importEmployee'])->name('user.import');
+  Route::post('user/csvfile', [UserController::class, 'csvfile'])->name('user.csvfile');
 
 
   //Events

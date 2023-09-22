@@ -324,7 +324,7 @@ class ProjectExpenseController extends Controller
     }
     else
     {
-        return redirect()->back()->with('message', 'No employees are assigned to this project yet!');;
+        return redirect()->back()->with('message', 'No employees are assigned to this project yet!');
     }
         
     }

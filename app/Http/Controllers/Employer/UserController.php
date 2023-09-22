@@ -31,6 +31,8 @@ use Illuminate\Support\Facades\Hash as FacadesHash;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Mail;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UsersImport;
 
 
 class UserController extends Controller
@@ -403,6 +405,22 @@ class UserController extends Controller
 
         return view('employer.user.user_import', compact('breadcrumbs'));
     }
-    
+
+    public function csvfile(Request $request)
+    {
+        $request->validate([
+            'csvfile' => 'required|file|mimes:xls,xlsx,csv',
+        ]);
+
+        $file = $request->file('csvfile');
+        //return $file;
+        try {
+            Excel::import(new UsersImport, $request->file('csvfile'));
+            notify()->success(__('Upload file successfully'));
+        } catch (Exception $e) {
+            notify()->error(__('Failed to upload file. Wrong csv format. Please try again'));
+        }
+        return redirect()->back();
+    }
     
 }

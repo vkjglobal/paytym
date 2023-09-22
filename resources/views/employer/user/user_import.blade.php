@@ -26,7 +26,7 @@
                 <div class="row mt-4">
                         <div class="col-sm-4">
                             
-                            <form method="POST" action="{{ route('employer.attendance.csvfile') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('employer.user.csvfile') }}" enctype="multipart/form-data">
                                 @csrf
                                 <h6 class="card-title mt-3">Upload a CSV file</h6> 
                                 <input type="file" name="csvfile" class="mt-2">
@@ -69,7 +69,7 @@
                             </tbody>
                         </table>
                     </div>--}}
-                    <form method="POST" action="{{ route('employer.attendance.csvfile') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('employer.user.csvfile') }}" enctype="multipart/form-data">
                                 @csrf
                                 <h6 class="card-title mt-3"></h6> 
                                 

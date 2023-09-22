@@ -21,9 +21,47 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'employer_id',
         'name',
         'email',
         'password',
+        'department_id',
+        'first_name',
+        'last_name',
+        'company',
+        'branch_id',
+        'date_of_birth',
+        'country_id',
+        'bank',
+        'account_number',
+        'job_title',
+        'employment_start_date',
+        'employment_end_date',
+        'check_in_default',
+        'check_out_default',
+        'check_out_requred',
+        'bank_branch_name',
+        'business_id',
+        'rate',
+        'pay_period',
+        'workdays_per_week',
+        'total_hours_per_week',
+        'extra_hours_at_base_rate',
+        'employee_type',
+        'position',
+        'phone',
+        'street',
+        'city',
+        'town',
+        'postcode',
+        'tin',
+        'fnpf',
+        'licence_no',
+        'licence_expiry_date',
+        'passport_no',
+        'passport_expiry_date',
+        'image'
+
     ];
 
     /**
