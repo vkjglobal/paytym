@@ -49,6 +49,7 @@
                     </div>
                 </div>
                 <!-- Add Modal Ends -->
+                
                 <div class="table-responsive">
                     <table id="dataTableExample" class="table">
                         <thead>
@@ -66,7 +67,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ optional($assign_allowance->employee)->first_name ?? '-' }}</td>
                                 <td>{{ optional($assign_allowance->allowance)->type ?? '-' }}</td>
-                                <td>{{ optional($assign_allowance->allowance)->rate ?? '-' }}</td>
+                                <td>{{ optional($assign_allowance)->rate ?? '-' }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
 

@@ -25,20 +25,21 @@
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
-                    
+
                     <!-- Row -->
-                   <!-- Row -->
-                   <!-- Row -->
+                    <!-- Row -->
+                    <!-- Row -->
                     <div class="row" id="tbusiness" style="display:none">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Business<span class="text-danger">*</span></label>
-                                <select name="type_id" id="business_id"  class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true" disabled="disabled" >Select Business</option>
+                                <select name="type_id" id="business_id" class="@if ($errors->has('type_id')) is-invalid @endif">
+                                    <option selected="true" value="">Select Business</option>
+                                    <option value="0">All Business</option>
                                     @foreach($businesses as $business)
-                                        <option value="{{$business->id}}">{{$business->name}}</option>
+                                    <option value="{{$business->id}}">{{$business->name}}</option>
                                     @endforeach
-                                </select>                                
+                                </select>
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -50,11 +51,11 @@
                             <div class="form-group">
                                 <label class="control-label">Branch<span class="text-danger">*</span></label>
                                 <select name="type_id" id="branch_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true"  >Select Branch</option>
+                                    <option selected="true">Select Branch</option>
                                     @foreach($branches as $branch)
-                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                    <option value="{{$branch->id}}">{{$branch->name}}</option>
                                     @endforeach
-                                </select>                                
+                                </select>
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -65,31 +66,31 @@
                             <div class="form-group">
                                 <label class="control-label">Department<span class="text-danger">*</span></label>
                                 <select name="type_id" id="department_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true"  >Select Department</option>
+                                    <option selected="true">Select Department</option>
                                     @foreach($departments as $department)
-                                        <option value="{{$department->id}}">{{$department->dep_name}}</option>
+                                    <option value="{{$department->id}}">{{$department->dep_name}}</option>
                                     @endforeach
-                                </select>                                
+                                </select>
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
                             </div>
                         </div><!-- Col -->
                     </div>
-                    
+
                     <div class="row" id="temployee" style="display:none">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Employee<span class="text-danger">*</span></label>
                                 <select name="type_id" id="employee_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true" disabled="disabled" >Select User</option>
+                                    <option selected="true" disabled="disabled">Select User</option>
                                     @foreach($employees as $employee)
-                                        <option value="{{$employee->id}}">{{$employee->first_name}}</option>
+                                    <option value="{{$employee->id}}">{{$employee->first_name}}</option>
                                     @endforeach
-                                </select>                                
+                                </select>
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
                             </div>
                         </div><!-- Col -->
                     </div>
-                    
+
                     <!-- Row -->
                     <div class="row">
                         <div class="col-sm-6">
@@ -108,12 +109,10 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Rate <span class="text-danger">*</span></label>
-                                <input type="number" step=any
-                                    class="form-control @if ($errors->has('rate')) is-invalid @endif"
-                                    name="rate" value="" placeholder="Enter Rate" required>
+                                <input type="number" step=any class="form-control @if ($errors->has('rate')) is-invalid @endif" name="rate" value="" placeholder="Enter Rate" required>
                                 <div class="invalid-feedback">{{ $errors->first('rate') }}</div>
                             </div>
-                        </div><!-- Col --> 
+                        </div><!-- Col -->
                     </div><!-- Row -->
 
                     <input type="submit" class="btn btn-primary submit" value="Submit">
@@ -128,115 +127,135 @@
 <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
 <script>
-    $('#type').on('change',function(){
+    $('#type').on('change', function() {
         var selection = $(this).val();
-        switch(selection){
-        case "0":
-            $("#temployee").show()
-            $("#tdepartment").show()
-            $("#tbranch").show()
-            $("#tbusiness").show()
-            break;
-        case "1":
-            $("#tdepartment").show()
-            $("#temployee").hide()
-            $("#tbranch").show()
-            $("#tbusiness").show()
-            break;
-        case "2":
-            $("#tbranch").show()
-            $("#temployee").hide()
-            $("#tdepartment").hide()
-            $("#tbusiness").show()
-            break;
-        case "3":
-            $("#tbusiness").show()
-            $("#temployee").hide()
-            $("#tdepartment").hide()
-            $("#tbranch").hide()
-            break;
-        default:
-            $("#temployee").hide()
-            $("#tdepartment").hide()
-            $("#tbranch").hide()
-            $("#tbusiness").hide()
+        switch (selection) {
+            case "0":
+                $("#business_id option:eq(1)").remove();
+                $("#temployee").show()
+                $("#tdepartment").show()
+                $("#tbranch").show()
+                $("#tbusiness").show()
+                break;
+            case "1":
+                $("#business_id option:eq(1)").remove();
+                $("#tdepartment").show()
+                $("#temployee").hide()
+                $("#tbranch").show()
+                $("#tbusiness").show()
+                break;
+            case "2":
+                $("#business_id option:eq(1)").remove();
+                $("#tbranch").show()
+                $("#temployee").hide()
+                $("#tdepartment").hide()
+                $("#tbusiness").show()
+                break;
+            case "3":
+
+                $("#tbusiness").show()
+                $("#temployee").hide()
+                $("#tdepartment").hide()
+                $("#tbranch").hide()
+                break;
+            default:
+                $("#temployee").hide()
+                $("#tdepartment").hide()
+                $("#tbranch").hide()
+                $("#tbusiness").hide()
         }
-});
+    });
 
-        let token = "{{csrf_token()}}";
-            $('#business_id').change(function(e){
-                var id = $(this).val();
-                $('#branch_id').find('option').not(':first').remove();
+    let token = "{{csrf_token()}}";
+    $('#business_id').change(function(e) {
+        var id = $(this).val();
+        $('#branch_id').find('option').not(':first').remove();
 
-                $.ajax({
-                    type: 'get',
-                    url: '/employer/report/employment_period/get_branch/'+id,
-                    dataType: 'json',
-                    success: function(response){
-                        var len = 0;
-                        if(response != null){
-                            len = response['data'].length;
-                        }
-                        if(len>0){
-                            for(var i=0;i<len;i++){
-                                var id = response['data'][i].id;
-                                var name = response['data'][i].name;
-                                var option = "<option value='"+id+"'>"+name+"</option>";
-                                $('#branch_id').append(option);
-                            }
-                        }
+        $.ajax({
+            type: 'get',
+            url: '/employer/report/employment_period/get_branch/' + id,
+            dataType: 'json',
+            success: function(response) {
+                var len = 0;
+                if (response != null) {
+                    len = response['data'].length;
+                }
+                if (len > 0) {
+                    var selection = $('#type').val();
+
+                    if (selection == '2') {
+                        var option1 = "<option value='0'>All Branches</option>";
+                        $('#branch_id').append(option1);
                     }
-                });
-            });
-            $('#branch_id').change(function(e){
-                var id = $(this).val();
-                $('#department_id').find('option').not(':first').remove();
-
-                $.ajax({
-                    type: 'get',
-                    url: '/employer/report/employment_period/get_department/'+id,
-                    dataType: 'json',
-                    success: function(response){
-                        var len = 0;
-                        if(response != null){
-                            len = response['data'].length;
-                        }
-                        if(len>0){
-                            for(var i=0;i<len;i++){
-                                var id = response['data'][i].id;
-                                var name = response['data'][i].dep_name;
-                                var option = "<option value='"+id+"'>"+name+"</option>";
-                                $('#department_id').append(option);
-                            }
-                        }
+                    for (var i = 0; i < len; i++) {
+                        var id = response['data'][i].id;
+                        var name = response['data'][i].name;
+                        var option = "<option value='" + id + "'>" + name + "</option>";
+                        $('#branch_id').append(option);
                     }
-                });
-            });
-            $('#department_id').change(function(e){
-                var id = $(this).val();
-                $('#employee_id').find('option').not(':first').remove();
+                }
+            }
+        });
+    });
+    $('#branch_id').change(function(e) {
+        var id = $(this).val();
+        $('#department_id').find('option').not(':first').remove();
 
-                $.ajax({
-                    type: 'get',
-                    url: '/employer/report/employment_period/get_user/'+id,
-                    dataType: 'json',
-                    success: function(response){
-                        var len = 0;
-                        if(response != null){
-                            len = response['data'].length;
-                        }
-                        if(len>0){
-                            for(var i=0;i<len;i++){
-                                var id = response['data'][i].id;
-                                var name = response['data'][i].first_name;
-                                var option = "<option value='"+id+"'>"+name+"</option>";
-                                $('#employee_id').append(option);
-                            }
-                        }
+        $.ajax({
+            type: 'get',
+            url: '/employer/report/employment_period/get_department/' + id,
+            dataType: 'json',
+            success: function(response) {
+                var len = 0;
+                if (response != null) {
+                    len = response['data'].length;
+                }
+                var selection = $('#type').val();
+                if (selection == '1') {
+                    var option1 = "<option value='0'>All Departments</option>";
+                    $('#department_id').append(option1);
+                }
+                if (len > 0) {
+                    for (var i = 0; i < len; i++) {
+                        var id = response['data'][i].id;
+                        var name = response['data'][i].dep_name;
+                        var option = "<option value='" + id + "'>" + name + "</option>";
+                        $('#department_id').append(option);
                     }
-                });
-            });
-    </script>
+                }
+            }
+        });
+    });
+    $('#department_id').change(function(e) {
+        var id = $(this).val();
+        $('#employee_id').find('option').not(':first').remove();
+
+        $.ajax({
+            type: 'get',
+            url: '/employer/report/employment_period/get_user/' + id,
+            dataType: 'json',
+            success: function(response) {
+                var len = 0;
+                if (response != null) {
+                    len = response['data'].length;
+                }
+                var selection = $('#type').val();
+                if (selection == '0') {
+                    var option1 = "<option value='0'>All Employees</option>";
+                    $('#employee_id').append(option1);
+                }
+                if (len > 0) {
+                    for (var i = 0; i < len; i++) {
+                        var id = response['data'][i].id;
+                        var name = response['data'][i].first_name;
+                        var option = "<option value='" + id + "'>" + name + "</option>";
+                        $('#employee_id').append(option);
+                    }
+                }
+            }
+        });
+    });
+</script>
 
 
 
