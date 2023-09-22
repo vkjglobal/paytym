@@ -61,6 +61,42 @@ class BonusController extends Controller
             'rate_type' => 'required',
             'rate' => 'required|numeric',
         ]);
+
+        $type = $request->type;
+        $type_id = $request->type_id;
+        $rate_type = $request->rate_type;
+        $rate = $request->rate;
+        // $employer_id = Auth::guard('employer')->id();
+
+        if ($type == '0') { // employee
+                if($type_id=='0')
+                {
+
+                }
+                else
+                {
+
+                }
+
+            $employee = User::Where('employer_id', $employer_id)->select('id')->get();
+        } else if ($type == '1') { // department
+            $employee = User::Where('employer_id', $employer_id)->where('business_id', $business)->get();
+        } else if ($type == '2') {  //Branch
+            $employee = User::Where('employer_id', $employer_id)->where('branch_id', $branch)->get();
+        } else if ($type == '3') {  // Business
+            $employee = User::Where('employer_id', $employer_id)->where('department_id', $department)->get();
+        } else {
+            $employee = [];
+            $employee[]['id'] = $request->employee_id;
+        }
+
+
+
+
+
+
+
+
         $data = new Bonus();
         $data->employer_id = Auth::guard('employer')->id();
         $data->type = $request->type;
