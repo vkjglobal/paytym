@@ -15,6 +15,7 @@
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                             Download Invoice
                           </button> --}}
+                          <a href="{{ route('employer.pay_invoice', ['id' => $plan->id]) }}" type="button" class="btn btn-success">Pay Now</a>
                     
                     </div>
                     <div class="table-responsive">

@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Carbon\Carbon;
 use App\Models\Employer;
 use App\Models\BillingEmail;
+use App\Models\Invoice;
 use App\Mail\PaymentReminderEmail;
 use App\Mail\AccountDeactivationEmail;
 use App\Mail\AccountDeactivationWarningEmail;
@@ -36,7 +37,7 @@ class SendAccountDeactivationEmail extends Command
     public function handle()
     {
         $today = Carbon::today();
-        $sixthOfMonth = $today->copy()->day(12);
+        $sixthOfMonth = $today->copy()->day(21);
         if ($today->isSameDay($sixthOfMonth)){//(now()->day == 7) {
             // Fetch users/accounts to be deactivated
             $employersWithOverduePayments = Employer::where('status', '1') 
@@ -47,16 +48,18 @@ class SendAccountDeactivationEmail extends Command
 
             foreach ($employersWithOverduePayments as $employer) {
                 $user = Employer::where('email','=',$employer->email)->update(['status' => '0']);
+                $invoice = Invoice::where('employer_id',$employer->id)->where('status','2')->latest()->first();
+                
                 $billingEmails = BillingEmail::where('employer_id',$employer->id)->pluck('email');
                 if ($billingEmails->isEmpty()) {
-                Mail::to($employer->email)->send(new AccountDeactivationEmail($employer));
+                Mail::to($employer->email)->send(new AccountDeactivationEmail($employer,$invoice));
                 }
                 else
                 {
                     $recipients = $billingEmails->toArray();
                     Mail::to($employer->email)
                     ->cc($recipients)
-                    ->send(new AccountDeactivationEmail($employer));
+                    ->send(new AccountDeactivationEmail($employer,$invoice));
                     /*$recipients = collect([$employer->email])->concat($billingEmails);
                     Mail::to($recipients->toArray())->send(new AccountDeactivationEmail($employer));*/
                 }

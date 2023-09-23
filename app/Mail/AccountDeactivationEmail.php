@@ -13,15 +13,17 @@ class AccountDeactivationEmail extends Mailable
 {
     use Queueable, SerializesModels;
     public $employer;
+    public $invoice;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($employer)
+    public function __construct($employer,$invoice)
     {
         //
         $this->employer = $employer;
+        $this->invoice = $invoice;
     }
 
     /**
@@ -46,8 +48,8 @@ class AccountDeactivationEmail extends Mailable
         return new Content(
             markdown: 'mail.send-employer-deactivation',
             with: [
-                'employer' => $this->employer
-                
+                'employer' => $this->employer,
+                'invoice' => $this->invoice
             ]
         );
     }

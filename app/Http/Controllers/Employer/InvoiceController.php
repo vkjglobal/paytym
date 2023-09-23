@@ -24,7 +24,7 @@ class InvoiceController extends Controller
             [(__('Dashboard')), route('employer.invoice.index')],
             [(__('Invoice')), null],
         ];
-  
+        
         $plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('date', 'desc')->get();
         return view('employer.invoice.index', compact('breadcrumbs', 'plan'));
     }

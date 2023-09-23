@@ -16,7 +16,7 @@
                             </div><!-- Col -->
                             <div class="col-sm-6">
                             <div class="form-group">
-                            <h3 class="card-title"><u>Start Date : {{$project->start_date}}</u></h3>
+                            <h3 class="card-title"><u>Start Date : {{ optional($project)->start_date ? \Carbon\Carbon::parse(optional($project)->start_date)->format('d/m/Y') : 'no data' }}</u></h3>
                             </div>
                         </div><!-- Col -->
                         </div><!-- Row -->
@@ -29,7 +29,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                            <h3 class="card-title"><u>End Date : {{$project->end_date}}</u></h3>
+                            <h3 class="card-title"><u>End Date : {{ optional($project)->end_date ? \Carbon\Carbon::parse(optional($project)->end_date)->format('d/m/Y') : 'no data' }}</u></h3>
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
@@ -61,8 +61,10 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ optional($exp->user)->first_name ?? 'no data' }}</td>
-                                        <td>{{ optional($exp->project)->start_date ?? 'no data' }}</td>
-                                        <td>{{ $current_date }}</td>
+                                        {{--<td>{{ optional($exp->project)->start_date ?? 'no data' }}</td>--}}
+                                        <td>{{ optional($exp->project)->start_date ? \Carbon\Carbon::parse(optional($exp->project)->start_date)->format('d/m/Y') : 'no data' }}</td>
+                                        {{--<td>{{ $current_date }}</td>--}}
+                                        <td>{{ \Carbon\Carbon::parse($current_date)->format('d/m/Y') }}</td>
                                         <td>${{ $exp->expense_amount}}</td>
                         
                                         

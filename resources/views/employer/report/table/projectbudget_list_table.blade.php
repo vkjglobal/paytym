@@ -24,9 +24,10 @@
                                         {{--<td>{{ optional($project->branch)->name ?? 'no data' }}</td>
                                         <td>{{ optional($project->business)->name ?? 'no data' }}</td>
                                         <td>{{ $project->description}}</td>--}}
-                                        <td>{{$project->start_date}}</td>
-                                        <td>{{optional($project->projectExpenses)->max('date') ?? 'no data'}}</td>
-                                       {{-- <td> {{optional(optional($project->projectExpenses)->max('date'))->format('Y-m-d') ?? 'no data' }}</td>--}}
+                                        {{--<td>{{$project->start_date}}</td>--}}
+                                        <td> {{ optional($project)->start_date ? \Carbon\Carbon::parse(optional($project)->start_date)->format('d/m/Y') : 'no data' }}</td>
+                                        {{--<td>{{optional($project->projectExpenses)->max('date') ?? 'no data'}}</td>--}}
+                                        <td> {{ optional($project->projectExpenses)->max('date') ? \Carbon\Carbon::parse(optional($project->projectExpenses)->max('date'))->format('d/m/Y') : 'no data' }}</td>
                                         
                                         <td>@isset($project->budget)
                                             ${{number_format($project->budget,2)}}
