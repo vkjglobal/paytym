@@ -24,6 +24,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
 @notifyCss
+<link rel="stylesheet" href="{{ asset('vendor/mckenziearts/laravel-notify/css/notify.css') }}">
+
     <style>
         .notify {
             z-index: 999999999 !important;
@@ -146,7 +148,7 @@
             @endif
 
         </div>
-
+        @include('notify::components.notify')
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- core:js -->

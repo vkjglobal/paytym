@@ -25,7 +25,7 @@ class BonusController extends Controller
             [(__('Bonus')), null],
         ];
         $bonuses = Bonus::where('employer_id', Auth::guard('employer')->id())->get();
-        return view('employer.bonus.index', compact('breadcrumbs','bonuses'));
+        return view('employer.bonus.index', compact('breadcrumbs', 'bonuses'));
     }
 
     /**
@@ -41,10 +41,10 @@ class BonusController extends Controller
             [(__('Create')), null],
         ];
         $employees = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
-        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
-        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
-        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
-        return view('employer.bonus.create', compact('breadcrumbs','employees','departments','branches','businesses'));
+        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        return view('employer.bonus.create', compact('breadcrumbs', 'employees', 'departments', 'branches', 'businesses'));
     }
 
     /**
@@ -61,56 +61,69 @@ class BonusController extends Controller
             'rate_type' => 'required',
             'rate' => 'required|numeric',
         ]);
-
+       
         $type = $request->type;
         $type_id = $request->type_id;
         $rate_type = $request->rate_type;
         $rate = $request->rate;
-        // $employer_id = Auth::guard('employer')->id();
+        $employer_id = Auth::guard('employer')->id();
 
         if ($type == '0') { // employee
-                if($type_id=='0')
-                {
-
-                }
-                else
-                {
-
-                }
-
-            $employee = User::Where('employer_id', $employer_id)->select('id')->get();
+            if ($type_id == '0') {
+                $selectedDepartmentId = $request->input('selected_department_id');
+                $bonus_assign_to = User::Where('employer_id', $employer_id)->Where('department_id',$selectedDepartmentId)->select('id')->get();
+            } else {
+                $bonus_assign_to[]['id'] = $request->type_id;
+                //   $bonus_assign_to = $request->type_id;
+            }
         } else if ($type == '1') { // department
-            $employee = User::Where('employer_id', $employer_id)->where('business_id', $business)->get();
+            if ($type_id == '0') {
+                $selected_branch_id= $request->input('selected_branch_id');
+                $bonus_assign_to = Department::Where('employer_id', $employer_id)
+                ->Where('branch_id',$selected_branch_id)->select('id')->get();
+            } else {
+                $bonus_assign_to[]['id'] = $request->type_id;
+            }
         } else if ($type == '2') {  //Branch
-            $employee = User::Where('employer_id', $employer_id)->where('branch_id', $branch)->get();
+
+            if ($type_id == '0') {
+                $selected_business_id= $request->input('selected_business_id');
+            $bonus_assign_to = Branch::Where('employer_id', $employer_id)
+            ->Where('business_id',$selected_business_id)->select('id')->get();
+            } else {
+                $bonus_assign_to[]['id'] = $request->type_id;
+            }
+           
         } else if ($type == '3') {  // Business
-            $employee = User::Where('employer_id', $employer_id)->where('department_id', $department)->get();
-        } else {
-            $employee = [];
-            $employee[]['id'] = $request->employee_id;
+
+            if ($type_id == '0') {
+            $bonus_assign_to = Branch::Where('employer_id', $employer_id)->select('id')->get();
+            } else {
+                $bonus_assign_to[]['id'] = $request->type_id;
+            }
+        } 
+        foreach ($bonus_assign_to as $key => $value) {
+
+            $bonus = Bonus::where('type', $request->type)->where('type_id',$value['id'])
+            ->Where('rate_type',$request->rate_type)->first();
+            if ($bonus) {
+              //  notify()->error(__('Already exists'));
+            } else {
+            $data = new Bonus();
+            $data->employer_id = Auth::guard('employer')->id();
+            $data->type = $request->type;
+            $data->type_id = $value['id'];
+            $data->rate_type = $request->rate_type;
+            $data->rate = $request->rate;
+            $res = $data->save();
+    
+            if ($res) {
+                notify()->success(__('Bonus added.'));
+            } else {
+                notify()->error(__('Failed to add bonus. Please try again'));
+            }
         }
-
-
-
-
-
-
-
-
-        $data = new Bonus();
-        $data->employer_id = Auth::guard('employer')->id();
-        $data->type = $request->type;
-        $data->type_id = $request->type_id;
-        $data->rate_type = $request->rate_type;
-        $data->rate = $request->rate;
-        $res = $data->save();
-
-        if ($res) {
-            notify()->success(__('Bonus added.'));
-        } else {
-            notify()->error(__('Failed to add bonus. Please try again'));
         }
-
         return redirect()->back();
     }
 
@@ -140,21 +153,21 @@ class BonusController extends Controller
         ];
         $bonus = Bonus::find($id);
         // dd($bonus);
-        $employees = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
-        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
-        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
-        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get(); 
+        $employees = User::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $departments = Department::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $branches = Branch::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
+        $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->id())->where('status', 1)->get();
 
-        if($bonus->type == 0){
-            return view('employer.bonus.edit1', compact('breadcrumbs','employees','departments','branches','businesses','bonus'));
-        }elseif($bonus->type == 1){
-            return view('employer.bonus.edit2', compact('breadcrumbs','employees','departments','branches','businesses','bonus'));
-        }elseif($bonus->type == 2){
-            return view('employer.bonus.edit3', compact('breadcrumbs','employees','departments','branches','businesses','bonus'));
-        }elseif($bonus->type == 3){
-            return view('employer.bonus.edit4', compact('breadcrumbs','employees','departments','branches','businesses','bonus'));
-        }else{
-            return view('employer.bonus.edit', compact('breadcrumbs','employees','departments','branches','businesses','bonus'));
+        if ($bonus->type == 0) {
+            return view('employer.bonus.edit1', compact('breadcrumbs', 'employees', 'departments', 'branches', 'businesses', 'bonus'));
+        } elseif ($bonus->type == 1) {
+            return view('employer.bonus.edit2', compact('breadcrumbs', 'employees', 'departments', 'branches', 'businesses', 'bonus'));
+        } elseif ($bonus->type == 2) {
+            return view('employer.bonus.edit3', compact('breadcrumbs', 'employees', 'departments', 'branches', 'businesses', 'bonus'));
+        } elseif ($bonus->type == 3) {
+            return view('employer.bonus.edit4', compact('breadcrumbs', 'employees', 'departments', 'branches', 'businesses', 'bonus'));
+        } else {
+            return view('employer.bonus.edit', compact('breadcrumbs', 'employees', 'departments', 'branches', 'businesses', 'bonus'));
         }
         // return view('employer.bonus.edit', compact('employees','departments','branches','businesses','bonus'));
     }
@@ -195,7 +208,7 @@ class BonusController extends Controller
     {
         $data = Bonus::find($id);
         $res = $data->delete();
-    
+
         if ($res) {
             notify()->success(__('Bonus deleted.'));
         } else {
@@ -204,5 +217,4 @@ class BonusController extends Controller
 
         return redirect()->back();
     }
-    
 }

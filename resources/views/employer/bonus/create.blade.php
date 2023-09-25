@@ -41,6 +41,7 @@
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                                <input type="hidden" name="selected_business_id" id="selected_business_id" value="">
                             </div>
                         </div><!-- Col -->
                     </div>
@@ -57,6 +58,7 @@
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                                <input type="hidden" name="selected_branch_id" id="selected_branch_id" value="">
                             </div>
                         </div><!-- Col -->
                     </div>
@@ -66,12 +68,13 @@
                             <div class="form-group">
                                 <label class="control-label">Department<span class="text-danger">*</span></label>
                                 <select name="type_id" id="department_id" class="@if ($errors->has('type_id')) is-invalid @endif">
-                                    <option selected="true">Select Department</option>
+                                    
                                     @foreach($departments as $department)
                                     <option value="{{$department->id}}">{{$department->dep_name}}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                                <input type="hidden" name="selected_department_id" id="selected_department_id" value="">
                             </div>
                         </div><!-- Col -->
                     </div>
@@ -87,6 +90,7 @@
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('type_id') }}</div>
+                                <input type="hidden" name="selected_employee_id" id="selected_employee_id" value="">
                             </div>
                         </div><!-- Col -->
                     </div>
@@ -127,6 +131,25 @@
 <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
 <script>
+
+
+
+    document.getElementById('branch_id').addEventListener('change', function () {
+        var selectedId = this.value; // Get the selected value (department ID)
+        document.getElementById('selected_branch_id').value = selectedId; // Update the hidden input value
+    });
+
+    document.getElementById('business_id').addEventListener('change', function () {
+        var selectedId = this.value; // Get the selected value (department ID)
+        document.getElementById('selected_business_id').value = selectedId; // Update the hidden input value
+    });
+
+    document.getElementById('department_id').addEventListener('change', function () {
+        var selectedId = this.value; // Get the selected value (department ID)
+        document.getElementById('selected_department_id').value = selectedId; // Update the hidden input value
+    });
+
+
     $('#type').on('change', function() {
         var selection = $(this).val();
         switch (selection) {
@@ -152,7 +175,7 @@
                 $("#tbusiness").show()
                 break;
             case "3":
-
+                $("#business_id option:eq(1)").show();
                 $("#tbusiness").show()
                 $("#temployee").hide()
                 $("#tdepartment").hide()
@@ -197,10 +220,11 @@
             }
         });
     });
+
+
     $('#branch_id').change(function(e) {
         var id = $(this).val();
         $('#department_id').find('option').not(':first').remove();
-
         $.ajax({
             type: 'get',
             url: '/employer/report/employment_period/get_department/' + id,
@@ -226,6 +250,8 @@
             }
         });
     });
+
+
     $('#department_id').change(function(e) {
         var id = $(this).val();
         $('#employee_id').find('option').not(':first').remove();
@@ -255,6 +281,7 @@
             }
         });
     });
+
 </script>
 
 
