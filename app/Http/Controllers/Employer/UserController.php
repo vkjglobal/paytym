@@ -33,6 +33,8 @@ use Mail;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsersImport;
+use Illuminate\Support\Facades\Response;
+
 
 
 class UserController extends Controller
@@ -416,11 +418,35 @@ class UserController extends Controller
         //return $file;
         try {
             Excel::import(new UsersImport, $request->file('csvfile'));
-            notify()->success(__('Upload file successfully'));
+            notify()->success(__('Imported successfully'));
         } catch (Exception $e) {
             notify()->error(__('Failed to upload file. Wrong csv format. Please try again'));
         }
         return redirect()->back();
+    }
+
+    public function downloadTemplate_newEmployee()
+    {
+        $templatePath = public_path('user_assets/user_import_templates/new_employee_import_template.csv');
+        
+        if (file_exists($templatePath)) {
+            return Response::download($templatePath, 'new_employee_import_template.csv');
+        } else {
+            return redirect()->back()->with('message', 'File does not exist!');
+            // abort(404);
+        }
+    }
+
+    public function downloadTemplate_existingEmployee()
+    {
+        $templatePath = public_path('user_assets/user_import_templates/existing_employee_import_template.csv');
+        
+        if (file_exists($templatePath)) {
+            return Response::download($templatePath, 'existing_employee_import_template.csv');
+        } else {
+            return redirect()->back()->with('message', 'File does not exist!');
+            // abort(404);
+        }
     }
     
 }

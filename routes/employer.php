@@ -132,7 +132,8 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::post('user-shareinfo', [UserController::class, 'SendMailWithPublicInfo'])->name('user.user-shareinfo');
   Route::get('user-import', [UserController::class, 'importEmployee'])->name('user.import');
   Route::post('user/csvfile', [UserController::class, 'csvfile'])->name('user.csvfile');
-
+  Route::get('user/download-template-newemp', [UserController::class,'downloadTemplate_newEmployee'])->name('download.usertemplate_newemp');
+  Route::get('user/download-template-existingemp', [UserController::class,'downloadTemplate_existingEmployee'])->name('download.usertemplate_existingemp');
 
   //Events
   Route::resource('event', EventController::class)->except(['show']);
