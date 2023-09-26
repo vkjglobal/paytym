@@ -100,19 +100,17 @@ class PayrollCalculationController extends Controller
                 return [$val];
             }, $values);
 
-             dd($result);
-           // $idResponse = $result;
-            foreach ($result as $key => $value) {
-                $values = explode(',', $value);
-                foreach ($values as $v) {
-                    $newIdResponse[$key][] = (int) $v;
-                }
-            }
-            dd($newIdResponse);
-            $newid = $newIdResponse;
-            // dd($newid);
+             //dd($result);
+            $idResponse = $result;
+            // foreach ($result as $key => $value) {
+            //     $values = explode(',', $value);
+            //     foreach ($values as $v) {
+            //         $newIdResponse[$key][] = (int) $v;
+            //     }
+            // }
+            $newid = $idResponse;
             foreach ($newid as $id) {
-                //dd($id);
+               // dd($id);
                 $i = $i + 1;
                 // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
                 $employees[] = User::where('id', $id)->first();
@@ -120,7 +118,7 @@ class PayrollCalculationController extends Controller
                 // $employees[] = $employee; // Add the fetched user to the $employees array.
             }
         }
-        dd($employees);
+    //    dd($employees);
         $today = Carbon::today();
         foreach ($employees as $employee) {
             if ($employee->salary_type == "1" && $employee->status == "1") {
