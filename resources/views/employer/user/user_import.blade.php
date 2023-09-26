@@ -6,7 +6,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Import Employees</h6>
+                    <h6 class="card-title"><u>Import Employees</u></h6>
                     {{--<form action="{{(route('employer.payslip.store'))}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-md-6">
@@ -49,32 +49,37 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Download CSV Template</h6>
-                    {{--<div class="table-responsive">
-                        <table id="dataTableExample" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Sl #</th>
-                                    <th>Template</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Default</td>
-                                        <td><a href="{{route('employer.payslip.view.default')}}" class="btn btn-primary">Preview</a></td>
-                                        
-                                       
-                                    </tr>
-                            </tbody>
-                        </table>
-                    </div>--}}
-                    <form method="POST" action="{{ route('employer.user.csvfile') }}" enctype="multipart/form-data">
-                                @csrf
-                                <h6 class="card-title mt-3"></h6> 
-                                
-                                <button type="submit" class="btn btn-primary submit mt-3">Download Template</button>
-                            </form>
+                    
+                   
+                   
+                                <h6 class="card-title mt-3"><u>Download CSV Import template files</u></h6> 
+                                @if(session('message'))
+    <div class="alert alert-light">
+        {{ session('message') }}
+    </div>
+@endif
+<h6 class="card-title mt-3"> for New Employees</h6> 
+
+                                <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.download.usertemplate_newemp")}}'">
+                            Download Template for New Employees 
+                            <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                            
+                        </button> 
+                     {{--<form method="POST" action="{{ route('employer.user.csvfile') }}" enctype="multipart/form-data">
+                                @csrf        </form>--}}
+
+                                <h6 class="card-title mt-3"> for Existing Employees</h6> 
+
+                                <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.download.usertemplate_existingemp")}}'">
+                            <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                            Download Template for Existing Employees
+                        </button> 
+                        <h6 class="card-title mt-3">Download Instruction Document</h6> 
+
+<button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.download.instruction_doc")}}'">
+<i class="btn-icon-prepend" data-feather="download-cloud"></i>
+Download Instructions
+</button> 
                 </div>
             </div>
         </div>

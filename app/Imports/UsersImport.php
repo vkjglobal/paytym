@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash as FacadesHash;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Jobs\EmployeeCreationPushNotification;
+use App\Mail\EmployeeCredentialsMail;
+use Illuminate\Support\Facades\Mail as FacadesMail;
+use Mail;
+
 
 class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQueue
 {
@@ -30,7 +35,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
     public function model(array $row)
     {
         $employer = Auth::guard('employer')->user();
-       //dd($row['date_of_birth']);
+       //dd($row['salary_type']);
         $businessName = $row['business_name'];
         $business = EmployerBusiness::where('name', $businessName)->where('employer_id',$employer->id)->first();
         $branch = Branch::where('name', $row['branch_name'])->where('employer_id',$employer->id)->where('employer_business_id',$business->id)->first();
@@ -39,6 +44,15 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
         $department = Department::where('dep_name', $departmentName)->where('employer_id',$employer->id)->where('branch_id',$branch->id)->first();
         $position= Role::where('role_name', $row['position'])->where('employer_id',$employer->id)->first();
         $password =  Str::random(8);
+        //$checkOutRequired=0;
+       /*  if($row['check_out_requred'] == 'Yes')
+        {
+            $checkOutRequired = 1;
+        }
+        if($row['check_out_requred'] == 'No')
+        {
+            $checkOutRequired = 0;
+        } */
         
         if(!$employer)
         {
@@ -49,11 +63,14 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
         return new User([
             'employer_id' => $employer->id, //$employer ? $employer->id : null,
             'job_title'    => $row['job_title'], 
-            'employment_start_date' => $row['employment_start_date'],
-            'employment_end_date' => $row['employment_end_date'],
+            //'employment_start_date' => $row['employment_start_date'],
+            'employment_start_date' => Carbon::createFromFormat('d-m-Y', $row['employment_start_date'])->format('Y-m-d'),
+            'employment_end_date' => Carbon::createFromFormat('d-m-Y', $row['employment_end_date'])->format('Y-m-d'),
             'check_in_default' => $row['check_in_default'],
             'check_out_default' => $row['check_out_default'],
-            'check_out_requred' => $row['check_out_requred'],
+           // 'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? 1 : ( ($row['check_out_requred'] == 'No') ? 0 : null),
+            'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? '1' : (($row['check_out_requred'] == 'No') ? '0' : null),
+            //'check_out_requred' => $row['check_out_requred'],
             //'payed_date' => $row['payed_date'],
             //'pay_date'=> $row['pay_date'],
             'bank_branch_name' => $row['bank_branch_name'],
@@ -63,22 +80,27 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
 
             //'department_id'=> $row['department_id'],
             'department_id' => $department ? $department->id : null,
-            'salary_type'=> $row['salary_type'],
+            //'salary_type'=> $row['salary_type'],
+            'salary_type'=> ($row['salary_type'] == 'Fixed') ? '0' : (($row['salary_type'] == 'Hourly') ? '1' : null),
             'rate'=> $row['rate'],
+            'pay_period' => ($row['pay_period'] == 'Weekly') ? '0' : (($row['pay_period'] == 'Fortnightly') ? '1' : (($row['pay_period'] == 'Monthly') ? '2' : null)),
+            //'pay_period' => 
             'workdays_per_week'=> $row['workdays_per_week'],
             'total_hours_per_week'=> $row['total_hours_per_week'],
             'extra_hours_at_base_rate'=> $row['extra_hours_at_base_rate'],
-            'employee_type'=> $row['employee_type'],
+            //'employee_type'=> $row['employee_type'],
+            'employee_type' => ($row['employee_type'] == 'Attachee') ? '0' : (($row['employee_type'] == 'Apprenticeship') ? '1' : (($row['employee_type'] == 'Probationary Period') ? '2' : (($row['employee_type'] == 'Permanent') ? '3' : null))),
+
             'first_name'=> $row['first_name'],
             'last_name'=> $row['last_name'],
-            'company'=> $employer->company, //$row['company'],
+            'company'=> $employer->company, //$row['company'],  
             //'branch_id'=> $row['branch_id'],
             'branch_id' => $branch ? $branch->id : null,
             'position'=> $position->id, //$row['position'],
             'email'=> $row['email'],
             'password'=> FacadesHash::make($password),// $row['password'],
             'phone'=> $row['phone'],
-            'date_of_birth'=> $row['date_of_birth'],
+            'date_of_birth'=> Carbon::createFromFormat('d-m-Y', $row['date_of_birth'])->format('Y-m-d'),//$row['date_of_birth'],
             'street'=> $row['street'],
             'city'=> $row['city'],
             'town'=> $row['town'],
@@ -90,13 +112,22 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
             'bank'=> $row['bank'],
             'account_number'=> $row['account_number'],
             'licence_no'=> $row['licence_no'],
-            'licence_expiry_date'=> $row['licence_expiry_date'],
+            'licence_expiry_date'=> Carbon::createFromFormat('d-m-Y', $row['licence_expiry_date'])->format('Y-m-d'),//$row['licence_expiry_date'],
             'passport_no'=> $row['passport_no'],
-            'passport_expiry_date'=> $row['passport_expiry_date'],
+            'passport_expiry_date'=> Carbon::createFromFormat('d-m-Y', $row['passport_expiry_date'])->format('Y-m-d'),//$row['passport_expiry_date'],
             'image'=> $row['image'],
 
             //'date' => $row['date'],
         ]);
+       /* $employeeName = $row['first_name'];
+        $employeeBranch = $branch->name; //Branch::where('id',$row['branch_name'])->first()->name;
+        $role = $position->role_name;//Role::where('id', $validated['position'])->first()->role_name;
+        EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$role,$employeeName);
+      
+        $email = new EmployeeCredentialsMail($user,$password);
+        //mail confirmation
+        //mail
+        FacadesMail::to($validated['email'])->send($email);*/
     }
     }
     public function chunkSize(): int

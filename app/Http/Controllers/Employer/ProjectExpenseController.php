@@ -123,7 +123,7 @@ class ProjectExpenseController extends Controller
                                        }
                                    }
                                    $base_pay = ($employee->rate * ($employee->total_hours_per_week));
-                            $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / 1));
+                                    $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / 1));
                                     //$totalEarnings = $base_pay + isset($total_pay) + isset($doubleTimeRate) ?? 0;
                                     $totalEarnings = $employee->rate + ($totalHours * $attendances->count());
                                     //return $attendances->count();

@@ -39,7 +39,7 @@ class CardController extends Controller
     {
         //dd('11');
         $validated = $request->validated();
-        $cards = CreditCard::where('primary_card_number', '!=', null)->first();//CreditCard::get();
+        $cards = CreditCard::where('primary_card_number', '!=', null)->where('employer_id', Auth::guard('employer')->user()->id)->first();//CreditCard::get();
         //return $cards;
         if(!$cards)
         {
