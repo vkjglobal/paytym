@@ -16,7 +16,7 @@ class MeetingsController extends Controller
 
     public function list_meetings(Request $request)
     {
-       // dd(Auth::guard('employer')->user()->id);
+        // dd(Auth::guard('employer')->user()->id);
 
         $validator = Validator::make($request->all(), [
             'employer_id' =>  'required',
@@ -28,14 +28,19 @@ class MeetingsController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-        $meetings = Meeting::with('user.position','meeting_attendees.users:id,employer_id,job_title,first_name,last_name,image')->where('employer_id', $request->employer_id)->get();
-       
-        // $meetings = Meeting::with('user.position', 'meeting_attendees.users:id,employer_id,job_title,first_name,last_name,image')
-        // ->select('user.position', 'desired_column2', ...) // Specify the columns you want to retrieve
-        // ->where('employer_id', $request->employer_id)
-        // ->get();
-    
-       
+        //  $meetings = Meeting::with('user.position', 'meeting_attendees.users:id,employer_id,job_title,first_name,last_name,image')->where('employer_id', $request->employer_id)->get();
+
+        $meetings = Meeting::with('user.position', 'meeting_attendees.users:id,employer_id,job_title,first_name,last_name,image')
+            ->where('employer_id', $request->employer_id)
+            ->get();
+
+        // Now, you can modify the $meetings collection to replace "meeting_attendees" with just the "users" data
+        $meetings->each(function ($meeting) {
+            $meeting->meeting_attendeess = $meeting->meeting_attendees->pluck('users');
+            unset($meeting->meeting_attendees);
+        });
+
+
         if ($meetings) {
             return response()->json([
                 'message' => "Success",
@@ -57,7 +62,7 @@ class MeetingsController extends Controller
             //  //   $tax_settings = TaxSettingsSrtModel::with('country')->get();
             //     return view('employer.meetings.index', compact('breadcrumbs', 'meetings'));
             // }
-           
+
         } else {
 
             return response()->json([
@@ -99,7 +104,7 @@ class MeetingsController extends Controller
 
         $issave = $meetings->save();
         if ($issave) {
-           
+
 
             //Rj 06-03-23
             for ($i = 0; $i < count($request->attendees); $i++) {
@@ -108,9 +113,8 @@ class MeetingsController extends Controller
                     'attendee_id' => $request->attendees[$i],
                 ];
             }
-            $issave=MeetingAttendees::insert($answers);
-            if($issave)
-            {
+            $issave = MeetingAttendees::insert($answers);
+            if ($issave) {
 
                 return response()->json([
                     'message' => "Success",
@@ -125,13 +129,13 @@ class MeetingsController extends Controller
                 //         'message' => "Success",
                 //         'chats' => $meetings,
                 //     ], 200);
-                   
+
                 // } else {
                 //     // Handle API error response
                 //     return view('index');
                 //   //  return response()->json(['error' => 'API call failed'], $response->status());
                 // }
-               
+
             }
         }
     }
@@ -163,6 +167,4 @@ class MeetingsController extends Controller
             ], 200);
         }
     }
-
-
 }
