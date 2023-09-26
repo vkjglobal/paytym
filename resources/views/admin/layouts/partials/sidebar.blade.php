@@ -75,7 +75,7 @@
 
 
             <!---Banks---->
-<!-- 
+
             <li class="nav-item {{ request()->is('admin/banks*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#banks" role="button" aria-expanded="false" aria-controls="banner">
                     <i class="link-icon" data-feather="users"></i>
@@ -96,7 +96,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>  -->
+            </li> 
 
 
             <!----End Bank------>

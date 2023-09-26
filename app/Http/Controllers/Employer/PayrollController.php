@@ -833,7 +833,7 @@ class PayrollController extends Controller
             if($request->users != null)
             {
                 $flag = 'others';
-                $id[]=$request->users;
+                $id=$request->users;
             }
            else if ($request->department != null) {
                 $flag = "department";
