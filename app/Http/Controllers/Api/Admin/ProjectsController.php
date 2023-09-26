@@ -25,7 +25,9 @@ class ProjectsController extends Controller
         }
 
         $projects = Project::with(['branch:id,name', 'employeeproject.user:id,first_name,last_name,image,branch_id', 'employeeproject.user.branch:id,name'])
+        ->withSum('projectExpenses', 'expense_amount')
             ->where('employer_id', $request->employer_id)->get();
+
 
         $total_cost = Project::with(['branch:id,name', 'employeeproject.user.branch:id,name'])
             ->where('employer_id', $request->employer_id)->get();
