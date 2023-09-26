@@ -448,5 +448,18 @@ class UserController extends Controller
             // abort(404);
         }
     }
+
+    public function downloadInstruction()
+    {
+        $templatePath = public_path('user_assets/user_import_templates/existing_employee_import_template.csv');
+        
+        if (file_exists($templatePath)) {
+            return Response::download($templatePath, 'existing_employee_import_template.csv');
+        } else {
+            return redirect()->back()->with('message', 'File does not exist!');
+            // abort(404);
+        }
+    }
+    
     
 }

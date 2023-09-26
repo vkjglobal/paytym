@@ -35,7 +35,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
     public function model(array $row)
     {
         $employer = Auth::guard('employer')->user();
-       //dd($row['check_out_requred']);
+       //dd($row['salary_type']);
         $businessName = $row['business_name'];
         $business = EmployerBusiness::where('name', $businessName)->where('employer_id',$employer->id)->first();
         $branch = Branch::where('name', $row['branch_name'])->where('employer_id',$employer->id)->where('employer_business_id',$business->id)->first();
@@ -68,9 +68,9 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
             'employment_end_date' => Carbon::createFromFormat('d-m-Y', $row['employment_end_date'])->format('Y-m-d'),
             'check_in_default' => $row['check_in_default'],
             'check_out_default' => $row['check_out_default'],
-            //'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? 1 : ( ($row['check_out_requred'] == 'No') ? 0 : null),
-          
-            'check_out_requred' => $row['check_out_requred'],
+           // 'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? 1 : ( ($row['check_out_requred'] == 'No') ? 0 : null),
+            'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? '1' : (($row['check_out_requred'] == 'No') ? '0' : null),
+            //'check_out_requred' => $row['check_out_requred'],
             //'payed_date' => $row['payed_date'],
             //'pay_date'=> $row['pay_date'],
             'bank_branch_name' => $row['bank_branch_name'],
@@ -81,15 +81,15 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
             //'department_id'=> $row['department_id'],
             'department_id' => $department ? $department->id : null,
             //'salary_type'=> $row['salary_type'],
-            'salary_type'=> ($row['salary_type'] == 'Fixed') ? 0 : (($row['salary_type'] == 'Hourly') ? 1 : null),
+            'salary_type'=> ($row['salary_type'] == 'Fixed') ? '0' : (($row['salary_type'] == 'Hourly') ? '1' : null),
             'rate'=> $row['rate'],
-            //'pay_period' => ($row['pay_period'] == 'Weekly') ? 0 : (($row['pay_period'] == 'Fortnightly') ? 1 : (($row['pay_period'] == 'Monthly') ? 2 : null)),
+            'pay_period' => ($row['pay_period'] == 'Weekly') ? '0' : (($row['pay_period'] == 'Fortnightly') ? '1' : (($row['pay_period'] == 'Monthly') ? '2' : null)),
             //'pay_period' => 
             'workdays_per_week'=> $row['workdays_per_week'],
             'total_hours_per_week'=> $row['total_hours_per_week'],
             'extra_hours_at_base_rate'=> $row['extra_hours_at_base_rate'],
             //'employee_type'=> $row['employee_type'],
-            'employee_type' => ($row['employee_type'] == 'Attachee') ? 0 : (($row['employee_type'] == 'Apprenticeship') ? 1 : (($row['employee_type'] == 'Probationary Period') ? 2 : (($row['employee_type'] == 'Permanent') ? 3 : null))),
+            'employee_type' => ($row['employee_type'] == 'Attachee') ? '0' : (($row['employee_type'] == 'Apprenticeship') ? '1' : (($row['employee_type'] == 'Probationary Period') ? '2' : (($row['employee_type'] == 'Permanent') ? '3' : null))),
 
             'first_name'=> $row['first_name'],
             'last_name'=> $row['last_name'],
