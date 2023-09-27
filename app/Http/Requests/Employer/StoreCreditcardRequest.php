@@ -26,10 +26,10 @@ class StoreCreditcardRequest extends FormRequest
        
         return [
             'primary_card_number' => 'required|numeric',
-            'primary_name_on_card' => 'required',
+            'primary_name_on_card' => 'required|regex:/^[a-zA-Z\s]+$/',
             'primary_expiry_date' =>'required',
             'secondary_card_number' => 'required|numeric',
-            'secondary_name_on_card' => 'required',
+            'secondary_name_on_card' => 'required|regex:/^[a-zA-Z\s]+$/',
             'secondary_expiry_date' =>'required',
             'primary_is_default' => 'required',
             'secondary_is_default' => 'required'

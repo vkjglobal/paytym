@@ -38,12 +38,26 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
        //dd($row['salary_type']);
         $businessName = $row['business_name'];
         $business = EmployerBusiness::where('name', $businessName)->where('employer_id',$employer->id)->first();
-        $branch = Branch::where('name', $row['branch_name'])->where('employer_id',$employer->id)->where('employer_business_id',$business->id)->first();
+        if($business)
+        {
+            $branch = Branch::where('name', $row['branch_name'])->where('employer_id',$employer->id)->where('employer_business_id',$business->id)->first();
+            $departmentName = $row['department_name'];
+            $department = Department::where('dep_name', $departmentName)->where('employer_id',$employer->id)->where('branch_id',$branch->id)->first();
+        }
+        else
+        { 
+            $branch= 0;
+            $department = 0;
+        }
         $country = Country::where('name', $row['country_name'])->first();
-        $departmentName = $row['department_name'];
-        $department = Department::where('dep_name', $departmentName)->where('employer_id',$employer->id)->where('branch_id',$branch->id)->first();
+        
         $position= Role::where('role_name', $row['position'])->where('employer_id',$employer->id)->first();
         $password =  Str::random(8);
+        if (isset($row['image']) && !empty($row['image'])) {
+            $imageValue = $row['image'];
+        } else {
+            $imageValue = null; // or 'default.jpg' or any other default value
+        }
         //$checkOutRequired=0;
        /*  if($row['check_out_requred'] == 'Yes')
         {
@@ -79,7 +93,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
             
 
             //'department_id'=> $row['department_id'],
-            'department_id' => $department ? $department->id : null,
+            'department_id' => $department ? $department->id : 0,
             //'salary_type'=> $row['salary_type'],
             'salary_type'=> ($row['salary_type'] == 'Fixed') ? '0' : (($row['salary_type'] == 'Hourly') ? '1' : null),
             'rate'=> $row['rate'],
@@ -95,8 +109,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
             'last_name'=> $row['last_name'],
             'company'=> $employer->company, //$row['company'],  
             //'branch_id'=> $row['branch_id'],
-            'branch_id' => $branch ? $branch->id : null,
-            'position'=> $position->id, //$row['position'],
+            'branch_id' => $branch ? $branch->id : 0,
+            'position'=> $position ? $position->id : 0, //$position->id, //$row['position'],
             'email'=> $row['email'],
             'password'=> FacadesHash::make($password),// $row['password'],
             'phone'=> $row['phone'],
@@ -115,7 +129,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
             'licence_expiry_date'=> Carbon::createFromFormat('d-m-Y', $row['licence_expiry_date'])->format('Y-m-d'),//$row['licence_expiry_date'],
             'passport_no'=> $row['passport_no'],
             'passport_expiry_date'=> Carbon::createFromFormat('d-m-Y', $row['passport_expiry_date'])->format('Y-m-d'),//$row['passport_expiry_date'],
-            'image'=> $row['image'],
+            'image'=> $imageValue,
 
             //'date' => $row['date'],
         ]);

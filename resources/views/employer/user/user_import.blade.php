@@ -7,29 +7,13 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title"><u>Import Employees</u></h6>
-                    {{--<form action="{{(route('employer.payslip.store'))}}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group col-md-6">
-                        <label for="logo">Logo</label>
-                        <input type="file" name="logo"  class="form-control">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="template">Template</label>
-                        <select name="template"  class="form-control">
-                            <option value="default">Default</option>
-                        </select>
-                    </div>
-                    <input type="hidden" name="business_id" value={{$id}}>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>--}}
-
                 <div class="row mt-4">
                         <div class="col-sm-4">
                             
                             <form method="POST" action="{{ route('employer.user.csvfile') }}" enctype="multipart/form-data">
                                 @csrf
                                 <h6 class="card-title mt-3">Upload a CSV file</h6> 
-                                <input type="file" name="csvfile" class="mt-2">
+                                <input type="file" name="csvfile" class="mt-2"><br/>
                                 <button type="submit" class="btn btn-primary submit mt-3">Submit</button>
                             </form>
                         </div>
@@ -61,8 +45,8 @@
 <h6 class="card-title mt-3"> for New Employees</h6> 
 
                                 <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.download.usertemplate_newemp")}}'">
-                            Download Template for New Employees 
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                            Download Template for New Employees 
                             
                         </button> 
                      {{--<form method="POST" action="{{ route('employer.user.csvfile') }}" enctype="multipart/form-data">
