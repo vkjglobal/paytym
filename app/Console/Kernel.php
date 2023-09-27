@@ -31,9 +31,9 @@ class Kernel extends ConsoleKernel
         ->timezone('Asia/Kolkata'); 
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
-        $schedule->command('send:payment-reminder')->monthlyOn(21, '10:21');
+        $schedule->command('send:payment-reminder')->monthlyOn(27, '14:32');
         $schedule->command('email:account-deactivation')
-        ->monthlyOn(21, '12:47');
+        ->monthlyOn(27, '14:35');
         //$schedule->command('send:login_credentials')->twiceDaily(24 ,18);
         //$schedule->command('invoices:add')->monthlyOn(30, '23:50');
         
