@@ -196,13 +196,13 @@
                                         name="primary_card_number" value="{{ old('primary_card_number', optional($card)->primary_card_number) ?? '' }}"
                                         placeholder="Enter Card Number" required>--}}
                                         <?php
-                            function getTruncatedCCNumber($ccNum){
+                            function getTruncatedCreditCNumber($ccNum){
                                 return str_replace(range(0,9), "*", substr($ccNum, 0, -4)) .  substr($ccNum, -4);
                             }
                                 ?>
                                 <input type="text"
                                         class="form-control @if ($errors->has('primary_card_number')) is-invalid @endif"
-                                        name="primary_card_number" value="{{ old('primary_card_number') }}  <?php echo getTruncatedCCNumber($card->primary_card_number); ?> " placeholder="Enter Card Number" required>
+                                        name="primary_card_number" value="{{ old('primary_card_number') }}"  <?php echo getTruncatedCreditCNumber(optional($card)->primary_card_number); ?> " placeholder="Enter Card Number" required>
                                     <div class="invalid-feedback">{{ $errors->first('primary_card_number') }}</div>
                                     @else
                                     {{--<input type="text"
@@ -216,7 +216,7 @@
                                 ?>
                                 <input type="text"
                                         class="form-control @if ($errors->has('secondary_card_number')) is-invalid @endif"
-                                        name="secondary_card_number" value="{{ old('secondary_card_number') }}  <?php echo getTruncatedCCNumber1($card->secondary_card_number); ?> " placeholder="Enter Card Number" required>
+                                        name="secondary_card_number" value="{{ old('secondary_card_number') }}"  <?php echo getTruncatedCCNumber1(optional($card)->secondary_card_number); ?> " placeholder="Enter Card Number" required>
                                     <div class="invalid-feedback">{{ $errors->first('secondary_card_number') }}</div>
                                     @endif
                                  

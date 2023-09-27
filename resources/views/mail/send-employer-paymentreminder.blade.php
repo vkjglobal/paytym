@@ -38,7 +38,7 @@ Please make the payment at the earliest in order to avoid account deactivation a
                         </td>
                     </tr>
                     <tr>
-                        <td style="height: 15px;"> <a href="https://paytym.net/employer/invoice" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
+                        <td style="height: 15px;"> <a href="{{ route('employer.view_invoice', ['id' => $invoice->id]) }}" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Pay Now</a>
                     <br/>  <br/>
                     </td>
                     </tr>
