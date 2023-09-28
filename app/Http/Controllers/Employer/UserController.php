@@ -451,10 +451,10 @@ class UserController extends Controller
 
     public function downloadInstruction()
     {
-        $templatePath = public_path('user_assets/user_import_templates/existing_employee_import_template.csv');
+        $templatePath = public_path('user_assets/user_import_templates/Instruction manual for Employee Import.docx');
         
         if (file_exists($templatePath)) {
-            return Response::download($templatePath, 'existing_employee_import_template.csv');
+            return Response::download($templatePath, 'Instruction manual for Employee Import.docx');
         } else {
             return redirect()->back()->with('message', 'File does not exist!');
             // abort(404);

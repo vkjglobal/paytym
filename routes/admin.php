@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\TaxSettingsController;
 use App\Http\Controllers\Admin\TaxSettingsSrtController;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\AdminEmailController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
@@ -133,5 +134,9 @@ Route::middleware('admin.auth')->group(function () {
 
 // 27-07-23
    Route::resource('bank', BankController::class)->except(['show']);
+
+   //28-09-23
+    //AdminEmails
+  Route::resource('emails', AdminEmailController::class)->except(['show']);
 
     });
