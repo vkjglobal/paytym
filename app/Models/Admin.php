@@ -60,4 +60,10 @@ class Admin extends Authenticatable
     {
         $this->notify(new VerifyEmail);
     }
+
+
+    public function allAdmins()
+    {
+        return $this->all();
+    }
 }
