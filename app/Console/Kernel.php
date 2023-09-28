@@ -26,21 +26,24 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('invoices:add')
-        ->monthlyOn(27, '14:15')
-        ->timezone('Asia/Kolkata'); 
+       /* $schedule->command('invoices:add')
+        ->monthlyOn(27, '15:19')
+        ->timezone('Asia/Kolkata'); */
+
+   $schedule->command('invoices:add')
+             ->monthlyOn(1, '00:00');
+             //->timezone('Pacific/Fiji');  
+
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
-        $schedule->command('send:payment-reminder')->monthlyOn(27, '14:32');
+        $schedule->command('send:payment-reminder')->monthlyOn(6, '00:01');
         $schedule->command('email:account-deactivation')
-        ->monthlyOn(27, '14:35');
+        ->monthlyOn(8, '00:01');
         //$schedule->command('send:login_credentials')->twiceDaily(24 ,18);
         //$schedule->command('invoices:add')->monthlyOn(30, '23:50');
         
         
-      /*   $schedule->command('invoices:add')
-             ->monthlyOn(30, '23:00')
-             ->timezone('Pacific/Fiji');  */
+      
              
              
           

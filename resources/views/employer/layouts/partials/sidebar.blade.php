@@ -348,13 +348,13 @@
                 Employment Periods
             </a>
         </li>
-       {{--  <li class="nav-item {{ request()->is('employer/users*') ? 'active' : '' }}">
+       {{--  --}}<li class="nav-item {{ request()->is('employer/users*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('employer.user.import') }}" role="button" aria-expanded="false" aria-controls="requests">
                
                 Import Employees
                
             </a>
-                        </li>--}}
+                        </li>
 
     </ul>
 </div>
