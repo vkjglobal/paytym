@@ -52,7 +52,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
         $country = Country::where('name', $row['country_name'])->first();
         
         $position= Role::where('role_name', $row['position'])->where('employer_id',$employer->id)->first();
-        $password =  Str::random(8);
+        //$password =  Str::random(8);
         if (isset($row['image']) && !empty($row['image'])) {
             $imageValue = $row['image'];
         } else {
@@ -112,7 +112,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
             'branch_id' => $branch ? $branch->id : 0,
             'position'=> $position ? $position->id : 0, //$position->id, //$row['position'],
             'email'=> $row['email'],
-            'password'=> FacadesHash::make($password),// $row['password'],
+            //'password'=> FacadesHash::make($password),// $row['password'],
             'phone'=> $row['phone'],
             'date_of_birth'=> Carbon::createFromFormat('d-m-Y', $row['date_of_birth'])->format('Y-m-d'),//$row['date_of_birth'],
             'street'=> $row['street'],

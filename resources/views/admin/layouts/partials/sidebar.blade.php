@@ -51,6 +51,36 @@
             @if (auth('admin')->user()->role==3)
             <!---Country--->
             <li class="nav-item {{ request()->is('admin/banner*') ? 'active' : '' }}">
+
+            <!---Emails--->
+            
+            <li class="nav-item {{ request()->is('admin/emails*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Emails</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/emails*') ? 'show' : '' }}" id="emails">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.emails.index') }}" class="nav-link {{ request()->is('admin/emails') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.emails.create') }}" class="nav-link {{ request()->is('admin/emails/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!----End Emails----->
+
+
+             <!---Country--->
+             <li class="nav-item {{ request()->is('admin/banner*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#country" role="button" aria-expanded="false" aria-controls="banner">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Country</span>

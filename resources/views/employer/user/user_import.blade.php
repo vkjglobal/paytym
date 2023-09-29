@@ -14,7 +14,9 @@
                                 @csrf
                                 <h6 class="card-title mt-3">Upload a CSV file</h6> 
                                 <input type="file" name="csvfile" class="mt-2"><br/>
+                                <div class="invalid-feedback">{{ $errors->first('csvfile') }}</div>
                                 <button type="submit" class="btn btn-primary submit mt-3">Submit</button>
+                           
                             </form>
                         </div>
                     </div>

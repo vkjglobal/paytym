@@ -36,7 +36,7 @@
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
                                                 <!-- Edit button -->
-                                                <a href="{{ route('employer.emails.edit', $email->id) }}"
+                                                <a href="{{ route('admin.emails.edit', $email->id) }}"
                                                     class="mr-1 text-warning" data-toggle="tooltip" data-placement="top"
                                                     title="Edit">
                                                     <i data-feather="edit"></i>
@@ -50,7 +50,7 @@
                                                     <i data-feather="trash"></i>
                                                 </button>
                                                 <form id="delete-data-{{ $email->id }}"
-                                                    action="{{ route('employer.emails.destroy', $email->id) }}"
+                                                    action="{{ route('admin.emails.destroy', $email->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
