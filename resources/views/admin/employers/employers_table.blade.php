@@ -11,7 +11,9 @@
                                     <th>Email</th>
                                     <th>Country</th>
                                     <th>Status</th>
+                                    @if (auth('admin')->user()->role!=2)
                                     <th>Actions</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -25,11 +27,16 @@
                                         <td>{{ $employer->email }}</td>
                                         <td>{{ isset($employer->country->name) ? $employer->country->name : 'No data found' }}</td>
                                         <td>
+                                        @if (auth('admin')->user()->role!=2)
                                         <button data-id="{{ $employer->id }}" class="status-btn btn {{ $employer->status ? 'btn-success' : 'btn-danger' }} btn-fixed-width">
                                             {{ $employer->status ? 'Active' : 'Inactive' }}
                                         </button>
+                                        @else
+                                          <span  class="badge {{ $employer->status ? 'badge-success' : 'badge-danger' }}">{{ $employer->status ? 'Active' : 'Inactive' }}</span>
+                                        @endif
 
                                 </td>
+                                @if (auth('admin')->user()->role!=2)
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
@@ -56,6 +63,7 @@
 
                                             </div>
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
