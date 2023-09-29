@@ -8,14 +8,14 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title">Invoices</h6>
-
+                    @if (auth('admin')->user()->role!=2)
                     <div class="float-right mb-3">
                         <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("admin.report.invoice.download")}}'">
                           <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                           Download Report
                         </button> 
-                  
                   </div>
+                  @endif
                     
                     <form method="POST" action="{{ route('admin.report.invoice.filter') }}" enctype="multipart/form-data">
                         @csrf
