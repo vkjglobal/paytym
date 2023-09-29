@@ -63,18 +63,9 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="control-label">Bank Code<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('bank_code')) is-invalid @endif" name="bank_code" value="{{ old('bank_code') }}" placeholder="Enter Bank Code">
-                                <div class="invalid-feedback">{{ $errors->first('bank_code') }}</div>
-                            </div>
-                        </div><!-- Col -->
-
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Description<span class="text-danger">*</span></label>
-                                <textarea class="form-control @if ($errors->has('description')) is-invalid @endif" name="description">
-                                </textarea>
-                                <div class="invalid-feedback">{{ $errors->first('description') }}</div>
+                                <label class="control-label">Bank Template<span class="text-danger">*</span></label>
+                                <input type="file" class="form-control @if ($errors->has('bank_template')) is-invalid @endif" name="bank_template" value="{{ old('bank_template') }}" placeholder="Enter Bank Template">
+                                <div class="invalid-feedback">{{ $errors->first('bank_template') }}</div>
                             </div>
                         </div><!-- Col -->
 

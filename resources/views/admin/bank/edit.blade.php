@@ -7,61 +7,73 @@
     <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">Create Country</h6>
-                <form method="POST" action="{{ route('admin.country.update',$country->id) }}" enctype="multipart/form-data">
+                <h6 class="card-title">Edit Bank Details</h6>
+                
+                <form method="POST" action="{{ route('admin.bank.update',$bank->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('put')
+
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="control-label">Name<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('name')) is-invalid @endif" name="name" value="{{ old('name',$country->name) }}" placeholder="Enter Name">
-                                <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                                <label class="control-label">Country<span class="text-danger">*</span></label>
+                                <select class="form-control" class="form-control @if ($errors->has('country_id')) is-invalid @endif" name="country_id" value="{{ old('country_id',$bank->country_id) }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($countries as $key => $value)
+                                    <option value="{{$value['id']}}" {{ $value['id'] === $bank->id ? 'selected' : '' }}>{{$value['name']}} </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('country_id') }}</div>
+
                             </div>
                         </div><!-- Col -->
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="control-label">Currency<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('cms_type')) is-invalid @endif" name="currency" value="{{ old('currency',$country->currency) }}" placeholder="Enter Currency">
-                                <div class="invalid-feedback">{{ $errors->first('currency') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                    </div><!-- Row -->
-                <div class="row">
-                <div class="col-sm-6">
-                            <div class="form-group">
-                                <!-- <label class="control-label">Tax<span class="text-danger">*</span></label> -->
-                                <input type="number" class="form-control @if ($errors->has('cms_type')) is-invalid @endif" name="tax" value="{{ old('tax',$country->tax) }}" placeholder="Enter Tax">
-                                <div class="invalid-feedback">{{ $errors->first('tax') }}</div>
+                                <label class="control-label">Bank Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('bank_name')) is-invalid @endif" name="bank_name" value="{{ old('bank_name',$bank->bank_name) }}" placeholder="Enter Name">
+                                <div class="invalid-feedback">{{ $errors->first('bank_name') }}</div>
                             </div>
                         </div><!-- Col -->
 
-                <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
-                                <!-- <label class="control-label">SRT<span class="text-danger">*</span></label> -->
-                                <input type="number" class="form-control @if ($errors->has('srt')) is-invalid @endif" name="srt" value="{{ old('srt',$country->srt_tax) }}" placeholder="Enter SRT">
-                                <div class="invalid-feedback">{{ $errors->first('srt') }}</div>
+                                <label class="control-label">Address<span class="text-danger">*</span></label>
+                                <textarea class="form-control @if ($errors->has('address')) is-invalid @endif" name="address">
+                               {{ optional($bank)->address }}
+                            </textarea>
+                                <div class="invalid-feedback">{{ $errors->first('address') }}</div>
                             </div>
                         </div><!-- Col -->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                        <div class="form-group">
+                                <label class="control-label">Other Bank Code<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('bank_code')) is-invalid @endif" name="bank_code" value="{{ old('bank_code',$bank->other_bank_code) }}" placeholder="Enter Other Bank Code">
+                                <div class="invalid-feedback">{{ $errors->first('bank_code') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                        <div class="form-group">
+                                <label class="control-label">Branch Code<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('branch_code')) is-invalid @endif" name="branch_code" value="{{ old('branch_code',$bank->branch_code) }}" placeholder="Enter Branch Code">
+                                <div class="invalid-feedback">{{ $errors->first('branch_code') }}</div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="col-sm-6">
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-4">
                             <div class="form-group">
-                                <!-- <label class="control-label">ECAL<span class="text-danger">*</span></label> -->
-                                <input type="number" class="form-control @if ($errors->has('ecal')) is-invalid @endif" name="ecal" value="{{ old('ecal',$country->ecal_tax) }}" placeholder="Enter ECAL">
-                                <div class="invalid-feedback">{{ $errors->first('ecal') }}</div>
+                                <label class="control-label">Bank Template<span class="text-danger">*</span></label>
+                                <img src="{{ asset($bank->template) }}" alt="Item Image" width="200">
+                                <input type="file" class="form-control @if ($errors->has('bank_template')) is-invalid @endif" name="bank_template" value="{{ old('bank_template',$bank->bank_template) }}" placeholder="Enter Bank Template">
+                                <div class="invalid-feedback">{{ $errors->first('bank_template') }}</div>
                             </div>
                         </div><!-- Col -->
-
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <!-- <label class="control-label">FNPF<span class="text-danger">*</span></label> -->
-                                <input type="number" class="form-control @if ($errors->has('fnpf')) is-invalid @endif" name="fnpf" value="{{ old('fnpf',$country->fnpf) }}" placeholder="Enter FNPF">
-                                <div class="invalid-feedback">{{ $errors->first('fnpf') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                          
-                    </div><!-- Row -->
+                    </div>
 
                     <input type="submit" class="btn btn-primary submit" value="Submit">
                 </form>

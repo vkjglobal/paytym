@@ -207,7 +207,7 @@
             <!----End Subscription----->
             @endif
             <!---CMS--->
-            @if (auth('admin')->user()->role==0)
+            @if (auth('admin')->user()->role==0 || auth('admin')->user()->role==3)
             <li class="nav-item {{ request()->is('admin/cms*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#cms" role="button" aria-expanded="false" aria-controls="cms">
                     <i class="link-icon" data-feather="users"></i>
@@ -230,10 +230,6 @@
                 </div>
             </li>
             <!----End CMS----->
-
-
-
-
 
             <!---Banner--->
             <li class="nav-item {{ request()->is('admin/banner*') ? 'active' : '' }}">
