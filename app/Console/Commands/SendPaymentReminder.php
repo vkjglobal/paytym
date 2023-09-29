@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 use App\Models\Employer;
+use App\Models\Invoice;
 use App\Models\BillingEmail;
 use App\Mail\PaymentReminderEmail;
 use App\Mail\AccountDeactivationWarningEmail;
@@ -34,7 +35,7 @@ class SendPaymentReminder extends Command
     public function handle()
     {
         $today = Carbon::today();
-        $sixthOfMonth = $today->copy()->day(27);
+        $sixthOfMonth = $today->copy()->day(6);
 
         // Send payment reminder emails
         if ($today->isSameDay($sixthOfMonth)) {
@@ -45,15 +46,16 @@ class SendPaymentReminder extends Command
             })
             ->get();
             foreach ($employersWithPendingPayments as $employer) {
+                $invoice = Invoice::where('employer_id',$employer->id)->where('status','0')->latest()->first();
                 $billingEmails = BillingEmail::where('employer_id',$employer->id)->pluck('email');
                 if ($billingEmails->isEmpty()) {
-                    Mail::to($employer->email)->send(new PaymentReminderEmail($employer));
+                    Mail::to($employer->email)->send(new PaymentReminderEmail($employer,$invoice));
                 }
                 else{
                     $recipients = $billingEmails->toArray();
                     Mail::to($employer->email)
                     ->cc($recipients)
-                    ->send(new PaymentReminderEmail($employer));
+                    ->send(new PaymentReminderEmail($employer,$invoice));
                    /* $recipients = collect([$employer->email])->concat($billingEmails);
                     Mail::to($recipients->toArray())->send(new PaymentReminderEmail($employer));*/
 

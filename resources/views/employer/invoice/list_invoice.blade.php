@@ -209,10 +209,10 @@
                                     </tr>
                                     <tr>
                                         <td style="text-align: left;">
-                                            {{ $employer->company }} <br>
-                                            {{ $employer->street }}, <br>
-                                            {{ $employer->city }}  - {{ $employer->postcode }},
-                                            {{ $employer->country->name }} <br>
+                                            {{ optional($employer)->company }} <br>
+                                            {{ optional($employer)->street }}, <br>
+                                            {{ optional($employer)->city }}  - {{ optional($employer)->postcode }},
+                                            {{ optional($employer->country)->name }}<br>
                                            
                                         </td>
                                     </tr>

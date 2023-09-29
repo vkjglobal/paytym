@@ -153,12 +153,20 @@ public function download_email_invoice($id)
         /*$plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('date', 'desc')->get();
         return view('employer.invoice.list_invoice', compact('plan'));*/
         $employer = Auth::guard('employer')->user();
+        if($employer)
+        {
+        //return($employer);
         $plan = Invoice::with('plan')->where('id', $invoiceId)->first();
         $total_employee_rate = $plan->plan->rate_per_employee * $plan->active_employees;
         $totalamount = $plan->plan->rate_per_month + ($plan->active_employees*$plan->plan->rate_per_employee);
         //return $plan;
         
         return view('employer.invoice.list_invoice', compact('plan','employer','total_employee_rate','totalamount'));
+        }
+        else
+        {
+            return redirect()->route('employer.login');
+        }
 
     }
 

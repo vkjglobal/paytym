@@ -37,7 +37,7 @@ class SendAccountDeactivationEmail extends Command
     public function handle()
     {
         $today = Carbon::today();
-        $sixthOfMonth = $today->copy()->day(27);
+        $sixthOfMonth = $today->copy()->day(8);
         if ($today->isSameDay($sixthOfMonth)){//(now()->day == 7) {
             // Fetch users/accounts to be deactivated
             $employersWithOverduePayments = Employer::where('status', '1') 

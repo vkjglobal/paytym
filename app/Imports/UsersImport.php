@@ -83,7 +83,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
             'check_in_default' => $row['check_in_default'],
             'check_out_default' => $row['check_out_default'],
            // 'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? 1 : ( ($row['check_out_requred'] == 'No') ? 0 : null),
-            'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? '1' : (($row['check_out_requred'] == 'No') ? '0' : null),
+            'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? '1' : (($row['check_out_requred'] == 'No') ? '0' : '0'),
             //'check_out_requred' => $row['check_out_requred'],
             //'payed_date' => $row['payed_date'],
             //'pay_date'=> $row['pay_date'],
