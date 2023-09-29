@@ -8,6 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title">Employers</h6>
+                    @if (auth('admin')->user()->role!=2)
                     <div class="float-right mb-3">
                       
                           <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("admin.report.employer.export")}}'">
@@ -16,6 +17,7 @@
                           </button> 
                     
                     </div>
+                    @endif
 
 <div id="employers_table">
     @include('admin.employers.employers_table')

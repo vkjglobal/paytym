@@ -14,10 +14,12 @@
                             <i class="btn-icon-prepend" data-feather="printer"></i>
                             Print
                           </button> --}}
+                          @if (auth('admin')->user()->role!=2)
                           <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("admin.main_report.download")}}'">
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                             Download Report
                           </button> 
+                          @endif
                     
                     </div>
 
