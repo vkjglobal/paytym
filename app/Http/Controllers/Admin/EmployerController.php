@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreEmployerRequest;
 use App\Http\Requests\Admin\UpdateEmployerRequest;
 use App\Mail\EmployerRegisterEmail;
+use App\Mail\EmployerRegisterEmailToAdmins;
+use App\Models\AdminEmails;
 use App\Models\Employer;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -113,6 +115,14 @@ class EmployerController extends Controller
             $employer->save();
 
             Mail::to($validated['email'])->send(new EmployerRegisterEmail($employer,$password));
+
+
+            $adminEmails = AdminEmails::get()->pluck('email');
+            $recipients = $adminEmails->toArray();
+        //return $recipients->count();
+           if ($adminEmails->count()>0) {
+            Mail::to($recipients)->send(new EmployerRegisterEmailToAdmins($employer));
+            } 
 
             notify()->success(__('Created successfully'));
         } else {

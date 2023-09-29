@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Mail\SendEmployerPassword;
 use App\Models\Country;
+use App\Mail\EmployerRegisterEmailToAdmins;
+use App\Models\AdminEmails;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -164,6 +166,13 @@ class RegisterController extends Controller
         if ($res) {
             $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
             $employer->save();
+
+            $adminEmails = AdminEmails::get()->pluck('email');
+            $recipients = $adminEmails->toArray();
+           if ($adminEmails->count()>0) {
+            Mail::to($recipients)->send(new EmployerRegisterEmailToAdmins($employer));
+            } 
+
             Auth::guard('employer')->login($employer);
             notify()->success(__('Password sent to your registered email'));
             return redirect('/employer');

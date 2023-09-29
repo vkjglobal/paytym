@@ -50,7 +50,7 @@
 
             <!---Emails--->
             
-            {{--<li class="nav-item {{ request()->is('admin/emails*') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('admin/emails*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Emails</span>
@@ -64,13 +64,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.country.create') }}" class="nav-link {{ request()->is('admin/emails/create') ? 'active' : '' }}">
+                            <a href="{{ route('admin.emails.create') }}" class="nav-link {{ request()->is('admin/emails/create') ? 'active' : '' }}">
                                 Create
                             </a>
                         </li>
                     </ul>
                 </div>
-            </li>--}} 
+            </li>
 
             <!----End Emails----->
 

@@ -410,14 +410,40 @@ class UserController extends Controller
 
     public function csvfile(Request $request)
     {
-        $request->validate([
-            'csvfile' => 'required|file|mimes:xls,xlsx,csv',
-        ]);
+        //return $request;
+        //return $request->file('csvfile');
+         $request->validate([
+            'csvfile' => 'required',//|file|mimes:xls,xlsx,csv',
+        ]); 
 
         $file = $request->file('csvfile');
-        //return $file;
+       
         try {
             Excel::import(new UsersImport, $request->file('csvfile'));
+            $recentlyImportedEmployees = User::where('created_at', '>=', Carbon::now()->subHour())->get();
+           foreach($recentlyImportedEmployees as $user)
+           {
+            $employeeName = $user->first_name;
+           // $employeeBranch = $user->branch->name; //Branch::where('id',$row['branch_name'])->first()->name;
+           // $role = $user->position->role_name;//Role::where('id', $validated['position'])->first()->role_name;
+            
+                $employeeBranch = Branch::where('id',$user->branch_id)->first()->name;
+                    $position = Role::where('id', $user->position)->first()->role_name;
+                    $password =  Str::random(8);
+                $hashedPassword = FacadesHash::make($password);
+                User::where('id', $user->id)->update(['password' => $hashedPassword]);
+                
+                //$user->save();
+                EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$position,$employeeName);
+            
+                $email = new EmployeeCredentialsMail($user,$password);
+                //mail confirmation
+            //mail
+            FacadesMail::to($user->email)->send($email);
+            
+           }
+
+
             notify()->success(__('Imported successfully'));
         } catch (Exception $e) {
             notify()->error(__('Failed to upload file. Wrong csv format. Please try again'));
