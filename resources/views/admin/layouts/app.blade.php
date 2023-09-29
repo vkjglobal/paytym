@@ -68,7 +68,7 @@
             @endif
 
         </div>
-
+        @include('notify::components.notify')
     </div>
 
     <!-- core:js -->
