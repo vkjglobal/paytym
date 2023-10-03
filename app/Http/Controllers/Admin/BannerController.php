@@ -73,6 +73,7 @@ class BannerController extends Controller
 
     public function update(UpdateBannerRequest $request, Banner $banner)
     {
+ 
         $validated = $request->validated();
         $banner->name = $validated['name'];
         $image = $banner->image;

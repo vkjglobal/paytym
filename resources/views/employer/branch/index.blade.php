@@ -70,9 +70,13 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Country <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                        class="form-control @if ($errors->has('city')) is-invalid @endif"
-                                        name="country" value="{{ old('country') }}" placeholder="Enter Country">
+                                    <select class="form-control" name="country" value="{{ old('country') }}">
+                                        <option value="">--Choose Country--</option>
+                                        @foreach ($country as $key => $value )
+                                        <option value="{{ $value['id'] }}">{{ $value['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                    
                                     <div class="invalid-feedback">{{ $errors->first('country') }}</div>
                                 </div>
                             </div><!-- Col -->

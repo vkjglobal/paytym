@@ -28,6 +28,7 @@ use App\Exports\Employer\TaxReportExport;
 use App\Models\Allowance;
 use App\Models\AssignAllowance;
 use App\Models\AssignDeduction;
+use App\Models\BankModel;
 use App\Models\Branch;
 use App\Models\Deduction;
 use App\Models\Department;
@@ -123,6 +124,15 @@ class ReportController extends Controller
         ->where('employer_id', $this->employer_id())->where('department_id', $department_id)->get();
         return response()->json($userData);
     }
+
+    // coded by Robin 03-09-23
+    
+    public function employee_period_get_bank($id)
+    {
+        $bankData['data'] = BankModel::where('country_id',$id)->get();
+        return response()->json($bankData);
+    }
+
     /////////////////////////////////////////////////////
     public function employee_period_filter(Request $request)
     {

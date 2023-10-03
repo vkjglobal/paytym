@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Branch;
 use App\Models\EmployerBusiness;
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -23,7 +24,8 @@ class BranchController extends Controller
         ];
         $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->where('status', '1')->get();
         $admin = Auth::guard('employer')->user();
-        return view('employer.branch.index', compact('breadcrumbs', 'admin','businesses'));
+      $country = Country::all();
+        return view('employer.branch.index', compact('breadcrumbs', 'admin','businesses','country'));
     }
 
     public function list(){
