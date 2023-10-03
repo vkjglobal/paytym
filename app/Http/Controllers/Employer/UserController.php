@@ -413,14 +413,15 @@ class UserController extends Controller
         //return $request;
         //return $request->file('csvfile');
          $request->validate([
-            'csvfile' => 'required',//|file|mimes:xls,xlsx,csv',
+            //'csvfile' => 'required',//|file|mimes:xls,xlsx,csv',
+            'csvfile' => 'required|mimes:csv,xls,xlsx',
         ]); 
 
         $file = $request->file('csvfile');
        
         try {
             Excel::import(new UsersImport, $request->file('csvfile'));
-            $recentlyImportedEmployees = User::where('created_at', '>=', Carbon::now()->subHour())->get();
+            $recentlyImportedEmployees = User::where('created_at', '>=', Carbon::now()->subMinute())->get();
            foreach($recentlyImportedEmployees as $user)
            {
             $employeeName = $user->first_name;
@@ -440,11 +441,11 @@ class UserController extends Controller
                 //mail confirmation
             //mail
             FacadesMail::to($user->email)->send($email);
-            
+            notify()->success(__('Imported successfully'));
            }
 
 
-            notify()->success(__('Imported successfully'));
+            
         } catch (Exception $e) {
             notify()->error(__('Failed to upload file. Wrong csv format. Please try again'));
         }
