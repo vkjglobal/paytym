@@ -27,7 +27,7 @@
                             <h4>Dear Admin {{--{{ $employer->name }}--}},</h4>
 
                             <br>
-                            A new employer has registered through the portal with details is as follows: <br>
+                            A new employer has registered through the portal with details as follows: <br>
                             <br>
                             Name : {{$employer->name}}<br>
                             Company : {{$employer->company}}<br>

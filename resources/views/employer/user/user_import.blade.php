@@ -9,7 +9,21 @@
                     <h6 class="card-title"><u>Import Employees</u></h6>
                 <div class="row mt-4">
                         <div class="col-sm-4">
-                            
+                        @if(session('msg'))
+    <div class="alert alert-light">
+        {{ session('msg') }}
+    </div>
+@endif
+                        @if ($errors->any())
+    <div class="alert alert-light">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
                             <form method="POST" action="{{ route('employer.user.csvfile') }}" enctype="multipart/form-data">
                                 @csrf
                                 <h6 class="card-title mt-3">Upload a CSV file</h6> 

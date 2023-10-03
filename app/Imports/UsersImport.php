@@ -23,6 +23,7 @@ use App\Jobs\EmployeeCreationPushNotification;
 use App\Mail\EmployeeCredentialsMail;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Mail;
+use Illuminate\Support\Facades\Session;
 
 
 class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQueue
@@ -35,6 +36,10 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
     public function model(array $row)
     {
         $employer = Auth::guard('employer')->user();
+        if (isset($row['email']) && !empty($row['email'])) {
+        $existingEmployee = User::where('email',$row['email'])->first();
+   
+        //dd($existingEmployee);
        //dd($row['salary_type']);
         $businessName = $row['business_name'];
         $business = EmployerBusiness::where('name', $businessName)->where('employer_id',$employer->id)->first();
@@ -67,7 +72,10 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
         {
             $checkOutRequired = 0;
         } */
-        
+
+       
+        if(is_null($existingEmployee))
+        {
         if(!$employer)
         {
             return null;
@@ -143,6 +151,18 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
         //mail
         FacadesMail::to($validated['email'])->send($email);*/
     }
+}
+Session::flash('msg', 'Employee with email ' . $row['email'] . ' already exists.');
+return null;
+//$message = 'Employee email already exists in the database!';
+//return redirect()->back()->with('message', $message);       
+//return redirect()->route('employer.user.import', 'Employee email already exist in database!');
+        }
+        else
+        {
+        Session::flash('msg', 'Wrong file uploaded.');
+        return null;
+        }
     }
     public function chunkSize(): int
     {
