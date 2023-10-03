@@ -20,7 +20,7 @@
                                 <select class="form-control" class="form-control @if ($errors->has('country_id')) is-invalid @endif" name="country_id" value="{{ old('country_id',$bank->country_id) }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($countries as $key => $value)
-                                    <option value="{{$value['id']}}" {{ $value['id'] === $bank->id ? 'selected' : '' }}>{{$value['name']}} </option>
+                                    <option  value="{{$value['id']}}" {{ $bank->country_id == $value['id'] ? 'selected' : '' }}>{{ $value['name'] }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">{{ $errors->first('country_id') }}</div>
@@ -39,9 +39,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Address<span class="text-danger">*</span></label>
-                                <textarea class="form-control @if ($errors->has('address')) is-invalid @endif" name="address">
-                               {{ optional($bank)->address }}
-                            </textarea>
+                                <textarea class="form-control @if ($errors->has('address')) is-invalid @endif" name="address">{{ optional($bank)->address }}</textarea>
                                 <div class="invalid-feedback">{{ $errors->first('address') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -68,7 +66,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Bank Template<span class="text-danger">*</span></label>
-                                <img src="{{ asset($bank->template) }}" alt="Item Image" width="200">
+                                <img src="{{ asset('uploads/bank_template/'.$bank->template) }}" alt="Item Image" width="200">
                                 <input type="file" class="form-control @if ($errors->has('bank_template')) is-invalid @endif" name="bank_template" value="{{ old('bank_template',$bank->bank_template) }}" placeholder="Enter Bank Template">
                                 <div class="invalid-feedback">{{ $errors->first('bank_template') }}</div>
                             </div>

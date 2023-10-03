@@ -108,4 +108,32 @@
                 });
             }
         });
+
+        $('#country').change(function(e) {
+            var id = $(this).val();
+            $('#bank').find('option').not(':first').remove();
+        
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_bank/' + id,
+                    dataType: 'json',
+                    success: function(response) {
+                        var len = 0;
+                        if (response != null) {
+                            len = response['data'].length;
+                        }
+                        if (len > 0) {
+                            $('#bank').append(option1);
+                            for (var i = 0; i < len; i++) {
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].name;
+                                var option = "<option value='" + id + "'>" + name + "</option>";
+                                $('#bank').append(option);
+                            }
+                        }
+                    }
+                });
+       
+        });
+
     })(jQuery);

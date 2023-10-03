@@ -243,6 +243,8 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::get('report/employment_period/get_branch/{id}', [ReportController::class, 'employee_period_get_branch'])->name('report.employment_period.get_branch');
   Route::get('report/employment_period/get_department/{id}', [ReportController::class, 'employee_period_get_department'])->name('report.employment_period.get_department');
   Route::get('report/employment_period/get_user/{id}', [ReportController::class, 'employee_period_get_user'])->name('report.employment_period.get_user');
+
+  Route::get('report/employment_period/get_bank/{id}', [ReportController::class, 'employee_period_get_bank'])->name('report.employment_period.get_bank');
   /////////////
   Route::get('report/employee', [ReportController::class, 'employee_list_index'])->name('report.employee');
   Route::get('report/employee/filter', [ReportController::class, 'employee_list_filter'])->name('report.employee.filter');
