@@ -70,7 +70,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Country <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="country" value="{{ old('country') }}">
+                                    <select class="form-control" name="country" id="country" value="{{ old('country') }}">
                                         <option value="">--Choose Country--</option>
                                         @foreach ($country as $key => $value )
                                         <option value="{{ $value['id'] }}">{{ $value['name']}}</option>
@@ -81,33 +81,19 @@
                                 </div>
                             </div><!-- Col -->
 
-                        </div><!-- Row -->
-
-                        <div class="row">
-                            
-                           
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" style="display: none;" id="bank_div">
                                 <div class="form-group">
                                     <label class="control-label">bank <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                        class="form-control @if ($errors->has('postcode')) is-invalid @endif"
-                                        name="bank" value="{{ old('bank') }}" placeholder="Enter Bank Name">
+                                    <select class="form-control" name="bank" id="bank" value="{{ old('bank') }}">
+                                    </select>
+
                                     <div class="invalid-feedback">{{ $errors->first('bank') }}</div>
                                 </div>
                             </div><!-- Col -->
 
-                            
+                        </div><!-- Row -->
 
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Account Number <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                        class="form-control @if ($errors->has('country')) is-invalid @endif"
-                                        name="account_number" value="{{ old('account-number') }}" placeholder="Enter Account Number" required>
-                                    <div class="invalid-feedback">{{ $errors->first('account_number') }}</div>
-                                </div>
-                            </div><!-- Col -->
-
+                        <div class="row">
                             <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">QR Code <span class="text-danger">*</span></label>
@@ -119,10 +105,8 @@
                             </div>Col -->
                         </div><!-- Row -->
 
-
                         <button type="submit" class="btn btn-primary submit">Submit</button>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -131,4 +115,40 @@
 @push('custom_js')
     <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
+    <!-- <script src="{{ asset('admin_assets/js/fetch_data.js') }}"></script> -->
+<script>
+       $('#country').change(function(e) {
+            var id = $(this).val();
+            $('#bank').find('option').remove();
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_bank/' + id,
+                    dataType: 'json',
+                    success: function(response) {
+                        var len = 0;
+                        if (response != null) {
+                            len = response['data'].length;
+                        }
+                        if (len > 0) {
+                            $("#bank_div").show();
+                            var option1="<option value=''>--Choose Bank--</option>";
+                            $('#bank').append(option1);
+                            for (var i = 0; i < len; i++) {
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].bank_name;
+                                var option = "<option value='" + id + "'>" + name + "</option>";
+                                $('#bank').append(option);
+                            }
+                        }
+                    }
+                });
+        });
+
+
+        $('#bank').change(function(e) {
+            var id = $(this).val();
+            alert(id);
+        });
+
+</script>
 @endpush
