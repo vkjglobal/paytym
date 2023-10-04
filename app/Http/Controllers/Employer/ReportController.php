@@ -129,7 +129,7 @@ class ReportController extends Controller
     
     public function employee_period_get_bank($id)
     {
-        $bankData['data'] = BankModel::where('country_id',$id)->get();
+        $bankData['data'] = BankModel::where('country_id',$id)->select('id','bank_name')->get();
         return response()->json($bankData);
     }
 
