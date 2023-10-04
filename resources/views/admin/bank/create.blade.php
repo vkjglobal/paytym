@@ -45,14 +45,14 @@
                     <div class="row">
                         <div class="col-sm-4">
                         <div class="form-group">
-                                <label class="control-label">Other Bank Code<span class="text-danger">*</span></label>
+                                <label class="control-label">Other Bank Code</label>
                                 <input type="text" class="form-control @if ($errors->has('bank_code')) is-invalid @endif" name="bank_code" value="{{ old('bank_code') }}" placeholder="Enter Other Bank Code">
                                 <div class="invalid-feedback">{{ $errors->first('bank_code') }}</div>
                             </div>
                         </div>
                         <div class="col-sm-4">
                         <div class="form-group">
-                                <label class="control-label">Branch Code<span class="text-danger">*</span></label>
+                                <label class="control-label">Branch Code</label>
                                 <input type="text" class="form-control @if ($errors->has('branch_code')) is-invalid @endif" name="branch_code" value="{{ old('branch_code') }}" placeholder="Enter Branch Code">
                                 <div class="invalid-feedback">{{ $errors->first('branch_code') }}</div>
                             </div>
