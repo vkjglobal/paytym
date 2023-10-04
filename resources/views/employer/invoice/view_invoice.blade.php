@@ -15,8 +15,9 @@
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                             Download Invoice
                           </button> --}}
+                          @if($plan->status !=1)
                           <a href="{{ route('employer.pay_invoice', ['id' => $plan->id]) }}" type="button" class="btn btn-success">Pay Now</a>
-                    
+                    @endif
                     </div>
                     <div class="table-responsive">
                     <table style="width: 100%; text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.2;">
