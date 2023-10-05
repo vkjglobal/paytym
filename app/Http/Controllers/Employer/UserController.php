@@ -425,11 +425,23 @@ class UserController extends Controller
            foreach($recentlyImportedEmployees as $user)
            {
             $employeeName = $user->first_name;
-           // $employeeBranch = $user->branch->name; //Branch::where('id',$row['branch_name'])->first()->name;
-           // $role = $user->position->role_name;//Role::where('id', $validated['position'])->first()->role_name;
+           $branch =  Branch::where('id',$user->branch_id)->first();
+           if(!is_null($branch))
+           {
             
                 $employeeBranch = Branch::where('id',$user->branch_id)->first()->name;
+           }
+           else
+           {
+                $employeeBranch = "";
+           }
+            $role = Role::where('id', $user->position)->first();
+           if(!is_null($role)){
                     $position = Role::where('id', $user->position)->first()->role_name;
+           }
+           else{
+                $position = "";
+           }
                     $password =  Str::random(8);
                 $hashedPassword = FacadesHash::make($password);
                 User::where('id', $user->id)->update(['password' => $hashedPassword]);

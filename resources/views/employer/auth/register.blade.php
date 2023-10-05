@@ -8,7 +8,7 @@
                 <div class="card-header"><b>{{ __('Register') }}</b></div>
 
                 <div class="card-body">
-                <form method="POST" action="{{ route('employer.register') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('employer.register') }}" enctype="multipart/form-data" id="register-form">
                             @csrf
                             <div class="row">
                                 <div class="col-sm-6">
@@ -154,4 +154,49 @@
         </div>
     </div>
 </div>
+<!-- The Bootstrap Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Registration Successful</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            Welcome.... <br>We have sent an email to your registered email address for account verification together with your login credentials. Please check and verify to start using our superior Paytym HR and Payroll Automation Platform.
+            Thank you!.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
+
+@push('custom_js')
+<!-- <script>
+$(document).ready(function() {
+    $('#register-form').on('submit', function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                // Show the Bootstrap modal on success
+                $('#successModal').modal('show');
+            },
+            error: function(xhr) {
+                // Handle registration errors here
+            }
+        });
+    });
+});
+</script> -->
+@endpush
+

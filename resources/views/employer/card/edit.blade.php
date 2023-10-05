@@ -32,7 +32,7 @@
                                 ?>
                                 <input type="text"
                                         class="form-control @if ($errors->has('primary_card_number')) is-invalid @endif"
-                                        name="primary_card_number" value="  <?php echo getTruncated_CCNumber($card->primary_card_number); ?> " placeholder="Enter Card Number" required>
+                                        name="primary_card_number" value="  <?php echo getTruncatedCC_Number($card->primary_card_number); ?> " placeholder="Enter Card Number" required>
                                 </div>
                             </div><!-- Col -->
                         </div><!-- Row -->
