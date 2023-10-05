@@ -93,16 +93,34 @@
 
                         </div><!-- Row -->
 
-                        <div class="row">
-                            <!-- <div class="col-sm-4">
+                        <div class="row" id="wbc_details" style="display: none;"> 
+                        <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="control-label">QR Code <span class="text-danger">*</span></label>
-                                    <input type="file"
-                                        class="form-control @if ($errors->has('logo')) is-invalid @endif"
-                                        name="qr_code" value="{{ old('qr_code') }}" placeholder="Enter logo" required>
-                                    <div class="invalid-feedback">{{ $errors->first('qr_code') }}</div>
+                                    <label class="control-label">Full Company Name<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @if ($errors->has('company_name')) is-invalid @endif"
+                                        name="company_name" id="company_name"  value="{{ old('company_name') }}" placeholder="Enter Company Name">
+                                    <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
                                 </div>
-                            </div>Col -->
+                            </div><!-- Col -->
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Account  Number<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @if ($errors->has('account_number')) is-invalid @endif"
+                                        name="account_number" id="account_number"  value="{{ old('account_number') }}" placeholder="Enter Account Number">
+                                    <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
+                                </div>
+                            </div><!-- Col -->
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">At least one Batch No. registered with WBC*<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @if ($errors->has('batch_no')) is-invalid @endif"
+                                        name="batch_no" id="batch_no"  value="{{ old('batch_no') }}" placeholder="Enter Batch No">
+                                    <div class="invalid-feedback">{{ $errors->first('batch_no') }}</div>
+                                </div>
+                            </div><!-- Col -->
+                           
                         </div><!-- Row -->
 
                         <button type="submit" class="btn btn-primary submit">Submit</button>
@@ -115,40 +133,5 @@
 @push('custom_js')
     <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
-    <!-- <script src="{{ asset('admin_assets/js/fetch_data.js') }}"></script> -->
-<script>
-       $('#country').change(function(e) {
-            var id = $(this).val();
-            $('#bank').find('option').remove();
-                $.ajax({
-                    type: 'get',
-                    url: '/employer/report/employment_period/get_bank/' + id,
-                    dataType: 'json',
-                    success: function(response) {
-                        var len = 0;
-                        if (response != null) {
-                            len = response['data'].length;
-                        }
-                        if (len > 0) {
-                            $("#bank_div").show();
-                            var option1="<option value=''>--Choose Bank--</option>";
-                            $('#bank').append(option1);
-                            for (var i = 0; i < len; i++) {
-                                var id = response['data'][i].id;
-                                var name = response['data'][i].bank_name;
-                                var option = "<option value='" + id + "'>" + name + "</option>";
-                                $('#bank').append(option);
-                            }
-                        }
-                    }
-                });
-        });
-
-
-        $('#bank').change(function(e) {
-            var id = $(this).val();
-            alert(id);
-        });
-
-</script>
+    <script src="{{ asset('admin_assets/js/bank_data.js') }}"></script>
 @endpush

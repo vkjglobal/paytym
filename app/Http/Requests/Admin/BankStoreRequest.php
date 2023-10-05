@@ -27,8 +27,8 @@ class BankStoreRequest extends FormRequest
             'country_id' => 'required',
             'bank_name' => 'required',
             'address' => 'required',
-            'bank_code' => 'nulable',
-            'branch_code' => 'nulable',
+            'bank_code' => 'nullable',
+            'branch_code' => 'nullable',
             'bank_template' => 'required',
 
         ];
