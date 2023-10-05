@@ -53,23 +53,10 @@ class BranchController extends Controller
             $branch->country = $validated['country'];
             $branch->bank = $validated['bank'];
             $branch->account_number = $validated['account_number'];
-            // $branch->postcode = $validated['qr_code'];
-    
-            // if ($request->hasFile('qr_code')) {
-            //     $path =  $request->file('qr_code')->storeAs(
-            //         'uploads/branch',
-            //         urlencode(time()) . '_' . uniqid() . '_' . $request->qr_code->getClientOriginalName(),
-            //         'public'
-            //     );
-            //     $branch->qr_code = $path;
-            // }
-    
-    
+            $branch->company_name = $validated['company_name'];
+            $branch->batch_no = $validated['batch_no'];
             $res = $branch->save();
-    
             if ($res) {
-
-               
                 notify()->success(__('Created successfully'));
             } else {
                 notify()->error(__('Failed to Create. Please try again'));
@@ -86,8 +73,9 @@ class BranchController extends Controller
                 [(__('Edit')), null],
             ];
             $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->where('status', '1')->get();
-            $branch = Branch::findOrFail($id);   
-            return view('employer.branch.edit',compact('breadcrumbs','branch','businesses'));
+            $branch = Branch::findOrFail($id); 
+            $country = Country::all();  
+            return view('employer.branch.edit',compact('breadcrumbs','branch','businesses','country'));
         
         }
 
@@ -103,24 +91,8 @@ class BranchController extends Controller
             $branch->country = $validated['country'];
             $branch->bank = $validated['bank'];
             $branch->account_number = $validated['account_number'];
-            // $qr_code=$branch->qr_code;  
-            // if ($request->hasFile('qr_code')) {
-            //     if (Storage::exists('public/'. $qr_code))  {
-            //         $del=Storage::delete('public/'.$qr_code);
-                   
-            //     } 
-            //     $path =  $request->file('qr_code')->storeAs(
-            //         'uploads/branch',
-            //         urlencode(time()) . '_' . uniqid() . '_' . $request->qr_code->getClientOriginalName(),
-            //         'public'
-            //     );
-            
-
-                
-            //     $branch->qr_code = $path;
-            // }
-    
-    
+            $branch->company_name = $validated['company_name'];
+            $branch->batch_no = $validated['batch_no'];
             $res = $branch->save();
             if ($res) {
                 notify()->success(__('Updated successfully'));

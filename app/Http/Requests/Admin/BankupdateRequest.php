@@ -27,8 +27,8 @@ class BankupdateRequest extends FormRequest
             'country_id' => 'required',
             'bank_name' => 'required',
             'address' => 'required',
-            'bank_code' => 'required',
-            'branch_code' => 'required',
+            'bank_code' => 'nullable',
+            'branch_code' => 'nullable',
             'bank_template' => 'nullable|mimes:png,jpg,jpeg|max:5048',
         ];
     }

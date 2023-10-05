@@ -31,7 +31,8 @@ class StoreBranchRequest extends FormRequest
             'country' => 'required',
             'bank' => 'nullable',
             'account_number' => 'nullable',
-            // 'qr_code' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
+            'company_name' => 'nullable',
+            'batch_no' => 'nullable'
         ];
     }
 }
