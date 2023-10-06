@@ -31,6 +31,9 @@ class UpdateBranchRequest extends FormRequest
                 'country' => 'required',
                 'bank' => 'nullable',
                 'account_number' => 'nullable',
+                'account_number' => 'nullable',
+                'company_name' => 'nullable',
+                'batch_no' => 'nullable'
                 // 'qr_code' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
     
         ];

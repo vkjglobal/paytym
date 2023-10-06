@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Branch;
 use App\Models\EmployerBusiness;
 use App\Http\Controllers\Controller;
+use App\Models\BankModel;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -74,8 +75,9 @@ class BranchController extends Controller
             ];
             $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->where('status', '1')->get();
             $branch = Branch::findOrFail($id); 
-            $country = Country::all();  
-            return view('employer.branch.edit',compact('breadcrumbs','branch','businesses','country'));
+            $country = Country::all();
+            $bank=BankModel::where('country_id',$branch->country)->get();  
+            return view('employer.branch.edit',compact('breadcrumbs','branch','businesses','country','bank'));
         
         }
 

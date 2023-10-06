@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EmployerBusiness;
 use App\Http\Requests\Employer\StoreBusinessRequest;
+use App\Models\BankModel;
+use App\Models\Country;
 use Illuminate\Contracts\View\View;
 
 
@@ -49,7 +51,8 @@ class BusinessController extends Controller
         ];
         //Employer $employer
         $employer = Auth::guard('employer')->user()->id;
-        return view('employer.business.create', compact('breadcrumbs', 'employer'));
+        $country = Country::all();
+        return view('employer.business.create', compact('breadcrumbs', 'employer','country'));
     }
 
     /**
@@ -60,10 +63,17 @@ class BusinessController extends Controller
      */
     public function store(StoreBusinessRequest $request)
     {
-        $request = $request->validated();
+        $validated = $request->validated();
         $business = new EmployerBusiness;
-        $business->name = $request['name'];
-        $business->description = $request['description'];
+        $business->name = $validated['name'];
+        $business->description = $validated['description'];
+        // 06-10-23 
+        $business->country = $validated['country'];
+        $business->bank = $validated['bank'];
+        $business->account_number = $validated['account_number'];
+        $business->company_name = $validated['company_name'];
+        $business->batch_no = $validated['batch_no'];
+
         $business->employer_id = Auth::guard('employer')->user()->id;
         $res = $business->save();
         if ($res) {
@@ -99,7 +109,9 @@ class BusinessController extends Controller
             [(__('Create')), null]
         ];
         //Employer $employer
-        return view('employer.business.edit', compact('breadcrumbs', 'business'));
+        $country = Country::all();
+        $bank=BankModel::where('country_id',$business->country)->get();  
+        return view('employer.business.edit', compact('breadcrumbs', 'business','country','bank'));
     }
 
     /**
@@ -111,9 +123,17 @@ class BusinessController extends Controller
      */
     public function update(StoreBusinessRequest $request, EmployerBusiness $business)
     {
-        $request = $request->validated();
-        $business->name = $request['name'];
-        $business->description = $request['description'];
+        $validated = $request->validated();
+        $business->name = $validated['name'];
+        $business->description = $validated['description'];
+
+        $business->country = $validated['country'];
+        $business->bank = $validated['bank'];
+        $business->account_number = $validated['account_number'];
+        $business->company_name = $validated['company_name'];
+        $business->batch_no = $validated['batch_no'];
+
+
         $business->employer_id = Auth::guard('employer')->user()->id;
         $res = $business->save();
         if ($res) {

@@ -65,51 +65,56 @@
                             </div>
                         </div><!-- Col -->
 
-                        <div class="col-sm-4"  id="bank_div">
+                        <div class="col-sm-4" id="bank_div">
                             <div class="form-group">
                                 <label class="control-label">bank <span class="text-danger">*</span></label>
                                 <select class="form-control" name="bank" id="bank" value="{{ old('bank') }}">
-                                <option value="">--Choose Bank--</option>
+                                    <option value="">--Choose Bank--</option>
+                                    <?php $flag = 0; ?>
                                     @foreach ($bank as $key => $value )
-                                    <option value="{{ $value['id'] }}" {{ $branch->bank == $value['id'] ? 'selected' : '' }}>{{ $value['name']}}</option>
+                                    <option value="{{ $value['id'] }}" {{ $branch->bank == $value['id'] ? 'selected' : '' }}>{{ $value['bank_name']}}</option>
+                                    <?php
+
+                                    if ($branch->bank == $value['id']) {
+                                        if ($value['bank_name'] == 'WBC') {
+                                            $flag = 1;
+                                        }
+                                    }
+                                    ?>
                                     @endforeach
-                            </select>
+                                </select>
 
                                 <div class="invalid-feedback">{{ $errors->first('bank') }}</div>
                             </div>
                         </div><!-- Col -->
 
                     </div><!-- Row -->
-
-                 <div class="row" id="wbc_details" style="display: none;"> 
+                    <div class="row" id="wbc_details" @if ($flag=='0' ) style="display: none;" @endif>
                         <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Full Company Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @if ($errors->has('company_name')) is-invalid @endif"
-                                        name="company_name" id="company_name"  value="{{ old('company_name') }}" placeholder="Enter Company Name">
-                                    <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
-                                </div>
-                            </div><!-- Col -->
+                            <div class="form-group">
+                                <label class="control-label">Full Company Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('company_name')) is-invalid @endif" name="company_name" id="company_name" value="{{ old('company_name',$branch->company_name) }}" placeholder="Enter Company Name">
+                                <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
+                            </div>
+                        </div><!-- Col -->
 
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">Account  Number<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @if ($errors->has('account_number')) is-invalid @endif"
-                                        name="account_number" id="account_number"  value="{{ old('account_number') }}" placeholder="Enter Account Number">
-                                    <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
-                                </div>
-                            </div><!-- Col -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Account Number<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('account_number')) is-invalid @endif" name="account_number" id="account_number" value="{{ old('account_number',$branch->account_number) }}" placeholder="Enter Account Number">
+                                <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
+                            </div>
+                        </div><!-- Col -->
 
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="control-label">At least one Batch No. registered with WBC*<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @if ($errors->has('batch_no')) is-invalid @endif"
-                                        name="batch_no" id="batch_no"  value="{{ old('batch_no') }}" placeholder="Enter Batch No">
-                                    <div class="invalid-feedback">{{ $errors->first('batch_no') }}</div>
-                                </div>
-                            </div><!-- Col -->
-                           
-                        </div><!-- Row -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">At least one Batch No. registered with WBC*<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('batch_no')) is-invalid @endif" name="batch_no" id="batch_no" value="{{ old('batch_no',$branch->batch_no) }}" placeholder="Enter Batch No">
+                                <div class="invalid-feedback">{{ $errors->first('batch_no') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
+                    </div><!-- Row -->
 
 
                     <button type="submit" class="btn btn-primary submit">Submit</button>
