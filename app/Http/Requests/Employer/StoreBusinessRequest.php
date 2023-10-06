@@ -26,6 +26,11 @@ class StoreBusinessRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
+            'country' => 'required',
+            'bank' => 'nullable',
+            'account_number' => 'nullable',
+            'company_name' => 'nullable',
+            'batch_no' => 'nullable'
         ];
     }
 }

@@ -2,6 +2,8 @@
     (function($) {
         $('#country').change(function(e) {
             var id = $(this).val();
+            $("#wbc_details").hide();
+            
             $('#bank').find('option').remove();
                 $.ajax({
                     type: 'get',
@@ -39,6 +41,10 @@
             else
             {
                 $("#wbc_details").hide();
+                $("#company_name").val("");
+                $("#account_number").val("");
+                $("#batch_no").val("");
+
             }
             
         });
