@@ -241,37 +241,37 @@ class PayrollCalculationController extends Controller
             }
         }
 
-        // Comented by robin on 14-06-23   it is needed. 
-        // $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name','like', '%hr%')->first();
+    //    Comented by robin on 14-06-23   it is needed. 
+        $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name','like', '%hr%')->first();
 
-        //sending payroll csv file through email bank
-        // $export = new PaymentExport();
-        // $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-        // $path = 'exports/payroll.csv';
-        // Mail::send([], [], function ($message) use ($path, $EmployerId) {
-        //    // $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
-        //    $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name','like', '%hr%')->first();
+     
+        $export = new PaymentExport();
+        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        $path = 'exports/payroll.csv';
+        Mail::send([], [], function ($message) use ($path, $EmployerId) {
+           // $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
+           $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name','like', '%hr%')->first();
 
-        //     //$finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
-        //     $finance = Role::with('user')->where('employer_id', $EmployerId)->where('role_name','like', '%finance%')->first();
-        //     if($finance == null){
-        //         $to = [$hr->user->email];
-        //     }elseif($hr == null){
-        //         $to = [$finance->user->email];
-        //     }elseif($finance == null && $hr == null){
-        //         $employer = Employer::where('employer_id', $EmployerId)->first();
-        //         $to = $employer->email;
-        //     }else{
-        //         $to = [$hr->user->email, $finance->user->email];
-        //     }
-        //     $message->to($to)
-        //             ->subject('Payroll csv file created on:'.Carbon::today()->format('d-m-Y'))
-        //             ->attach(Storage::path($path), [
-        //                 'as' => 'bank.csv',
-        //                 'mime' => 'text/csv'
-        //             ]);
-        // });
-        // Storage::delete($path); 
+            //$finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
+            $finance = Role::with('user')->where('employer_id', $EmployerId)->where('role_name','like', '%finance%')->first();
+            if($finance == null){
+                $to = [$hr->user->email];
+            }elseif($hr == null){
+                $to = [$finance->user->email];
+            }elseif($finance == null && $hr == null){
+                $employer = Employer::where('employer_id', $EmployerId)->first();
+                $to = $employer->email;
+            }else{
+                $to = [$hr->user->email, $finance->user->email];
+            }
+            $message->to($to)
+                    ->subject('Payroll csv file created on:'.Carbon::today()->format('d-m-Y'))
+                    ->attach(Storage::path($path), [
+                        'as' => 'bank.csv',
+                        'mime' => 'text/csv'
+                    ]);
+        });
+        Storage::delete($path); 
 
 
         //sending payroll csv file through email mpaisa

@@ -25,49 +25,43 @@ class ContactController extends Controller
         return view('admin.contacts.index', compact('breadcrumbs', 'contacts'));
     }
 
-    public function store(Request $request){
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-        ]);
+    // public function store(Request $request){
+    //     $validator = Validator::make($request->all(), [
+    //         'email' => 'required|email',
+    //     ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', 'Error Occured');
-        }
-        else{
-            Mail::send('mail.send-contactusmsg',
-            array(
-                'name' => $request->get('name'),
-                'email' => $request->get('email'),
-                'msg' => $request->get('message'),
-            ), function($msg) use ($request)
-              {
-               $mail=trim($request->get('email'));
-                 $msg->to('sooraj.reubro@gmail.com');
-                 $msg->subject('New Customer Enquiry');
-              });
+    //     if ($validator->fails()) {
+    //         return redirect()->back()->with('error', 'Error Occured');
+    //     }
+    //     else{
+    //         Mail::send('mail.send-contactusmsg',
+    //         array(
+    //             'name' => $request->get('name'),
+    //             'email' => $request->get('email'),
+    //             'msg' => $request->get('message'),
+    //         ), function($msg) use ($request)
+    //           {
+    //            $mail=trim($request->get('email'));
+    //              $msg->to('robin.reubro@gmail.com');
+    //              $msg->subject('New Customer Enquiry');
+    //           });
       
-        }
+    //     }
+     
+    //     $result = Contact::create([
+    //         'name' => $request['name'],
+    //         'email' => $request['email'],
+    //         'message' => $request['message']
+    //     ]);
+    //     if ($result) {
+    //         return redirect()->back()->with('success', 'Send successfully!');
 
+    //     } else {
+    //         return redirect()->back()->with('error', 'Error Occured');
 
-        //  try{
-            
-        //  } catch (TransportExceptionInterface $e){
-        //     return redirect()->back()->with('error', 'Error Occured');
-        // }
-        $result = Contact::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'message' => $request['message']
-        ]);
-        if ($result) {
-            return redirect()->back()->with('success', 'Send successfully!');
-
-        } else {
-            return redirect()->back()->with('error', 'Error Occured');
-
-        }
+    //     }
        
-    }
+    // }
 
     public function sendReply(Request $request)
     {
