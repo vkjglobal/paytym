@@ -60,6 +60,10 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);
 
+
+Auth::routes(['verify' => true]);
+
+
 // Reset Password
 Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');

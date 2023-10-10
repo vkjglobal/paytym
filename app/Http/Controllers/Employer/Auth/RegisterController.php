@@ -132,6 +132,8 @@ class RegisterController extends Controller
 
         $employer->password = Hash::make($rand_pass);
         try{
+             //10-10-23
+            $employer->email_verified_token = Str::random(32);
            $issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
         } catch (TransportExceptionInterface $e){
             notify()->error(__('Failed to Register. Please check the email and try again'));
@@ -165,6 +167,7 @@ class RegisterController extends Controller
         
         if ($res) {
             $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
+           
             $employer->save();
 
             $adminEmails = AdminEmails::get()->pluck('email');
