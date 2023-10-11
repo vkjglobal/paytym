@@ -1,4 +1,4 @@
-
+<!-- 
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,4 +17,4 @@ Message:  {{ $msg }}<br><br>
 
 Thanks
 </body>
-</html> 
+</html>  -->

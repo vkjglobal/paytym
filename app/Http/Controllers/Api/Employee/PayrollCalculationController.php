@@ -19,6 +19,8 @@ use App\Models\Overtime;
 use App\Models\SplitPayment;
 use App\Models\User;
 use App\Models\Attendance;
+use App\Models\Branch;
+use App\Models\EmployerBusiness;
 use App\Models\Role;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -46,7 +48,7 @@ class PayrollCalculationController extends Controller
         $EmployerId = $request->employer_id;
         $id = $request->id;
         $flag = $request->flag;
-
+        $bank = "";
 
         //dd($id);
         // $pending_leaves = 0;
@@ -56,10 +58,13 @@ class PayrollCalculationController extends Controller
         if ($flag == "business") {
             foreach ($id as  $id) {
                 $employees = User::where('business_id', $id)->get();
+                $bank = EmployerBusiness::with('bank')->where('id', $id)->first();
+           //dd($bank);
             }
         } else if ($flag == "branch") {
             foreach ($id as $id) {
                 $employees = User::where('branch_id', $id)->get();
+                $bank = Branch::with('banks')->where('id', $id)->first();
             }
         } else if ($flag == "department") {
             foreach ($id as $id) {
@@ -100,7 +105,7 @@ class PayrollCalculationController extends Controller
                 return [$val];
             }, $values);
 
-             //dd($result);
+            //dd($result);
             $idResponse = $result;
             // foreach ($result as $key => $value) {
             //     $values = explode(',', $value);
@@ -110,7 +115,7 @@ class PayrollCalculationController extends Controller
             // }
             $newid = $idResponse;
             foreach ($newid as $id) {
-               // dd($id);
+                // dd($id);
                 $i = $i + 1;
                 // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
                 $employees[] = User::where('id', $id)->first();
@@ -118,7 +123,13 @@ class PayrollCalculationController extends Controller
                 // $employees[] = $employee; // Add the fetched user to the $employees array.
             }
         }
-    //    dd($employees);
+        //    dd($employees);
+
+       
+
+      
+
+
         $today = Carbon::today();
         foreach ($employees as $employee) {
             if ($employee->salary_type == "1" && $employee->status == "1") {
@@ -241,37 +252,54 @@ class PayrollCalculationController extends Controller
             }
         }
 
-    //    Comented by robin on 14-06-23   it is needed. 
-        $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name','like', '%hr%')->first();
+        //    Comented by robin on 14-06-23   it is needed. 
+        $currentDate = Carbon::now()->format('d/m/y');
+        if ($bank->bank_name == 'HFC') {
+            $csv_name = "HFC" . $currentDate;
+        } else if ($bank->bank_name == 'BSP') {
+            $csv_name = "BSP" . $currentDate;
+        } else {
+        }
 
-     
-        $export = new PaymentExport();
-        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-        $path = 'exports/payroll.csv';
+      //  $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
+      $currentDate = Carbon::now()->format('dmy');
+      $bankname=$bank->banks->bank_name;
+      $bankid=$bank->banks->id;
+      if ($bankname == 'HFC') {
+          $csv_name = "HFC" . $currentDate;
+      } else if ($bankname == 'BSP') {
+          $csv_name = "BSP" . $currentDate;
+      } else {
+      }
+
+        $export = new PaymentExport($bankid,$bankname);
+        dd($export);
+        $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        $path = 'exports/' . $csv_name;
         Mail::send([], [], function ($message) use ($path, $EmployerId) {
-           // $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
-           $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name','like', '%hr%')->first();
+            // $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
+            $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
 
             //$finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
-            $finance = Role::with('user')->where('employer_id', $EmployerId)->where('role_name','like', '%finance%')->first();
-            if($finance == null){
+            $finance = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%finance%')->first();
+            if ($finance == null) {
                 $to = [$hr->user->email];
-            }elseif($hr == null){
+            } elseif ($hr == null) {
                 $to = [$finance->user->email];
-            }elseif($finance == null && $hr == null){
+            } elseif ($finance == null && $hr == null) {
                 $employer = Employer::where('employer_id', $EmployerId)->first();
                 $to = $employer->email;
-            }else{
+            } else {
                 $to = [$hr->user->email, $finance->user->email];
             }
             $message->to($to)
-                    ->subject('Payroll csv file created on:'.Carbon::today()->format('d-m-Y'))
-                    ->attach(Storage::path($path), [
-                        'as' => 'bank.csv',
-                        'mime' => 'text/csv'
-                    ]);
+                ->subject('Payroll csv file created on:' . Carbon::today()->format('d-m-Y'))
+                ->attach(Storage::path($path), [
+                    'as' => 'bank.csv',
+                    'mime' => 'text/csv'
+                ]);
         });
-        Storage::delete($path); 
+        Storage::delete($path);
 
 
         //sending payroll csv file through email mpaisa

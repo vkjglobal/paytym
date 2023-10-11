@@ -94,6 +94,7 @@ class OverTimeController extends Controller
             $overtime = Overtime::where('id', $request->id)->first();
             if ($overtime) {
                 $overtime->status = $request->status;
+                $overtime->decline_reason = optional($request)->decline_reason;
             }
         } else {
             $overtime = Overtime::where('id', $request->id)->first();
