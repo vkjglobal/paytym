@@ -169,7 +169,7 @@
             Thank you!.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalButton">Close</button>
             </div>
         </div>
     </div>
@@ -197,7 +197,7 @@
 @endsection
 
 @push('custom_js')
-<!-- <script>
+ <script>
 $(document).ready(function() {
     $('#register-form').on('submit', function(event) {
         event.preventDefault();
@@ -216,7 +216,16 @@ $(document).ready(function() {
         });
     });
 });
-</script> -->
+</script> 
+<script>
+    $(document).ready(function() {
+        // Add a click event handler to the Close button
+        $('#closeModalButton').click(function() {
+            // Reload the page when the Close button is clicked
+            location.reload();
+        });
+    });
+</script>
 <!-- <script>
 $(document).ready(function() {
     $('#register-form').on('submit', function(event) {

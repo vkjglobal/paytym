@@ -6,6 +6,7 @@ use App\Http\Controllers\Employer\Auth\ForgotPasswordController;
 use App\Http\Controllers\Employer\Auth\LoginController;
 use App\Http\Controllers\Employer\Auth\RegisterController;
 use App\Http\Controllers\Employer\Auth\ResetPasswordController;
+use App\Http\Controllers\Employer\Auth\VerificationController;
 use App\Http\Controllers\Employer\HomeController;
 use App\Http\Controllers\Employer\LeaveRequestController;
 use App\Http\Controllers\Employer\PaymentRequestController;
@@ -61,7 +62,7 @@ Route::get('register', [RegisterController::class, 'showRegistrationForm'])->nam
 Route::post('register', [RegisterController::class, 'register']);
 
 
-Auth::routes(['verify' => true]);
+//Auth::routes(['verify' => true]);
 
 
 // Reset Password
@@ -75,12 +76,15 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 // Route::post('password/confirm', 'Auth\ConfirmPasswordController@confirm');
 
 // Verify Email
-// Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
-// Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
+ Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+//Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
+Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 // Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 Route::get('list_invoice/{id}', [InvoiceController::class, 'list_invoice'])->name('list_invoice');
 Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout'])->name('invoice_checkout');
 //Route::middleware('employer.auth')->group(function () {
+ 
+ 
   Route::middleware(['employer.auth', 'check.employer.status'])->group(function () {
   // Profile
   Route::get('profile', [ProfileController::class, 'index'])->name('profile');

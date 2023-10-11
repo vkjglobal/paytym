@@ -40,6 +40,7 @@ class Employer extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    protected $emailVerificationColumn = 'email_verified_at';
 
     /**
      * Send the password reset notification.
