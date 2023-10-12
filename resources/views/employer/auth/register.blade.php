@@ -169,6 +169,25 @@
             Thank you!.
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalButton">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- The Bootstrap Modal for Validation Errors -->
+<div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="validationModalLabel">Validation Errors</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="validation-errors"></div>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -178,7 +197,7 @@
 @endsection
 
 @push('custom_js')
-<!-- <script>
+ <script>
 $(document).ready(function() {
     $('#register-form').on('submit', function(event) {
         event.preventDefault();
@@ -190,6 +209,46 @@ $(document).ready(function() {
             success: function(response) {
                 // Show the Bootstrap modal on success
                 $('#successModal').modal('show');
+            },
+            error: function(xhr) {
+                // Handle registration errors here
+            }
+        });
+    });
+});
+</script> 
+<script>
+    $(document).ready(function() {
+        // Add a click event handler to the Close button
+        $('#closeModalButton').click(function() {
+            // Reload the page when the Close button is clicked
+            location.reload();
+        });
+    });
+</script>
+<!-- <script>
+$(document).ready(function() {
+    $('#register-form').on('submit', function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {alert(1);
+                if (response.success) {
+                    // Show the Bootstrap modal on success
+                    $('#successModal').modal('show');
+                } else {
+                    // Handle validation errors here
+                    var errorsHtml = '<ul>';
+                    $.each(response.errors, function(key, value) {
+                        errorsHtml += '<li>' + value + '</li>';
+                    });
+                    errorsHtml += '</ul>';
+                    $('#validation-errors').html(errorsHtml);
+                    $('#validationModal').modal('show');
+                }
             },
             error: function(xhr) {
                 // Handle registration errors here

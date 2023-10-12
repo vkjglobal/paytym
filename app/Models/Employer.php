@@ -6,10 +6,11 @@ use App\Notifications\Employer\Auth\ResetPassword;
 use App\Notifications\Employer\Auth\VerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Employer extends Authenticatable
+class Employer extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -39,6 +40,7 @@ class Employer extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    protected $emailVerificationColumn = 'email_verified_at';
 
     /**
      * Send the password reset notification.

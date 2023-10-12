@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Auth\Access\AuthorizationException;
+use App\Models\Employer;
 
 class VerificationController extends Controller
 {
@@ -29,7 +30,8 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/employer';
+    //protected $redirectTo = '/employer';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -38,7 +40,7 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('employer.auth');
+        //$this->middleware('employer.auth');
         $this->middleware('signed')->only('employer.verify');
         $this->middleware('throttle:6,1')->only('employer.verify', 'resend');
     }
@@ -65,9 +67,9 @@ class VerificationController extends Controller
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function verify(Request $request)
+    public function verify(Request $request,$id,$employer)
     {
-        if (! hash_equals((string) $request->route('id'), (string) $request->user('employer')->getKey())) {
+       /*  if (! hash_equals((string) $request->route('id'), (string) $request->user('employer')->getKey())) {
             throw new AuthorizationException;
         }
 
@@ -82,8 +84,12 @@ class VerificationController extends Controller
         if ($request->user('employer')->markEmailAsVerified()) {
             event(new Verified($request->user('employer')));
         }
-
-        return redirect($this->redirectPath())->with('verified', true);
+ */
+        //return redirect($this->redirectPath())->with('verified', true);
+        $employer = Employer::where('id',$id)->first();
+        $employer->email_verified_at = now();
+        $employer->save();
+        return redirect()->route('employer.login')->with('verified', true);
     }
 
     /**

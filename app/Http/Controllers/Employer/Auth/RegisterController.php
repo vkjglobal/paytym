@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Mail\SendEmployerPassword;
 use App\Models\Country;
 use App\Mail\EmployerRegisterEmailToAdmins;
+use App\Mail\EmployerRegisterEmail;
 use App\Models\AdminEmails;
 use Exception;
 use Illuminate\Support\Facades\Storage;
@@ -42,7 +43,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/employer';
+    //protected $redirectTo = '/employer';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -132,7 +134,9 @@ class RegisterController extends Controller
 
         $employer->password = Hash::make($rand_pass);
         try{
-           $issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
+             //10-10-23
+            $employer->email_verified_token = Str::random(32);
+           //$issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
         } catch (TransportExceptionInterface $e){
             notify()->error(__('Failed to Register. Please check the email and try again'));
             return redirect()->back();
@@ -165,7 +169,9 @@ class RegisterController extends Controller
         
         if ($res) {
             $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
+           
             $employer->save();
+            $issend=  Mail::to($email)->send(new EmployerRegisterEmail($employer,$rand_pass));
 
             $adminEmails = AdminEmails::get()->pluck('email');
             $recipients = $adminEmails->toArray();
@@ -173,9 +179,10 @@ class RegisterController extends Controller
             Mail::to($recipients)->send(new EmployerRegisterEmailToAdmins($employer));
             } 
 
-            Auth::guard('employer')->login($employer);
-            notify()->success(__('Password sent to your registered email'));
-            return redirect('/employer');
+            //Auth::guard('employer')->login($employer);
+            //notify()->success(__('Password sent to your registered email'));
+            //return redirect('/employer');
+            return redirect()->back();
         } else {
             notify()->error(__('Failed to Register. Please try again'));
             return redirect()->back();

@@ -27,24 +27,44 @@
                             <h4>Dear {{ $employer->name }},</h4>
 
                             <br>
-                            Yours login credentials for the Paytym Employer portal is as follows: <br>
+                            Welcome!! You are now a registered employer and can start using our superior Paytym HR and Payroll Automation Platform.
+                            <br><br>
+                            Your login credentials for the Paytym Employer portal is as follows: <br>
                             <br>
                             email : {{$employer->email}}<br>
-                            password: {{$password}}<br>
+                            password: {{$password}}<br><br>
                         </td>
-                    </tr>
+                    </tr><br>
                     <tr>
-                        <td style="height: 15px;">
-                        </td>
+                        <td style="text-align: left;">To login and access our platform, please complete the verification by clicking on the below verify button.
+                        <br><br><br></br>
+                        <a href="{{ route('employer.verification.verify', ['id' => $employer->id, 'hash' => sha1($employer->email_verified_token)]) }}" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Verify Email</a>
+                    <br></br><br></br>    
+                    </td>
                     </tr>
+                    
+                    {{-- <tr><br><br></br><br></br>
+                        <td style="height: 15px;"><a href="{{ route('employer.verification.verify', ['id' => $employer->id, 'hash' => sha1($employer->email_verified_token)]) }}" style="font-size: 16px; font-weight: 600; padding: 10px 5px; border: 2px solid #0818a8; background-color: #0818a8;color:white; text-decoration: none;">Verify Email</a>
+                    <br/>  <br/>
+                    </td>
+                    </tr>
+                   <tr>
+                        <td style="height: 15px;"><p><a href="{{ route('employer.verification.verify', ['id' => $employer->id, 'hash' => sha1($employer->email_verified_token)]) }}">Verify Email</a></p>
+                            <hr>
+                        </td>
+                    </tr>--}}
                     <tr>
                         <td style="height: 15px;">
                             <hr>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: left;">
-                            Email: <a href="mailto:contact@paytym.net" style="">contact@paytym.net</a>
+                    <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;font-size: 17px;">
+                            The Paytym Team
+                        </td>
+                        <tr>
+                        <td style="text-align: left;vertical-align: top; text-align: left; font-weight: bold;">
+                            <a href="mailto:contact@paytym.net" style="font-size: 14px;">contact@paytym.net</a>
                         </td>
                     </tr>
                 </table>
