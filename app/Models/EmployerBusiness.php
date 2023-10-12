@@ -17,4 +17,9 @@ class EmployerBusiness extends Model
     {
         return $this->hasOne(PayrollSetting::class);
     }
+
+    public function bank()
+    {
+        return $this->hasOne(BankModel::class);
+    }
 }

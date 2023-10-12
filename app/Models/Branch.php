@@ -30,4 +30,9 @@ class Branch extends Model
         return $this->belongsTo(EmployerBusiness::class, 'employer_business_id');
     }
 
+    public function banks()
+    {
+        return $this->belongsTo(BankModel::class,'bank');
+    }
+
 }
