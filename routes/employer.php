@@ -79,13 +79,13 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
  Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
 //Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
-// Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+ Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 Route::get('list_invoice/{id}', [InvoiceController::class, 'list_invoice'])->name('list_invoice');
 Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout'])->name('invoice_checkout');
 //Route::middleware('employer.auth')->group(function () {
  
  
-  Route::middleware(['employer.auth', 'check.employer.status'])->group(function () {
+  Route::middleware(['employer.auth', 'check.employer.status','verified'])->group(function () {
   // Profile
   Route::get('profile', [ProfileController::class, 'index'])->name('profile');
   Route::post('profile', [ProfileController::class, 'store']);

@@ -31,7 +31,8 @@
                             Department: {{optional($employee->department)->dep_name ?? 'No data'}}<br>
                             Position: {{optional($employee->role)->role_name ?? 'No data'}}<br>
                             Salary Type: {{isset($employee->salary_type) == 0 ? 'Fixed' : 'Hourly'}}<br>
-                            Amount: {{optional($employee)->rate ?? 'No data'}}<br>
+                            Salary Period: {{ optional($employee)->pay_period == 0 ? 'Weekly' : (optional($employee)->pay_period == 1 ? 'Fortnightly' : (optional($employee)->pay_period == 2 ? 'Monthly' : 'Unknown')) }}<br>
+                            Gross Pay: {{optional($employee)->rate ?? 'No data'}}<br>
                             Employment Start Date: {{optional($employee)->employment_start_date ?? 'No data'}}<br>
                             <br>
                             Yours login credentials is as follows: <br>

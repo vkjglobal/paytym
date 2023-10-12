@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Employer Registration</title>
+    <title>New Verification Link</title>
 </head>
 
 <body>
@@ -24,20 +24,44 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <h4>Dear Admin {{--{{ $employer->name }}--}},</h4>
+                            <h4>Hello!</hr> <br></br>
+Please click the button below to verify your email address.
+                        </td>
+                    </tr>
+                    
 
+                    <tr>
+                        <td style="text-align: left;">
+                            <h4></h4>
+                          
+
+
+{{-- Action Button --}}
+@isset($actionText)
+<?php
+    $color = match ($level) {
+        'success', 'error' => $level,
+        default => 'primary',
+    };
+?>
+<x-mail::button :url="$actionUrl" :color="$color">
+{{ $actionText }}
+</x-mail::button>
+@endisset
+{{-- Subcopy --}}
+@isset($actionText)
+<x-slot:subcopy>
+@lang(
+    "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
+    'into your web browser:',
+    [
+        'actionText' => $actionText,
+    ]
+) <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
+</x-slot:subcopy>
+@endisset
                             <br>
-                            A new employer has registered through the portal with details as follows: <br>
                             <br>
-                            Name : {{$employer->name}}<br>
-                            Company : {{$employer->company}}<br>
-                            TIN : {{$employer->tin}}<br>
-                            Email : {{$employer->email}}<br>
-                            Phone : {{$employer->company_phone}}<br>
-                            Address : {{$employer->company}},<br>
-                            {{ $employer->street }}, <br>
-                                            {{ $employer->city }},
-                                            {{ $employer->country->name }}. <br>
                             <br>
                         </td>
                     </tr>
@@ -61,6 +85,5 @@
     </table>
 </body>
 </html>
-
 
 
