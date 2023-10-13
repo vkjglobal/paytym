@@ -101,12 +101,6 @@ class PayrollCalculationController extends Controller
 
             //dd($result);
             $idResponse = $result;
-            // foreach ($result as $key => $value) {
-            //     $values = explode(',', $value);
-            //     foreach ($values as $v) {
-            //         $newIdResponse[$key][] = (int) $v;
-            //     }
-            // }
             $newid = $idResponse;
             foreach ($newid as $id) {
                 // dd($id);
@@ -206,18 +200,13 @@ class PayrollCalculationController extends Controller
                     } else {
                         $endDate = $startDate->copy()->addWeek(2);
                     }
-                    // $nowMonth = $now->month;
-                    // $endDateMonth = $endDate->month;
-                    // if($nowMonth != $endDateMonth){
+                   
                     $payPeriods[] = ['start_date' => $startDate, 'end_date' => $endDate];
                     $startDate = $endDate->copy()->addDay(); // start next pay period with next day after end date
                 }
                 $lastPayPeriod = end($payPeriods);
                 if (count($payPeriods) != 0) {
-                    //     if (($now->toDateString()) < $lastPayPeriod['end_date']) {
-                    //         array_pop($payPeriods);
-                    //     }
-                    //   dd($payPeriods);
+                  
                     foreach ($payPeriods as $payPeriod) {
                         $salaryStartDate = $payPeriod['start_date'];
                         $salaryEndDate = $payPeriod['end_date'];
