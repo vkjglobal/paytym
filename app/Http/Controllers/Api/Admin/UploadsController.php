@@ -71,10 +71,10 @@ class UploadsController extends Controller
             $uploads->employer_id = $request->employer_id;
             $uploads->file_type_id = $request->file_type_id;
             $uploads->user_id = $request->user_id;
-            $file = $request->file('file');
-            $originalFileName = $file->getClientOriginalName(); // Get the original file name
-            $file_path = $file->storeAs('public/file', $originalFileName);
-//            $file_path = $request->file('file')->store('file', 'public');
+            // $file = $request->file('file');
+            // $originalFileName = $file->getClientOriginalName(); // Get the original file name
+            // $file_path = $file->storeAs('public/file', $originalFileName);
+          $file_path = $request->file('file')->store('file', 'public');
             $uploads->file = $file_path;
             $issave = $uploads->save();
             if ($issave) {
