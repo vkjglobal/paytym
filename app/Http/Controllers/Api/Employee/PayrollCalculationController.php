@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Carbon\CarbonInterval;
 use App\Http\Controllers\Employer\PayrollController;
+use App\Mail\PayrollTemplateMail;
 use App\Models\Employer;
 use App\Models\Payroll;
 use App\Models\LeaveRequest;
@@ -47,19 +48,14 @@ class PayrollCalculationController extends Controller
 
         $EmployerId = $request->employer_id;
         $id = $request->id;
+        $id_type = $id;
         $flag = $request->flag;
         $bank = "";
-
-        //dd($id);
-        // $pending_leaves = 0;
-        // $pending_overtime = 0;
-        // $pending_attendance = 0;
-
         if ($flag == "business") {
             foreach ($id as  $id) {
                 $employees = User::where('business_id', $id)->get();
-                $bank = EmployerBusiness::with('bank')->where('id', $id)->first();
-           //dd($bank);
+                //dd("id===".$id);
+                $bank = EmployerBusiness::with('banks')->where('id', $id)->first();
             }
         } else if ($flag == "branch") {
             foreach ($id as $id) {
@@ -96,8 +92,6 @@ class PayrollCalculationController extends Controller
             $i = 0;
             $newIdResponse = [];
             $idResponse = $id[0];
-            // dd($idResponse);
-
             $inputString = $idResponse;
             $values = explode(',', $inputString);
 
@@ -119,17 +113,10 @@ class PayrollCalculationController extends Controller
                 $i = $i + 1;
                 // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
                 $employees[] = User::where('id', $id)->first();
-                //dd($employees);
-                // $employees[] = $employee; // Add the fetched user to the $employees array.
             }
         }
         //    dd($employees);
-
-       
-
-      
-
-
+        $flag_type = $flag;
         $today = Carbon::today();
         foreach ($employees as $employee) {
             if ($employee->salary_type == "1" && $employee->status == "1") {
@@ -142,19 +129,14 @@ class PayrollCalculationController extends Controller
 
                 $payPeriod = CarbonPeriod::since($LastPayedDate)->until($today);
 
-
                 if ($employee->pay_period == "1") {
                     $subPeriodLength = CarbonInterval::days(14);
                 } else {
                     $subPeriodLength = CarbonInterval::days(7);
                 }
 
-
                 $subPeriods = [];
-
                 $startDate = $payPeriod->getStartDate();
-
-
                 while ($startDate->lessThan($payPeriod->getEndDate())) {
                     $endDate = $startDate->copy()->add($subPeriodLength)->subDay(); // Subtract one day from the end date
                     if ($endDate->gt($today)) {
@@ -193,7 +175,6 @@ class PayrollCalculationController extends Controller
             }
             //Fixed salary type
             else if ($employee->salary_type == "0" && $employee->status == "1") {
-
                 $lastPayedDate = $employee->payed_date ?? $employee->employment_start_date;
                 switch ($employee->pay_period) {
                     case 0:
@@ -253,30 +234,25 @@ class PayrollCalculationController extends Controller
         }
 
         //    Comented by robin on 14-06-23   it is needed. 
-        $currentDate = Carbon::now()->format('d/m/y');
-        if ($bank->bank_name == 'HFC') {
+
+
+        //  $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
+        $currentDate = Carbon::now()->format('dmy');
+        $bankname = $bank->banks->bank_name;
+        $bankid = $bank->banks->id;
+        if ($bankname == 'HFC') {
             $csv_name = "HFC" . $currentDate;
-        } else if ($bank->bank_name == 'BSP') {
+            $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
+        } else if ($bankname == 'BSP') {
             $csv_name = "BSP" . $currentDate;
+            $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
         } else {
         }
-
-      //  $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
-      $currentDate = Carbon::now()->format('dmy');
-      $bankname=$bank->banks->bank_name;
-      $bankid=$bank->banks->id;
-      if ($bankname == 'HFC') {
-          $csv_name = "HFC" . $currentDate;
-      } else if ($bankname == 'BSP') {
-          $csv_name = "BSP" . $currentDate;
-      } else {
-      }
-
-        $export = new PaymentExport($bankid,$bankname);
-        dd($export);
         $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
         $path = 'exports/' . $csv_name;
-        Mail::send([], [], function ($message) use ($path, $EmployerId) {
+        $to="robin.reubro@gmail.com";
+    //   $issend = Mail::to($to)->send(new PayrollTemplateMail($path, $EmployerId, $csv_name));
+        Mail::send([], [], function ($message) use ($path, $EmployerId, $csv_name) {
             // $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
             $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
 
@@ -292,10 +268,11 @@ class PayrollCalculationController extends Controller
             } else {
                 $to = [$hr->user->email, $finance->user->email];
             }
+           // $to="buzzmefiji@gmail.com";
             $message->to($to)
                 ->subject('Payroll csv file created on:' . Carbon::today()->format('d-m-Y'))
                 ->attach(Storage::path($path), [
-                    'as' => 'bank.csv',
+                    'as' => $csv_name,
                     'mime' => 'text/csv'
                 ]);
         });
