@@ -51,7 +51,6 @@ class UploadsController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         }
-
         $status = $request->status;   // 0->upload 1->delete 
         if ($status == '0') {
             $validator = Validator::make($request->all(), [
@@ -72,7 +71,10 @@ class UploadsController extends Controller
             $uploads->employer_id = $request->employer_id;
             $uploads->file_type_id = $request->file_type_id;
             $uploads->user_id = $request->user_id;
-            $file_path = $request->file('file')->store('file', 'public');
+            $file = $request->file('file');
+            $originalFileName = $file->getClientOriginalName(); // Get the original file name
+            $file_path = $file->storeAs('public/file', $originalFileName);
+//            $file_path = $request->file('file')->store('file', 'public');
             $uploads->file = $file_path;
             $issave = $uploads->save();
             if ($issave) {

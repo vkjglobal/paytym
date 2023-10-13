@@ -390,13 +390,7 @@ class PayrollController extends Controller
                     $flag = 3;
                 }
             }
-
-
-
-
             //      dd($annualIncome . "," . $value['annualincome_from'] . "," . $taxRate . "," . $taxAddon);
-
-
 
             $A1 = ($annualIncome -  $value['annualincome_from']) * ($taxRate / 100) + $taxAddon;  // IncomeTax
             // dd($A1); 
@@ -404,7 +398,6 @@ class PayrollController extends Controller
             $incomeTaxOnC2 = $A1 + $total_bonus;
             $srtAddon = $value['srt_value'];
             $A2 = $C2 * ($srtRate / 100) + $srtAddon;  // SRT On C2
-
 
             $G = 5;  //Number of completed pay periods including current period
             $B2 = 4;   //SRT 
@@ -414,14 +407,7 @@ class PayrollController extends Controller
                 $srtToWithhold = 0;
             }
 
-
-
-
-
             $total_tax = $srtToWithhold + $IncomeTaxToWithhold;
-
-
-
 
             //FNPF calculation
             $empTotalSalary = $employee->total_hours_per_week * $employee->rate;
@@ -442,10 +428,6 @@ class PayrollController extends Controller
                     $fnpf_amount += $empTotalSalary * (($country->fnpf) / 100);
                 }
             }
-
-
-
-
 
             //pending
 
@@ -477,7 +459,6 @@ class PayrollController extends Controller
             $payroll->total_fnpf = $fnpf_amount;
             $payroll->start_date = $fromDate;
             $payroll->end_date = $payDate;
-
 
             $res = $payroll->save();
             $flag_payroll = 1;
@@ -511,9 +492,7 @@ class PayrollController extends Controller
     public function generate_fixed_payroll($employee, $fromDate, $endDate)
     {
         $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / ($fromDate->daysInMonth)));
-
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $endDate])->get();
-
         //Allowance Calculation
 
         $allowances = AssignAllowance::with('allowance')->where('user_id', $employee->id)->get();
@@ -521,7 +500,6 @@ class PayrollController extends Controller
         if ($allowances) {
             $totalAllowance = $allowances->sum('rate');
         }
-
         //Deduction Calculation
 
         $deductions = AssignDeduction::with('deduction')->where('user_id', $employee->id)->get();

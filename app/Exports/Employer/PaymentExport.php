@@ -15,12 +15,15 @@ class PaymentExport implements FromCollection, WithMapping
 {
     protected $bank;
     protected $bankname;
+    protected $flag;
+    protected $id;
 
-    public function __construct($bankid,$bank)
+    public function __construct($bankid,$bank,$flag,$id)
     {
         $this->bank = $bankid;
         $this->bankname = $bank;
-       
+        $this->flag = $flag;
+        $this->id = $id;
     }
 
     
@@ -38,19 +41,45 @@ class PaymentExport implements FromCollection, WithMapping
     // }
     public function collection()
     {
-        return  $this->bank;
-        $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
+        $flag=$this->flag;
+        $id=$this->id;
+        if ($flag == "business") {
+            foreach ($id as  $id) {
+                $data = User::with(['payroll_latest', 'split_payment'])
+                ->where('employer_id', Auth::guard('employer')->id())
+                ->where('status', '1')
+                ->where('business_id', $id)->get();
+            }
+        } else if ($flag == "branch") {
+            foreach ($id as $id) {
+                $data = User::with(['payroll_latest', 'split_payment'])
+                ->where('employer_id', Auth::guard('employer')->id())
+                ->where('status', '1')
+                ->where('branch_id', $id)->get();
+            }
+        } else if ($flag == "department") {
+            foreach ($id as $id) {
+                $data = User::with(['payroll_latest', 'split_payment'])
+                ->where('employer_id', Auth::guard('employer')->id())
+                ->where('status', '1')
+                ->where('department_id', $id)->get();
+            }
+        } else if ($flag == "all") {
+            $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
+
+        }
         return $data;
     }
     public function map($row): array
     {
         static $index = 0;
         return [
-            ++$index,
+            // ++$index,
             $row->bank,
             $row->account_number,
-            // $row->amount,
+           // $row->amount,
             $row->split_payment_bank(),
+            "Wages",
             $row->first_name.' '.$row->last_name,  
         ];
     }

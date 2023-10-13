@@ -18,8 +18,8 @@ class EmployerBusiness extends Model
         return $this->hasOne(PayrollSetting::class);
     }
 
-    public function bank()
+    public function banks()
     {
-        return $this->hasOne(BankModel::class);
+        return $this->belongsTo(BankModel::class,'bank');
     }
 }
