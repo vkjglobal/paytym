@@ -182,6 +182,8 @@ class RegisterController extends Controller
             //Auth::guard('employer')->login($employer);
             //notify()->success(__('Password sent to your registered email'));
             //return redirect('/employer');
+            session()->flash('success', ' Welcome....We have sent an email to your registered email address for account verification together with your login credentials. Please check and verify to start using our superior Paytym HR and Payroll Automation Platform.
+            Thank you!.');
             return redirect()->back();
         } else {
             notify()->error(__('Failed to Register. Please try again'));
