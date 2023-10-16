@@ -6,6 +6,11 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header"><b>{{ __('Register') }}</b></div>
+                @if (session('success'))
+    <div class="alert alert-light">
+        {{ session('success') }}
+    </div>
+@endif
 
                 <div class="card-body">
                 <form method="POST" action="{{ route('employer.register') }}" enctype="multipart/form-data" id="register-form">
@@ -197,7 +202,7 @@
 @endsection
 
 @push('custom_js')
- <script>
+ <!-- <script>
 $(document).ready(function() {
     $('#register-form').on('submit', function(event) {
         event.preventDefault();
@@ -225,7 +230,7 @@ $(document).ready(function() {
             location.reload();
         });
     });
-</script>
+</script> -->
 <!-- <script>
 $(document).ready(function() {
     $('#register-form').on('submit', function(event) {
