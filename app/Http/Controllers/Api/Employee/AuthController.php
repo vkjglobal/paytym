@@ -133,7 +133,6 @@ class AuthController extends Controller
     public function confirmOtp(Request $request)
     {
         $authUser = Auth::user();
-
         if ($authUser->otp == $request->otp) {
             return response()->json([
                 'message' => 'Otp matched successfully.'
@@ -222,14 +221,22 @@ class AuthController extends Controller
         } else {
             $email = $request->email;
             $otp = rand(1000, 9999);
-            Mail::to($email)->send(new SendOtp($otp));
-            // save otp to users table
             $authUser = User::where('email', $email)->first();
-            $authUser->otp = $otp;
-            $authUser->update();
-            return response()->json([
-                'message' => 'Please find the email otp'
-            ], 200);
+            if($authUser)
+            {
+                Mail::to($email)->send(new SendOtp($otp));
+                $authUser->otp = $otp;
+                $authUser->update();
+                return response()->json([
+                    'message' => 'Please find the email otp'
+                ], 200);
+            }
+            else
+            {
+                return response()->json([
+                    'message' => 'The provided email ID is not registered as an employee in the Paytm application.'
+                ], 200);
+            }
         }
     }
 
