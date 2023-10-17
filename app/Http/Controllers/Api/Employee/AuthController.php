@@ -235,7 +235,7 @@ class AuthController extends Controller
             {
                 return response()->json([
                     'message' => 'The provided email ID is not registered as an employee in the Paytm application.'
-                ], 200);
+                ], 400);
             }
         }
     }
