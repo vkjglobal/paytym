@@ -75,10 +75,10 @@ class HfcExport implements FromCollection, WithMapping
             // ++$index,
             $row->bank,
             $row->account_number,
+            $row->first_name.' '.$row->last_name,  
            // $row->amount,
             $row->split_payment_bank(),
             "Test",
-            $row->first_name.' '.$row->last_name,  
         ];
     }
 }
