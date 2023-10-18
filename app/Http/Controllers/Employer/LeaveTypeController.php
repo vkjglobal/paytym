@@ -65,7 +65,7 @@ class LeaveTypeController extends Controller
         $leavetype = new LeaveType();
         $leavetype->leave_type = $request['leavetype'];
         $leavetype->no_of_days_allowed = $request['num_days'];
-
+        $leavetype->country_id = Auth::guard('employer')->user()->country_id;
         $leavetype->employer_id = Auth::guard('employer')->user()->id;
         $issave = $leavetype->save();
 
@@ -133,6 +133,7 @@ class LeaveTypeController extends Controller
         $leave_type->no_of_days_allowed = $request['num_days'];
 
         $leave_type->leave_type = $request['leavetype'];
+        $leave_type->country_id = Auth::guard('employer')->user()->country_id;
         $leave_type->employer_id = Auth::guard('employer')->user()->id;
         $issave = $leave_type->save();
 

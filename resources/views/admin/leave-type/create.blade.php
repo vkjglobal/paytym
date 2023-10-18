@@ -11,6 +11,19 @@
                     @csrf
 
                     <div class="row">
+                    <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Country<span class="text-danger">*</span></label>
+                                <select class="form-control"  class="form-control @if ($errors->has('country_id')) is-invalid @endif" name="country_id" value="{{ old('country_id') }}">
+                                    <option value="">--SELECT--</option>
+                                    @foreach ($countries as $key => $value)
+                                    <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('country_id') }}</div>
+                               
+                            </div>
+                        </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Leave Type <span class="text-danger">*</span></label>

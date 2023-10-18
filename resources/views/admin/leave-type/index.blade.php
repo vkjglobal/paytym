@@ -15,6 +15,7 @@
                                     <th>Sl #</th>
                                     <th>Leave Types</th>
                                     <th>No of days allowed</th>
+                                    <th>Country</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -24,6 +25,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $leavetype->leave_type }}</td>
                                         <td>{{ $leavetype->no_of_days_allowed }}</td>
+                                        <td>{{ optional($leavetype->country)->name ?? 'No data' }}</td>
                                         
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">

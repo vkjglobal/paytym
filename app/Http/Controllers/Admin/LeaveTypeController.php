@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LeaveType;
+use App\Models\Country;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,7 +31,8 @@ class LeaveTypeController extends Controller
             [(__('Create')), null]
         ];
         //Employer $employer
-        return view('admin.leave-type.create', compact('breadcrumbs'));
+        $countries = Country::get();
+        return view('admin.leave-type.create', compact('breadcrumbs','countries'));
     }
 
     public function store(Request $request)
@@ -49,6 +51,7 @@ class LeaveTypeController extends Controller
         $leavetype = new LeaveType();
         $leavetype->leave_type = $request['leavetype'];
         $leavetype->no_of_days_allowed = $request['num_days'];
+        $leavetype->country_id = $request['country_id'];
 
         $leavetype->employer_id = 0;
         $issave = $leavetype->save();
@@ -70,7 +73,8 @@ class LeaveTypeController extends Controller
             [(__('Edit')), null]
         ];
         //Employer $employer
-        return view('admin.leave-type.edit', compact('breadcrumbs', 'leave_type'));
+        $countries = Country::get();
+        return view('admin.leave-type.edit', compact('breadcrumbs', 'leave_type','countries'));
     }
 
     public function update(Request $request, LeaveType $leave_type)
@@ -92,6 +96,8 @@ class LeaveTypeController extends Controller
         $leave_type->no_of_days_allowed = $request['num_days'];
 
         $leave_type->leave_type = $request['leavetype'];
+        //dd($request);
+        $leave_type->country_id = $request['country_id'];
         $leave_type->employer_id = 0;
         $issave = $leave_type->save();
 

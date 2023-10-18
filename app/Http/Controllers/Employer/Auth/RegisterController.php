@@ -18,6 +18,7 @@ use App\Models\Country;
 use App\Mail\EmployerRegisterEmailToAdmins;
 use App\Mail\EmployerRegisterEmail;
 use App\Models\AdminEmails;
+use App\Models\LeaveType;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -171,6 +172,20 @@ class RegisterController extends Controller
             $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
            
             $employer->save();
+
+            //18-10-23
+            $defaultLeaveTypes = LeaveType::where('employer_id',0)->where('country_id',$employer->country_id)->get();
+            
+            foreach ($defaultLeaveTypes as $defaultLeaveType) {
+                LeaveType::create([
+                    'leave_type' => $defaultLeaveType->leave_type,
+                    'no_of_days_allowed' => $defaultLeaveType->no_of_days_allowed,
+                    'country_id' => $defaultLeaveType->country_id,
+                    'employer_id' => $employer->id,
+                ]);
+            }
+            //
+
             $issend=  Mail::to($email)->send(new EmployerRegisterEmail($employer,$rand_pass));
 
             $adminEmails = AdminEmails::get()->pluck('email');
