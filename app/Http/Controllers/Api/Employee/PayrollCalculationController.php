@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Employee;
 
+use App\Exports\Employer\HfcExport;
 use App\Exports\Employer\PaymentExport;
 use App\Exports\Employer\MpaisaExport;
 use App\Exports\Employer\MycashExport;
@@ -231,7 +232,7 @@ class PayrollCalculationController extends Controller
         $bankid = $bank->banks->id;
         if ($bankname == 'HFC') {
             $csv_name = "HFC" . $currentDate;
-            $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
+            $export = new HfcExport($bankid, $bankname, $flag_type, $id_type);
         } else if ($bankname == 'BSP') {
             $csv_name = "BSP" . $currentDate;
             $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
