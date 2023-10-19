@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Imports;
-
 use App\Models\User;
 use App\Models\EmployerBusiness;
 use App\Models\Department;
@@ -25,8 +24,7 @@ use Illuminate\Support\Facades\Mail as FacadesMail;
 use Mail;
 use Illuminate\Support\Facades\Session;
 
-
-class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQueue
+class ExistingUserImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQueue
 {
     /**
     * @param array $row
@@ -40,7 +38,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
         $existingEmployee = User::where('email',$row['email'])->first();
    
         //dd($existingEmployee);
-       //dd($row['salary_type']);
+       //dd($row['annual_leaves_taken']);
         $businessName = $row['business_name'];
         $business = EmployerBusiness::where('name', $businessName)->where('employer_id',$employer->id)->first();
         if($business)
@@ -63,64 +61,6 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
         } else {
             $imageValue = null; // or 'default.jpg' or any other default value
         }
-        if (isset($row['annual_leaves_taken']) && !empty($row['annual_leaves_taken'])) {
-            $annual_leaves_taken = $row['annual_leaves_taken'];
-        } else {
-            $annual_leaves_taken = null; 
-        }
-        if (isset($row['sick_leaves_taken']) && !empty($row['sick_leaves_taken'])) {
-            $sick_leaves_taken = $row['sick_leaves_taken'];
-        } else {
-            $sick_leaves_taken = null; 
-        }
-        if (isset($row['bereavement_leaves_taken']) && !empty($row['bereavement_leaves_taken'])) {
-            $bereavement_leaves_taken = $row['bereavement_leaves_taken'];
-        } else {
-            $bereavement_leaves_taken = null; 
-        }
-        if (isset($row['maternity_leaves_taken']) && !empty($row['maternity_leaves_taken'])) {
-            $maternity_leaves_taken = $row['maternity_leaves_taken'];
-        } else {
-            $maternity_leaves_taken = null; 
-        }
-        if (isset($row['leave_without_pay']) && !empty($row['leave_without_pay'])) {
-            $leave_without_pay = $row['leave_without_pay'];
-        } else {
-            $leave_without_pay = null; 
-        }
-        if (isset($row['special_leave']) && !empty($row['special_leave'])) {
-            $special_leave = $row['special_leave'];
-        } else {
-            $special_leave = null; 
-        }
-        if (isset($row['attendance_to_date']) && !empty($row['attendance_to_date'])) {
-            $attendance_to_date = $row['attendance_to_date'];
-        } else {
-            $attendance_to_date = null; 
-        }
-        if (isset($row['days_absent']) && !empty($row['days_absent'])) {
-            $days_absent = $row['days_absent'];
-        } else {
-            $days_absent = null; 
-        }
-        if (isset($row['tax_code']) && !empty($row['tax_code'])) {
-            $tax_code = $row['tax_code'];
-        } else {
-            $tax_code = null; 
-        }
-
-
-
-        //$checkOutRequired=0;
-       /*  if($row['check_out_requred'] == 'Yes')
-        {
-            $checkOutRequired = 1;
-        }
-        if($row['check_out_requred'] == 'No')
-        {
-            $checkOutRequired = 0;
-        } */
-
        
         if(is_null($existingEmployee))
         {
@@ -133,49 +73,34 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
         return new User([
             'employer_id' => $employer->id, //$employer ? $employer->id : null,
             'job_title'    => $row['job_title'], 
-            //'employment_start_date' => $row['employment_start_date'],
             'employment_start_date' => Carbon::createFromFormat('d-m-Y', $row['employment_start_date'])->format('Y-m-d'),
             'employment_end_date' => Carbon::createFromFormat('d-m-Y', $row['employment_end_date'])->format('Y-m-d'),
             'check_in_default' => $row['check_in_default'],
             'check_out_default' => $row['check_out_default'],
-           // 'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? 1 : ( ($row['check_out_requred'] == 'No') ? 0 : null),
             'check_out_requred' => ($row['check_out_requred'] == 'Yes') ? '1' : (($row['check_out_requred'] == 'No') ? '0' : '0'),
-            //'check_out_requred' => $row['check_out_requred'],
-            //'payed_date' => $row['payed_date'],
-            //'pay_date'=> $row['pay_date'],
             'bank_branch_name' => $row['bank_branch_name'],
-            //'business_id'=> $row['business_id'],
             'business_id' => $business ? $business->id : null,
-            
-
-            //'department_id'=> $row['department_id'],
             'department_id' => $department ? $department->id : 0,
-            //'salary_type'=> $row['salary_type'],
             'salary_type'=> ($row['salary_type'] == 'Fixed') ? '0' : (($row['salary_type'] == 'Hourly') ? '1' : null),
             'rate'=> $row['rate'],
             'pay_period' => ($row['pay_period'] == 'Weekly') ? '0' : (($row['pay_period'] == 'Fortnightly') ? '1' : (($row['pay_period'] == 'Monthly') ? '2' : null)),
-            //'pay_period' => 
             'workdays_per_week'=> $row['workdays_per_week'],
             'total_hours_per_week'=> $row['total_hours_per_week'],
             'extra_hours_at_base_rate'=> $row['extra_hours_at_base_rate'],
-            //'employee_type'=> $row['employee_type'],
             'employee_type' => ($row['employee_type'] == 'Attachee') ? '0' : (($row['employee_type'] == 'Apprenticeship') ? '1' : (($row['employee_type'] == 'Probationary Period') ? '2' : (($row['employee_type'] == 'Permanent') ? '3' : null))),
 
             'first_name'=> $row['first_name'],
             'last_name'=> $row['last_name'],
             'company'=> $employer->company, //$row['company'],  
-            //'branch_id'=> $row['branch_id'],
             'branch_id' => $branch ? $branch->id : 0,
             'position'=> $position ? $position->id : 0, //$position->id, //$row['position'],
             'email'=> $row['email'],
-            //'password'=> FacadesHash::make($password),// $row['password'],
             'phone'=> $row['phone'],
             'date_of_birth'=> Carbon::createFromFormat('d-m-Y', $row['date_of_birth'])->format('Y-m-d'),//$row['date_of_birth'],
             'street'=> $row['street'],
             'city'=> $row['city'],
             'town'=> $row['town'],
             'postcode'=> $row['postcode'],
-            //'country_id'=> $row['country_id'],
             'country_id' => $country ? $country->id : null,
             'tin'=> $row['tin'],
             'fnpf'=> $row['fnpf'],
@@ -186,34 +111,25 @@ class UsersImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQu
             'passport_no'=> $row['passport_no'],
             'passport_expiry_date'=> Carbon::createFromFormat('d-m-Y', $row['passport_expiry_date'])->format('Y-m-d'),//$row['passport_expiry_date'],
             'image'=> $imageValue,
-            'annual_leaves_taken'=> $annual_leaves_taken,
-            'sick_leaves_taken'=> $sick_leaves_taken,
-            'bereavement_leaves_taken'=> $bereavement_leaves_taken,
-            'maternity_leaves_taken'=> $maternity_leaves_taken,
-            'leave_without_pay'=> $leave_without_pay,
-            'special_leave'=> $special_leave,
-            'attendance_to_date'=> $attendance_to_date,
-            'days_absent'=> $days_absent,
-            'tax_code'=> $tax_code,
-
             //'date' => $row['date'],
+            'annual_leaves_taken' => $row['annual_leaves_taken'],
+            'sick_leaves_taken' => $row['sick_leaves_taken'],
+            'bereavement_leaves_taken' => $row['bereavement_leaves_taken'],
+            'maternity_leaves_taken' => $row['maternity_leaves_taken'],
+            'leave_without_pay' => $row['leave_without_pay'],
+            'special_leave' => $row['special_leave'],
+            'attendance_to_date' => $row['attendance_to_date'],
+            'days_absent' => $row['days_absent'],
+            'tax_code' => $row['tax_code'],
+
+
         ]);
-       /* $employeeName = $row['first_name'];
-        $employeeBranch = $branch->name; //Branch::where('id',$row['branch_name'])->first()->name;
-        $role = $position->role_name;//Role::where('id', $validated['position'])->first()->role_name;
-        EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$role,$employeeName);
-      
-        $email = new EmployeeCredentialsMail($user,$password);
-        //mail confirmation
-        //mail
-        FacadesMail::to($validated['email'])->send($email);*/
+       
     }
 }
-Session::flash('msg', 'Employee with email ' . $row['email'] . ' already exists.');
-return null;
-//$message = 'Employee email already exists in the database!';
-//return redirect()->back()->with('message', $message);       
-//return redirect()->route('employer.user.import', 'Employee email already exist in database!');
+    Session::flash('msg', 'Employee with email ' . $row['email'] . ' already exists.');
+    return null;
+
         }
         else
         {
@@ -223,6 +139,6 @@ return null;
     }
     public function chunkSize(): int
     {
-        return 1000;
+        return 2000;
     }
 }

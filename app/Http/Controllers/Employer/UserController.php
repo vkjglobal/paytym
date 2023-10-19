@@ -18,6 +18,7 @@ use App\Models\EmployeeType;
 use App\Models\PayPeriod;
 use App\Models\Role;
 use App\Models\LeaveRequest;
+use App\Models\FrcsEmployeeData;
 use Auth,Hash;
 use App\Jobs\SendEmployeeInfo;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -33,6 +34,8 @@ use Mail;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsersImport;
+use App\Imports\ExistingUserImport;
+use App\Imports\FRCSUserImport;
 use Illuminate\Support\Facades\Response;
 
 
@@ -407,6 +410,15 @@ class UserController extends Controller
 
         return view('employer.user.user_import', compact('breadcrumbs'));
     }
+    public function importExistingEmployee()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.user.index')],
+            [(__('Users')), null],
+        ];
+
+        return view('employer.user.existing_user_import', compact('breadcrumbs'));
+    }
 
     public function csvfile(Request $request)
     {
@@ -424,38 +436,105 @@ class UserController extends Controller
             $recentlyImportedEmployees = User::where('created_at', '>=', Carbon::now()->subMinute())->get();
            foreach($recentlyImportedEmployees as $user)
            {
-            $employeeName = $user->first_name;
-           $branch =  Branch::where('id',$user->branch_id)->first();
-           if(!is_null($branch))
-           {
+                $employeeName = $user->first_name;
+                $branch =  Branch::where('id',$user->branch_id)->first();
+                 if(!is_null($branch))
+                    {
             
-                $employeeBranch = Branch::where('id',$user->branch_id)->first()->name;
-           }
-           else
-           {
-                $employeeBranch = "";
-           }
-            $role = Role::where('id', $user->position)->first();
-           if(!is_null($role)){
-                    $position = Role::where('id', $user->position)->first()->role_name;
-           }
-           else{
-                $position = "";
-           }
-                    $password =  Str::random(8);
-                $hashedPassword = FacadesHash::make($password);
-                User::where('id', $user->id)->update(['password' => $hashedPassword]);
+                        $employeeBranch = Branch::where('id',$user->branch_id)->first()->name;
+                    }
+                 else
+                    {
+                        $employeeBranch = "";
+                    }
+                        $role = Role::where('id', $user->position)->first();
+                    if(!is_null($role)){
+                         $position = Role::where('id', $user->position)->first()->role_name;
+                    }
+                    else{
+                            $position = "";
+                        }
+                        $password =  Str::random(8);
+                        $hashedPassword = FacadesHash::make($password);
+                        User::where('id', $user->id)->update(['password' => $hashedPassword]);
                 
-                //$user->save();
-                EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$position,$employeeName);
+                        //$user->save();
+                        EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$position,$employeeName);
             
-                $email = new EmployeeCredentialsMail($user,$password);
-                //mail confirmation
-            //mail
-            FacadesMail::to($user->email)->send($email);
-            notify()->success(__('Imported successfully'));
+                        $email = new EmployeeCredentialsMail($user,$password);
+                        //mail confirmation
+                        //mail
+                        FacadesMail::to($user->email)->send($email);
+                        notify()->success(__('Imported successfully'));
            }
 
+
+            
+        } catch (Exception $e) {
+            notify()->error(__('Failed to upload file. Wrong csv format. Please try again'));
+        }
+        return redirect()->back();
+    }
+
+    public function frcsimport(Request $request)
+    {
+        //return $request;
+        //return $request->file('csvfile');
+         $request->validate([
+            //'csvfile' => 'required',//|file|mimes:xls,xlsx,csv',
+            'csvfile' => 'required|mimes:csv,xls,xlsx',
+        ]); 
+
+        $file = $request->file('csvfile');
+       
+        try {
+            Excel::import(new ExistingUserImport, $request->file('csvfile'));
+            $recentlyImportedEmployees = User::where('created_at', '>=', Carbon::now()->subMinute())->get();
+          
+            //$importedEmployeeIds = [];
+            Excel::import(new FrcsUserImport, $request->file('csvfile'));
+
+            foreach($recentlyImportedEmployees as $user)
+           {
+                /* $userId = $user->id;
+                //dd($request->file('csvfile'));
+                if (!in_array($userId, $importedEmployeeIds)) {
+                    $import = new FrcsUserImport($userId);
+                    Excel::import($import, $file);
+    
+                    $importedEmployeeIds[] = $userId; */
+                //Excel::import(new FrcsUserImport($userId), $request->file('csvfile'));
+                $employeeName = $user->first_name;
+                $branch =  Branch::where('id',$user->branch_id)->first();
+                 if(!is_null($branch))
+                    {
+            
+                        $employeeBranch = Branch::where('id',$user->branch_id)->first()->name;
+                    }
+                 else
+                    {
+                        $employeeBranch = "";
+                    }
+                        $role = Role::where('id', $user->position)->first();
+                    if(!is_null($role)){
+                         $position = Role::where('id', $user->position)->first()->role_name;
+                    }
+                    else{
+                            $position = "";
+                        }
+                        $password =  Str::random(8);
+                        $hashedPassword = FacadesHash::make($password);
+                        User::where('id', $user->id)->update(['password' => $hashedPassword]);
+                
+                      
+                        EmployeeCreationPushNotification::dispatch(Auth::guard('employer')->user()->id,$employeeBranch,$position,$employeeName);
+            
+                        $email = new EmployeeCredentialsMail($user,$password);
+                        
+                        FacadesMail::to($user->email)->send($email);
+                        notify()->success(__('Imported successfully'));
+           }
+        //}
 
             
         } catch (Exception $e) {

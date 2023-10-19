@@ -351,10 +351,17 @@
        {{--  --}}<li class="nav-item {{ request()->is('employer/users*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('employer.user.import') }}" role="button" aria-expanded="false" aria-controls="requests">
                
-                Import Employees
+                Import New Employees
                
             </a>
                         </li>
+                        {{--<li class="nav-item {{ request()->is('employer/users*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('employer.existing.user.import') }}" role="button" aria-expanded="false" aria-controls="requests">
+               
+                Import Existing Employees
+               
+            </a>
+                        </li>--}}
 
     </ul>
 </div>

@@ -60,7 +60,17 @@ class User extends Authenticatable
         'licence_expiry_date',
         'passport_no',
         'passport_expiry_date',
-        'image'
+        'image',
+        'annual_leaves_taken',
+        'sick_leaves_taken',
+        'bereavement_leaves_taken',
+        'maternity_leaves_taken',
+        'leave_without_pay',
+        'special_leave',
+        'attendance_to_date',
+        'days_absent',
+        'tax_code',
+
 
     ];
 
