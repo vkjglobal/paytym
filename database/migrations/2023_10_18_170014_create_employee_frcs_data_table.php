@@ -30,8 +30,8 @@ return new class extends Migration
             $table->string('yeartodate_lumpsum_payments')->nullable();
             $table->string('yeartodate_other_one_off_payments')->nullable();
             $table->string('yeartodate_income_tax')->nullable();
-            $table->string('yeartodate_SRT')->nullable();
-            $table->string('yeartodate_ECAL')->nullable();
+            $table->string('yeartodate_srt')->nullable();
+            $table->string('yeartodate_ecal')->nullable();
 
             $table->string('normal_pay')->nullable();
             $table->string('director_remuneration')->nullable();
@@ -45,8 +45,8 @@ return new class extends Migration
             $table->string('fnpf_deduction')->nullable();
             $table->string('gross_up_employee')->nullable();
             $table->string('income_tax')->nullable();
-            $table->string('SRT')->nullable();
-            $table->string('ECAL')->nullable();
+            $table->string('srt')->nullable();
+            $table->string('ecal')->nullable();
 
             $table->timestamps();
             $table->foreign('employer_id')->references('id')->on('employers')->onDelete('cascade');

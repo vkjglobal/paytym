@@ -6,7 +6,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title"><u>Import New Employees</u></h6>
+                    <h6 class="card-title"><u>Import Existing Employees & FRCS Data</u></h6>
                 <div class="row mt-4">
                         <div class="col-sm-4">
                         @if(session('msg'))
@@ -24,7 +24,7 @@
     </div>
 @endif
 
-                            <form method="POST" action="{{ route('employer.user.csvfile') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('employer.user.frcsimport') }}" enctype="multipart/form-data">
                                 @csrf
                                 <h6 class="card-title mt-3">Upload a CSV file</h6> 
                                 <input type="file" name="csvfile" class="mt-2"><br/>
@@ -52,7 +52,7 @@
                     
                    
                    
-                                <h6 class="card-title mt-3"><u>Download CSV Import template for New Employees</u></h6> 
+                                <h6 class="card-title mt-3"><u>Download CSV Import template for Existing Employees</u></h6> 
                                 @if(session('message'))
     <div class="alert alert-light">
         {{ session('message') }}
@@ -60,12 +60,12 @@
 @endif
 
 
-                                <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.download.usertemplate_newemp")}}'">
+                                <h6 class="card-title mt-3"> </h6> 
+
+                                <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.download.usertemplate_existingemp")}}'">
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
-                            Download Template for New Employees 
-                            
+                            Download Template for Existing Employees
                         </button> 
-                   
                         <h6 class="card-title mt-3"><u>Download Instruction Document</u></h6> 
 
 <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.download.instruction_doc")}}'">
