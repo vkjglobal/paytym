@@ -14,6 +14,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PayslipGeneration implements ShouldQueue
 {
+
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
@@ -47,6 +48,7 @@ class PayslipGeneration implements ShouldQueue
                                 $totalDeduction,$allowances,$deductions,$incomeTaxToWithhold,$fnpf_amount,
                                 $srtToWithhold,$payroll,$fromDate,$endDate,$commission_amount,$total_bonus,$lwop,$nonHolidayDates)
     {
+     
         $this->employee = $employee;
         $this->base_pay = $base_pay;
         $this->grossSalary = $grossSalary;
@@ -66,6 +68,7 @@ class PayslipGeneration implements ShouldQueue
         $this->total_bonus = $total_bonus;
         $this->lwop = $lwop;
         $this->nonHolidayDates = $nonHolidayDates;
+
     }
 
     /**
@@ -75,6 +78,7 @@ class PayslipGeneration implements ShouldQueue
      */
     public function handle()
     {
+       try{
         $employee = $this->employee;
         $base_pay =  $this->base_pay;
         $grossSalary = $this->grossSalary;
@@ -127,5 +131,11 @@ class PayslipGeneration implements ShouldQueue
         $payroll->pay_slip = $filename;
         $payroll->payslip_number = $paySlipNumber;
         $payroll->save();
+        }
+        catch (\Exception $e) {
+            // Log or report the error
+            \Log::error($e);
+        }
     }
-}
+    }
+
