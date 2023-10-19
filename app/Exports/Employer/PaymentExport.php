@@ -77,7 +77,7 @@ class PaymentExport implements FromCollection, WithMapping
             // ++$index,
             $row->bank,
             $row->account_number,
-           // $row->amount,
+            $row->payroll_latest->net_salary,
             $row->split_payment_bank(),
             "Wages",
             $row->first_name.' '.$row->last_name,  

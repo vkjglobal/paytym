@@ -127,9 +127,5 @@ class PayslipGeneration implements ShouldQueue
         $payroll->pay_slip = $filename;
         $payroll->payslip_number = $paySlipNumber;
         $payroll->save();
-        
-
-
-
     }
 }

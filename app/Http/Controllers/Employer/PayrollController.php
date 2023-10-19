@@ -463,7 +463,6 @@ class PayrollController extends Controller
             $res = $payroll->save();
             $flag_payroll = 1;
             // Payslip Generation
-
             PayslipGeneration::dispatch(
                 $employee,
                 $base_pay,
@@ -484,7 +483,6 @@ class PayrollController extends Controller
                 $total_bonus,
                 $lwop,
                 $nonHolidayDates
-
             );
         }
     }
