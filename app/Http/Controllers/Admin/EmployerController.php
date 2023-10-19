@@ -10,6 +10,8 @@ use App\Mail\EmployerRegisterEmailToAdmins;
 use App\Models\AdminEmails;
 use App\Models\Employer;
 use App\Models\Country;
+use App\Models\LeaveType;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -113,6 +115,20 @@ class EmployerController extends Controller
 
             $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
             $employer->save();
+
+            //18-10-23
+            $defaultLeaveTypes = LeaveType::where('employer_id',0)->where('country_id',$employer->country_id)->get();
+            
+            foreach ($defaultLeaveTypes as $defaultLeaveType) {
+                LeaveType::create([
+                    'leave_type' => $defaultLeaveType->leave_type,
+                    'no_of_days_allowed' => $defaultLeaveType->no_of_days_allowed,
+                    'country_id' => $defaultLeaveType->country_id,
+                    'employer_id' => $employer->id,
+                ]);
+            }
+            //
+
 
             Mail::to($validated['email'])->send(new EmployerRegisterEmail($employer,$password));
 

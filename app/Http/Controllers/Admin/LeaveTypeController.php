@@ -1,54 +1,40 @@
 <?php
 
-namespace App\Http\Controllers\Employer;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LeaveType;
+use App\Models\Country;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LeaveTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.home')],
+            [(__('Dashboard')), route('admin.home')],
             [(__('Leave Types')), null],
         ];
 
-        $leavetypes = LeaveType::where('employer_id', Auth::guard('employer')->user()->id)->get();
+        $leavetypes = LeaveType::where('employer_id', '0')->get();
 
-        return view('employer.leave-type.index', compact('breadcrumbs', 'leavetypes'));
+        return view('admin.leave-type.index', compact('breadcrumbs', 'leavetypes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.home')],
-            [(__('Leave Types')), route('employer.leave-type.index')],
+            [(__('Dashboard')), route('admin.home')],
+            [(__('Leave Types')), route('admin.leave-type.index')],
             [(__('Create')), null]
         ];
         //Employer $employer
-        return view('employer.leave-type.create', compact('breadcrumbs'));
+        $countries = Country::get();
+        return view('admin.leave-type.create', compact('breadcrumbs','countries'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rules = [
@@ -65,8 +51,9 @@ class LeaveTypeController extends Controller
         $leavetype = new LeaveType();
         $leavetype->leave_type = $request['leavetype'];
         $leavetype->no_of_days_allowed = $request['num_days'];
-        $leavetype->country_id = Auth::guard('employer')->user()->country_id;
-        $leavetype->employer_id = Auth::guard('employer')->user()->id;
+        $leavetype->country_id = $request['country_id'];
+
+        $leavetype->employer_id = 0;
         $issave = $leavetype->save();
 
         if ($issave) {
@@ -75,45 +62,21 @@ class LeaveTypeController extends Controller
             notify()->error(__('Failed to Create. Please try again'));
         }
         //return redirect()->back();
-        return redirect()->route('employer.leave-type.index');
+        return redirect()->route('admin.leave-type.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(LeaveType $leave_type)
     {
         $breadcrumbs = [
-            [(__('Dashboard')), route('employer.home')],
-            [(__('Leave Types')), route('employer.leave-type.index')],
+            [(__('Dashboard')), route('admin.home')],
+            [(__('Leave Types')), route('admin.leave-type.index')],
             [(__('Edit')), null]
         ];
         //Employer $employer
-        return view('employer.leave-type.edit', compact('breadcrumbs', 'leave_type'));
+        $countries = Country::get();
+        return view('admin.leave-type.edit', compact('breadcrumbs', 'leave_type','countries'));
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, LeaveType $leave_type)
     {
         $rules = [
@@ -133,8 +96,9 @@ class LeaveTypeController extends Controller
         $leave_type->no_of_days_allowed = $request['num_days'];
 
         $leave_type->leave_type = $request['leavetype'];
-        $leave_type->country_id = Auth::guard('employer')->user()->country_id;
-        $leave_type->employer_id = Auth::guard('employer')->user()->id;
+        //dd($request);
+        $leave_type->country_id = $request['country_id'];
+        $leave_type->employer_id = 0;
         $issave = $leave_type->save();
 
         if ($issave) {
@@ -143,15 +107,9 @@ class LeaveTypeController extends Controller
             notify()->error(__('Failed to Update. Please try again'));
         }
         //return redirect()->back();
-        return redirect()->route('employer.leave-type.index');
+        return redirect()->route('admin.leave-type.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(LeaveType $leave_type)
     {
         $res =  $leave_type->delete();
@@ -162,4 +120,7 @@ class LeaveTypeController extends Controller
         }
         return redirect()->back();
     }
+
+
+
 }

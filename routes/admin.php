@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\TaxSettingsController;
 use App\Http\Controllers\Admin\TaxSettingsSrtController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\AdminEmailController;
+use App\Http\Controllers\Admin\LeaveTypeController;
 use App\Models\CustomSubscription;
 use Illuminate\Support\Facades\Route;
 
@@ -138,5 +139,8 @@ Route::middleware('admin.auth')->group(function () {
    //28-09-23
     //AdminEmails
   Route::resource('emails', AdminEmailController::class)->except(['show']);
+
+   //Leave type 17-10-23
+   Route::resource('leave-type', LeaveTypeController::class)->except(['show']);
 
     });
