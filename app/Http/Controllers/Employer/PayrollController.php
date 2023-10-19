@@ -331,24 +331,14 @@ class PayrollController extends Controller
                     $flag = 3;
                 }
 
-
-
-
-
-
-
-
                 // $G = 2;    //should be made dynamic - No of completed pay period including current
                 // $B1 = 0;   //should be made dynamic - tax witheheld to date 
                 // $IncomeTaxToWithhold = (($A1 / $F * $G) - $B1 + ($incomeTaxOnC2 - $incomeTaxOnC1));
 
-
-
-
-
                 //             if (isset($taxRate)) {
 
                 // }
+
 
                 //Tax Calculation - SRT  
                 // $srtToWithhold = 0;
@@ -462,6 +452,7 @@ class PayrollController extends Controller
 
             $res = $payroll->save();
             $flag_payroll = 1;
+            dd("bbbbbb");
             // Payslip Generation
             PayslipGeneration::dispatch(
                 $employee,
@@ -717,6 +708,10 @@ class PayrollController extends Controller
 
         $res = $payroll->save();
         $flag_payroll = 1;
+
+
+
+
         //Payslip generation
         PayslipGeneration::dispatch(
             $employee,
@@ -738,7 +733,6 @@ class PayrollController extends Controller
             $total_bonus,
             $lwop,
             $nonHolidayDates
-
         );
     }
 
