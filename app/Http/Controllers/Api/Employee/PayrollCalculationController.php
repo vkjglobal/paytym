@@ -39,7 +39,6 @@ class PayrollCalculationController extends Controller
             'flag' => 'required',
         ]);
 
-
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -108,6 +107,8 @@ class PayrollCalculationController extends Controller
                 $employees[] = User::where('id', $id)->first();
             }
         }
+
+        
         $flag_type = $flag;
         $today = Carbon::today();
         foreach ($employees as $employee) {
@@ -246,17 +247,18 @@ class PayrollCalculationController extends Controller
             $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
             //$finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
             $finance = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%finance%')->first();
-            // if ($finance == null) {
-            //     $to = [$hr->user->email];
-            // } elseif ($hr == null) {
-            //     $to = [$finance->user->email];
-            // } elseif ($finance == null && $hr == null) {
-            //     $employer = Employer::where('employer_id', $EmployerId)->first();
-            //     $to = $employer->email;
-            // } else {
-            //     //          $to = [$hr->user->email, $finance->user->email];
-            // }
-            $to = "buzzmefiji@gmail.com";
+            if ($finance == null) {
+                $to = [$hr->user->email];
+            } elseif ($hr == null) {
+                $to = [$finance->user->email];
+            } elseif ($finance == null && $hr == null) {
+                $employer = Employer::where('employer_id', $EmployerId)->first();
+                $to = $employer->email;
+            } else {
+                         // $to = [$hr->user->email, $finance->user->email];
+                         $to = [$finance->user->email];
+            }
+        //    $to = "buzzmefiji@gmail.com";
             $cc = "robin.reubro@gmail.com";
             $message->to($to)
                 ->cc($cc)
