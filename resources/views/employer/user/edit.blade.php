@@ -44,6 +44,17 @@
                                 <div class="invalid-feedback">{{ $errors->first('email') }}</div>
                             </div>
                         </div><!-- Col -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Tax Code <span class="text-danger">*</span></label>
+                                <select class="form-control" class="form-control @if ($errors->has('tax_code')) is-invalid @endif" name="tax_code" value="{{ old('tax_code') }}">
+                                    <option value="">--SELECT--</option>
+                                    <option value="P" {{ $user->tax_code == "P" ? 'selected': ''}}>P - Primary</option>
+                                    <option value="S" {{ $user->tax_code == "S" ? 'selected': ''}}>S - Secondary</option>
+                                </select>
+                                <div class="invalid-feedback">{{ $errors->first('tax_code') }}</div>
+                            </div>
+                        </div>
                     <div class="col-sm-8">
                             <label>&nbsp;</label>
                             <div class="form-check form-check-flat form-check-primary chk-bx-typ2">

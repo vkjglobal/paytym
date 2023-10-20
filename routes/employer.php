@@ -308,6 +308,12 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::get('report/budget/export', [ReportController::class, 'budget_export'])->name('report.budget.export');
   Route::get('report/projectreport', [ReportController::class, 'projectreport_index'])->name('report.projectreport');
   Route::get('report/projectreport/export', [ReportController::class, 'projectreport_export'])->name('report.projectreport.export');
+ 
+  //20-10-23 FRCS Report
+  Route::get('report/frcsreport', [ReportController::class, 'frcsreport_index'])->name('report.frcsreport');
+  Route::get('report/frcsreport/export', [ReportController::class, 'frcsreport_export'])->name('report.frcsreport.export');
+  
+  
   //Billing
   Route::post('/billing', [BillingController::class, 'index'])->name('billing');
   Route::post('/billing/pay', [BillingController::class, 'pay'])->name('billing.pay');

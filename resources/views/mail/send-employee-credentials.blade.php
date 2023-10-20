@@ -30,7 +30,12 @@
                             Branch: {{optional($employee->branch)->name ?? 'No data'}}<br>
                             Department: {{optional($employee->department)->dep_name ?? 'No data'}}<br>
                             Position: {{optional($employee->role)->role_name ?? 'No data'}}<br>
-                            Salary Type: {{isset($employee->salary_type) == 0 ? 'Fixed' : 'Hourly'}}<br>
+                            {{--Salary Type: {{isset($employee->salary_type) == 0 ? 'Fixed' : 'Hourly'}}<br>--}}
+                            Salary Type: @if($employee->salary_type == 0 )
+                            Fixed
+                            @else
+                            Hourly
+                            @endif<br>
                             Salary Period: {{ optional($employee)->pay_period == 0 ? 'Weekly' : (optional($employee)->pay_period == 1 ? 'Fortnightly' : (optional($employee)->pay_period == 2 ? 'Monthly' : 'Unknown')) }}<br>
                             Gross Pay: {{optional($employee)->rate ?? 'No data'}}<br>
                             Employment Start Date: {{optional($employee)->employment_start_date ?? 'No data'}}<br>

@@ -144,6 +144,9 @@ class UserController extends Controller
     $user->passport_no = $request->get('passport_no');
     $user->passport_expiry_date = $request->get('passport_expiry_date');
 
+    //20-10-23 N
+    $user->tax_code = $request->get('tax_code');
+
     //  $user->pay_period = $validated['payperiod'];
      
      if(!empty($validated['hourly_rate'])){
@@ -315,6 +318,9 @@ class UserController extends Controller
     $user->licence_expiry_date = $request->get('licence_expiry_date');
     $user->passport_no = $request->get('passport_no');
     $user->passport_expiry_date = $request->get('passport_expiry_date');
+
+     //20-10-23 N
+     $user->tax_code = $request->get('tax_code');
      
     //  $user->password = Hash::make($validated['password']);
     
@@ -569,7 +575,7 @@ class UserController extends Controller
 
     public function downloadInstruction()
     {
-        $templatePath = public_path('user_assets/user_import_templates/Instruction manual for Employee Import.docx');
+        $templatePath = public_path('user_assets/user_import_templates/Instruction manual for New Employee Import.docx');
         
         if (file_exists($templatePath)) {
             return Response::download($templatePath, 'Instruction manual for Employee Import.docx');

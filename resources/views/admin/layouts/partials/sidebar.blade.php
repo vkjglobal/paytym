@@ -48,7 +48,7 @@
                 </div>
             </li>
             <!-- Employers end -->
-            @if (auth('admin')->user()->role==3)
+          
             <!---Country--->
             <li class="nav-item {{ request()->is('admin/banner*') ? 'active' : '' }}">
 
@@ -103,8 +103,31 @@
             </li>
 
             <!----End Country----->
+<!---Leave Types--->
+<li class="nav-item {{ request()->is('admin/leave-type*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#leave-type" role="button" aria-expanded="false" aria-controls="leave-type">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Leave Types</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->is('admin/leave-type*') ? 'show' : '' }}" id="leave-type">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.leave-type.index') }}" class="nav-link {{ request()->is('admin/leave-type') ? 'active' : '' }}">
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.leave-type.create') }}" class="nav-link {{ request()->is('admin/leave-type/create') ? 'active' : '' }}">
+                                Create
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
-
+            <!----End Leave Types----->
+            @if (auth('admin')->user()->role==3)
             <!---Banks---->
 
             <li class="nav-item {{ request()->is('admin/banks*') ? 'active' : '' }}">
