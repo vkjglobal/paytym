@@ -355,13 +355,13 @@
                
             </a>
                         </li>
-                        {{--<li class="nav-item {{ request()->is('employer/users*') ? 'active' : '' }}">
+                        <li class="nav-item {{ request()->is('employer/users*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('employer.existing.user.import') }}" role="button" aria-expanded="false" aria-controls="requests">
                
                 Import Existing Employees
                
             </a>
-                        </li>--}}
+                        </li>
 
     </ul>
 </div>
@@ -1048,6 +1048,11 @@
                         <li class="nav-item">
                             <a href="{{ route('employer.report.projectreport') }}" class="nav-link {{ request()->is('employer/report/projectreport*') ? 'active' : '' }}">
                                 Project Expense
+                            </a>
+                        </li> 
+                        <li class="nav-item">
+                            <a href="{{ route('employer.report.frcsreport') }}" class="nav-link {{ request()->is('employer/report/frcsreport*') ? 'active' : '' }}">
+                                Employee FRCS Report
                             </a>
                         </li> 
 

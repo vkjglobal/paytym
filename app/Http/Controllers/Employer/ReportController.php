@@ -25,6 +25,7 @@ use App\Exports\Employer\StatusDepartmentExport;
 use App\Exports\Employer\StatusProjectExport;
 use App\Exports\Employer\StatusReportExport;
 use App\Exports\Employer\TaxReportExport;
+use App\Exports\Employer\EmployeeFRCSExport;
 use App\Models\Allowance;
 use App\Models\AssignAllowance;
 use App\Models\AssignDeduction;
@@ -38,6 +39,7 @@ use App\Models\Payroll;
 use App\Models\PayrollBudget;
 use App\Models\Project;
 use App\Models\ProjectExpense;
+use App\Models\FrcsEmployeeData;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\EmployeeFilter;
 use Exception;
@@ -572,6 +574,19 @@ public function projectreport_index()
 
 //End Project Budget
 
+    public function frcsreport_index()
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
+        $frcs = FrcsEmployeeData::where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
+        return view('employer.report.employee_frcs_list',compact('breadcrumbs','frcs'));
+    }
+    public function frcsreport_export()
+    {
+        return Excel::download(new EmployeeFRCSExport, 'employeefrcs_report_export-'.Carbon::now().'.xlsx');
+    }
 
 
 
