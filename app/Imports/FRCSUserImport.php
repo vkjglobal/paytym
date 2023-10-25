@@ -40,7 +40,14 @@ class FRCSUserImport implements ToModel, WithHeadingRow, WithChunkReading, Shoul
         $userId = $this->userId;
         $frcsData = FrcsEmployeeData::where('employee_id', $userId)->first();
         $recentlyImportedEmployees = User::where('created_at', '>=', Carbon::now()->subMinute())->get();
-        $user_id = $recentlyImportedEmployees->where('email', $row['email'])->first()->id;
+        //dd($recentlyImportedEmployees);
+       
+        $user = $recentlyImportedEmployees->where('email', $row['email'])->first();
+        if($user)
+        {
+        $user_id = $user->id;
+        
+
         //foreach($recentlyImportedEmployees as $user)
         //{
            
@@ -113,7 +120,7 @@ class FRCSUserImport implements ToModel, WithHeadingRow, WithChunkReading, Shoul
             'income_tax' => $row['income_tax'], */
             //'SRT' => $row['SRT'],
             //'ECAL' => $row['ECAL'],
-
+    }
 
         
     
