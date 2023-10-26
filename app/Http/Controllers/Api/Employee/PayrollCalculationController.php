@@ -22,6 +22,7 @@ use App\Models\SplitPayment;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Branch;
+use App\Models\Department;
 use App\Models\EmployerBusiness;
 use App\Models\Role;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +34,6 @@ class PayrollCalculationController extends Controller
 {
     public function payroll(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'employer_id' => 'required',
             'flag' => 'required',
@@ -60,10 +60,20 @@ class PayrollCalculationController extends Controller
             foreach ($id as $id) {
                 $employees = User::where('branch_id', $id)->get();
                 $bank = Branch::with('banks')->where('id', $id)->first();
+                if (!$bank) {
+                    $business = Branch::select('employer_business_id')->where('id', $id)->first();
+                    $bank = EmployerBusiness::with('banks')->where('id', $business->employer_business_id)->first();
+                }
             }
         } else if ($flag == "department") {
             foreach ($id as $id) {
                 $employees = User::where('department_id', $id)->get();
+                $branch = Department::select('branch_id')->where('id', $id)->first();
+                $bank = Branch::with('banks')->where('id', $branch->branch_id)->first();
+                if (!$bank) {
+                    $business = Branch::select('employer_business_id')->where('id', $branch->branch_id)->first();
+                    $bank = EmployerBusiness::with('banks')->where('id', $business->employer_business_id)->first();
+                }
             }
         } else if ($flag == "all") {
             $employees = User::where('employer_id', $EmployerId)->get();
@@ -73,19 +83,38 @@ class PayrollCalculationController extends Controller
             $pending_attendance = Attendance::where('employer_id', $request->employer_id)->where('approve_reject', null)->get();
 
             if ((count($pending_leaves) > 0)) {
-                return response()->json([
-                    'message' => 'There is pending leave requests'
-                ], 400);
+
+                if ($request->expectsJson()) {
+                    // Handle API-specific logic here
+                    return response()->json([
+                        'message' => 'There is pending leave requests'
+                    ], 400);
+                } else {
+                    // Handle web form-specific logic here
+                    return  notify()->error(__('There is pending leave requests'));
+                }
             }
             if ((count($pending_overtime) > 0)) {
-                return response()->json([
-                    'message' => 'There is pending overtime requests'
-                ], 400);
+                if ($request->expectsJson()) {
+                    // Handle API-specific logic here
+                    return response()->json([
+                        'message' => 'There is pending overtime requests'
+                    ], 400);
+                } else {
+                    // Handle web form-specific logic here
+                    return  notify()->error(__('There is pending overtime requests'));
+                }
             }
             if ((count($pending_attendance) > 0)) {
-                return response()->json([
-                    'message' => 'There is pending attendance approvals'
-                ], 400);
+                if ($request->expectsJson()) {
+                    // Handle API-specific logic here
+                    return response()->json([
+                        'message' => 'There is pending attendance approvals'
+                    ], 400);
+                } else {
+                    // Handle web form-specific logic here
+                    return  notify()->error(__('There is pending attendance approvals'));
+                }
             }
         } else {
             $i = 0;
@@ -108,7 +137,7 @@ class PayrollCalculationController extends Controller
             }
         }
 
-        
+
         $flag_type = $flag;
         $today = Carbon::today();
         foreach ($employees as $employee) {
@@ -226,18 +255,30 @@ class PayrollCalculationController extends Controller
         //    Comented by robin on 14-06-23   it is needed. 
         //  $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
         $currentDate = Carbon::now()->format('dmy');
-        $bankname = optional($bank->banks)->bank_name;
-        if ($bankname == null) {
+
+
+if (($flag == "all")) {
+    $csv_name = "HFC" . $currentDate;
+    $export = new HfcExport(0, 0, $flag_type, 0);
+} else {
+        if (!$bank) {
             $bankname = "BNK";
+        } else {
+            $bankid = $bank->banks->id;
+            $bankname = optional($bank)->banks->bank_name;
+          
+
+                if ($bankname == 'HFC') {
+                    $csv_name = "HFC" . $currentDate;
+                    $export = new HfcExport($bankid, $bankname, $flag_type, $id_type);
+                } else if ($bankname == 'BSP') {
+                    $csv_name = "BSP" . $currentDate;
+                    $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
+                }
+            
         }
-        $bankid = $bank->banks->id;
-        if ($bankname == 'HFC') {
-            $csv_name = "HFC" . $currentDate;
-            $export = new HfcExport($bankid, $bankname, $flag_type, $id_type);
-        } else if ($bankname == 'BSP') {
-            $csv_name = "BSP" . $currentDate;
-            $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
-        }
+    }
+
         $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
         $path = 'exports/' . $csv_name;
         $to = "robin.reubro@gmail.com";
@@ -255,13 +296,16 @@ class PayrollCalculationController extends Controller
                 $employer = Employer::where('employer_id', $EmployerId)->first();
                 $to = $employer->email;
             } else {
-                         // $to = [$hr->user->email, $finance->user->email];
-                         $to = [$finance->user->email];
+                // $to = [$hr->user->email, $finance->user->email];
+                $to = [$finance->user->email];
             }
-        //    $to = "buzzmefiji@gmail.com";
+            //    $to = "buzzmefiji@gmail.com";
+            //->cc([$cc1, $cc2, $cc3]) /
+            $to = "robin.reubro@gmail.com";
             $cc = "robin.reubro@gmail.com";
+            $cc1 = "josephson.1991@gmail.com";
             $message->to($to)
-                ->cc($cc)
+                ->cc([$cc, $cc1])
                 ->subject('Payroll csv file created on:' . Carbon::today()->format('d-m-Y'))
                 ->attach(Storage::path($path), [
                     'as' => $csv_name,
