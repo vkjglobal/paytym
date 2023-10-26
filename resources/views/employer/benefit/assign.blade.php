@@ -48,7 +48,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="reply_message">Benefit Amount</label>
-                                                    <input type="number" class="form-control" name="rate"  required>
+                                                    <input type="text" class="form-control" name="rate"  required>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -78,7 +78,9 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ optional($assign_benefit->employee)->first_name ?? 'No data' }}</td>
                                         <td>{{ optional($assign_benefit->benefit)->benefit_type ?? 'No data' }}</td>
-                                        <td>{{ optional($assign_benefit)->rate ?? 'No data' }}</td>
+                                        {{--<td>{{ optional($assign_benefit)->rate ?? 'No data' }}</td>--}}
+                                        <td>{{ optional($assign_benefit)->rate ? number_format($assign_benefit->rate, 2) : '' }}</td>
+
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
@@ -127,8 +129,8 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="reply_message">Benefit Amount</label>
-                                                                            <input type="number" class="form-control" name="rate"  
-                                                                            value="{{old('rate', $assign_benefit->rate)}}" required>
+                                                                            <input type="text" class="form-control" name="rate"  
+                                                                            value="{{old('rate', number_format($assign_benefit->rate, 2))}}" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="modal-footer">
