@@ -11,7 +11,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 class HfcExport implements FromCollection, WithMapping
-// 
 {
     protected $bank;
     protected $bankname;
@@ -63,8 +62,13 @@ class HfcExport implements FromCollection, WithMapping
                 ->where('department_id', $id)->get();
             }
         } else if ($flag == "all") {
-            $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
-
+           
+            $data = User::with(['branch' => function ($query) {
+                $query->with(['banks' => function ($relatedQuery) {
+                    $relatedQuery->where('bank_name', '=', 'HFC');
+                }]);
+            }])->with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
+           // $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
         }
         return $data;
     }
