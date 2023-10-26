@@ -137,7 +137,6 @@ class PayrollCalculationController extends Controller
             }
         }
 
-
         $flag_type = $flag;
         $today = Carbon::today();
         foreach ($employees as $employee) {
@@ -266,7 +265,6 @@ if (($flag == "all")) {
         } else {
             $bankid = $bank->banks->id;
             $bankname = optional($bank)->banks->bank_name;
-          
 
                 if ($bankname == 'HFC') {
                     $csv_name = "HFC" . $currentDate;
@@ -288,20 +286,48 @@ if (($flag == "all")) {
             $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
             //$finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
             $finance = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%finance%')->first();
-            if ($finance == null) {
+            $to = "";
+            if($hr)
+            {
                 $to = [$hr->user->email];
-            } elseif ($hr == null) {
-                $to = [$finance->user->email];
-            } elseif ($finance == null && $hr == null) {
-                $employer = Employer::where('employer_id', $EmployerId)->first();
-                $to = $employer->email;
-            } else {
-                // $to = [$hr->user->email, $finance->user->email];
+  
+            }
+            elseif($hr)
+            {
+                $to = [$hr->user->email];
+            }
+            elseif($finance)
+            {
                 $to = [$finance->user->email];
             }
+            else
+            {
+                $employer = Employer::where('employer_id', $EmployerId)->first();
+                $to = $employer->email;
+            }
+
+            if($to=="")
+            {
+                $to = "robin.reubro@gmail.com";
+            }
+            
+            
+            // if ($finance == null) {
+            //     $to = [$hr->user->email];
+            // } elseif ($hr == null) {
+            //     $to = [$finance->user->email];
+            // } elseif ($finance == null && $hr == null) {
+            //     $employer = Employer::where('employer_id', $EmployerId)->first();
+            //     $to = $employer->email;
+            // } else {
+            //     // $to = [$hr->user->email, $finance->user->email];
+            //     $mail= optional($finance)->user->email;
+            //     dd($mail);
+            //     $to = [$finance->user->email];
+            // }
             //    $to = "buzzmefiji@gmail.com";
             //->cc([$cc1, $cc2, $cc3]) /
-            $to = "robin.reubro@gmail.com";
+            // $to = "robin.reubro@gmail.com";
             $cc = "robin.reubro@gmail.com";
             $cc1 = "josephson.1991@gmail.com";
             $message->to($to)
