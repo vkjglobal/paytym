@@ -58,7 +58,8 @@ class AssignBenefitController extends Controller
         $data->employer_id = $employer_id;
         $data->user_id = $request->employee_id;
         $data->benefit_id = $request->benefit;
-        $data->rate = number_format((float)$request->rate, 2);//$request->rate;
+        //$data->rate = number_format((float)$request->rate, 2);//$request->rate;
+        $data->rate = (float) str_replace(',', '', $request->rate);
 
         if($benefit){
             notify()->error(__('Already exists'));
@@ -107,8 +108,8 @@ class AssignBenefitController extends Controller
     {
         $data = AssignBenefit::find($id);
         $data->benefit_id= $request->benefit;
-        $data->rate = number_format((float)$request->rate, 2);//$request->rate;
-
+       // $data->rate = number_format((float)$request->rate, 2);//$request->rate;
+        $data->rate = (float) str_replace(',', '', $request->rate);
         $res = $data->save();
         if ($res) {
             notify()->success(__('Updated successfully.'));
