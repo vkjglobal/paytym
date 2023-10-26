@@ -56,6 +56,7 @@ class FileTypeController extends Controller
         $filetype = new FileType();
         $filetype->file_type = $request['filetype'];
         $filetype->visible_status = $request['visible_status'];
+        $filetype->employer_id = Auth::guard('employer')->user()->id;
         $issave = $filetype->save();
         if($issave){
             notify()->success(__('Created successfully'));
@@ -107,6 +108,8 @@ class FileTypeController extends Controller
         ]);
         $file_type->file_type = $request['filetype'];
         $file_type->visible_status = $request['visible_status'];
+        $file_type->employer_id = Auth::guard('employer')->id();
+       
         $issave = $file_type->save();
         if($issave){
             notify()->success(__('Updated successfully'));

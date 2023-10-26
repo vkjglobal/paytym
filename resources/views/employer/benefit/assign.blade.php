@@ -76,9 +76,9 @@
                                 @foreach ($assign_benefits as $assign_benefit)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $assign_benefit->employee->first_name }}</td>
-                                        <td>{{ $assign_benefit->benefit->benefit_type }}</td>
-                                        <td>{{ $assign_benefit->rate }}</td>
+                                        <td>{{ optional($assign_benefit->employee)->first_name ?? 'No data' }}</td>
+                                        <td>{{ optional($assign_benefit->benefit)->benefit_type ?? 'No data' }}</td>
+                                        <td>{{ optional($assign_benefit)->rate ?? 'No data' }}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
