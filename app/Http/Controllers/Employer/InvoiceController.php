@@ -179,7 +179,8 @@ public function download_email_invoice($id)
         $invoice = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->where('id',$invoiceId)->first();
         //return $invoice;
         $card = CreditCard::where('employer_id', Auth::guard('employer')->user()->id)->first();
-        return view('employer.invoice.pay_invoice', compact('breadcrumbs','invoice', 'card'));
+        $employer = Auth::guard('employer')->user();
+        return view('employer.invoice.pay_invoice', compact('breadcrumbs','invoice', 'card' , 'employer'));
     }
 
     public function invoice_checkout($invoiceId)

@@ -45,6 +45,7 @@ use App\Http\Controllers\Employer\MeetingController;
 use App\Http\Controllers\Employer\CardController;
 use App\Http\Controllers\Employer\BillingEmailController;
 use App\Http\Controllers\Employer\ProjectExpenseController;
+use App\Http\Controllers\Employer\BSPPaymentController;
 use App\Http\Controllers\Employer\MeetingsController as EmployerMeetingsController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
@@ -377,6 +378,6 @@ Route::get('payroll-revert-form', [PayrollController::class, 'revert_form'])->na
 
 Route::get('revert_web', [PayrollController::class, 'revert_web'])->name('payroll.revert.web');
 
-
+Route::post('/process-payment', [BSPPaymentController::class, 'sendPaymentRequest'])->name('process-payment');
 
 });
