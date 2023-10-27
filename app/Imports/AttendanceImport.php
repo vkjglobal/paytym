@@ -12,7 +12,6 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 
 class AttendanceImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQueue
 {
-
     
     public function model(array $row)
     {

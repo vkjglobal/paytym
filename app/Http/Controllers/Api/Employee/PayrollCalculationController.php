@@ -38,7 +38,6 @@ class PayrollCalculationController extends Controller
             'employer_id' => 'required',
             'flag' => 'required',
         ]);
-
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -119,13 +118,25 @@ class PayrollCalculationController extends Controller
         } else if ($flag == "others") {
             $i = 0;
             $newIdResponse = [];
-            $idResponse = $id[0];
-            $inputString = $idResponse;
-            $values = explode(',', $inputString);
+            // dd($id);
 
+            //for Web
+            $idResponse = $id;
+            $inputString = $idResponse;
             $result = array_map(function ($val) {
                 return [$val];
-            }, $values);
+            }, $inputString);
+            //For app
+
+            //0ld
+            // $idResponse = $id[0];
+            // $inputString = $idResponse;
+            // $values = explode(',', $inputString);
+
+            // $result = array_map(function ($val) {
+            //     return [$val];
+            // }, $values);
+            //End Old
 
             //dd($result);
             $idResponse = $result;
@@ -148,8 +159,7 @@ class PayrollCalculationController extends Controller
                 $employee_count = 1;
             }
         }
-        if($employee_count==1)
-        {
+        if ($employee_count == 1) {
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
                     //Taking each employees 
@@ -158,15 +168,15 @@ class PayrollCalculationController extends Controller
                     } else {
                         $LastPayedDate = $employee->employment_start_date;
                     }
-    
+
                     $payPeriod = CarbonPeriod::since($LastPayedDate)->until($today);
-    
+
                     if ($employee->pay_period == "1") {
                         $subPeriodLength = CarbonInterval::days(14);
                     } else {
                         $subPeriodLength = CarbonInterval::days(7);
                     }
-    
+
                     $subPeriods = [];
                     $startDate = $payPeriod->getStartDate();
                     while ($startDate->lessThan($payPeriod->getEndDate())) {
@@ -181,7 +191,7 @@ class PayrollCalculationController extends Controller
                     if (count($subPeriods) > 0) {
                         $flag = 0;
                         foreach ($subPeriods as $week) {
-    
+
                             if ($employee->pay_period == "1") {
                                 if (count($week) < 14) {
                                     $flag = 1;
@@ -205,8 +215,8 @@ class PayrollCalculationController extends Controller
                         }
                     }
                 }
-    
-    
+
+
                 //Fixed salary type
                 else if ($employee->salary_type == "0" && $employee->status == "1") {
                     $lastPayedDate = $employee->payed_date ?? $employee->employment_start_date;
@@ -226,7 +236,7 @@ class PayrollCalculationController extends Controller
                         default:
                             throw new Exception('Invalid salary type');
                     }
-    
+
                     // Calculate number of pay periods to process
                     $now = Carbon::now();
                     $payPeriods = [];
@@ -240,20 +250,20 @@ class PayrollCalculationController extends Controller
                         } else {
                             $endDate = $startDate->copy()->addWeek(2);
                         }
-    
+
                         $payPeriods[] = ['start_date' => $startDate, 'end_date' => $endDate];
                         $startDate = $endDate->copy()->addDay(); // start next pay period with next day after end date
                     }
                     $lastPayPeriod = end($payPeriods);
                     if (count($payPeriods) != 0) {
-    
+
                         foreach ($payPeriods as $payPeriod) {
                             $salaryStartDate = $payPeriod['start_date'];
                             $salaryEndDate = $payPeriod['end_date'];
                             $payrollcontroller = new PayrollController;
                             $payrollcontroller->generate_fixed_payroll($employee, $salaryStartDate, $salaryEndDate, $EmployerId);
                         }
-    
+
                         if (isset($salaryEndDate)) {
                             $employee->payed_date = $salaryEndDate;
                         }
@@ -261,8 +271,7 @@ class PayrollCalculationController extends Controller
                     }
                 }
             }
-        }
-        else{
+        } else {
             if ($request->expectsJson()) {
                 // Handle API-specific logic here
                 return response()->json([
@@ -273,7 +282,7 @@ class PayrollCalculationController extends Controller
                 return  notify()->error(__('Sorry, no employees match this data. Please try different criteria.'));
             }
         }
-    
+
 
         //    Comented by robin on 14-06-23   it is needed. 
         //  $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
@@ -282,7 +291,7 @@ class PayrollCalculationController extends Controller
 
         if (($flag == "all" || $flag == "others")) {
             $csv_name = "HFC" . $currentDate;
-            $export = new HfcExport(0, 0, $flag_type, 0);
+            $export = new HfcExport(0, 0, $flag_type, 0,$employees);
         } else {
             if (!$bank) {
                 $bankname = "BNK";
@@ -291,14 +300,13 @@ class PayrollCalculationController extends Controller
                 $bankname = optional($bank)->banks->bank_name;
                 if ($bankname == 'HFC') {
                     $csv_name = "HFC" . $currentDate;
-                    $export = new HfcExport($bankid, $bankname, $flag_type, $id_type);
+                    $export = new HfcExport($bankid, $bankname, $flag_type, $id_type,$employees);
                 } else if ($bankname == 'BSP') {
                     $csv_name = "BSP" . $currentDate;
                     $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
                 }
             }
         }
-
         $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
         $path = 'exports/' . $csv_name;
         $to = "robin.reubro@gmail.com";
@@ -410,9 +418,17 @@ class PayrollCalculationController extends Controller
         // });
         // Storage::delete($path); 
 
+        if ($request->expectsJson()) {
+            // Handle API-specific logic here
         return response()->json([
             'message' => 'Payroll calculated successfully.',
         ]);
+        } else {
+            // Handle web form-specific logic here
+            return  notify()->success(__('Payroll calculated successfully.'));
+        }
+
+
         // if($flag_payroll==1)
         // {
 

@@ -10,7 +10,6 @@
                     <h6 class="card-title">Add Attendance </h6>
                     <form method="POST" action="{{ route('employer.attendance.store') }}" enctype="multipart/form-data">
                         @csrf
-                        
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">

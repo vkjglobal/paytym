@@ -16,13 +16,16 @@ class HfcExport implements FromCollection, WithMapping
     protected $bankname;
     protected $flag;
     protected $id;
+    protected $employees;
 
-    public function __construct($bankid,$bank,$flag,$id)
+    public function __construct($bankid,$bank,$flag,$id,$employees)
     {
         $this->bank = $bankid;
         $this->bankname = $bank;
         $this->flag = $flag;
         $this->id = $id;
+        $this->employees = $employees;
+        
     }
 
     
@@ -61,15 +64,34 @@ class HfcExport implements FromCollection, WithMapping
                 ->where('status', '1')
                 ->where('department_id', $id)->get();
             }
-        } else if ($flag == "all" || $flag="others") {
+        } else if ($flag == "all") {
            
             $data = User::with(['branch' => function ($query) {
                 $query->with(['banks' => function ($relatedQuery) {
                     $relatedQuery->where('bank_name', '=', 'HFC');
                 }]);
             }])->with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
+       
+       
             // $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
         }
+
+        else if($flag="others")
+        {
+            //dd($this->employees->id);
+            foreach ($this->employees as $id) {
+              //  $i = $i + 1;
+                // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
+                $data = User::with(['branch' => function ($query) {
+                    $query->with(['banks' => function ($relatedQuery) {
+                        $relatedQuery->where('bank_name', '=', 'HFC');
+                    }]);
+                }])->with(['payroll_latest', 'split_payment'])->where('id', $id->id)->where('status', '1')->get();
+           
+            }
+
+        }
+      //  dd($data);
         return $data;
     }
     public function map($row): array
