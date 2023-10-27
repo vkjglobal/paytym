@@ -13,7 +13,6 @@ use Carbon\Carbon;
 
 class AttendanceImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQueue
 {
-
     
     public function model(array $row)
     {
