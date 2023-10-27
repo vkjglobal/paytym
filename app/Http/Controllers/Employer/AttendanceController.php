@@ -112,6 +112,12 @@ class AttendanceController extends Controller
 
     public function csvfile(Request $request)
     {
+        $request->validate([
+            'csvfile' => 'required|mimes:csv,xls,xlsx',
+        ]); 
+
+        $file = $request->file('csvfile');
+       //dd($file);
         try {
             Excel::import(new AttendanceImport, request()->file('csvfile'));
             notify()->success(__('Upload file successfully'));
