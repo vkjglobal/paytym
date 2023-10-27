@@ -116,7 +116,7 @@ class PayrollCalculationController extends Controller
                     return  notify()->error(__('There is pending attendance approvals'));
                 }
             }
-        } else {
+        } else if ($flag == "others") {
             $i = 0;
             $newIdResponse = [];
             $idResponse = $id[0];
@@ -139,133 +139,156 @@ class PayrollCalculationController extends Controller
 
         $flag_type = $flag;
         $today = Carbon::today();
-        foreach ($employees as $employee) {
-            if ($employee->salary_type == "1" && $employee->status == "1") {
-                //Taking each employees 
-                if ($employee->payed_date != Null) {
-                    $LastPayedDate = $employee->payed_date;
-                } else {
-                    $LastPayedDate = $employee->employment_start_date;
-                }
 
-                $payPeriod = CarbonPeriod::since($LastPayedDate)->until($today);
-
-                if ($employee->pay_period == "1") {
-                    $subPeriodLength = CarbonInterval::days(14);
-                } else {
-                    $subPeriodLength = CarbonInterval::days(7);
-                }
-
-                $subPeriods = [];
-                $startDate = $payPeriod->getStartDate();
-                while ($startDate->lessThan($payPeriod->getEndDate())) {
-                    $endDate = $startDate->copy()->add($subPeriodLength)->subDay(); // Subtract one day from the end date
-                    if ($endDate->gt($today)) {
-                        $endDate = $today->copy(); // Adjust the end date to be equal to today's date
-                    }
-                    $subPeriod = CarbonPeriod::since($startDate)->until($endDate);
-                    $subPeriods[] = $subPeriod;
-                    $startDate = $endDate->copy()->addDay(); // Add one day to the start date for the next sub-period
-                }
-                if (count($subPeriods) > 0) {
-                    $flag = 0;
-                    foreach ($subPeriods as $week) {
-
-                        if ($employee->pay_period == "1") {
-                            if (count($week) < 14) {
-                                $flag = 1;
-                                break;
-                            }
-                        } else {
-                            if (count($week) < 7) {
-                                $flag = 1;
-                                break;
-                            }
-                        }
-                        if ($flag == 0) {
-                            $payrollcontroller = new PayrollController;
-                            $fromDate = $week->getStartDate();
-                            $endDate = $week->getEndDate();
-                            $payrollcontroller->generate_hourly_payroll($employee, $fromDate, $endDate, $EmployerId);
-                            $salaryEndDate = $endDate;
-                            $employee->payed_date = $salaryEndDate;
-                            $employee->save();
-                        }
-                    }
-                }
+        $employee_count = 0;
+        if ($flag == "others") {
+            $employee_count = 1;
+        } else {
+            if ($employees->count() > 0) {
+                $employee_count = 1;
             }
-
-
-            //Fixed salary type
-            else if ($employee->salary_type == "0" && $employee->status == "1") {
-                $lastPayedDate = $employee->payed_date ?? $employee->employment_start_date;
-                switch ($employee->pay_period) {
-                    case 0:
-                        $frequencyType = 'weekly';
-                        $payPeriodLength = '1 week';
-                        break;
-                    case 1:
-                        $frequencyType = 'fortnightly';
-                        $payPeriodLength = '2 weeks';
-                        break;
-                    case 2:
-                        $frequencyType = 'monthly';
-                        $payPeriodLength = '1 month';
-                        break;
-                    default:
-                        throw new Exception('Invalid salary type');
-                }
-
-                // Calculate number of pay periods to process
-                $now = Carbon::now();
-                $payPeriods = [];
-                $lastPayedDate = Carbon::parse($lastPayedDate);
-                $startDate = $lastPayedDate->copy()->addDay();  // start with next day after last paid date
-                while ($startDate < $now) {
-                    if ($frequencyType == 'monthly') {
-                        $endDate = $startDate->copy()->endOfMonth();
-                    } else if ($frequencyType == 'weekly') {
-                        $endDate = $startDate->copy()->addWeek()->subDay();
+        }
+        if($employee_count==1)
+        {
+            foreach ($employees as $employee) {
+                if ($employee->salary_type == "1" && $employee->status == "1") {
+                    //Taking each employees 
+                    if ($employee->payed_date != Null) {
+                        $LastPayedDate = $employee->payed_date;
                     } else {
-                        $endDate = $startDate->copy()->addWeek(2);
+                        $LastPayedDate = $employee->employment_start_date;
                     }
-
-                    $payPeriods[] = ['start_date' => $startDate, 'end_date' => $endDate];
-                    $startDate = $endDate->copy()->addDay(); // start next pay period with next day after end date
+    
+                    $payPeriod = CarbonPeriod::since($LastPayedDate)->until($today);
+    
+                    if ($employee->pay_period == "1") {
+                        $subPeriodLength = CarbonInterval::days(14);
+                    } else {
+                        $subPeriodLength = CarbonInterval::days(7);
+                    }
+    
+                    $subPeriods = [];
+                    $startDate = $payPeriod->getStartDate();
+                    while ($startDate->lessThan($payPeriod->getEndDate())) {
+                        $endDate = $startDate->copy()->add($subPeriodLength)->subDay(); // Subtract one day from the end date
+                        if ($endDate->gt($today)) {
+                            $endDate = $today->copy(); // Adjust the end date to be equal to today's date
+                        }
+                        $subPeriod = CarbonPeriod::since($startDate)->until($endDate);
+                        $subPeriods[] = $subPeriod;
+                        $startDate = $endDate->copy()->addDay(); // Add one day to the start date for the next sub-period
+                    }
+                    if (count($subPeriods) > 0) {
+                        $flag = 0;
+                        foreach ($subPeriods as $week) {
+    
+                            if ($employee->pay_period == "1") {
+                                if (count($week) < 14) {
+                                    $flag = 1;
+                                    break;
+                                }
+                            } else {
+                                if (count($week) < 7) {
+                                    $flag = 1;
+                                    break;
+                                }
+                            }
+                            if ($flag == 0) {
+                                $payrollcontroller = new PayrollController;
+                                $fromDate = $week->getStartDate();
+                                $endDate = $week->getEndDate();
+                                $payrollcontroller->generate_hourly_payroll($employee, $fromDate, $endDate, $EmployerId);
+                                $salaryEndDate = $endDate;
+                                $employee->payed_date = $salaryEndDate;
+                                $employee->save();
+                            }
+                        }
+                    }
                 }
-                $lastPayPeriod = end($payPeriods);
-                if (count($payPeriods) != 0) {
-
-                    foreach ($payPeriods as $payPeriod) {
-                        $salaryStartDate = $payPeriod['start_date'];
-                        $salaryEndDate = $payPeriod['end_date'];
-                        $payrollcontroller = new PayrollController;
-                        $payrollcontroller->generate_fixed_payroll($employee, $salaryStartDate, $salaryEndDate, $EmployerId);
+    
+    
+                //Fixed salary type
+                else if ($employee->salary_type == "0" && $employee->status == "1") {
+                    $lastPayedDate = $employee->payed_date ?? $employee->employment_start_date;
+                    switch ($employee->pay_period) {
+                        case 0:
+                            $frequencyType = 'weekly';
+                            $payPeriodLength = '1 week';
+                            break;
+                        case 1:
+                            $frequencyType = 'fortnightly';
+                            $payPeriodLength = '2 weeks';
+                            break;
+                        case 2:
+                            $frequencyType = 'monthly';
+                            $payPeriodLength = '1 month';
+                            break;
+                        default:
+                            throw new Exception('Invalid salary type');
                     }
-
-                    if (isset($salaryEndDate)) {
-                        $employee->payed_date = $salaryEndDate;
+    
+                    // Calculate number of pay periods to process
+                    $now = Carbon::now();
+                    $payPeriods = [];
+                    $lastPayedDate = Carbon::parse($lastPayedDate);
+                    $startDate = $lastPayedDate->copy()->addDay();  // start with next day after last paid date
+                    while ($startDate < $now) {
+                        if ($frequencyType == 'monthly') {
+                            $endDate = $startDate->copy()->endOfMonth();
+                        } else if ($frequencyType == 'weekly') {
+                            $endDate = $startDate->copy()->addWeek()->subDay();
+                        } else {
+                            $endDate = $startDate->copy()->addWeek(2);
+                        }
+    
+                        $payPeriods[] = ['start_date' => $startDate, 'end_date' => $endDate];
+                        $startDate = $endDate->copy()->addDay(); // start next pay period with next day after end date
                     }
-                    $employee->save();
+                    $lastPayPeriod = end($payPeriods);
+                    if (count($payPeriods) != 0) {
+    
+                        foreach ($payPeriods as $payPeriod) {
+                            $salaryStartDate = $payPeriod['start_date'];
+                            $salaryEndDate = $payPeriod['end_date'];
+                            $payrollcontroller = new PayrollController;
+                            $payrollcontroller->generate_fixed_payroll($employee, $salaryStartDate, $salaryEndDate, $EmployerId);
+                        }
+    
+                        if (isset($salaryEndDate)) {
+                            $employee->payed_date = $salaryEndDate;
+                        }
+                        $employee->save();
+                    }
                 }
             }
         }
+        else{
+            if ($request->expectsJson()) {
+                // Handle API-specific logic here
+                return response()->json([
+                    'message' => 'Sorry, no employees match this data. Please try different criteria.'
+                ], 400);
+            } else {
+                // Handle web form-specific logic here
+                return  notify()->error(__('Sorry, no employees match this data. Please try different criteria.'));
+            }
+        }
+    
 
         //    Comented by robin on 14-06-23   it is needed. 
         //  $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
         $currentDate = Carbon::now()->format('dmy');
 
 
-if (($flag == "all")) {
-    $csv_name = "HFC" . $currentDate;
-    $export = new HfcExport(0, 0, $flag_type, 0);
-} else {
-        if (!$bank) {
-            $bankname = "BNK";
+        if (($flag == "all" || $flag == "others")) {
+            $csv_name = "HFC" . $currentDate;
+            $export = new HfcExport(0, 0, $flag_type, 0);
         } else {
-            $bankid = $bank->banks->id;
-            $bankname = optional($bank)->banks->bank_name;
-
+            if (!$bank) {
+                $bankname = "BNK";
+            } else {
+                $bankid = $bank->banks->id;
+                $bankname = optional($bank)->banks->bank_name;
                 if ($bankname == 'HFC') {
                     $csv_name = "HFC" . $currentDate;
                     $export = new HfcExport($bankid, $bankname, $flag_type, $id_type);
@@ -273,9 +296,8 @@ if (($flag == "all")) {
                     $csv_name = "BSP" . $currentDate;
                     $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
                 }
-            
+            }
         }
-    }
 
         $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
         $path = 'exports/' . $csv_name;
@@ -287,31 +309,22 @@ if (($flag == "all")) {
             //$finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
             $finance = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%finance%')->first();
             $to = "";
-            if($hr)
-            {
+            if ($hr) {
                 $to = [$hr->user->email];
-  
-            }
-            elseif($hr)
-            {
+            } elseif ($hr) {
                 $to = [$hr->user->email];
-            }
-            elseif($finance)
-            {
+            } elseif ($finance) {
                 $to = [$finance->user->email];
-            }
-            else
-            {
+            } else {
                 $employer = Employer::where('employer_id', $EmployerId)->first();
                 $to = $employer->email;
             }
 
-            if($to=="")
-            {
+            if ($to == "") {
                 $to = "robin.reubro@gmail.com";
             }
-            
-            
+
+
             // if ($finance == null) {
             //     $to = [$hr->user->email];
             // } elseif ($hr == null) {

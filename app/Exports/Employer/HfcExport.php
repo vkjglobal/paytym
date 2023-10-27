@@ -61,14 +61,14 @@ class HfcExport implements FromCollection, WithMapping
                 ->where('status', '1')
                 ->where('department_id', $id)->get();
             }
-        } else if ($flag == "all") {
+        } else if ($flag == "all" || $flag="others") {
            
             $data = User::with(['branch' => function ($query) {
                 $query->with(['banks' => function ($relatedQuery) {
                     $relatedQuery->where('bank_name', '=', 'HFC');
                 }]);
             }])->with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
-           // $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
+            // $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
         }
         return $data;
     }
@@ -80,8 +80,8 @@ class HfcExport implements FromCollection, WithMapping
             $row->bank,
             $row->account_number,
             $row->first_name.' '.$row->last_name,  
-           // $row->amount,
-            $row->split_payment_bank(),
+            $row->amount,
+          //  $row->split_payment_bank(),
             "Test",
         ];
     }
