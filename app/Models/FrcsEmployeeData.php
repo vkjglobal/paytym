@@ -40,7 +40,6 @@ class FrcsEmployeeData extends Model
         'income_tax',
         'srt',
         'ecal',
-
     ];
 
     public function user()

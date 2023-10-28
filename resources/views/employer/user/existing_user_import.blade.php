@@ -68,7 +68,7 @@
                         </button> 
                         <h6 class="card-title mt-3"><u>Download Instruction Document</u></h6> 
 
-<button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.download.instruction_doc")}}'">
+<button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.download.exemp_instruction_doc")}}'">
 <i class="btn-icon-prepend" data-feather="download-cloud"></i>
 Download Instructions
 </button> 
