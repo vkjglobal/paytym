@@ -34,36 +34,40 @@ class BSPPaymentController extends Controller
 
     public function sendPaymentRequest(Request $request)
     {
+       // dd($request);
         $sourceString = join('|', [
             'nar_cardType' => 'EX',
             'nar_merBankCode' => '01',
-            'nar_merId' => '840000008400001',
-            'nar_merTxnTime' => '20161031152438',
-            'nar_msgType' => 'AR',
-            'nar_orderNo' => '4925065531352726881',
+            'nar_merId' => $request->nar_merId,
+            'nar_merTxnTime' => $request->nar_merTxnTime,//'20161031152438',
+            'nar_msgType' => $request->nar_msgType,
+            'nar_orderNo' => $request->nar_orderNo,
             'nar_paymentDesc' => 'Sampleproductdescription',
-            'nar_remitterEmail' => 'customermail@gmail.com',
-            'nar_remitterMobile' => '12323213',
-            'nar_txnAmount' => '1.00',
+            'nar_remitterEmail' => $request->nar_remitterEmail,//'customermail@gmail.com',
+            'nar_remitterMobile' => $request->nar_remitterMobile,//'12323213',
+            'nar_txnAmount' => $request->nar_txnAmount,//'1.00',
             'nar_txnCurrency' => '242',
             'nar_version' => '1.0',
-            'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
+            'nar_returnUrl' => $request->nar_returnUrl,//'https://uat2.yalamanchili.in/pgsim/checkresponse',
         ]);
 
         // Retrieve private key and passphrase from config
         $binarySignature ="";
-        //$privateKeyPath = env('BSP_PRIVATE_KEY');
-        $privateKey = env('BSP_PRIVATE_KEY');
-        $passphrase = env('BSP_PRIVATE_KEY_PASSPHRASE');
+        $privateKeyPath = env('MERCHANT_PRIVATE_KEY');
+        //$privateKey = env('BSP_PRIVATE_KEY');
+        $passphrase = env('MERCHANT_PRIVATE_KEY_PASSPHRASE');
         
 
-       /*  $fp = fopen($privateKeyPath, 'r');
+        $fp = fopen($privateKeyPath, 'r');
         $privKey = fread($fp, 8192);
-        fclose($fp); */
+        fclose($fp);
 
-        $res = openssl_get_privatekey($privateKey, $passphrase);
+        //dd($passphrase);
+        $res = openssl_get_privatekey($privKey, $passphrase);
+        //$res = openssl_get_privatekey($privateKey, $passphrase);
        // dd($res);
-        openssl_sign($sourceString, $binarySignature, $res, OPENSSL_ALGO_SHA1);
+       openssl_sign($sourceString, $binarySignature, $res, OPENSSL_ALGO_SHA1);
+       //openssl_sign($sourceString, $binarySignature, $res);
         openssl_free_key($res);
 
         // Convert the binary signature to a hexadecimal string

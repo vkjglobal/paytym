@@ -144,6 +144,7 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::get('user/download-template-newemp', [UserController::class,'downloadTemplate_newEmployee'])->name('download.usertemplate_newemp');
   Route::get('user/download-template-existingemp', [UserController::class,'downloadTemplate_existingEmployee'])->name('download.usertemplate_existingemp');
   Route::get('user/download-instruction', [UserController::class,'downloadInstruction'])->name('download.instruction_doc');
+  Route::get('user/download-exemp-instruction', [UserController::class,'downloadexEmpInstruction'])->name('download.exemp_instruction_doc');
   //19-10-13 Exisiting Employee & FRCS
   Route::get('existing-user-import', [UserController::class, 'importExistingEmployee'])->name('existing.user.import');
   Route::post('user/frcsimport', [UserController::class, 'frcsimport'])->name('user.frcsimport');
