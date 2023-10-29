@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\MeetingsController;
+use App\Http\Controllers\Api\Employee\PayrollCalculationController;
 use App\Http\Controllers\Employer\AdvanceController;
 use App\Http\Controllers\Employer\Auth\ForgotPasswordController;
 use App\Http\Controllers\Employer\Auth\LoginController;
@@ -376,6 +377,10 @@ Route::get('generate_web', [PayrollController::class, 'generate_web'])->name('pa
 Route::get('payroll-revert-form', [PayrollController::class, 'revert_form'])->name('payroll.revert.form');
 
 Route::get('revert_web', [PayrollController::class, 'revert_web'])->name('payroll.revert.web');
+
+
+Route::get('bred_bank_template', [PayrollCalculationController::class,'bred_bank_template'])->name('bred_bank_template');
+
 
 
 

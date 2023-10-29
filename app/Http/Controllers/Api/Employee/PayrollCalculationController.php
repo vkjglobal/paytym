@@ -25,10 +25,15 @@ use App\Models\Branch;
 use App\Models\Department;
 use App\Models\EmployerBusiness;
 use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class PayrollCalculationController extends Controller
 {
@@ -38,6 +43,7 @@ class PayrollCalculationController extends Controller
             'employer_id' => 'required',
             'flag' => 'required',
         ]);
+
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -160,6 +166,8 @@ class PayrollCalculationController extends Controller
             }
         }
         if ($employee_count == 1) {
+            $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
                     //Taking each employees 
@@ -291,7 +299,7 @@ class PayrollCalculationController extends Controller
 
         if (($flag == "all" || $flag == "others")) {
             $csv_name = "HFC" . $currentDate;
-            $export = new HfcExport(0, 0, $flag_type, 0,$employees);
+            $export = new HfcExport(0, 0, $flag_type, 0, $employees);
         } else {
             if (!$bank) {
                 $bankname = "BNK";
@@ -300,10 +308,13 @@ class PayrollCalculationController extends Controller
                 $bankname = optional($bank)->banks->bank_name;
                 if ($bankname == 'HFC') {
                     $csv_name = "HFC" . $currentDate;
-                    $export = new HfcExport($bankid, $bankname, $flag_type, $id_type,$employees);
+                    $export = new HfcExport($bankid, $bankname, $flag_type, $id_type, $employees);
                 } else if ($bankname == 'BSP') {
                     $csv_name = "BSP" . $currentDate;
                     $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
+                } else if ($bankname == 'BRED') {
+                    $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+                } else if ($bankname == 'BOB') {
                 }
             }
         }
@@ -420,9 +431,9 @@ class PayrollCalculationController extends Controller
 
         if ($request->expectsJson()) {
             // Handle API-specific logic here
-        return response()->json([
-            'message' => 'Payroll calculated successfully.',
-        ]);
+            return response()->json([
+                'message' => 'Payroll calculated successfully.',
+            ]);
         } else {
             // Handle web form-specific logic here
             return  notify()->success(__('Payroll calculated successfully.'));
@@ -439,5 +450,122 @@ class PayrollCalculationController extends Controller
         //     ]);
         // }
 
+    }
+
+    public function bred_bank_template($data,$bank)
+    {
+        // Add Data to the Excel File
+        // Read the template CSV file
+        // $templatePath = '/path/to/template.csv'; // Replace with the actual path
+        $templatePath =  storage_path('app/public/csv/BRED.xlsx'); // Replace with the actual path
+        $template = fopen($templatePath, 'r');
+        // Create a new CSV file for the updated data
+        $updatedPath = storage_path('app/public/csv/BRED1.xlsx'); // Replace with the desired path
+        // Specify the source file and the destination for the copy
+        $sourcePath = $templatePath; // Replace with the actual source file path
+        $destinationPath = $updatedPath; // Replace with the desired destination path
+        File::copy($sourcePath, $destinationPath);
+        // Check if the copy was successful
+        if (File::exists($destinationPath)) {
+            // File has been successfully copied
+            // You can perform additional operations on the copied file if needed
+
+            $spreadsheet = IOFactory::load($templatePath);
+
+            // Get the active worksheet
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            // Define the starting row where data should be added
+            $startRow = 3; // Assuming you have a header row, starting from the second row
+            
+            foreach ($data as $rowData) {
+                $column = 'A';
+                $startRow++;
+                // Start with the first column
+
+                //Bank Code
+                $worksheet->setCellValue($column . $startRow, $bank->other_bank_code);
+                $column++;
+
+                //Name
+                $worksheet->setCellValue($column . $startRow, $rowData->first_name.' '.$rowData->last_name);
+                $column++;
+
+                //Accnt  Number
+                $worksheet->setCellValue($column . $startRow, $rowData->account_number);
+                $column++;
+                //AMount
+                $worksheet->setCellValue($column . $startRow, "AMT");
+                $column++;
+
+                // Company Name
+
+                $worksheet->setCellValue($column . $startRow, "BSC");
+                $column++;
+
+                // Narration 
+
+                $worksheet->setCellValue($column . $startRow, "TEst");
+                
+            }
+
+            // Save the modified spreadsheet to the new file
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $writer->save($destinationPath);
+
+            dd("success...");
+        } else {
+            //  dd("else");
+            // Handle the case where the copy failed
+        }
+        // End 
+    }
+
+    public function get_csv_data($flag, $id, $employees,$bank)
+    {
+        if ($flag == "business") {
+            foreach ($id as  $id) {
+                $data = User::with(['payroll_latest', 'split_payment'])
+                    ->where('employer_id', Auth::guard('employer')->id())
+                    ->where('status', '1')
+                    ->where('business_id', $id)->get();
+            }
+        } else if ($flag == "branch") {
+            foreach ($id as $id) {
+                $data = User::with(['payroll_latest', 'split_payment'])
+                    ->where('employer_id', Auth::guard('employer')->id())
+                    ->where('status', '1')
+                    ->where('branch_id', $id)->get();
+            }
+        } else if ($flag == "department") {
+            foreach ($id as $id) {
+                $data = User::with(['payroll_latest', 'split_payment'])
+                    ->where('employer_id', Auth::guard('employer')->id())
+                    ->where('status', '1')
+                    ->where('department_id', $id)->get();
+            }
+        } else if ($flag == "all") {
+
+            $data = User::with(['branch' => function ($query) {
+                $query->with(['banks' => function ($relatedQuery) {
+                    $relatedQuery->where('bank_name', '=', 'HFC');
+                }]);
+            }])->with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
+
+
+            // $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
+        } else if ($flag = "others") {
+            //dd($this->employees->id);
+            foreach ($employees as $id) {
+                //  $i = $i + 1;
+                // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
+                $data = User::with(['branch' => function ($query) {
+                    $query->with(['banks' => function ($relatedQuery) {
+                        $relatedQuery->where('bank_name', '=', 'HFC');
+                    }]);
+                }])->with(['payroll_latest', 'split_payment'])->where('id', $id->id)->where('status', '1')->get();
+            }
+        }
+        $this->bred_bank_template($data,$bank);
     }
 }
