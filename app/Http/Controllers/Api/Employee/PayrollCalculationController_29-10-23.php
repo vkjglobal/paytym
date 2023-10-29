@@ -166,7 +166,7 @@ class PayrollCalculationController extends Controller
             }
         }
         if ($employee_count == 1) {
-         //   $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+            $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
 
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
