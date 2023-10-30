@@ -26,7 +26,8 @@ class InvoiceController extends Controller
         ];
         
         $plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('date', 'desc')->get();
-        return view('employer.invoice.index', compact('breadcrumbs', 'plan'));
+        $employer = Auth::guard('employer')->user();
+        return view('employer.invoice.index', compact('breadcrumbs', 'plan','employer'));
     }
 
     public function view_invoice($id)

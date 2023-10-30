@@ -9,8 +9,8 @@
                    {{-- <h6 class="card-title"> Update Card</h6>--}}
 
                     {{--<form method="POST" action="" enctype="multipart/form-data">--}}
-                    {{--<form name="myform" action="https://uat2.yalamanchili.in/MPI_v1/mercpg" method="POST" class="m-4">--}}
-                    <form name="myform" action="{{ route('employer.process-payment') }}" method="POST" class="m-4">
+                    <form name="myform" action="https://uat2.yalamanchili.in/MPI_v1/mercpg" method="POST" class="m-4">
+                    {{--<form name="myform" action="{{ route('employer.process-payment') }}" method="POST" class="m-4">--}}
 						@csrf
 						<input type="hidden" id="nar_msgType" name="nar_msgType" value="AR" />
 						{{--<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="202312323160" />--}}

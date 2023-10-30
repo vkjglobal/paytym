@@ -26,7 +26,8 @@
                                 @foreach ($attendances as $attendance)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>@isset($attendance->user->first_name) {{ $attendance->user->first_name }}@endisset</td>
+                                        {{--<td>@isset($attendance->user->first_name) {{ $attendance->user->first_name }}@endisset</td>--}}
+                                        <td>{{ optional($attendance->user)->first_name ?? 'No data' }}</td>
                                         <td>{{ $attendance->date }}</td>
                                         <td>{{ date('h:i A', strtotime($attendance->check_in)) }}</td>
                                         <td>{{ $attendance->extra_hours }}</td>

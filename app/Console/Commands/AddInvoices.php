@@ -83,14 +83,15 @@ class AddInvoices extends Command
                 $currentYear = Carbon::now()->format('Y');
         
                 // Get the last generated invoice number for the current year
-                $lastInvoice = Invoice::whereYear('created_at', $currentYear)
+                /* $lastInvoice = Invoice::whereYear('created_at', $currentYear)
                     ->orderByDesc('id')
                     ->first();
         
                 $sequenceNumber = $lastInvoice ? intval(substr($lastInvoice->invoice_number, -4)) + 1 : 1;
                 $paddedSequenceNumber = str_pad($sequenceNumber, 6, '0', STR_PAD_LEFT);
         
-                $invoiceNumber = "{$currentYear}-{$paddedSequenceNumber}";
+                $invoiceNumber = "{$currentYear}-{$paddedSequenceNumber}"; */
+                $invoiceNumber =  date('YmdHis'); 
                 $invoice->invoice_number = $invoiceNumber;
               $invoice->save();
            $pdfInvoice = $this->generatePdfInvoice($employer, $invoice, $plan, $total_employee_rate, $invoiceNumber);
