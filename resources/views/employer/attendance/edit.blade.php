@@ -18,7 +18,7 @@
                                     <label class="control-label"> Name <span class="text-danger"></span></label>
                                     <input type="text"
                                         class="form-control @if ($errors->has('name')) is-invalid @endif"
-                                        name="name" value="{{old('name', $attendance->user->first_name) }}"   disabled>
+                                        name="name" value="{{old('name', optional($attendance->user)->first_name ?? '') }}"   disabled>
                                     <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 </div>
                             </div><!-- Col -->
