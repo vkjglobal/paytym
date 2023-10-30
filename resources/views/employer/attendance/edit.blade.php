@@ -43,6 +43,16 @@
                                     <div class="invalid-feedback">{{ $errors->first('date1') }}</div>
                                 </div>
                             </div><!-- Col -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label"> Extra Hours <span class="text-danger"></span></label>
+                                    <input type="time"
+                                        class="form-control @if ($errors->has('extra_hours')) is-invalid @endif"
+                                        name="extra_hours" value="{{old('extra_hours', $attendance->extra_hours) }}"   >
+                                    <div class="invalid-feedback">{{ $errors->first('extra_hours') }}</div>
+                                </div>
+                            </div>
+
                             <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label"> Check-out-date <span class="text-danger"></span></label>

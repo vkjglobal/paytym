@@ -88,6 +88,9 @@ class AttendanceController extends Controller
         $up->date = $request->date;
         $up->check_in = $request->date1;
         //$up->status = $request->status;
+        if (isset($request->extra_hours)) {
+            $up->extra_hours = $request->extra_hours;
+        }
         $res = $up->save();
         if ($res) {
             notify()->success(__('Update successfully'));

@@ -34,7 +34,7 @@ class BSPPaymentController extends Controller
 
     public function sendPaymentRequest(Request $request)
     {
-       // dd($request);
+        //dd($request);
         $sourceString = join('|', [
             'nar_cardType' => 'EX',
             'nar_merBankCode' => '01',
@@ -48,34 +48,38 @@ class BSPPaymentController extends Controller
             'nar_txnAmount' => $request->nar_txnAmount,//'1.00',
             'nar_txnCurrency' => '242',
             'nar_version' => '1.0',
-            'nar_returnUrl' => $request->nar_returnUrl,//'https://uat2.yalamanchili.in/pgsim/checkresponse',
+            'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
         ]);
+        //dd($sourceString);
 
         // Retrieve private key and passphrase from config
-        $binarySignature ="";
+        $binary_signature ="";
         $privateKeyPath = env('MERCHANT_PRIVATE_KEY');
-        //$privateKey = env('BSP_PRIVATE_KEY');
         $passphrase = env('MERCHANT_PRIVATE_KEY_PASSPHRASE');
-        
-
         $fp = fopen($privateKeyPath, 'r');
         $privKey = fread($fp, 8192);
         fclose($fp);
 
-        //dd($passphrase);
-        $res = openssl_get_privatekey($privKey, $passphrase);
+        //dd($privKey);
+        $res = openssl_get_privatekey($privKey);
         //$res = openssl_get_privatekey($privateKey, $passphrase);
-       // dd($res);
-       openssl_sign($sourceString, $binarySignature, $res, OPENSSL_ALGO_SHA1);
-       //openssl_sign($sourceString, $binarySignature, $res);
+       openssl_sign($sourceString, $binary_signature, $res, OPENSSL_ALGO_SHA1);
+       //dd(openssl_sign($sourceString, $binarySignature, $res, OPENSSL_ALGO_SHA1));
         openssl_free_key($res);
+        echo "Generate CheckSUM: ";
+        var_dump(bin2hex($binary_signature)); //Convert Binary Signature Value to HEX
+//dd(bin2hex($binary_signature));
 
+
+        
+        session(['binary_signature' => bin2hex($binary_signature)]);
+        //dd($binary_signature);
         // Convert the binary signature to a hexadecimal string
-        $checksum = bin2hex($binarySignature);
+        $checksum = bin2hex($binary_signature);
 
         // Now, send the request to BSP with the checksum
-        $response = Http::post(config('app.BSP_API_URL'), [
-            'data' => $data,
+        $response = Http::post(env('BSP_API_URL'), [
+            'data' => $sourceString,
             'checksum' => $checksum,
         ]);
 
@@ -84,20 +88,34 @@ class BSPPaymentController extends Controller
 
 public function handleResponse(Request $request)
     {
+        //dd($request);
+        $publicKeyPath = env('BSP_PUBLIC_KEY');
+        $fpq=fopen ($publicKeyPath,"r");
+        $pub_key=fread($fpq,8192); 
+        fclose($fpq);
+        $pubs = openssl_get_publickey($pub_key);
+        $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
+        echo "check #1: Verification "; 
+        if ($ok == 1) {
+        echo "signature ok (as it should be)\n";
+        } elseif ($ok == 0) {
+        echo "bad (there's something wrong)\n";
+        } else {
+        echo "ugly, error checking signature\n";
+        }
         // Get the NVP response data from the request
-        $nvpResponse = $request->all();
-
+       // $nvpResponse = $request->all();
         // Verify the checksum using the public key
-        $publicKeyPath = '/path/to/your/narada_secure_public_key.pem';
-        $checksum = $nvpResponse['nar_checkSum']; // Get the checksum from the response
+        //$publicKeyPath = 'C:\Users\Neena-PC\Desktop\876500008765001.ipg.yalamanchili.in-key-public.pem';//'/path/to/your/narada_secure_public_key.pem';
+       // $checksum = $nvpResponse['nar_checkSum']; // Get the checksum from the response
 
         // Construct the source string from the NVP response data
-        $sourceString = join('|', $nvpResponse);
+        //$sourceString = join('|', $nvpResponse);
 
         // Verify the source string with the public key
-        $publicKey = file_get_contents($publicKeyPath);
-        $isValid = openssl_verify($sourceString, hex2bin($checksum), $publicKey, OPENSSL_ALGO_SHA1);
-
+        //$publicKey = file_get_contents($publicKeyPath);
+        //$isValid = openssl_verify($sourceString, hex2bin($checksum), $publicKey, OPENSSL_ALGO_SHA1);
+        /* dd($isValid);
         if ($isValid === 1) {
             // Response is valid, process it
             // You can update your database or perform other actions based on the response
@@ -105,7 +123,7 @@ public function handleResponse(Request $request)
             // For example: $nvpResponse['nar_debitAuthCode'], $nvpResponse['nar_remarks'], etc.
         } else {
             // Response is not valid, handle the error or invalid response
-        }
+        } */
 
         // Return a response to NARADA® Secure if necessary (e.g., an acknowledgment)
     }
