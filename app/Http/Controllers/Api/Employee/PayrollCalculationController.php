@@ -166,7 +166,7 @@ class PayrollCalculationController extends Controller
             }
         }
         if ($employee_count == 1) {
-         //   $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+            $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
 
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
@@ -359,11 +359,11 @@ class PayrollCalculationController extends Controller
             // }
             //    $to = "buzzmefiji@gmail.com";
             //->cc([$cc1, $cc2, $cc3]) /
-            // $to = "robin.reubro@gmail.com";
+             $to = "robin.reubro@gmail.com";
             $cc = "robin.reubro@gmail.com";
             $cc1 = "josephson.1991@gmail.com";
             $message->to($to)
-                ->cc([$cc, $cc1])
+             //   ->cc([$cc, $cc1])
                 ->subject('Payroll csv file created on:' . Carbon::today()->format('d-m-Y'))
                 ->attach(Storage::path($path), [
                     'as' => $csv_name,
@@ -454,6 +454,7 @@ class PayrollCalculationController extends Controller
 
     public function bred_bank_template($data,$bank)
     {
+        //dd($bank);
         // Add Data to the Excel File
         // Read the template CSV file
         // $templatePath = '/path/to/template.csv'; // Replace with the actual path
@@ -504,7 +505,6 @@ class PayrollCalculationController extends Controller
                 $column++;
 
                 // Narration 
-
                 $worksheet->setCellValue($column . $startRow, "TEst");
                 
             }
@@ -519,6 +519,7 @@ class PayrollCalculationController extends Controller
         }
         // End 
     }
+
 
     public function get_csv_data($flag, $id, $employees,$bank)
     {
@@ -565,6 +566,15 @@ class PayrollCalculationController extends Controller
                 }])->with(['payroll_latest', 'split_payment'])->where('id', $id->id)->where('status', '1')->get();
             }
         }
-        $this->bred_bank_template($data,$bank);
+        $bankname = optional($bank)->banks->bank_name;
+        if($bank->basename=='BRED')
+        {
+            $this->bred_bank_template($data,$bank);
+        }
+        elseif($bank->basename=='HFC')
+        {
+            $this->bob_bank_template($data,$bank);
+        }
+        
     }
 }
