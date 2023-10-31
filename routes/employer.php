@@ -386,5 +386,9 @@ Route::get('bred_bank_template', [PayrollCalculationController::class,'bred_bank
 
 
 
+Route::get('bred_bank_template', [PayrollCalculationController::class,'bred_bank_template'])->name('bred_bank_template');
+
+
+
 
 });

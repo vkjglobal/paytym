@@ -44,6 +44,7 @@ class PayrollCalculationController extends Controller
             'flag' => 'required',
         ]);
 
+
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -299,7 +300,7 @@ class PayrollCalculationController extends Controller
 
         if (($flag == "all" || $flag == "others")) {
             $csv_name = "HFC" . $currentDate;
-            $export = new HfcExport(0, 0, $flag_type, 0, $employees);
+            $export = new HfcExport(0, 0, $flag_type, 0,  $employees);
         } else {
             if (!$bank) {
                 $bankname = "BNK";
@@ -308,10 +309,13 @@ class PayrollCalculationController extends Controller
                 $bankname = optional($bank)->banks->bank_name;
                 if ($bankname == 'HFC') {
                     $csv_name = "HFC" . $currentDate;
-                    $export = new HfcExport($bankid, $bankname, $flag_type, $id_type, $employees);
+                    $export = new HfcExport($bankid, $bankname, $flag_type, $id_type,  $employees);
                 } else if ($bankname == 'BSP') {
                     $csv_name = "BSP" . $currentDate;
                     $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
+                } else if ($bankname == 'BRED') {
+                    $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+                } else if ($bankname == 'BOB') {
                 } else if ($bankname == 'BRED') {
                     $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
                 } else if ($bankname == 'BOB') {
@@ -360,11 +364,9 @@ class PayrollCalculationController extends Controller
             //    $to = "buzzmefiji@gmail.com";
             //->cc([$cc1, $cc2, $cc3]) /
              $to = "robin.reubro@gmail.com";
-             $to = "robin.reubro@gmail.com";
             $cc = "robin.reubro@gmail.com";
             $cc1 = "josephson.1991@gmail.com";
             $message->to($to)
-             //   ->cc([$cc, $cc1])
              //   ->cc([$cc, $cc1])
                 ->subject('Payroll csv file created on:' . Carbon::today()->format('d-m-Y'))
                 ->attach(Storage::path($path), [
@@ -433,6 +435,9 @@ class PayrollCalculationController extends Controller
 
         if ($request->expectsJson()) {
             // Handle API-specific logic here
+            return response()->json([
+                'message' => 'Payroll calculated successfully.',
+            ]);
             return response()->json([
                 'message' => 'Payroll calculated successfully.',
             ]);
