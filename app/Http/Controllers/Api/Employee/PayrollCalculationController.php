@@ -523,7 +523,7 @@ class PayrollCalculationController extends Controller
         // End 
 
         
-    }
+    } 
 
 
     public function get_csv_data($flag, $id, $employees,$bank)
