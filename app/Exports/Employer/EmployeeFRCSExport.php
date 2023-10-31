@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Exports\Employer;
-use App\Models\frcsEmployeeData;
+use App\Models\FrcsEmployeeData;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -17,7 +17,7 @@ class EmployeeFRCSExport implements FromView
     public function view(): View
     {
         //
-        $frcs = frcsEmployeeData::where('employer_id', Auth::guard('employer')->user()->id)
+        $frcs = FrcsEmployeeData::where('employer_id', Auth::guard('employer')->user()->id)
                ->get();
         return view('employer.report.table.employeefrcs_list_table',compact('frcs'));
     }

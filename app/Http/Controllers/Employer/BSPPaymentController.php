@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class BSPPaymentController extends Controller
 {
@@ -77,24 +78,71 @@ class BSPPaymentController extends Controller
         // Convert the binary signature to a hexadecimal string
         $checksum = bin2hex($binary_signature);
 
+        Log::info('Source String: ' . $sourceString);
+        Log::info('Binary Signature: ' . bin2hex($binary_signature));
+
         // Now, send the request to BSP with the checksum
-        $response = Http::post(env('BSP_API_URL'), [
+     /*    $response = Http::withOptions(['timeout' => 30])->post(env('BSP_API_URL'), [ //Http::post(env('BSP_API_URL'), [
+            'data' => $sourceString,
+            'checksum' => $checksum,
+        ]); */
+        $attempts = 3;
+$retryDelay = 5; // Delay in seconds between retries
+
+for ($i = 1; $i <= $attempts; $i++) {
+    try {
+        $response = Http::withOptions(['timeout' => 10])->post(env('BSP_API_URL'), [
             'data' => $sourceString,
             'checksum' => $checksum,
         ]);
+        // Check if the response was successful
+        if ($response->successful()) {
+            // Handle the response
+            break; // Exit the loop if successful
+        }
+    } catch (\Exception $e) {
+        // Handle the exception (e.g., log the error)
+    }
+    
+    if ($i < $attempts) {
+        sleep($retryDelay); // Wait before the next retry
+    }
+    //dd($request);
+    $publicKeyPath = env('BSP_PUBLIC_KEY');
+    $fpq=fopen ($publicKeyPath,"r");
+    $pub_key=fread($fpq,8192); 
+    fclose($fpq);
+    $pubs = openssl_get_publickey($pub_key);
+    $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
+    session(['binary_signature' => $ok]);
+    Log::info('Response Data: ' . json_encode($request->all()));
+    Log::info('Checksum Verification Result: ' . $ok);  
+    echo "check #1: Verification "; 
+    if ($ok == 1) {
+    echo "signature ok (as it should be)\n";
+    } elseif ($ok == 0) {
+    echo "bad (there's something wrong)\n";
+    } else {
+    echo "ugly, error checking signature\n";
+    }
+   
+}
+
 
 
 }
 
 public function handleResponse(Request $request)
     {
-        //dd($request);
+        dd($request);
         $publicKeyPath = env('BSP_PUBLIC_KEY');
         $fpq=fopen ($publicKeyPath,"r");
         $pub_key=fread($fpq,8192); 
         fclose($fpq);
         $pubs = openssl_get_publickey($pub_key);
         $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
+        Log::info('Response Data: ' . json_encode($request->all()));
+        Log::info('Checksum Verification Result: ' . $ok);  
         echo "check #1: Verification "; 
         if ($ok == 1) {
         echo "signature ok (as it should be)\n";
