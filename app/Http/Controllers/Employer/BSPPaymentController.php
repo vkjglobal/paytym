@@ -112,9 +112,14 @@ for ($i = 1; $i <= $attempts; $i++) {
     $fpq=fopen ($publicKeyPath,"r");
     $pub_key=fread($fpq,8192); 
     fclose($fpq);
+    //dd($pub_key);
+
     $pubs = openssl_get_publickey($pub_key);
-    $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
-    session(['binary_signature' => $ok]);
+    //dd($pubs);
+   // $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
+    $ok = openssl_verify($sourceString, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
+    //dd($ok);
+    session(['okvalue' => $ok]);
     Log::info('Response Data: ' . json_encode($request->all()));
     Log::info('Checksum Verification Result: ' . $ok);  
     echo "check #1: Verification "; 
@@ -122,6 +127,7 @@ for ($i = 1; $i <= $attempts; $i++) {
     echo "signature ok (as it should be)\n";
     } elseif ($ok == 0) {
     echo "bad (there's something wrong)\n";
+    //return redirect()->route('employer.home');
     } else {
     echo "ugly, error checking signature\n";
     }
@@ -134,12 +140,13 @@ for ($i = 1; $i <= $attempts; $i++) {
 
 public function handleResponse(Request $request)
     {
-        dd($request);
+        //dd($request);
         $publicKeyPath = env('BSP_PUBLIC_KEY');
         $fpq=fopen ($publicKeyPath,"r");
         $pub_key=fread($fpq,8192); 
         fclose($fpq);
         $pubs = openssl_get_publickey($pub_key);
+        //$ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
         $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
         Log::info('Response Data: ' . json_encode($request->all()));
         Log::info('Checksum Verification Result: ' . $ok);  
