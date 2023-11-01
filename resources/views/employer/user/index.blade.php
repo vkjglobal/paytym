@@ -88,16 +88,14 @@
                                             <a href="{{route('employer.medical.add', $user->id)}}" class="text-success"><i data-feather="plus"></i></a>
                                             @endif
                                         </td>
-                                        <td>
-                                            {{-- @isset($user->extra_details)
-                                            {{$user->extra_details}}
-                                            @endisset --}}
-                                            {{--@if($user->extra_details)
-                                            <a href="{{route('employer.medical.show', $user->id)}}"><i data-feather="eye"></i></a>
+                                        {{--<td>
+                                          
+                                            @if($user->frcs)
+                                            <a href="{{route('employer.frcs.show', $user->id)}}"><i data-feather="eye"></i></a>
                                             @else
-                                            <a href="{{route('employer.medical.add', $user->id)}}" class="text-success"><i data-feather="plus"></i></a>
-                                            @endif--}}
-                                        </td>
+                                            <a href="{{route('employer.frcs.add', $user->id)}}" class="text-success"><i data-feather="plus"></i></a>
+                                            @endif
+                                        </td>--}}
                                     </tr>
                                     
                                 @endforeach
