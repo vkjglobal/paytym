@@ -380,5 +380,6 @@ Route::get('payroll-revert-form', [PayrollController::class, 'revert_form'])->na
 Route::get('revert_web', [PayrollController::class, 'revert_web'])->name('payroll.revert.web');
 
 Route::post('/process-payment', [BSPPaymentController::class, 'sendPaymentRequest'])->name('process-payment');
+Route::post('https://uat2.yalamanchili.in/pgsim/checkresponse',  [BSPPaymentController::class, 'handleResponse'])->name('handleResponse');
 
 });
