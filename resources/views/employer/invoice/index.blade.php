@@ -57,37 +57,8 @@
 											</td>--}}
 											<td>
 											@if($plan->status == 0 || $plan->status==2)
-												{{--<a href="{{ route('employer.pay_invoice', ['id' => $plan->id]) }}" type="button" class="btn btn-success">Pay Now</a>--}}
-												 <form name="myform" action="https://uat2.yalamanchili.in/MPI_v1/mercpg" method="POST" class="m-4">
-                  {{--<form name="myform" action="{{ route('employer.process-payment') }}" method="POST" class="m-4">--}}
-						@csrf
-						<input type="hidden" id="nar_msgType" name="nar_msgType" value="AR" />
-						{{--<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="202312323160" />--}}
-						<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="{{ date('YmdHis') }}" />
-						<input type="hidden" id="nar_merBankCode" name="nar_merBankCode" value="01" />
-						{{--<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="ORD_{{ $plan->invoice_number }}" />--}}
-						<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="ORD_<?php echo date('YmdHis'); ?>" />
-                        
-						<input type="hidden" id="nar_merId" name="nar_merId" value="876500008765001" />
-						<input type="hidden" id="nar_txnCurrency" name="nar_txnCurrency" value="242" />
-						<input type="hidden" id="nar_txnAmount" name="nar_txnAmount" value="{{ $plan->amount}}" />
-						<input type="hidden" id="nar_remitterEmail" name="nar_remitterEmail" value="{{$employer->email}}" />
-						<input type="hidden" id="nar_remitterMobile" name="nar_remitterMobile" value="{{$employer->phone}}" />
-						<input type="hidden" id="nar_cardType" name="nar_cardType" value="EX" />
-						<input type="hidden" id="nar_checkSum" name="nar_checkSum" value="{{ session('binary_signature') }}" />{{--<?php echo bin2hex($binary_signature) ?>--}}
-						{{--<input type="hidden" name="nar_checksum" value="<?php echo bin2hex($binary_signature); ?>">--}}
-						<input type="hidden" id="nar_paymentDesc" name="nar_paymentDesc" value="Merchant Simulator Test Txn" />
-						<input type="hidden" id="nar_version" name="nar_version" value="1.0" />
-						<input type="hidden" id="nar_merflag" name="nar_merflag" value="{{ session('okvalue') }}" />
-						<input type="hidden" id="nar_mcccode" name="nar_mcccode" value="8931" />
-						<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="https://uat2.yalamanchili.in/pgsim/checkresponse"/>
-						<input type="hidden" id="nar_Secure" name="nar_Secure" value="IPGSECURE"/> 
-						<input type="submit" class="btn btn-success" value="Pay via NARADA® Secure">
-						<!-- <button class="btn btn-success" type="submit" > 
-						Pay Now
-						</button> -->
-											
-					</form>
+												<a href="{{ route('employer.pay_invoice', ['id' => $plan->id]) }}" type="button" class="btn btn-success">Pay Now</a>
+												
 												@endif
 											</td>
 											

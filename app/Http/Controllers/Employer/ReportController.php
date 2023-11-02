@@ -580,7 +580,8 @@ public function projectreport_index()
             [(__('Dashboard')), route('employer.home')],
             [(__('Report')), null]
         ];
-        $frcs = FrcsEmployeeData::where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
+        //$frcs = FrcsEmployeeData::where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
+        $frcs = User::with('frcs')->where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
         return view('employer.report.employee_frcs_list',compact('breadcrumbs','frcs'));
     }
     public function frcsreport_export()

@@ -2,54 +2,45 @@
 @section('content')
     @component('employer.layouts.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
     @endcomponent
+
     <div class="row">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-body">
+                {{--<div class="card-body">--}}
                    {{-- <h6 class="card-title"> Update Card</h6>--}}
 
                     {{--<form method="POST" action="" enctype="multipart/form-data">--}}
-                    <form name="myform" action="https://uat2.yalamanchili.in/MPI_v1/mercpg" method="POST" class="m-4">
-                    {{--<form name="myform" action="{{ route('employer.process-payment') }}" method="POST" class="m-4">--}}
+                   {{-- <form name="myform" action="https://uat2.yalamanchili.in/MPI_v1/mercpg" method="POST" class="m-4">--}}
+                    <form name="myform" action="{{ route('employer.process-payment') }}" method="POST" class="m-4">
 						@csrf
 						<input type="hidden" id="nar_msgType" name="nar_msgType" value="AR" />
 						{{--<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="202312323160" />--}}
 						<input type="hidden" id="nar_merTxnTime" name="nar_merTxnTime" value="{{ date('YmdHis') }}" />
 						<input type="hidden" id="nar_merBankCode" name="nar_merBankCode" value="01" />
-						{{--<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="ORD_202312323160" />--}}
-						<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="{{ $invoice->invoice_number }}" />
+						{{--<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="ORD_{{ $invoice->invoice_number }}" />--}}
+						<input type="hidden" id="nar_orderNo" name="nar_orderNo" value="ORD_<?php echo date('YmdHis'); ?>" />
                         
-						{{-- <input type="hidden" id="nar_merId" name="nar_merId" value="842700008427001" /> --}}
-						<input type="hidden" id="nar_merId" name="nar_merId" value="853000008530001" />
+						<input type="hidden" id="nar_merId" name="nar_merId" value="876500008765001" />
 						<input type="hidden" id="nar_txnCurrency" name="nar_txnCurrency" value="242" />
-						{{--<input type="hidden" id="nar_txnAmount" name="nar_txnAmount" value="20.00" />--}}
 						<input type="hidden" id="nar_txnAmount" name="nar_txnAmount" value="{{ $invoice->amount}}" />
-						<input type="hidden" id="nar_AcquirerPaymentReferenceNumber" name="nar_AcquirerPaymentReferenceNumber" value="99YYYXXXXXXXXXXX" />
-						{{-- <input type="hidden" id="nar_PrivateData1" name="nar_PrivateData1" value="" />
-						<input type="hidden" id="nar_PrivateData2" name="nar_PrivateData2" value="" />
-						<input type="hidden" id="nar_PrivateData3" name="nar_PrivateData3" value="" /> --}}
-						{{--<input type="hidden" id="nar_remitterEmail" name="nar_remitterEmail" value="paytym@gmail.in" />--}}
 						<input type="hidden" id="nar_remitterEmail" name="nar_remitterEmail" value="{{$employer->email}}" />
 						<input type="hidden" id="nar_remitterMobile" name="nar_remitterMobile" value="{{$employer->phone}}" />
-						{{--<input type="hidden" id="nar_remitterMobile" name="nar_remitterMobile" value="8879873728" />--}}
 						<input type="hidden" id="nar_cardType" name="nar_cardType" value="EX" />
-						<input type="hidden" id="nar_checkSum" name="nar_checkSum" value="" />
+                        
+						
+                        <input type="hidden" id="nar_checkSum" name="nar_checkSum" value="{{ $checksumkey }}" />{{--<?php echo bin2hex($binary_signature) ?>--}}
+						{{--<input type="hidden" name="nar_checksum" value="{{<?php echo bin2hex($binary_signature); ?>}}">--}}
 						<input type="hidden" id="nar_paymentDesc" name="nar_paymentDesc" value="Merchant Simulator Test Txn" />
 						<input type="hidden" id="nar_version" name="nar_version" value="1.0" />
-						<input type="hidden" id="nar_merflag" name="nar_merflag" value="S" />
-						<input type="hidden" id="nar_mcccode" name="nar_mcccode" value="4112" />
-						{{--<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="http://127.0.0.1:8000/employer/billing/plan" />--}}
-						<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="{{ route('employer.view_invoice',  $invoice->id) }}" />
-						<input type="hidden" id="Referral_Url" name="Referral_Url" value="" />
-
-						<input type="hidden" id="req_source_string" name="req_source_string" value="" />
-						<input type="hidden" id="req_status" name="req_status" value="" />
-						<input type="hidden" id="Referral_Url_validation" name="Referral_Url_validation" value="" />
-						<input type="hidden" id="checksum_valid" name="nar_returnUrl" value="" />
+						<input type="hidden" id="nar_merflag" name="nar_merflag" value="S" />{{--{{ session('okvalue') }}--}}
+						<input type="hidden" id="nar_mcccode" name="nar_mcccode" value="8931" />
+						<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="https://uat2.yalamanchili.in/pgsim/checkresponse"/>
+						<input type="hidden" id="nar_Secure" name="nar_Secure" value="IPGSECURE"/> 
+						
 
                        {{-- @csrf
                         @method('PUT')--}}
-                        <div class="row">
+                        {{--<div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                 <h3 class="card-title"><u>Card Details</u></h3>
@@ -60,12 +51,9 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Card Number <span class="text-danger">*</span></label>
-                                    {{--  @if($card->primary_is_default == 1)--}}
+                                  
                                   @if( optional($card)->primary_is_default == 1)
-                                    {{--<input type="text"
-                                        class="form-control @if ($errors->has('primary_card_number')) is-invalid @endif"
-                                        name="primary_card_number" value="{{ old('primary_card_number', optional($card)->primary_card_number) ?? '' }}"
-                                        placeholder="Enter Card Number" required>--}}
+                                   
                                         <?php
                             function getTruncatedCCNum($ccNum){
                                 return str_replace(range(0,9), "*", substr($ccNum, 0, -4)) .  substr($ccNum, -4);
@@ -76,10 +64,7 @@
                                         name="primary_card_number" value="{{ old('primary_card_number') }},  <?php echo getTruncatedCCNum(optional($card)->primary_card_number); ?> " placeholder="Enter Card Number" required>
                                     <div class="invalid-feedback">{{ $errors->first('primary_card_number') }}</div>
                                     @else
-                                    {{--<input type="text"
-                                        class="form-control @if ($errors->has('secondary_card_number')) is-invalid @endif"
-                                        name="secondary_card_number" value="{{ old('secondary_card_number', optional($card)->secondary_card_number) ?? '' }}"
-                                        placeholder="Enter Card Number" required>--}}
+                                  
                                     <div class="invalid-feedback">{{ $errors->first('secondary_card_number') }}</div>
                                    
                                     <?php
@@ -102,7 +87,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Name on Card <span class="text-danger">*</span></label>
-                                    {{--  @if($card->primary_is_default == 1)--}}
+                                    
                                   @if( optional($card)->primary_is_default == 1)
                                     <input type="text"
                                         class="form-control @if ($errors->has('primary_name_on_card')) is-invalid @endif"
@@ -124,7 +109,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Expiry Date<span class="text-danger">*</span></label>
-                                    {{--  @if($card->primary_is_default == 1)--}}
+                                   
                                   @if( optional($card)->primary_is_default == 1)
                                     <input type="text"
                                         class="form-control @if ($errors->has('primary_expiry_date')) is-invalid @endif"
@@ -151,8 +136,8 @@
                                     <div class="invalid-feedback">{{ $errors->first('cvv') }}</div>
                                 </div>
                             </div><!-- Col -->
-                        </div><!-- Row -->
-                    </div>
+                        </div>--}}<!-- Row -->
+                    {{--</div>--}}
                 </div>
             </div>
                         
