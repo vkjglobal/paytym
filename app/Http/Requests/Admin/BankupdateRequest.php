@@ -29,7 +29,7 @@ class BankupdateRequest extends FormRequest
             'address' => 'required',
             'bank_code' => 'nullable',
             'branch_code' => 'nullable',
-            'bank_template' => 'nullable|mimes:png,jpg,jpeg|max:5048',
+            'bank_template' => 'nullable',
         ];
     }
 }

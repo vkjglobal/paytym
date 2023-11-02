@@ -9,6 +9,7 @@ use App\Models\BankModel;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class BankController extends Controller
 {
@@ -57,7 +58,7 @@ class BankController extends Controller
 
 
             // Move the uploaded file to the storage location
-            $image->move(public_path($storagePath), $filename);
+            $image->move(storage_path($storagePath), $filename);
             $bank->template = $filename;
         }
 
@@ -96,6 +97,7 @@ class BankController extends Controller
         if ($request->hasFile('bank_template')) {
             // Get the uploaded file
             $image = $request->file('bank_template');
+            
 
             // Generate a unique filename for the image
             $filename = time() . '_' . $image->getClientOriginalName();
@@ -103,8 +105,10 @@ class BankController extends Controller
             // Define the storage path for the image
             $storagePath = 'uploads/bank_template';
 
+            //$path = $file->store('public/uploads');
+
             // Get the existing image path from the database (assuming it's stored in the 'template' attribute)
-            $existingImagePath = public_path($storagePath . '/' . $bank->template);
+            $existingImagePath = storage_path($storagePath . '/' . $bank->template);
 
             // Check if the existing image exists
             if (File::exists($existingImagePath)) {
@@ -112,7 +116,7 @@ class BankController extends Controller
                 File::delete($existingImagePath);
             }
             // Move the uploaded file to the storage location
-            $image->move(public_path($storagePath), $filename);
+            $image->move(storage_path($storagePath), $filename);
             $bank->template = $filename;
         }
 

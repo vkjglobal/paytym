@@ -167,7 +167,7 @@ class PayrollCalculationController extends Controller
             }
         }
         if ($employee_count == 1) {
-            $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+            $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
 
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
@@ -314,10 +314,10 @@ class PayrollCalculationController extends Controller
                     $csv_name = "BSP" . $currentDate;
                     $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
                 } else if ($bankname == 'BRED') {
-                    $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+                    $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
                 } else if ($bankname == 'BOB') {
                 } else if ($bankname == 'BRED') {
-                    $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+                    $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
                 } else if ($bankname == 'BOB') {
                 }
             }
@@ -363,11 +363,11 @@ class PayrollCalculationController extends Controller
             // }
             //    $to = "buzzmefiji@gmail.com";
             //->cc([$cc1, $cc2, $cc3]) /
-             $to = "robin.reubro@gmail.com";
+            $to = "robin.reubro@gmail.com";
             $cc = "robin.reubro@gmail.com";
             $cc1 = "josephson.1991@gmail.com";
             $message->to($to)
-             //   ->cc([$cc, $cc1])
+                //   ->cc([$cc, $cc1])
                 ->subject('Payroll csv file created on:' . Carbon::today()->format('d-m-Y'))
                 ->attach(Storage::path($path), [
                     'as' => $csv_name,
@@ -459,17 +459,25 @@ class PayrollCalculationController extends Controller
 
     }
 
-    public function bred_bank_template($data,$bank)
+    public function bred_bank_template($data, $bank)
     {
-        dd($bank);
-        //dd($bank);
         // Add Data to the Excel File
         // Read the template CSV file
         // $templatePath = '/path/to/template.csv'; // Replace with the actual path
-        $templatePath =  storage_path('app/public/csv/BRED.xlsx'); // Replace with the actual path
+        $banks = optional($bank)->banks;
+        if ($banks) {
+            $templatePath = storage_path('uploads/bank_template/' . $banks->template);
+            //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
+        } else {
+            $templatePath =  storage_path('app/public/csv/BRED.xlsx'); // Replace with the actual path
+        }
+
         $template = fopen($templatePath, 'r');
+        $currentDate = Carbon::now()->format('dmy');
+        $csv_name = 'BRED' . $currentDate . '.xlsx';
+        //  dd($csv_name);
         // Create a new CSV file for the updated data
-        $updatedPath = storage_path('app/public/csv/BRED1.xlsx'); // Replace with the desired path
+        $updatedPath = storage_path('app/public/csv/' . $csv_name); // Replace with the desired path
         // Specify the source file and the destination for the copy
         $sourcePath = $templatePath; // Replace with the actual source file path
         $destinationPath = $updatedPath; // Replace with the desired destination path
@@ -486,7 +494,7 @@ class PayrollCalculationController extends Controller
 
             // Define the starting row where data should be added
             $startRow = 3; // Assuming you have a header row, starting from the second row
-            
+
             foreach ($data as $rowData) {
                 $column = 'A';
                 $startRow++;
@@ -497,7 +505,7 @@ class PayrollCalculationController extends Controller
                 $column++;
 
                 //Name
-                $worksheet->setCellValue($column . $startRow, $rowData->first_name.' '.$rowData->last_name);
+                $worksheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
                 $column++;
 
                 //Accnt  Number
@@ -514,24 +522,96 @@ class PayrollCalculationController extends Controller
 
                 // Narration 
                 $worksheet->setCellValue($column . $startRow, "TEst");
-                
             }
 
             // Save the modified spreadsheet to the new file
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
             $writer->save($destinationPath);
-
         } else {
             //  dd("else");
             // Handle the case where the copy failed
         }
         // End 
-
-        
-    } 
+    }
 
 
-    public function get_csv_data($flag, $id, $employees,$bank)
+    public function bob_bank_template($data, $bank)
+    {
+        // Add Data to the Excel File
+        // Read the template CSV file
+        // $templatePath = '/path/to/template.csv'; // Replace with the actual path
+        $banks = optional($bank)->banks;
+        if ($banks) {
+            $templatePath = storage_path('uploads/bank_template/' . $banks->template);
+            //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
+        } else {
+            $templatePath =  storage_path('app/public/csv/BRED.xlsx'); // Replace with the actual path
+        }
+
+        $template = fopen($templatePath, 'r');
+        $currentDate = Carbon::now()->format('dmy');
+        $csv_name = 'BOB' . $currentDate . '.xlsx';
+        //  dd($csv_name);
+        // Create a new CSV file for the updated data
+        $updatedPath = storage_path('app/public/csv/' . $csv_name); // Replace with the desired path
+        // Specify the source file and the destination for the copy
+        $sourcePath = $templatePath; // Replace with the actual source file path
+        $destinationPath = $updatedPath; // Replace with the desired destination path
+        File::copy($sourcePath, $destinationPath);
+        // Check if the copy was successful
+        if (File::exists($destinationPath)) {
+            // File has been successfully copied
+            // You can perform additional operations on the copied file if needed
+
+            $spreadsheet = IOFactory::load($templatePath);
+
+            // Get the active worksheet
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            // Define the starting row where data should be added
+            $startRow = 3; // Assuming you have a header row, starting from the second row
+
+            foreach ($data as $rowData) {
+                $column = 'A';
+                $startRow++;
+                // Start with the first column
+
+                //Bank Code
+                $worksheet->setCellValue($column . $startRow, $bank->other_bank_code);
+                $column++;
+
+                //Name
+                $worksheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $column++;
+
+                //Accnt  Number
+                $worksheet->setCellValue($column . $startRow, $rowData->account_number);
+                $column++;
+                //AMount
+                $worksheet->setCellValue($column . $startRow, "AMT");
+                $column++;
+
+                // Company Name
+
+                $worksheet->setCellValue($column . $startRow, "BSC");
+                $column++;
+
+                // Narration 
+                $worksheet->setCellValue($column . $startRow, "TEst");
+            }
+
+            // Save the modified spreadsheet to the new file
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $writer->save($destinationPath);
+        } else {
+            //  dd("else");
+            // Handle the case where the copy failed
+        }
+        // End 
+    }
+
+
+    public function get_csv_data($flag, $id, $employees, $bank)
     {
         if ($flag == "business") {
             foreach ($id as  $id) {
@@ -577,20 +657,12 @@ class PayrollCalculationController extends Controller
             }
         }
         $bankname = optional($bank)->banks->bank_name;
-        if($bank->basename=='BRED')
-        {
-            $bankname = optional($bank)->banks->bank_name;
-        if($bank->basename=='BRED')
-        {
-            $this->bred_bank_template($data,$bank);
-            }
-        elseif($bank->basename=='HFC')
-        {
-            $this->bob_bank_template($data,$bank);
+        if ($bankname == 'BRED') {
+            $this->bred_bank_template($data, $bank);
+        } elseif ($bankname == 'BOB') {
+            $this->bob_bank_template($data, $bank);
+        } elseif ($bankname == 'HFC') {
+            $this->bred_bank_template($data, $bank);
         }
-        
-    }
-      
-        
     }
 }
