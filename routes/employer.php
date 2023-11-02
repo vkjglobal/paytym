@@ -47,6 +47,7 @@ use App\Http\Controllers\Employer\CardController;
 use App\Http\Controllers\Employer\BillingEmailController;
 use App\Http\Controllers\Employer\ProjectExpenseController;
 use App\Http\Controllers\Employer\BSPPaymentController;
+use App\Http\Controllers\Employer\FRCSController;
 use App\Http\Controllers\Employer\MeetingsController as EmployerMeetingsController;
 use App\Models\Employer;
 use App\Models\PayrollBudget;
@@ -150,6 +151,8 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::get('existing-user-import', [UserController::class, 'importExistingEmployee'])->name('existing.user.import');
   Route::post('user/frcsimport', [UserController::class, 'frcsimport'])->name('user.frcsimport');
   
+  Route::resource('frcs', FRCSController::class);
+  Route::get('frcs/add/{id}', [FRCSController::class, 'add'])->name('frcs.add');
   //Events
   Route::resource('event', EventController::class)->except(['show']);
   Route::get('event-change-status', [EventController::class, 'changeStatus'])->name('event.change.status');

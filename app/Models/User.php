@@ -362,6 +362,11 @@ class User extends Authenticatable
         return $total_tax;
     }
 
+    public function frcs()
+    {
+        return $this->hasOne(FrcsEmployeeData::class, 'employee_id');
+    }
+
 
 
 }
