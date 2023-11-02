@@ -84,6 +84,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Payment Advance 18-11-22
     Route::post('request_advance', [PaymentAdvanceController::class, 'request_advance']);
+    Route::post('list_advance_request', [PaymentAdvanceController::class, 'list_advance_request']);
+    
 
     // Attendance
     Route::post('check_in', [AttendanceController::class, 'check_in']);

@@ -15,8 +15,10 @@ class PaymentAdvanceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'amount' =>  'required',
+            'date_of_requirement' => 'required',
             'description'=>'required',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json([
@@ -24,12 +26,13 @@ class PaymentAdvanceController extends Controller
             ], 400);
         } else {
             $now = Carbon::now();
+            $requested_date=$request->date_of_requirement;
             $payRequest = new PaymentAdvance();
             $payRequest->user_id = Auth::user()->id;
             $payRequest->employer_id = Auth::user()->employer_id;
             $payRequest->advance_amount = $request->amount;
             $payRequest->description = $request->description;
-            $payRequest->requested_date = $now;
+            $payRequest->requested_date = $requested_date;
 
             $res = $payRequest->save();
 
@@ -46,6 +49,33 @@ class PaymentAdvanceController extends Controller
 
         }
 
+    }
+
+
+    public function list_advance_request(Request $request)
+    {
+        if(isset($request->employer_id))
+        {
+            $employer_id = $request->employer_id;
+            $overtime_requests = PaymentAdvance::with('user')->orderBy('id', 'desc')->where('employer_id', $employer_id)->get();
+        }
+        else
+        {
+            $employee_id = $request->employee_id;
+            $overtime_requests = PaymentAdvance::with('user')->orderBy('id', 'desc')->where('user_id', $employee_id)->get();
+        }
+
+    
+        if ($overtime_requests) {
+            return response()->json([
+                'message' => "Listed Successfully",
+                'employee_list' =>  $overtime_requests,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "No Records found"
+            ], 200);
+        }
     }
 
 
