@@ -125,7 +125,6 @@ class PayrollCalculationController extends Controller
         } else if ($flag == "others") {
             $i = 0;
             $newIdResponse = [];
-            // dd($id);
 
             //for Web
             $idResponse = $id;
@@ -326,6 +325,39 @@ class PayrollCalculationController extends Controller
         $path = 'exports/' . $csv_name;
         $to = "robin.reubro@gmail.com";
         //   $issend = Mail::to($to)->send(new PayrollTemplateMail($path, $EmployerId, $csv_name));
+
+
+        //sending payroll csv file through email mpaisa
+        $export = new MpaisaExport();
+        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        $path = 'exports/payroll.csv';
+        $csv_name = "Mpaisa";
+        $this->mail_to_superiors($path, $EmployerId, $csv_name);
+        //end sending
+
+        //sending payroll csv file through email mycash
+        $export = new MycashExport();
+        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        $path = 'exports/payroll.csv';
+        $csv_name = "MyCash";
+        $this->mail_to_superiors($path, $EmployerId, $csv_name);
+        if ($request->expectsJson()) {
+            // Handle API-specific logic here
+            return response()->json([
+                'message' => 'Payroll calculated successfully.',
+            ]);
+            return response()->json([
+                'message' => 'Payroll calculated successfully.',
+            ]);
+        } else {
+            // Handle web form-specific logic here
+            return  notify()->success(__('Payroll calculated successfully.'));
+        }
+    }
+
+    public function mail_to_superiors($path, $EmployerId, $csv_name)
+    {
+        //  dd($path);
         Mail::send([], [], function ($message) use ($path, $EmployerId, $csv_name) {
             // $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
             $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
@@ -374,89 +406,7 @@ class PayrollCalculationController extends Controller
                     'mime' => 'text/csv'
                 ]);
         });
-        Storage::delete($path);
-
-
-        //sending payroll csv file through email mpaisa
-        // $export = new MpaisaExport();
-        // $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-        // $path = 'exports/payroll.csv';
-        // Mail::send([], [], function ($message) use ($path, $EmployerId) {
-        //     $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
-        //     $finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
-        //     if($finance == null){
-        //         $to = [$hr->email];
-        //     }elseif($hr == null){
-        //         $to = [$finance->email];
-        //     }elseif($finance == null && $hr == null){
-        //         $employer = Employer::where('employer_id', $EmployerId)->first();
-        //         $to = $employer->email;
-        //     }else{
-        //         $to = [$hr->email, $finance->email];
-        //     }
-        //     $message->to($to)
-        //             ->subject('Payroll csv file created on:'.Carbon::today()->format('d-m-Y'))
-        //             ->attach(Storage::path($path), [
-        //                 'as' => 'mpaisa.csv',
-        //                 'mime' => 'text/csv'
-        //             ]);
-        // });
-        // Storage::delete($path); 
-
-
-
-        //end sending
-
-        //sending payroll csv file through email mycash
-        // $export = new MycashExport();
-        // $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-        // $path = 'exports/payroll.csv';
-        // Mail::send([], [], function ($message) use ($path, $EmployerId) {
-        //     $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
-        //     $finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
-        //     if($finance == null){
-        //         $to = [$hr->email];
-        //     }elseif($hr == null){
-        //         $to = [$finance->email];
-        //     }elseif($finance == null && $hr == null){
-        //         $employer = Employer::where('employer_id', $EmployerId)->first();
-        //         $to = $employer->email;
-        //     }else{
-        //         $to = [$hr->email, $finance->email];
-        //     }
-        //     $message->to($to)
-        //             ->subject('Payroll csv file created on:'.Carbon::today()->format('d-m-Y'))
-        //             ->attach(Storage::path($path), [
-        //                 'as' => 'mycash.csv',
-        //                 'mime' => 'text/csv'
-        //             ]);
-        // });
-        // Storage::delete($path); 
-
-        if ($request->expectsJson()) {
-            // Handle API-specific logic here
-            return response()->json([
-                'message' => 'Payroll calculated successfully.',
-            ]);
-            return response()->json([
-                'message' => 'Payroll calculated successfully.',
-            ]);
-        } else {
-            // Handle web form-specific logic here
-            return  notify()->success(__('Payroll calculated successfully.'));
-        }
-
-
-        // if($flag_payroll==1)
-        // {
-
-        // }
-        // else{
-        //     return response()->json([
-        //         'message' => 'All Employees PayRoll Already Calculated.',
-        //     ]);
-        // }
-
+        //    Storage::delete($path);
     }
 
     public function bred_bank_template($data, $bank)
@@ -595,11 +545,11 @@ class PayrollCalculationController extends Controller
 
                 //Branch
 
-                $worksheet->setCellValue($column . $startRow,$bank->branch_code);
+                $worksheet->setCellValue($column . $startRow, $bank->branch_code);
                 $column++;
 
                 // Net pay
- 
+
                 $worksheet->setCellValue($column . $startRow, optional(optional($rowData)->payroll_latest)->net_salary);
             }
 
@@ -659,14 +609,64 @@ class PayrollCalculationController extends Controller
                 }])->with(['payroll_latest', 'split_payment'])->where('id', $id->id)->where('status', '1')->get();
             }
         }
-        $bankname = optional($bank)->banks->bank_name;
+        $bankname = optional(optional($bank)->banks)->bank_name;
         if ($bankname == 'BRED') {
             $this->bred_bank_template($data, $bank);
         } elseif ($bankname == 'BOB') {
             $this->bob_bank_template($data, $bank);
         } elseif ($bankname == 'HFC') {
-           // $this->bred_bank_template($data, $bank);
+            // $this->bred_bank_template($data, $bank);
             $this->bob_bank_template($data, $bank);
         }
+    }
+
+
+    public function pc1_format()
+    {
+        //$formattedData = "130990150000035620480530000040176bulaAP CARRIERS     000000000000                        PAY 23       bulaba CARRIERS PTE EDS0769";
+        // Formated Data //
+        // Initialize an empty string to store the formatted data
+        $formattedData = '';
+        // Sample data for the example
+        $invoiceNumber = '13099015';
+        $orderNumber = '0000035620480530000040176';
+        $companyName = 'bulaAP CARRIERS';
+        $amount = '000000000000';
+        $paymentMethod = 'PAY 23';
+        $customerName = 'bulaba CARRIERS PTE';
+        $reference = 'EDS0769';
+
+        // Number of iterations (customize as needed)
+        $iterations = 3;
+
+        for ($i = 0; $i < $iterations; $i++) {
+            // Concatenate each part of the data
+            $formattedData .= $invoiceNumber;
+            $formattedData .= $orderNumber;
+            $formattedData .= str_pad($companyName, 24); // Ensure a fixed width for the company name
+            $formattedData .= $amount;
+            $formattedData .= str_pad($paymentMethod, 15); // Ensure a fixed width for the payment method
+            $formattedData .= $customerName;
+            $formattedData .= $reference;
+
+            // Add a newline character to separate records if needed
+            $formattedData .= "\n";
+        }
+        // End //
+
+        // Create or overwrite the file
+        $store = Storage::disk('local')->put('DISDATA.PC1', $formattedData);
+        if ($store) {
+            dd("success.." . $store);
+        } else {
+            dd("else...");
+        }
+    }
+
+    public function downloadFile()
+    {
+        $path = storage_path('app/DISDATA.PC1');
+
+        return response()->download($path, 'DISDATA.PC1');
     }
 }

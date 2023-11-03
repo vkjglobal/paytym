@@ -35,6 +35,7 @@ class MpaisaExport implements FromCollection, WithMapping
 
         return $data;
     }
+    
     public function map($row): array
     {
         // static $index = 0;
