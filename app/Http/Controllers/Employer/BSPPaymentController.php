@@ -50,7 +50,7 @@ class BSPPaymentController extends Controller
             'nar_txnAmount' => $request->nar_txnAmount,//'1.00',
             'nar_txnCurrency' => '242',
             'nar_version' => '1.0',
-            'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
+            'nar_returnUrl' => $request->nar_returnUrl,
         ]);
         Log::info('Source String: ' . $sourceString);
        //dd($sourceString);
