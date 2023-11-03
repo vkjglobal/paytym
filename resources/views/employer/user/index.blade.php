@@ -19,7 +19,7 @@
                                     <th>Status</th>
                                     <th>Action</th>
                                     <th>Medical</th>
-                                    {{--<th>FRCS</th>--}}
+                                    <th>FRCS</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,14 +88,14 @@
                                             <a href="{{route('employer.medical.add', $user->id)}}" class="text-success"><i data-feather="plus"></i></a>
                                             @endif
                                         </td>
-                                        {{--<td>
+                                        <td>
                                           
                                             @if($user->frcs)
                                             <a href="{{route('employer.frcs.show', $user->id)}}"><i data-feather="eye"></i></a>
                                             @else
                                             <a href="{{route('employer.frcs.add', $user->id)}}" class="text-success"><i data-feather="plus"></i></a>
                                             @endif
-                                        </td>--}}
+                                        </td>
                                     </tr>
                                     
                                 @endforeach

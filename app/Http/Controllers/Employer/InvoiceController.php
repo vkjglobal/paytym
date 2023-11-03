@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 
 class InvoiceController extends Controller
 {
@@ -190,7 +191,7 @@ public function download_email_invoice($id)
             'nar_merId' => '876500008765001',
             'nar_merTxnTime' => date('YmdHis'),//'20161031152438',
             'nar_msgType' => 'AR',
-            'nar_orderNo' => 'ORD_' . $invoice->id,
+            'nar_orderNo' => 'ORD_' . date('YmdHis'),//$invoice->invoice_number,
             'nar_paymentDesc' => 'Merchant Simulator Test Txn',
             'nar_remitterEmail' => $employer->email,//'customermail@gmail.com',
             'nar_remitterMobile' => $employer->phone,//'12323213',
@@ -205,7 +206,7 @@ public function download_email_invoice($id)
         $fp = fopen($privateKeyPath, 'r');
         $privKey = fread($fp, 8192);
         fclose($fp);
-
+        //dd($sourceString);
         //dd($privKey);
         $res = openssl_get_privatekey($privKey);
         //$res = openssl_get_privatekey($privateKey, $passphrase);
@@ -215,8 +216,12 @@ public function download_email_invoice($id)
         //echo "Generate CheckSUM: ";
         //var_dump(bin2hex($binary_signature)); //Convert Binary Signature Value to HEX */
         $bs = $binary_signature;
-
+        //dd($bs);
         $checksumkey = bin2hex($binary_signature);
+
+        Log::info('Source String: ' . $sourceString);
+        Log::info('Binary Signature: ' . bin2hex($binary_signature));
+        Log::info('Checksum: ' . $checksumkey);
 
         //dd(bin2hex($binary_signature));
         return view('employer.invoice.pay_invoice', compact('breadcrumbs','invoice', 'card' , 'employer',

@@ -52,6 +52,7 @@ class BSPPaymentController extends Controller
             'nar_version' => '1.0',
             'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
         ]);
+        Log::info('Source String: ' . $sourceString);
        //dd($sourceString);
 
         // Retrieve private key and passphrase from config
@@ -124,7 +125,7 @@ for ($i = 1; $i <= $attempts; $i++) {
    // $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
     $ok = openssl_verify($sourceString, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
     //dd($ok);
-    session(['okvalue' => $ok]);
+    //session(['okvalue' => $ok]);
     Log::info('Response Data: ' . json_encode($request->all()));
     Log::info('Checksum Verification Result: ' . $ok);  
     echo "check #1: Verification "; 

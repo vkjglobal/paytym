@@ -581,13 +581,95 @@ public function projectreport_index()
             [(__('Report')), null]
         ];
         //$frcs = FrcsEmployeeData::where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
+        $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
         $frcs = User::with('frcs')->where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
-        return view('employer.report.employee_frcs_list',compact('breadcrumbs','frcs'));
+        return view('employer.report.employee_frcs_list',compact('breadcrumbs','frcs','businesses'));
     }
     public function frcsreport_export()
     {
         return Excel::download(new EmployeeFRCSExport, 'employeefrcs_report_export-'.Carbon::now().'.xlsx');
     }
+
+    public function frcs_filter(Request $request){
+        $breadcrumbs = [
+            [(__('Dashboard')), route('employer.home')],
+            [(__('Report')), null]
+        ];
+        //$users = User::query();
+    /*     $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+       $frcs = User::with('frcs')->where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
+        if ($request->filled('business')) {
+            $frcs = $frcs->where('business_id', $request->input('business'));
+            //dd($frcs);
+        }
+    
+        if ($request->filled('pay_period')) {
+            $frcs = $frcs->where('pay_period', $request->input('pay_period'));
+        }
+    
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $start_date = $request->input('start_date');
+            $end_date = $request->input('end_date');
+
+            $frcs = User::with('frcs')
+            ->where('employer_id', $this->employer_id())
+            ->whereHas('frcs', function ($query) use ($start_date, $end_date) {
+                $query->whereBetween('created_at', [$start_date, $end_date]);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        }
+        $frcs->where(function ($query) use ($request) {
+            if ($request->filled('business')) {
+                $query->where('business_id', $request->input('business'));
+            }
+    
+            if ($request->filled('pay_period')) {
+                $query->where('pay_period', $request->input('pay_period'));
+            }
+    
+            if ($request->filled('start_date') && $request->filled('end_date')) {
+                $start_date = $request->input('start_date');
+                $end_date = $request->input('end_date');
+                $query->whereHas('frcs', function ($frcQuery) use ($start_date, $end_date) {
+                    $frcQuery->whereBetween('created_at', [$start_date, $end_date]);
+                });
+            }
+        });
+    
+        //dd($request->filled('start_date') && $request->filled('end_date'));
+    
+        //$frcs = $frcs->get();
+      return view('employer.report.employee_frcs_list',compact('breadcrumbs','frcs','businesses'));
+
+    } */
+    $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
+
+    $frcs = User::query()
+        ->where('employer_id', $this->employer_id());
+
+    if ($request->filled('business')) {
+        $frcs->where('business_id', $request->input('business'));
+    }
+
+    if ($request->filled('pay_period')) {
+        $frcs->where('pay_period', $request->input('pay_period'));
+    }
+
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        $frcs->whereHas('frcs', function ($query) use ($start_date, $end_date) {
+            $query->whereBetween('created_at', [$start_date, $end_date]);
+        });
+    }
+
+    $frcs = $frcs->orderBy('created_at', 'desc')->get();
+
+    return view('employer.report.employee_frcs_list', compact('breadcrumbs', 'frcs', 'businesses'));
+}
 
 
 
