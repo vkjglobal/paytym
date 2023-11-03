@@ -392,6 +392,13 @@ Route::get('bred_bank_template', [PayrollCalculationController::class,'bred_bank
 
 Route::get('bred_bank_template', [PayrollCalculationController::class,'bred_bank_template'])->name('bred_bank_template');
 
+Route::get('pc1_format', [PayrollCalculationController::class,'pc1_format'])->name('pc1_format');
+
+
+Route::get('downloadFile', [PayrollCalculationController::class,'downloadFile'])->name('downloadFile');
+
+
+
 
 
 
