@@ -540,6 +540,8 @@ class PayrollCalculationController extends Controller
         // Add Data to the Excel File
         // Read the template CSV file
         // $templatePath = '/path/to/template.csv'; // Replace with the actual path
+
+
         $banks = optional($bank)->banks;
         if ($banks) {
             $templatePath = storage_path('uploads/bank_template/' . $banks->template);
@@ -569,35 +571,36 @@ class PayrollCalculationController extends Controller
             $worksheet = $spreadsheet->getActiveSheet();
 
             // Define the starting row where data should be added
-            $startRow = 3; // Assuming you have a header row, starting from the second row
+            $startRow = 2; // Assuming you have a header row, starting from the second row
 
             foreach ($data as $rowData) {
-                $column = 'A';
+                $column = 'B';
                 $startRow++;
                 // Start with the first column
 
                 //Bank Code
-                $worksheet->setCellValue($column . $startRow, $bank->other_bank_code);
+                $worksheet->setCellValue($column . $startRow, $rowData->id);
                 $column++;
 
                 //Name
                 $worksheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
                 $column++;
 
-                //Accnt  Number
-                $worksheet->setCellValue($column . $startRow, $rowData->account_number);
+                //Bank Name
+                $worksheet->setCellValue($column . $startRow, $bank->bank_name);
                 $column++;
                 //AMount
-                $worksheet->setCellValue($column . $startRow, "AMT");
+                $worksheet->setCellValue($column . $startRow, $rowData->account_number);
                 $column++;
 
-                // Company Name
+                //Branch
 
-                $worksheet->setCellValue($column . $startRow, "BSC");
+                $worksheet->setCellValue($column . $startRow,$bank->branch_code);
                 $column++;
 
-                // Narration 
-                $worksheet->setCellValue($column . $startRow, "TEst");
+                // Net pay
+ 
+                $worksheet->setCellValue($column . $startRow, optional(optional($rowData)->payroll_latest)->net_salary);
             }
 
             // Save the modified spreadsheet to the new file
@@ -662,7 +665,8 @@ class PayrollCalculationController extends Controller
         } elseif ($bankname == 'BOB') {
             $this->bob_bank_template($data, $bank);
         } elseif ($bankname == 'HFC') {
-            $this->bred_bank_template($data, $bank);
+           // $this->bred_bank_template($data, $bank);
+            $this->bob_bank_template($data, $bank);
         }
     }
 }
