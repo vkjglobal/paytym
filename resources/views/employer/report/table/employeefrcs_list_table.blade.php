@@ -43,8 +43,11 @@
             @foreach ($frcs as $frcs)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>
+                    {{--<td>
                         {{ optional($frcs->user)->first_name ?? 'No data' }}  {{ optional($frcs->user)->last_name ?? 'No data' }}
+                    </td>--}}
+                    <td>
+                        {{ optional($frcs)->first_name ?? 'No data' }}  {{ optional($frcs)->last_name ?? 'No data' }}
                     </td>
                     <td>
                         {{ optional($frcs)->tin ?? 'No data' }}
@@ -53,7 +56,7 @@
                     <td> {{ optional($frcs)->date_of_birth ? \Carbon\Carbon::parse(optional($frcs)->date_of_birth)->format('d/m/Y') : 'no data' }}</td>
 
                     <td>
-                        {{ optional($frcs)->residence ?? 'No data' }}
+                        {{ optional($frcs->frcs)->residence ?? 'No data' }}
                     </td>
                     <td>
                         @if($frcs->tax_code == 'P')
@@ -66,69 +69,69 @@
                     <td> {{ optional($frcs)->employment_start_date ? \Carbon\Carbon::parse(optional($frcs)->employment_start_date)->format('d/m/Y') : 'no data' }}</td>
                     <td> {{ optional($frcs)->employment_end_date ? \Carbon\Carbon::parse(optional($frcs)->employment_end_date)->format('d/m/Y') : 'no data' }}</td>
                     <td>
-                        {{ optional($frcs)->yeartodate_normal_pay ?? 'No data' }}
+                        {{ optional($frcs->frcs)->yeartodate_normal_pay ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->yeartodate_dir_rem_and_bonus_overtime ?? 'No data' }}
+                        {{ optional($frcs->frcs)->yeartodate_dir_rem_and_bonus_overtime ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->yeartodate_redundancy_payments ?? 'No data' }}
+                        {{ optional($frcs->frcs)->yeartodate_redundancy_payments ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->yeartodate_lumpsum_payments ?? 'No data' }}
+                        {{ optional($frcs->frcs)->yeartodate_lumpsum_payments ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->yeartodate_other_one_off_payments ?? 'No data' }}
+                        {{ optional($frcs->frcs)->yeartodate_other_one_off_payments ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->yeartodate_income_tax ?? 'No data' }}
+                        {{ optional($frcs->frcs)->yeartodate_income_tax ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->yeartodate_srt ?? 'No data' }}
+                        {{ optional($frcs->frcs)->yeartodate_srt ?? 'No data' }}
                     </td> <td>
-                        {{ optional($frcs)->yeartodate_ecal ?? 'No data' }}
+                        {{ optional($frcs->frcs)->yeartodate_ecal ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->normal_pay ?? 'No data' }}
+                        {{ optional($frcs->frcs)->normal_pay ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->director_remuneration ?? 'No data' }}
+                        {{ optional($frcs->frcs)->director_remuneration ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->bonus_overtime ?? 'No data' }}
+                        {{ optional($frcs->frcs)->bonus_overtime ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->redundancy_payment_approval_no ?? 'No data' }}
+                        {{ optional($frcs->frcs)->redundancy_payment_approval_no ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->redundancy_payments ?? 'No data' }}
+                        {{ optional($frcs->frcs)->redundancy_payments ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->lumpsum_payment_approval_no ?? 'No data' }}
+                        {{ optional($frcs->frcs)->lumpsum_payment_approval_no ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->lumpsum_payment ?? 'No data' }}
+                        {{ optional($frcs->frcs)->lumpsum_payment ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->other_oneoff_payment_approval_no ?? 'No data' }}
+                        {{ optional($frcs->frcs)->other_oneoff_payment_approval_no ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->other_oneoff_payment ?? 'No data' }}
+                        {{ optional($frcs->frcs)->other_oneoff_payment ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->fnpf_deduction ?? 'No data' }}
+                        {{ optional($frcs->frcs)->fnpf_deduction ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->gross_up_employee ?? 'No data' }}
+                        {{ optional($frcs->frcs)->gross_up_employee ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->income_tax ?? 'No data' }}
+                        {{ optional($frcs->frcs)->income_tax ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->srt ?? 'No data' }}
+                        {{ optional($frcs->frcs)->srt ?? 'No data' }}
                     </td>
                     <td>
-                        {{ optional($frcs)->ecal ?? 'No data' }}
+                        {{ optional($frcs->frcs)->ecal ?? 'No data' }}
                     </td>
              </tr>
             @endforeach

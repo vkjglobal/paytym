@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 
 class InvoiceController extends Controller
 {
@@ -27,6 +28,8 @@ class InvoiceController extends Controller
         
         $plan = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('date', 'desc')->get();
         $employer = Auth::guard('employer')->user();
+       
+        
         return view('employer.invoice.index', compact('breadcrumbs', 'plan','employer'));
     }
 
@@ -181,7 +184,48 @@ public function download_email_invoice($id)
         //return $invoice;
         $card = CreditCard::where('employer_id', Auth::guard('employer')->user()->id)->first();
         $employer = Auth::guard('employer')->user();
-        return view('employer.invoice.pay_invoice', compact('breadcrumbs','invoice', 'card' , 'employer'));
+
+         $sourceString = join('|', [
+            'nar_cardType' => 'EX',
+            'nar_merBankCode' => '01',
+            'nar_merId' => '876500008765001',
+            'nar_merTxnTime' => date('YmdHis'),//'20161031152438',
+            'nar_msgType' => 'AR',
+            'nar_orderNo' => 'ORD_' . date('YmdHis'),//$invoice->invoice_number,
+            'nar_paymentDesc' => 'Merchant Simulator Test Txn',
+            'nar_remitterEmail' => $employer->email,//'customermail@gmail.com',
+            'nar_remitterMobile' => $employer->phone,//'12323213',
+            'nar_txnAmount' => $invoice->amount,//'1.00',
+            'nar_txnCurrency' => '242',
+            'nar_version' => '1.0',
+            'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
+        ]);
+        $binary_signature ="";
+        $privateKeyPath = env('MERCHANT_PRIVATE_KEY');
+        $passphrase = env('MERCHANT_PRIVATE_KEY_PASSPHRASE');
+        $fp = fopen($privateKeyPath, 'r');
+        $privKey = fread($fp, 8192);
+        fclose($fp);
+        //dd($sourceString);
+        //dd($privKey);
+        $res = openssl_get_privatekey($privKey);
+        //$res = openssl_get_privatekey($privateKey, $passphrase);
+       openssl_sign($sourceString, $binary_signature, $res, OPENSSL_ALGO_SHA1);
+       //dd(openssl_sign($sourceString, $binarySignature, $res, OPENSSL_ALGO_SHA1));
+        openssl_free_key($res);
+        //echo "Generate CheckSUM: ";
+        //var_dump(bin2hex($binary_signature)); //Convert Binary Signature Value to HEX */
+        $bs = $binary_signature;
+        //dd($bs);
+        $checksumkey = bin2hex($binary_signature);
+
+        Log::info('Source String: ' . $sourceString);
+        Log::info('Binary Signature: ' . bin2hex($binary_signature));
+        Log::info('Checksum: ' . $checksumkey);
+
+        //dd(bin2hex($binary_signature));
+        return view('employer.invoice.pay_invoice', compact('breadcrumbs','invoice', 'card' , 'employer',
+        'checksumkey', 'bs'));
     }
 
     public function invoice_checkout($invoiceId)

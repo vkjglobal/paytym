@@ -318,7 +318,7 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   //20-10-23 FRCS Report
   Route::get('report/frcsreport', [ReportController::class, 'frcsreport_index'])->name('report.frcsreport');
   Route::get('report/frcsreport/export', [ReportController::class, 'frcsreport_export'])->name('report.frcsreport.export');
-  
+  Route::post('report/frcsreport/filter', [ReportController::class, 'frcs_filter'])->name('report.frcs.filter');
   
   //Billing
   Route::post('/billing', [BillingController::class, 'index'])->name('billing');

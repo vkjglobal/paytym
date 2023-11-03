@@ -35,15 +35,16 @@ class BSPPaymentController extends Controller
 
     public function sendPaymentRequest(Request $request)
     {
-        //dd($request);
-        $sourceString = join('|', [
+        //dd($request->all());
+        //echo "Generate CheckSUM: " . $request->nar_checkSum;
+         $sourceString = join('|', [
             'nar_cardType' => 'EX',
             'nar_merBankCode' => '01',
             'nar_merId' => $request->nar_merId,
             'nar_merTxnTime' => $request->nar_merTxnTime,//'20161031152438',
             'nar_msgType' => $request->nar_msgType,
             'nar_orderNo' => $request->nar_orderNo,
-            'nar_paymentDesc' => 'Sampleproductdescription',
+            'nar_paymentDesc' => $request->nar_paymentDesc,
             'nar_remitterEmail' => $request->nar_remitterEmail,//'customermail@gmail.com',
             'nar_remitterMobile' => $request->nar_remitterMobile,//'12323213',
             'nar_txnAmount' => $request->nar_txnAmount,//'1.00',
@@ -51,11 +52,13 @@ class BSPPaymentController extends Controller
             'nar_version' => '1.0',
             'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
         ]);
-        //dd($sourceString);
+        Log::info('Source String: ' . $sourceString);
+       //dd($sourceString);
 
         // Retrieve private key and passphrase from config
-        $binary_signature ="";
-        $privateKeyPath = env('MERCHANT_PRIVATE_KEY');
+        $binary_signature =$request->bs;
+        //dd($binary_signature);
+        /* $privateKeyPath = env('MERCHANT_PRIVATE_KEY');
         $passphrase = env('MERCHANT_PRIVATE_KEY_PASSPHRASE');
         $fp = fopen($privateKeyPath, 'r');
         $privKey = fread($fp, 8192);
@@ -79,13 +82,14 @@ class BSPPaymentController extends Controller
         $checksum = bin2hex($binary_signature);
 
         Log::info('Source String: ' . $sourceString);
-        Log::info('Binary Signature: ' . bin2hex($binary_signature));
+        Log::info('Binary Signature: ' . bin2hex($binary_signature)); */
 
         // Now, send the request to BSP with the checksum
      /*    $response = Http::withOptions(['timeout' => 30])->post(env('BSP_API_URL'), [ //Http::post(env('BSP_API_URL'), [
             'data' => $sourceString,
             'checksum' => $checksum,
         ]); */
+        
         $attempts = 3;
 $retryDelay = 5; // Delay in seconds between retries
 
@@ -107,6 +111,8 @@ for ($i = 1; $i <= $attempts; $i++) {
     if ($i < $attempts) {
         sleep($retryDelay); // Wait before the next retry
     }
+    
+       
     //dd($request);
     $publicKeyPath = env('BSP_PUBLIC_KEY');
     $fpq=fopen ($publicKeyPath,"r");
@@ -119,7 +125,7 @@ for ($i = 1; $i <= $attempts; $i++) {
    // $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
     $ok = openssl_verify($sourceString, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
     //dd($ok);
-    session(['okvalue' => $ok]);
+    //session(['okvalue' => $ok]);
     Log::info('Response Data: ' . json_encode($request->all()));
     Log::info('Checksum Verification Result: ' . $ok);  
     echo "check #1: Verification "; 

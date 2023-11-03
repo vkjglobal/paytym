@@ -30,8 +30,8 @@ class Kernel extends ConsoleKernel
         ->monthlyOn(27, '15:19')
         ->timezone('Asia/Kolkata'); */
 
-   $schedule->command('invoices:add')
-             ->monthlyOn(1, '00:00');
+ /*   $schedule->command('invoices:add')
+             ->monthlyOn(1, '00:00'); */
              //->timezone('Pacific/Fiji');  
 
         $schedule->command('db:backup')->daily();
@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('email:account-deactivation')
         ->monthlyOn(8, '00:01');
         //$schedule->command('send:login_credentials')->twiceDaily(24 ,18);
-        //$schedule->command('invoices:add')->monthlyOn(30, '23:50');
+        $schedule->command('invoices:add')->monthlyOn(03, '17:25');
         
         
       

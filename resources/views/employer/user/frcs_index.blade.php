@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="card-body">
                     
-                          <h6 class="card-title">Medical Details</h6>
+                          <h6 class="card-title">FRCS Data</h6>
                     
                           <form class="forms-sample">
                             <div class="row mb-3">
