@@ -191,9 +191,11 @@ class User extends Authenticatable
     public function split_payment_mpaisa()
     {
         $payroll = Payroll::where('user_id',$this->id)->where('start_date', '>=', $this->pay_date)->where('end_date', '<=', $this->payed_date)->sum('paid_salary');
+      
         $split_payment = SplitPayment::where('employee_id', $this->id)->first();
         if($split_payment != null)
             {return $payroll * ($split_payment->mpaisa/100);}
+            else{return 0;}
     }
     public function split_payment_mycash()
     {
@@ -201,12 +203,15 @@ class User extends Authenticatable
         $split_payment = SplitPayment::where('employee_id', $this->id)->first();
         if($split_payment != null)
             {return $payroll * ($split_payment->mycash/100);}
+            else{return 0;}
     }
 
     public function total_provident_fund()
     {
         return $this->payroll()->whereMonth('end_date', Carbon::now())->sum('total_fnpf');
     }
+
+
     public function advance()
     {
         return $this->hasMany(PaymentAdvance::class, 'user_id');
@@ -255,7 +260,6 @@ class User extends Authenticatable
     public function total_bonus($userId)
     {
         $total = 0;
-
         $totalEmployee = DB::table('users')
         ->join('bonus', 'users.id', '=', 'bonus.type_id')
         ->where('bonus.type', '=', 0)
