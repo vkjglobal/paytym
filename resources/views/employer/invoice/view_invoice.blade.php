@@ -71,7 +71,7 @@
                                             {{ $employer->company }} <br>
                                             {{ $employer->street }}, <br>
                                             {{ $employer->city }}  - {{ $employer->postcode }},
-                                            {{ $employer->country->name }} <br>
+                                            {{ optional($employer->country)->name ?? "" }} <br>
                                            
                                         </td>
                                     </tr>
