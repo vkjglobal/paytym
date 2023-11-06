@@ -269,9 +269,9 @@ public function download_email_invoice($id)
         return view('employer.invoice.invoice_checkout', compact('invoice', 'card','employer','checksumkey'));
     }
 
-    public function transaction_status($invoiceId)
+    public function checkResponse(Request $request)
     {
-        dd($invoiceId);
+        dd($request);
     }
     
 }
