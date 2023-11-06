@@ -85,7 +85,7 @@ class FRCSController extends Controller
         $data->employment_start_date = $user->employment_start_date;
         $data->employment_end_date = $user->employment_end_date;
         
-        $data->residence = $user->street . ', ' . $user->city . ',' . $user->postcode . ',' . $user->country->name;
+        $data->residence = $user->street . ', ' . $user->city . ',' . $user->postcode . ',' . optional($user->country)->name ?? "";
         //dd($data);
         $issave = $data->save();
 

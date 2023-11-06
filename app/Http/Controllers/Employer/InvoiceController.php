@@ -233,7 +233,40 @@ public function download_email_invoice($id)
         $invoice = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->where('id',$invoiceId)->first();
         //return $invoice;
         $card = CreditCard::where('employer_id', Auth::guard('employer')->user()->id)->first();
-        return view('employer.invoice.invoice_checkout', compact('invoice', 'card'));
+        $employer = Auth::guard('employer')->user();
+        //dd($employer);
+        $sourceString = join('|', [
+            'nar_cardType' => 'EX',
+            'nar_merBankCode' => '01',
+            'nar_merId' => '876500008765001',
+            'nar_merTxnTime' => date('YmdHis'),//'20161031152438',
+            'nar_msgType' => 'AR',
+            'nar_orderNo' => 'ORD_' . date('YmdHis'),//$invoice->invoice_number,
+            'nar_paymentDesc' => 'Merchant Simulator Test Txn',
+            'nar_remitterEmail' => $employer->email,//'customermail@gmail.com',
+            'nar_remitterMobile' => $employer->phone,//'12323213',
+            'nar_txnAmount' => $invoice->amount,//'1.00',
+            'nar_txnCurrency' => '242',
+            'nar_version' => '1.0',
+            'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
+        ]);
+        $binary_signature ="";
+        $privateKeyPath = env('MERCHANT_PRIVATE_KEY');
+        $passphrase = env('MERCHANT_PRIVATE_KEY_PASSPHRASE');
+        $fp = fopen($privateKeyPath, 'r');
+        $privKey = fread($fp, 8192);
+        fclose($fp);
+        $res = openssl_get_privatekey($privKey);
+       openssl_sign($sourceString, $binary_signature, $res, OPENSSL_ALGO_SHA1);
+        openssl_free_key($res);
+        $bs = $binary_signature;
+        $checksumkey = bin2hex($binary_signature);
+
+        Log::info('Source String: ' . $sourceString);
+        Log::info('Binary Signature: ' . bin2hex($binary_signature));
+        Log::info('Checksum: ' . $checksumkey);
+
+        return view('employer.invoice.invoice_checkout', compact('invoice', 'card','employer','checksumkey'));
     }
     
 }
