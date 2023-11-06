@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Auth;
+use App\Models\Invoice;
 
 class BSPPaymentController extends Controller
 {
@@ -130,10 +132,22 @@ for ($i = 1; $i <= $attempts; $i++) {
     Log::info('Checksum Verification Result: ' . $ok);  
     echo "check #1: Verification "; 
     if ($ok == 1) {
-    echo "signature ok (as it should be)\n";
-    } elseif ($ok == 0) {
-    echo "bad (there's something wrong)\n";
-    //return redirect()->route('employer.home');
+    //
+   // dd($request->all());
+    /*$employer = Auth::guard('employer')->user(); 
+    $invoice = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('created_at', 'desc')->first();
+    $invoice->update(['status' => 1]);*/
+    session()->flash('success', ' Transaction Successful!! Thanks for your payment. Please continue your subscription to access our superior Paytym HR and Payroll Automation Platform.
+    Thank you once again !.');
+    return view('employer.invoice.transaction_status');
+    //echo "signature ok (as it should be)\n";
+    } elseif ($ok == 0) { 
+   
+    session()->flash('success', ' Transaction Unsuccessful!! Please Retry!.');
+        return view('employer.invoice.transaction_status');
+       // return redirect()->route('employer.home');
+    //echo "bad (there's something wrong)\n";
+   
     } else {
     echo "ugly, error checking signature\n";
     }
