@@ -235,7 +235,7 @@
             <!----End Subscription----->
 
             <!---Custom Subscriptions--->
-            <li class="nav-item {{ request()->is('admin/custom_subscriptions*') ? 'active' : '' }}">
+            {{--<li class="nav-item {{ request()->is('admin/custom_subscriptions*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#custom_subscriptions" role="button" aria-expanded="false" aria-controls="subscriptions">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Custom Subscription</span>
@@ -255,7 +255,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li>--}}
 
             <!----End Subscription----->
             @endif

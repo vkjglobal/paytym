@@ -14,6 +14,9 @@
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                             Download Report
                         </button> 
+                        @if(isset($request))
+                        <input type="hidden" name="business" value="{{$request->business}}">
+                        @endif
                     </div>
                     <form method="POST" action="{{ route('employer.report.frcs.filter') }}" enctype="multipart/form-data">
                             @csrf

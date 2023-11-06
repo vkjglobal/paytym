@@ -36,11 +36,11 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('db:backup')->daily();
         $schedule->command('send:employment-over-email')->daily();
-        $schedule->command('send:payment-reminder')->monthlyOn(7, '00:01');
+        $schedule->command('send:payment-reminder')->monthlyOn(9, '00:01');
         $schedule->command('email:account-deactivation')
-        ->monthlyOn(8, '00:01');
+        ->monthlyOn(10, '00:01');
         //$schedule->command('send:login_credentials')->twiceDaily(24 ,18);
-        $schedule->command('invoices:add')->monthlyOn(6, '14:35');
+        $schedule->command('invoices:add')->monthlyOn(6, '17:10');
         
         
       
