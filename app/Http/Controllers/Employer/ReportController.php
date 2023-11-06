@@ -581,12 +581,14 @@ public function projectreport_index()
             [(__('Report')), null]
         ];
         //$frcs = FrcsEmployeeData::where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
+        $request= null;
         $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
         $frcs = User::with('frcs')->where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
-        return view('employer.report.employee_frcs_list',compact('breadcrumbs','frcs','businesses'));
+        return view('employer.report.employee_frcs_list',compact('breadcrumbs','frcs','businesses','request'));
     }
-    public function frcsreport_export()
+    public function frcsreport_export(Request $request)
     {
+        //dd($request);
         return Excel::download(new EmployeeFRCSExport, 'employeefrcs_report_export-'.Carbon::now().'.xlsx');
     }
 
@@ -668,7 +670,7 @@ public function projectreport_index()
 
     $frcs = $frcs->orderBy('created_at', 'desc')->get();
 
-    return view('employer.report.employee_frcs_list', compact('breadcrumbs', 'frcs', 'businesses'));
+    return view('employer.report.employee_frcs_list', compact('breadcrumbs', 'frcs', 'businesses','request'));
 }
 
 
