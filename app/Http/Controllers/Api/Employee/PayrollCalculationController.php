@@ -615,43 +615,77 @@ class PayrollCalculationController extends Controller
         } elseif ($bankname == 'BOB') {
             $this->bob_bank_template($data, $bank);
         } elseif ($bankname == 'HFC') {
-            // $this->bred_bank_template($data, $bank);
-            $this->bob_bank_template($data, $bank);
+            $this->pc1_format($data, $bank);
+            //  $this->bob_bank_template($data, $bank);
+        } elseif ($bankname == 'WBC') {
+            $this->pc1_format($data, $bank);
         }
     }
 
 
-    public function pc1_format()
+    public function pc1_format($data, $bank)
     {
-        //$formattedData = "130990150000035620480530000040176bulaAP CARRIERS     000000000000                        PAY 23       bulaba CARRIERS PTE EDS0769";
-        // Formated Data //
-        // Initialize an empty string to store the formatted data
         $formattedData = '';
-        // Sample data for the example
-        $invoiceNumber = '13099015';
-        $orderNumber = '0000035620480530000040176';
-        $companyName = 'bulaAP CARRIERS';
-        $amount = '000000000000';
-        $paymentMethod = 'PAY 23';
-        $customerName = 'bulaba CARRIERS PTE';
-        $reference = 'EDS0769';
+        foreach ($data as $rowData) {
+            $acc_no = $rowData->account_number;
+            $trimmed_acc_no = substr($acc_no, 0, 12);
+
+
+            $name = $rowData->first_name . "" . $rowData->last_name;
+            $record_type = "13";  //2 
+            $bank_code = "03";  // 2
+            $state = "9";  //1
+            $branch = "001";  //3
+            $account = $trimmed_acc_no;     //12
+            $transaction_code = "053"; //3
+            $amount = number_format(optional(optional($rowData)->payroll_latest)->net_salary, 2, '.', '');
+            $t_p_name =  substr($name, 0, 20); // Max 20 
+            $t_p_reference = "111112222233";   //12
+            $t_p_analysis = "xxxxxxxxxxxx";  //12
+            $t_p_reference_char = "Wages_xxxxxxx";   //12
+            $o_p_name = "FigiBankAssoc";   //20
+            $o_p_particulars = "ED05123ERR11";  //12
+
+
+
+
+            // Initialize an empty string to store the formatted data
+
+            $record1 = $record_type . "" . $bank_code . "" . $state . "" . $branch . "" . $account . "" . $transaction_code . "" . $amount . "" . $t_p_name;
+            $record2 = $t_p_reference . "" . $t_p_analysis . "" . $t_p_reference . "" . $t_p_analysis;
+            $record3 = $t_p_reference_char . "" . $o_p_name . "" . $o_p_particulars;
+            $formattedData .= $record1 . "       " . $record2 . "       " . $record3;
+            $formattedData .= "\n";
+
+            // Sample data for the example
+            // $invoiceNumber = '13099015';
+            // $orderNumber = '0000035620480530000040176';
+            // $companyName = 'bulaAP CARRIERS';
+            // $amount = '000000000000';
+            // $paymentMethod = 'PAY 23';
+            // $customerName = 'bulaba CARRIERS PTE';
+            // $reference = 'EDS0769';
+        }
+
+
+
 
         // Number of iterations (customize as needed)
-        $iterations = 3;
+        // $iterations = 3;
 
-        for ($i = 0; $i < $iterations; $i++) {
-            // Concatenate each part of the data
-            $formattedData .= $invoiceNumber;
-            $formattedData .= $orderNumber;
-            $formattedData .= str_pad($companyName, 24); // Ensure a fixed width for the company name
-            $formattedData .= $amount;
-            $formattedData .= str_pad($paymentMethod, 15); // Ensure a fixed width for the payment method
-            $formattedData .= $customerName;
-            $formattedData .= $reference;
+        // for ($i = 0; $i < $iterations; $i++) {
+        //     // Concatenate each part of the data
+        //     $formattedData .= $invoiceNumber;
+        //     $formattedData .= $orderNumber;
+        //     $formattedData .= str_pad($companyName, 24); // Ensure a fixed width for the company name
+        //     $formattedData .= $amount;
+        //     $formattedData .= str_pad($paymentMethod, 15); // Ensure a fixed width for the payment method
+        //     $formattedData .= $customerName;
+        //     $formattedData .= $reference;
 
-            // Add a newline character to separate records if needed
-            $formattedData .= "\n";
-        }
+        //     // Add a newline character to separate records if needed
+        //     $formattedData .= "\n";
+        // }
         // End //
 
         // Create or overwrite the file
