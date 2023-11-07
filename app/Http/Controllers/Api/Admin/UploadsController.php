@@ -68,7 +68,7 @@ class UploadsController extends Controller
                     'message' => $validator->errors()->first()
                 ], 400);
             }
-          //  dd($request->all());
+            //  dd($request->all());
             $uploads = new Upload();
             $uploads->employer_id = $request->employer_id;
             $uploads->file_type_id = $request->file_type_id;
@@ -76,8 +76,8 @@ class UploadsController extends Controller
             //Rj work 19-10-23
             $file = $request->file('file');
             $originalFileName = $file->getClientOriginalName(); // Get the original file name
-             $file_path = $file->storeAs('public/file', $originalFileName);
- //         $file_path = $request->file('file')->store('file', 'public');
+            $file_path = $file->storeAs('public/file', $originalFileName);
+            //         $file_path = $request->file('file')->store('file', 'public');
             $uploads->file = $file_path;
             $issave = $uploads->save();
             if ($issave) {
@@ -148,8 +148,8 @@ class UploadsController extends Controller
             $uploads->user_id = $request->user_id;
             $file = $request->file('file');
             $originalFileName = $file->getClientOriginalName(); // Get the original file name
-             $file_path = $file->storeAs('public/employee_uploaded_file', $originalFileName);
-        //    $file_path = $request->file('file')->store('employee_uploaded_file', 'public');
+            $file_path = $file->storeAs('public/employee_uploaded_file', $originalFileName);
+            //    $file_path = $request->file('file')->store('employee_uploaded_file', 'public');
             $uploads->file = $file_path;
             $issave = $uploads->save();
             if ($issave) {
