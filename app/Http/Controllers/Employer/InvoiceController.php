@@ -198,7 +198,9 @@ public function download_email_invoice($id)
             'nar_txnAmount' => $invoice->amount,//'1.00',
             'nar_txnCurrency' => '242',
             'nar_version' => '1.0',
-            'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
+            'nar_returnUrl' => 'https://paytym.net/employer/checkresponse',
+            //'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
+            
         ]);
         $binary_signature ="";
         $privateKeyPath = env('MERCHANT_PRIVATE_KEY');
@@ -248,8 +250,9 @@ public function download_email_invoice($id)
             'nar_txnAmount' => $invoice->amount,//'1.00',
             'nar_txnCurrency' => '242',
             'nar_version' => '1.0',
-            'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
-            //'nar_returnUrl' => 'https://paytym.net/employer/checkresponse',
+            'nar_returnUrl' => 'https://paytym.net/employer/checkresponse',
+            //'nar_returnUrl' => 'https://uat2.yalamanchili.in/pgsim/checkresponse',
+
         ]);
         $binary_signature ="";
         $privateKeyPath = env('MERCHANT_PRIVATE_KEY');
