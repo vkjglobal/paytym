@@ -84,6 +84,7 @@ class MeetingsController extends Controller
             'attendees.*' => 'required'
 
         ]);
+        dd($request->all());
         // if validation fails
         if ($validator->fails()) {
             return response()->json([

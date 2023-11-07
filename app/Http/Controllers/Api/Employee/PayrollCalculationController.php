@@ -44,7 +44,6 @@ class PayrollCalculationController extends Controller
             'flag' => 'required',
         ]);
 
-
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -233,6 +232,7 @@ class PayrollCalculationController extends Controller
                             $frequencyType = 'weekly';
                             $payPeriodLength = '1 week';
                             break;
+
                         case 1:
                             $frequencyType = 'fortnightly';
                             $payPeriodLength = '2 weeks';
@@ -314,18 +314,19 @@ class PayrollCalculationController extends Controller
                     $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
                 } else if ($bankname == 'BRED') {
                     $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
-                } else if ($bankname == 'BOB') {
-                } else if ($bankname == 'BRED') {
-                    $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
-                } else if ($bankname == 'BOB') {
-                }
+                } 
+                else if ($bankname == 'BOB') 
+                {
+                } 
             }
         }
         $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
         $path = 'exports/' . $csv_name;
         $to = "robin.reubro@gmail.com";
         //   $issend = Mail::to($to)->send(new PayrollTemplateMail($path, $EmployerId, $csv_name));
-
+        if ($bankname == 'HFC' || $bankname == 'BSP' ) {
+            $this->mail_to_superiors($path, $EmployerId, $csv_name);
+        }
 
         //sending payroll csv file through email mpaisa
         $export = new MpaisaExport();
@@ -346,9 +347,7 @@ class PayrollCalculationController extends Controller
             return response()->json([
                 'message' => 'Payroll calculated successfully.',
             ]);
-            return response()->json([
-                'message' => 'Payroll calculated successfully.',
-            ]);
+          
         } else {
             // Handle web form-specific logic here
             return  notify()->success(__('Payroll calculated successfully.'));
@@ -357,7 +356,6 @@ class PayrollCalculationController extends Controller
 
     public function mail_to_superiors($path, $EmployerId, $csv_name)
     {
-        //  dd($path);
         Mail::send([], [], function ($message) use ($path, $EmployerId, $csv_name) {
             // $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
             $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
@@ -379,22 +377,6 @@ class PayrollCalculationController extends Controller
                 $to = "robin.reubro@gmail.com";
             }
 
-
-            // if ($finance == null) {
-            //     $to = [$hr->user->email];
-            // } elseif ($hr == null) {
-            //     $to = [$finance->user->email];
-            // } elseif ($finance == null && $hr == null) {
-            //     $employer = Employer::where('employer_id', $EmployerId)->first();
-            //     $to = $employer->email;
-            // } else {
-            //     // $to = [$hr->user->email, $finance->user->email];
-            //     $mail= optional($finance)->user->email;
-            //     dd($mail);
-            //     $to = [$finance->user->email];
-            // }
-            //    $to = "buzzmefiji@gmail.com";
-            //->cc([$cc1, $cc2, $cc3]) /
             $to = "robin.reubro@gmail.com";
             $cc = "robin.reubro@gmail.com";
             $cc1 = "josephson.1991@gmail.com";
@@ -645,9 +627,6 @@ class PayrollCalculationController extends Controller
             $t_p_reference_char = "Wages_xxxxxxx";   //12
             $o_p_name = "FigiBankAssoc";   //20
             $o_p_particulars = "ED05123ERR11";  //12
-
-
-
 
             // Initialize an empty string to store the formatted data
 

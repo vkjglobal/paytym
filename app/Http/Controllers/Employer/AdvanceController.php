@@ -92,7 +92,19 @@ class AdvanceController extends Controller
                     $deduction->user_id = $request->user_id;
                     $issave = $deduction->save();
                 }
-                return Redirect::back();
+
+                if ($request->expectsJson()) {
+                    // Handle API-specific logic here
+                    return response()->json([
+                        'message' => 'Responded Successfully'
+                    ], 200);
+                } else {
+                    // Handle web form-specific logic here
+                    return Redirect::back();
+                    //return  notify()->error(__('There is pending leave requests'));
+                }
+
+               
             }
         }
     }
