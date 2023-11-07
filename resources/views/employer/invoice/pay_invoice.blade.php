@@ -35,7 +35,7 @@
 						<input type="hidden" id="nar_merflag" name="nar_merflag" value="S" />{{--{{ session('okvalue') }}--}}
 						<input type="hidden" id="nar_mcccode" name="nar_mcccode" value="8931" />
 						{{--<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="https://uat2.yalamanchili.in/pgsim/checkresponse"/>--}}
-						<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="http://52.40.210.26:2000/employer/checkresponse"/>
+						<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="https://paytym.net/employer/checkresponse"/>
 						<input type="hidden" id="nar_Secure" name="nar_Secure" value="IPGSECURE"/> 
 						
 
