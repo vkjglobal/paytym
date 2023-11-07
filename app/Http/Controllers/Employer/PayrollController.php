@@ -452,7 +452,7 @@ class PayrollController extends Controller
 
             $res = $payroll->save();
             $flag_payroll = 1;
-            dd("bbbbbb");
+          //  dd("bbbbbb");
             // Payslip Generation
             PayslipGeneration::dispatch(
                 $employee,
