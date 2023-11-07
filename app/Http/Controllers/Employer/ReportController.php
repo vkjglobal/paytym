@@ -581,22 +581,24 @@ public function projectreport_index()
             [(__('Report')), null]
         ];
         //$frcs = FrcsEmployeeData::where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
-        $request= null;
+        
         $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
         $frcs = User::with('frcs')->where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
-        return view('employer.report.employee_frcs_list',compact('breadcrumbs','frcs','businesses','request'));
+        return view('employer.report.employee_frcs_list',compact('breadcrumbs','frcs','businesses'));
     }
-    public function frcsreport_export(Request $request)
+  /*   public function frcsreport_export(Request $request)
     {
         //dd($request);
-        return Excel::download(new EmployeeFRCSExport, 'employeefrcs_report_export-'.Carbon::now().'.xlsx');
-    }
+        return Excel::download(new EmployeeFRCSExport($request), 'employeefrcs_report_export-'.Carbon::now().'.xlsx');
+    } */
 
+   
     public function frcs_filter(Request $request){
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
             [(__('Report')), null]
         ];
+        $employer_id = $this->employer_id();
         //$users = User::query();
     /*     $businesses = EmployerBusiness::where('employer_id', $this->employer_id())->get();
        $frcs = User::with('frcs')->where('employer_id', $this->employer_id())->orderBy('created_at', 'desc')->get();
@@ -670,8 +672,14 @@ public function projectreport_index()
 
     $frcs = $frcs->orderBy('created_at', 'desc')->get();
 
-    return view('employer.report.employee_frcs_list', compact('breadcrumbs', 'frcs', 'businesses','request'));
+    return view('employer.report.employee_frcs_list_filter', compact('breadcrumbs', 'frcs', 'businesses','request','employer_id'));
 }
+
+public function frcsreport_export(Request $request) 
+{
+    return Excel::download(new EmployeeFRCSExport($request), 'employeefrcs_report_export-'.Carbon::now().'.xlsx');
+}
+
 
 
 

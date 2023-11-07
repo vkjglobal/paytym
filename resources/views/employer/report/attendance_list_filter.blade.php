@@ -40,6 +40,7 @@
                                     <th>Sl #</th>
                                     <th>Name</th>
                                     <th>Hours worked</th>
+                                    <th>Extra Hours</th>
                                     <th>Date From</th>
                                     <th>Date To</th>
                                     {{--<th>Status</th>--}}
@@ -53,6 +54,8 @@
                                             {{ $employee->first_name }}
                                         @endisset</td>
                                         <td>{{ $employee->attendanceReport($date_from, $date_to) }}</td>
+                                        <td>{{ $employee->attendanceReport_extrahours($date_from, $date_to) }}</td>
+                                        {{--<td>{{ optional($employee->attendance)->extra_hours ?? 'No data'}} </td>--}}
                                         <td>@if($date_from != 0)
                                             {{ $date_from }} @else {{ $employee->employment_start_date }}
                                         @endif</td>
