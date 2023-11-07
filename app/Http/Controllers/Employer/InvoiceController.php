@@ -275,7 +275,9 @@ public function download_email_invoice($id)
 
     public function checkResponse(Request $request)
     {
-        dd($request);
+        Log::info('Response Data from Payment Gateway:', $request->all());
+        //dd($request);
+        return view('employer.invoice.transaction_status');
     }
     
 }
