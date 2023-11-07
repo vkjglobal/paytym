@@ -338,6 +338,80 @@ class User extends Authenticatable
         // $attendances = Attendance::where(Auth::guard('employer')->id())->where('user_id', $this->id)->get();
     }
 
+ /*    public function attendanceReport_extrahours($date_from, $date_to)
+    {
+        (float)$exhours = 0;
+        if(!$date_to && !$date_from){
+            $user = User::where('id', $this->id)->first();
+            $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$user->employment_start_date, Carbon::now()])->get();
+            foreach($attendances as $attend){
+                //$extra_hours = Carbon::parse($attend->extra_hours);
+                $extra_hours = $attend->extra_hours;
+                if ($extra_hours != NULL){
+                    $exhours += $extra_hours;
+                }
+            }
+            return $exhours;
+        }
+        if(!$date_to){
+            $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$date_from, Carbon::now()])->get();
+            foreach($attendances as $attend){
+                //$extra_hours = Carbon::parse($attend->extra_hours);
+                $extra_hours = $attend->extra_hours;
+                if ($extra_hours != NULL){
+                    $exhours += $extra_hours;
+                }
+            }
+            return $exhours;
+        }
+        $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$date_from, $date_to])->get();
+        foreach($attendances as $attend){
+            //$extra_hours = Carbon::parse($attend->extra_hours);
+            $extra_hours = $attend->extra_hours;
+                if ($extra_hours != NULL){
+                    $exhours += $extra_hours;
+                }
+            // return $hours;
+        }
+        return $exhours;
+
+        // $attendances = Attendance::where(Auth::guard('employer')->id())->where('user_id', $this->id)->get();
+    } */
+    public function attendanceReport_extrahours($date_from, $date_to)
+{
+    $totalExtraHours = 0;
+
+    $query = Attendance::where('user_id', $this->id);
+
+    if ($date_from && $date_to) {
+        $query->whereBetween('date', [$date_from, $date_to]);
+    } elseif ($date_from) {
+        $query->where('date', '>=', $date_from);
+    } elseif ($date_to) {
+        $query->where('date', '<=', $date_to);
+    } else {
+        $user = User::find($this->id);
+        $query->whereBetween('date', [$user->employment_start_date, Carbon::now()]);
+    }
+
+    $attendances = $query->get();
+
+    foreach ($attendances as $attend) {
+        $extraHours = $attend->extra_hours;
+        
+        if ($extraHours !== null) {
+            list($hours, $minutes) = explode(':', $extraHours);
+            $totalExtraHours += ($hours * 60) + $minutes;
+        }
+    }
+
+    $totalHours = floor($totalExtraHours / 60);
+    $totalMinutes = $totalExtraHours % 60;
+
+    return sprintf('%02d:%02d', $totalHours, $totalMinutes);
+}
+
+
     public function leaves()
     {
         return LeaveRequest::where('user_id', $this->id)->where('status', '1')->count();

@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h6 class="card-title">Employee FRCS Data Report</h6>
                     
-                    <div class="float-right mb-3">
+                    {{--<div class="float-right mb-3">
                         <button type="button" class="btn btn-primary btn-icon-text" onclick="window.location='{{route("employer.report.frcsreport.export")}}'">
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
                             Download Report
@@ -17,7 +17,7 @@
                         @if(isset($request))
                         <input type="hidden" name="business" value="{{$request->business}}">
                         @endif
-                    </div>
+                    </div>--}}
                     <form method="POST" action="{{ route('employer.report.frcs.filter') }}" enctype="multipart/form-data">
                             @csrf
                     <div class="row mt-4 mb-4" id="" >
@@ -83,11 +83,11 @@
                         </div><!-- Row -->
                         </form>
 
-                    <div class="datalist-table table-responsive">
+                    {{--<div class="datalist-table table-responsive">
                         <div id="employee_period_table">
                             @include('employer.report.table.employeefrcs_list_table')
                         </div>
-                    </div>
+                    </div>--}}
 
                 </div>
             </div>
