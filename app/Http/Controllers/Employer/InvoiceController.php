@@ -276,7 +276,7 @@ public function download_email_invoice($id)
     public function checkResponse(Request $request)
     {
         Log::info('Response Data from Payment Gateway:', $request->all());
-        //dd($request);
+        dd($request);
         if($request)
         {
         session()->flash('success', ' Transaction Successful!! Thanks for your payment. Please continue your subscription to access our superior Paytym HR and Payroll Automation Platform.
