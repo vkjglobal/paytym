@@ -29,6 +29,16 @@
                                     <div class="invalid-feedback">{{ $errors->first('double_time_rate') }}</div>
                                 </div>
                             </div><!-- Col -->
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"> Extra Hours at Overtime Rate<span class="text-danger">*</span></label>
+                                    <input type="time"
+                                        class="form-control @if ($errors->has('extrahours_at_overtime_rate')) is-invalid @endif"
+                                        name="extrahours_at_overtime_rate" value="{{ old('extrahours_at_overtime_rate') }}"   required>
+                                    <div class="invalid-feedback">{{ $errors->first('extrahours_at_overtime_rate') }}</div>
+                                </div>
+                            </div>
                             </div>
                     <input type="hidden" name="business_id" value={{$id}}>
                     <button type="submit" class="btn btn-primary">Save</button>

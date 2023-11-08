@@ -141,6 +141,16 @@
                                 </div><!-- Col -->
                                 <div class="col-sm-6">
                                     <div class="form-group">
+                                        <label class="control-label">TIN Letter</label>
+                                        <input type="file"
+                                        class="form-control @if ($errors->has('tin_letter')) is-invalid @endif"
+                                        name="tin_letter" value="{{ old('tin_letter') }}"
+                                        placeholder="Enter tin letter">
+                                    <div class="invalid-feedback">{{ $errors->first('tin_letter') }}</div>
+                                    </div>
+                                </div><!-- Col -->
+                                <div class="col-sm-6">
+                                    <div class="form-group">
                                         <label class="control-label">logo</label>
                                         <input type="file"
                                             class="form-control @if ($errors->has('image')) is-invalid @endif"
