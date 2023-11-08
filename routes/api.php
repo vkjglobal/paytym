@@ -83,7 +83,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('payslip', [PaymentRequestController::class, 'payslip']);
 
     //Payment Advance 18-11-22
-    Route::post('request_advance', [PaymentAdvanceController::class, 'request_advance']);
+    Route::post('advance_request_approve_decline_edit', [PaymentAdvanceController::class, 'advance_request_approve_decline_edit']);  // Updated the Api name By Robin on 08-11-23
     Route::post('list_advance_request', [PaymentAdvanceController::class, 'list_advance_request']);
     
 
@@ -223,6 +223,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
       // 13-09-23 Revert PayRoll
       Route::post('revert_payroll', [PayrollController::class,'revert_payroll']);
+
+// 08-11-23
+
+Route::post('respond_advance_request', [PaymentAdvanceController::class, 'respond_advance_request'])->name('advance.respond_advance_request');
+
 
 
 
