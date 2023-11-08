@@ -60,9 +60,16 @@ class SendPaymentReminder extends Command
                     Mail::to($recipients->toArray())->send(new PaymentReminderEmail($employer));*/
 
                 }
+                
                 $employer->invoice->where('status', '0')->each(function ($invoice) {
                     $invoice->update(['status' => '2']); // Set status to '2' (overdue)
                 });
+
+                /* $adminEmails = AdminEmails::get()->pluck('email');
+                $recipients = $adminEmails->toArray();
+                if ($adminEmails->count()>0) {
+                    Mail::to($recipients)->send(new PaymentReminderEmail($employer,$invoice));
+                    }  */
             }
         }
 

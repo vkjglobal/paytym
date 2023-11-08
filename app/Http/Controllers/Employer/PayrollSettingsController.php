@@ -30,20 +30,22 @@ class PayrollSettingsController extends Controller
     }
 
     public function store(Request $request){
-        
         $request = $request->validate([
             'over_time_rate' => 'numeric|nullable',
             'double_time_rate' => 'numeric|nullable',
             'business_id' => 'numeric',
+            'extrahours_at_overtime_rate' => 'nullable',
         ]);
 
         $setting = PayrollSetting::where('employer_business_id', $request['business_id'])->first();
+        //dd($setting);
         if(!$setting){
             $setting = new PayrollSetting();
             $setting->employer_business_id = $request['business_id'];
         }
         $setting->over_time_rate = $request['over_time_rate'];
         $setting->double_time_rate = $request['double_time_rate'];
+        $setting->extrahours_at_overtime_rate = $request['extrahours_at_overtime_rate'];
         $issave = $setting->save();
         if($issave){
             notify()->success(__('Payslip settings added successfully'));

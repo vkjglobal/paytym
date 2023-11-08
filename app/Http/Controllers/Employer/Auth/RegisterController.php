@@ -112,6 +112,7 @@ class RegisterController extends Controller
             'tin' => 'required|string',
             'website' => 'nullable|url',
             'registration_certificate' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
+            'tin_letter' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
             'logo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
         ]);
             
@@ -155,6 +156,14 @@ class RegisterController extends Controller
             );
             $employer->registration_certificate = $path;
         }
+        if (isset($request['tin_letter'])) {
+            $path =  $request['tin_letter']->storeAs(
+                'uploads/employers',
+                urlencode(time()) . '_' . uniqid() . '_' . $request['tin_letter']->getClientOriginalName(),
+                'public'
+            );
+            $employer->tin_letter = $path;
+        }
 
         if (isset($request['logo'])) {
             $path =  $request['logo']->storeAs(
@@ -164,7 +173,6 @@ class RegisterController extends Controller
             );
             $employer->logo = $path;
         }
-       
         $res = $employer->save();
 
         
