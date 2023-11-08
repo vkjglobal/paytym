@@ -129,6 +129,7 @@ for ($i = 1; $i <= $attempts; $i++) {
     //dd($ok);
     //session(['okvalue' => $ok]);
     Log::info('Response Data: ' . json_encode($request->all()));
+    Log::info('Response Data from Payment Gateway:', $request->all());
     Log::info('Checksum Verification Result: ' . $ok);  
     echo "check #1: Verification "; 
     if ($ok == 1) {
