@@ -29,6 +29,9 @@
                                     <th>Name</th>
                                      
                                     <th>Total Deduction Amount</th>
+                                    {{--<th>Deduction Type</th>
+                                    <th>Date</th>--}}
+
                                     <th>View</th>
                    
                                     {{-- <th>Total Allowance</th>    --}}
@@ -59,6 +62,13 @@
                                         <td>
                                             {{ $employee->total_deduction() }}
                                         </td>
+                                        {{--<td>
+                                            {{ optional($employee->assign_deduction)->deduction->name ?? "" }}
+                                           
+                                        </td>
+                                        <td>
+                                            {{ $employee->total_deduction() }}
+                                        </td>--}}
                                         <td>
                                             <a href="{{route('employer.report.deduction.view', $employee->id)}}"><i data-feather="eye"></i></a>
                                         </td>

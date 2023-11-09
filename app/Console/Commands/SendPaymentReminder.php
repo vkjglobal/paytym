@@ -7,7 +7,9 @@ use Carbon\Carbon;
 use App\Models\Employer;
 use App\Models\Invoice;
 use App\Models\BillingEmail;
+use App\Models\AdminEmails;
 use App\Mail\PaymentReminderEmail;
+use App\Mail\EmployerPaymentDueMailToAdmins;
 use App\Mail\AccountDeactivationWarningEmail;
 use Illuminate\Support\Facades\Mail;
 
@@ -35,7 +37,7 @@ class SendPaymentReminder extends Command
     public function handle()
     {
         $today = Carbon::today();
-        $sixthOfMonth = $today->copy()->day(8);
+        $sixthOfMonth = $today->copy()->day(6);
 
         // Send payment reminder emails
         if ($today->isSameDay($sixthOfMonth)) {
@@ -65,11 +67,11 @@ class SendPaymentReminder extends Command
                     $invoice->update(['status' => '2']); // Set status to '2' (overdue)
                 });
 
-                /* $adminEmails = AdminEmails::get()->pluck('email');
+                $adminEmails = AdminEmails::get()->pluck('email');
                 $recipients = $adminEmails->toArray();
                 if ($adminEmails->count()>0) {
-                    Mail::to($recipients)->send(new PaymentReminderEmail($employer,$invoice));
-                    }  */
+                    Mail::to($recipients)->send(new EmployerPaymentDueMailToAdmins($employer,$invoice));
+                    } 
             }
         }
 

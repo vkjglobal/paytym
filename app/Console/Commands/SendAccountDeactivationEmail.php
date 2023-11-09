@@ -63,6 +63,11 @@ class SendAccountDeactivationEmail extends Command
                     /*$recipients = collect([$employer->email])->concat($billingEmails);
                     Mail::to($recipients->toArray())->send(new AccountDeactivationEmail($employer));*/
                 }
+                $adminEmails = AdminEmails::get()->pluck('email');
+                $recipients = $adminEmails->toArray();
+                if ($adminEmails->count()>0) {
+                    Mail::to($recipients)->send(new EmployerDeactivationMailToAdmins($employer,$invoice));
+                    } 
                 //$employer->update(['status' => '0']);
             }
 

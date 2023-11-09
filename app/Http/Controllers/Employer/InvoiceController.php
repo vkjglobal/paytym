@@ -276,98 +276,16 @@ public function download_email_invoice($id)
 
     public function checkResponse(Request $request)
     {
+        dd('hi');
+
         Log::info('Response Data from Payment Gateway:', $request->all());
-        $sourceString = join('|', [
-            'nar_cardType' => 'EX',
-            'nar_merBankCode' => '01',
-            'nar_merId' => $request->nar_merId,
-            'nar_merTxnTime' => $request->nar_merTxnTime,//'20161031152438',
-            'nar_msgType' => $request->nar_msgType,
-            'nar_orderNo' => $request->nar_orderNo,
-            'nar_paymentDesc' => $request->nar_paymentDesc,
-            'nar_remitterEmail' => $request->nar_remitterEmail,//'customermail@gmail.com',
-            'nar_remitterMobile' => $request->nar_remitterMobile,//'12323213',
-            'nar_txnAmount' => $request->nar_txnAmount,//'1.00',
-            'nar_txnCurrency' => '242',
-            'nar_version' => '1.0',
-            'nar_returnUrl' => $request->nar_returnUrl,
-        ]);
-        Log::info('Source String: ' . $sourceString);
-       //dd($sourceString);
-
-        // Retrieve private key and passphrase from config
-        $binary_signature =$request->bs;
-       
-        
-        $attempts = 3;
-$retryDelay = 5; // Delay in seconds between retries
-
-for ($i = 1; $i <= $attempts; $i++) {
-    try {
-        $response = Http::withOptions(['timeout' => 10])->post(env('BSP_API_URL'), [
-            'data' => $sourceString,
-            'checksum' => $checksum,
-        ]);
-        // Check if the response was successful
-        if ($response->successful()) {
-            // Handle the response
-            break; // Exit the loop if successful
-        }
-    } catch (\Exception $e) {
-        // Handle the exception (e.g., log the error)
-    }
-    
-    if ($i < $attempts) {
-        sleep($retryDelay); // Wait before the next retry
-    }
-    
-       
-    //dd($request);
-    $publicKeyPath = env('BSP_PUBLIC_KEY');
-    $fpq=fopen ($publicKeyPath,"r");
-    $pub_key=fread($fpq,8192); 
-    fclose($fpq);
-    //dd($pub_key);
-
-    $pubs = openssl_get_publickey($pub_key);
-    //dd($pubs);
-   // $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
-    $ok = openssl_verify($sourceString, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
-    dd($ok);
-    //session(['okvalue' => $ok]);
-    Log::info('Response Data: ' . json_encode($request->all()));
-    Log::info('Response Data from Payment Gateway:', $request->all());
-    Log::info('Checksum Verification Result: ' . $ok);  
-    echo "check #1: Verification "; 
-    if ($ok == 1) {
-    //
-   // dd($request->all());
-    /*$employer = Auth::guard('employer')->user(); 
-    $invoice = Invoice::with('plan')->where('employer_id', Auth::guard('employer')->user()->id)->orderBy('created_at', 'desc')->first();
-    $invoice->update(['status' => 1]);*/
-    session()->flash('success', ' Transaction Successful!! Thanks for your payment. Please continue your subscription to access our superior Paytym HR and Payroll Automation Platform.
-    Thank you once again !.');
-    return view('employer.invoice.transaction_status');
-    //echo "signature ok (as it should be)\n";
-    } elseif ($ok == 0) { 
-   
-    session()->flash('success', ' Transaction Unsuccessful!! Please Retry!.');
-        return view('employer.invoice.transaction_status');
-       // return redirect()->route('employer.home');
-    //echo "bad (there's something wrong)\n";
-   
-    } else {
-    echo "ugly, error checking signature\n";
-    }
-   
-}
-        //dd($request->all());
-        /* if($request)
+        if($request)
         {
         session()->flash('success', ' Transaction Successful!! Thanks for your payment. Please continue your subscription to access our superior Paytym HR and Payroll Automation Platform.
         Thank you once again !.');
         return view('employer.invoice.transaction_status');
-        } */
+        } 
+        
        // return view('employer.invoice.transaction_status');
     }
     
