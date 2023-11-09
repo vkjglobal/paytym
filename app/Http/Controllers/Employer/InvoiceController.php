@@ -15,6 +15,7 @@ use Carbon\CarbonPeriod;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class InvoiceController extends Controller
 {
@@ -361,12 +362,12 @@ for ($i = 1; $i <= $attempts; $i++) {
    
 }
         //dd($request->all());
-        if($request)
+        /* if($request)
         {
         session()->flash('success', ' Transaction Successful!! Thanks for your payment. Please continue your subscription to access our superior Paytym HR and Payroll Automation Platform.
         Thank you once again !.');
         return view('employer.invoice.transaction_status');
-        }
+        } */
        // return view('employer.invoice.transaction_status');
     }
     
