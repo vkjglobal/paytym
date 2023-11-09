@@ -125,7 +125,7 @@ class PayslipGeneration implements ShouldQueue
         'nonHolidayDates'
          ));
         
-        $filename = 'EMP' . $employee->employer->id . '_PS' . uniqid() . '_' . $employee->id . '.pdf';
+        $filename = 'EMP' . $employee->employer->id . '_PS' . $endDate . '_' . $employee->id . '.pdf';
         $path = 'pdfs/' . $filename;
         $pdf->save(storage_path('app/public/' . $path));
         $payroll->pay_slip = $filename;
