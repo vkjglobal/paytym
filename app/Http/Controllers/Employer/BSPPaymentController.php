@@ -126,7 +126,7 @@ for ($i = 1; $i <= $attempts; $i++) {
     //dd($pubs);
    // $ok = openssl_verify($data, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
     $ok = openssl_verify($sourceString, $binary_signature, $pubs, OPENSSL_ALGO_SHA1);
-    //dd($ok);
+    dd($ok);
     //session(['okvalue' => $ok]);
     Log::info('Response Data: ' . json_encode($request->all()));
     Log::info('Response Data from Payment Gateway:', $request->all());
