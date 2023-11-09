@@ -357,8 +357,8 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::get('email_invoice_download/{id}', [InvoiceController::class, 'download_email_invoice'])->name('email_invoice_download');
   Route::get('pay_invoice/{id}', [InvoiceController::class, 'pay_invoice'])->name('pay_invoice');
   //Route::get('transaction-status/{id}', [InvoiceController::class, 'transaction_status'])->name('transaction_status');
-  //Route::get('checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
-  Route::post('https://paytym.net/employer/checkresponse', [InvoiceController::class, 'checkResponse']);
+  Route::post('checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
+  //Route::post('https://paytym.net/employer/checkresponse', [InvoiceController::class, 'checkResponse']);
   
 
   //Cards 04-09-23
