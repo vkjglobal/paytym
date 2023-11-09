@@ -357,8 +357,9 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::get('email_invoice_download/{id}', [InvoiceController::class, 'download_email_invoice'])->name('email_invoice_download');
   Route::get('pay_invoice/{id}', [InvoiceController::class, 'pay_invoice'])->name('pay_invoice');
   //Route::get('transaction-status/{id}', [InvoiceController::class, 'transaction_status'])->name('transaction_status');
-  Route::get('checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
-
+  //Route::get('checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
+  Route::post('https://paytym.net/employer/checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
+  
 
   //Cards 04-09-23
   Route::resource('cards', CardController::class)->except(['show']);
@@ -388,6 +389,7 @@ Route::get('payroll-revert-form', [PayrollController::class, 'revert_form'])->na
 Route::get('revert_web', [PayrollController::class, 'revert_web'])->name('payroll.revert.web');
 
 Route::post('/process-payment', [BSPPaymentController::class, 'sendPaymentRequest'])->name('process-payment');
+//Route::post('https://paytym.net/employer/checkresponse', [BSPPaymentController::class, 'sendPaymentRequest'])->name('process-payment');
 Route::post('handle-response',  [BSPPaymentController::class, 'handleResponse'])->name('handleResponse');
 
 Route::get('bred_bank_template', [PayrollCalculationController::class,'bred_bank_template'])->name('bred_bank_template');
