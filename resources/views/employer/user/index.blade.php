@@ -88,7 +88,7 @@
                                             <a href="{{route('employer.medical.add', $user->id)}}" class="text-success"><i data-feather="plus"></i></a>
                                             @endif
                                         </td>
-                                        <td>
+                                        {{--<td>
                                           
                                             @if($user->frcs)
                                             <a href="{{route('employer.frcs.show', $user->id)}}"><i data-feather="eye"></i></a>
@@ -96,7 +96,7 @@
                                             <a href="{{route('employer.frcs.add', $user->id)}}" class="text-success"><i data-feather="plus"></i></a>
                                             @endif
                                         </td>
-                                    </tr>
+                                    </tr>--}}
                                     
                                 @endforeach
                                    <!-- Add Modal -->
