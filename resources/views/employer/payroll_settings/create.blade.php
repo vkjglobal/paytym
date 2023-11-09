@@ -33,7 +33,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label"> Extra Hours at Overtime Rate<span class="text-danger">*</span></label>
-                                    <input type="time"
+                                    <input type="text"
                                         class="form-control @if ($errors->has('extrahours_at_overtime_rate')) is-invalid @endif"
                                         name="extrahours_at_overtime_rate" value="{{ old('extrahours_at_overtime_rate') }}"   required>
                                     <div class="invalid-feedback">{{ $errors->first('extrahours_at_overtime_rate') }}</div>
