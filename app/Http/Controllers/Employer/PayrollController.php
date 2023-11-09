@@ -761,22 +761,21 @@ class PayrollController extends Controller
                 return response()->json([
                     'message' => 'Payroll Revert successfully.',
                     'data' => $payrolls
-                ]);
+                ], 200);
             } else {
                 return response()->json([
                     'message' => 'Something went wrong',
-                ], 400);
+                ], 200);
             }
         } else {
             return response()->json([
                 'message' => 'No record Found',
-            ], 400);
+            ], 200);
         }
     }
 
     public function revert_web()
     {
-
         $requestData = [
             'employer_id' => Auth::guard('employer')->user()->id,
         ];
