@@ -359,7 +359,7 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   //Route::get('transaction-status/{id}', [InvoiceController::class, 'transaction_status'])->name('transaction_status');
   //Route::get('checkresponse/{nar_msgType}', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
   //Route::get('checkresponse/{nar_msgType}', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
-  Route::post('checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
+  Route::get('checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
   //Route::resource('checkresponse', InvoiceController::class)->name('checkresponse');
   //Route::post('https://paytym.net/employer/checkresponse', [InvoiceController::class, 'checkResponse']);
   
