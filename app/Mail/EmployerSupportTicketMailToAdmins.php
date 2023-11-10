@@ -9,21 +9,21 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EmployerDeactivationMailToAdmins extends Mailable
+class EmployerSupportTicketMailToAdmins extends Mailable
 {
     use Queueable, SerializesModels;
     public $employer;
-    public $invoice;
+    public $supportTicket;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($employer,$invoice)
+    public function __construct($employer,$supportTicket)
     {
         //
         $this->employer = $employer;
-        $this->invoice = $invoice;
+        $this->supportTicket = $supportTicket;
     }
 
     /**
@@ -34,7 +34,7 @@ class EmployerDeactivationMailToAdmins extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Employer Deactivation Notification',
+            subject: 'New Support Ticket from Employer',
         );
     }
 
@@ -46,10 +46,10 @@ class EmployerDeactivationMailToAdmins extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'mail.send-admin-employerdeactivation',
+            markdown: 'mail.send-admin-employersupportticket',
             with: [
                 'employer' => $this->employer,
-                'invoice' => $this->invoice
+                'supportTicket' => $this->supportTicket
                 
             ]
         );

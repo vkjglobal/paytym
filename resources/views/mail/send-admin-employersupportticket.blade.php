@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employer Payment Reminder</title>
+    <title>Employer Deactivation Notification</title>
 </head>
 
 <body>
@@ -27,11 +27,12 @@
                             <h4>Dear Admin,</h4>
 
                             <br>
-                            The payment of invoice (No. {{$invoice->invoice_number}}) of {{$employer->company}} for Paytym HR and Payroll services for the month of <?php
-                                                     $previousMonth = date('F Y', strtotime('-1 month'));?>
-                                                     {{ $previousMonth }} remains unpaid.
+                            A new support ticket is created by {{$employer->company}}. Please find the details below.
+                            <br><br>
+                            <strong>Subject</strong> : {{$supportTicket->subject}} <br>
+                            <strong>Message</strong> : {{$supportTicket->message}}
 
-<br><br>A reminder email has been sent to {{$employer->company}}. If the due invoice remains unpaid within the next 2 days, the account shall be deactivated by the system automatically.
+<br><br>
 <br><br>
 
                         </td>
