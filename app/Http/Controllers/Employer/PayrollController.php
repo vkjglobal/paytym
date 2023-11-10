@@ -757,9 +757,9 @@ class PayrollController extends Controller
             $lastDate = $lastRecord->pay_date;
 
             // Step 2: Delete rows with the last date
-            $result = Payroll::where('employer_id', $request->employer_id)->where('pay_date', $lastDate)->where('paid_status', '0')->delete();
+            $result = Payroll::with('user')->where('employer_id', $request->employer_id)->where('pay_date', $lastDate)->where('paid_status', '0')->delete();
             if ($result) {
-                $payrolls = Payroll::where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
+                $payrolls = Payroll::where('employer_id', $request->employer_id)->latest()->get();
                 return response()->json([
                     'message' => 'Payroll Revert successfully.',
                     'data' => $payrolls
@@ -772,6 +772,7 @@ class PayrollController extends Controller
         } else {
             return response()->json([
                 'message' => 'No record Found',
+                'data' =>0
             ], 200);
         }
     }

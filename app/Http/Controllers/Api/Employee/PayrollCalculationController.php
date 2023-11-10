@@ -44,6 +44,7 @@ class PayrollCalculationController extends Controller
             'flag' => 'required',
         ]);
 
+       // dd($request->all());
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -52,9 +53,15 @@ class PayrollCalculationController extends Controller
             ], 400);
         }
         $EmployerId = $request->employer_id;
-        $id = $request->id;
-        $id_type = $id;
         $flag = $request->flag;
+        $id="";
+        if($flag!='all')
+        {
+            
+            $id = $request->id;
+        $id_type = $id;
+        }
+        
         $bank = "";
         if ($flag == "business") {
             foreach ($id as  $id) {
@@ -330,12 +337,17 @@ class PayrollCalculationController extends Controller
 
 
         if ($request->expectsJson()) {
+          //  dd("hiiii");
             // Handle API-specific logic here
-            $payrolls = Payroll::where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
+         //   dd(Auth::guard('employer')->id);
+       //  dd($EmployerId);
+            $payrolls = Payroll::with('user')->where('employer_id', $EmployerId)->latest()->get();
+         //   dd($payrolls->count());
+          //dd($payrolls);
             return response()->json([
                 'message' => 'Payroll calculated successfully.',
                 'data' => $payrolls
-            ], 200);
+            ],200);
         } else {
             // Handle web form-specific logic here
             return  notify()->success(__('Payroll calculated successfully.'));
