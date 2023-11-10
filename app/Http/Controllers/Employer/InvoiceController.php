@@ -274,9 +274,11 @@ public function download_email_invoice($id)
         return view('employer.invoice.invoice_checkout', compact('invoice', 'card','employer','checksumkey'));
     }
 
-    public function checkResponse($nar_msgType)
+    //public function checkResponse($nar_msgType)
+    public function checkResponse(Request $request)
     {
-        dd($nar_msgType);
+        dd($request);
+        //dd($nar_msgType);
 
         Log::info('Response Data from Payment Gateway:', $request->all());
         if($request)
