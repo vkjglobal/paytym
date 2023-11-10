@@ -170,6 +170,7 @@ class PayrollController extends Controller
 
     public function generate_hourly_payroll($employee, $fromDate, $payDate, $EmployerId)
     {
+        //dd("hourly...");
         $endDate = $payDate;
 
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $payDate])->get();
@@ -480,6 +481,7 @@ class PayrollController extends Controller
 
     public function generate_fixed_payroll($employee, $fromDate, $endDate)
     {
+      //  dd("fixed...");
         $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / ($fromDate->daysInMonth)));
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $endDate])->get();
         //Allowance Calculation
