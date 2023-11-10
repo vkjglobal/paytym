@@ -170,6 +170,7 @@ class PayrollController extends Controller
 
     public function generate_hourly_payroll($employee, $fromDate, $payDate, $EmployerId)
     {
+        //dd("hourly...");
         $endDate = $payDate;
 
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $payDate])->get();
@@ -480,6 +481,7 @@ class PayrollController extends Controller
 
     public function generate_fixed_payroll($employee, $fromDate, $endDate)
     {
+      //  dd("fixed...");
         $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / ($fromDate->daysInMonth)));
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $endDate])->get();
         //Allowance Calculation
@@ -755,9 +757,9 @@ class PayrollController extends Controller
             $lastDate = $lastRecord->pay_date;
 
             // Step 2: Delete rows with the last date
-            $result = Payroll::where('employer_id', $request->employer_id)->where('pay_date', $lastDate)->where('paid_status', '0')->delete();
+            $result = Payroll::with('user')->where('employer_id', $request->employer_id)->where('pay_date', $lastDate)->where('paid_status', '0')->delete();
             if ($result) {
-                $payrolls = Payroll::where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
+                $payrolls = Payroll::where('employer_id', $request->employer_id)->latest()->get();
                 return response()->json([
                     'message' => 'Payroll Revert successfully.',
                     'data' => $payrolls
@@ -770,6 +772,7 @@ class PayrollController extends Controller
         } else {
             return response()->json([
                 'message' => 'No record Found',
+                'data' =>0
             ], 200);
         }
     }

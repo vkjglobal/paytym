@@ -42,13 +42,30 @@ class PayslipGeneration implements ShouldQueue
     protected $lwop;
     protected $nonHolidayDates;
 
-    
 
-    public function __construct($employee,$base_pay,$grossSalary,$netSalary,$totalSalary,$totalAllowance,
-                                $totalDeduction,$allowances,$deductions,$incomeTaxToWithhold,$fnpf_amount,
-                                $srtToWithhold,$payroll,$fromDate,$endDate,$commission_amount,$total_bonus,$lwop,$nonHolidayDates)
-    {
-     
+
+    public function __construct(
+        $employee,
+        $base_pay,
+        $grossSalary,
+        $netSalary,
+        $totalSalary,
+        $totalAllowance,
+        $totalDeduction,
+        $allowances,
+        $deductions,
+        $incomeTaxToWithhold,
+        $fnpf_amount,
+        $srtToWithhold,
+        $payroll,
+        $fromDate,
+        $endDate,
+        $commission_amount,
+        $total_bonus,
+        $lwop,
+        $nonHolidayDates
+    ) {
+
         $this->employee = $employee;
         $this->base_pay = $base_pay;
         $this->grossSalary = $grossSalary;
@@ -68,7 +85,6 @@ class PayslipGeneration implements ShouldQueue
         $this->total_bonus = $total_bonus;
         $this->lwop = $lwop;
         $this->nonHolidayDates = $nonHolidayDates;
-
     }
 
     /**
@@ -78,64 +94,67 @@ class PayslipGeneration implements ShouldQueue
      */
     public function handle()
     {
-       try{
-        $employee = $this->employee;
-        $base_pay =  $this->base_pay;
-        $grossSalary = $this->grossSalary;
-        $netSalary = $this->netSalary;
-        $totalSalary = $this->totalSalary;
-        $totalAllowance =  $this->totalAllowance;
-        $totalDeduction = $this->totalDeduction;
-        $allowances = $this->allowances;
-        $deductions = $this->deductions;
-        $income_tax = $this->incomeTax;
-        $fnpf = $this->fnpf;
-        $srt = $this->srt;
-        $payroll = $this->payroll;
-        $fromDate = $this->fromDate;
-        $endDate = $this->endDate;
-        $commission_amount = $this->commission_amount;
-        $total_bonus = $this->total_bonus;
-        $lwop = $this->lwop;
-        $nonHolidayDates = count($this->nonHolidayDates);
-        $now = Carbon::now();
-        $dateString = $now->format('ymd');
-        $count = Payroll::where('employer_id',$employee->employer->id)->where('created_at', $now)->count();
-        $count_no = ($count + 1);
-        $sequenceString = str_pad($count_no, 3, '0', STR_PAD_LEFT);
-        $paySlipNumber = 'PS' . $dateString . '-' . $sequenceString;
-        $pdf = PDF::loadView('employer.payslip.templates.default',compact('employee',
-        'base_pay',
-        'grossSalary',
-        'netSalary',
-        'totalSalary',
-        'totalAllowance',
-        'totalDeduction',
-        'allowances',
-        'deductions',
-        'income_tax',
-        'fnpf',
-        'srt',
-        'fromDate',
-        'endDate',
-        'paySlipNumber',
-        'commission_amount',
-        'total_bonus',
-        'lwop',
-        'nonHolidayDates'
-         ));
-        
-        $filename = 'EMP' . $employee->employer->id . '_PS' . $endDate . '_' . $employee->id . '.pdf';
-        $path = 'pdfs/' . $filename;
-        $pdf->save(storage_path('app/public/' . $path));
-        $payroll->pay_slip = $filename;
-        $payroll->payslip_number = $paySlipNumber;
-        $payroll->save();
-        }
-        catch (\Exception $e) {
+        try {
+            $employee = $this->employee;
+            $base_pay =  $this->base_pay;
+            $grossSalary = $this->grossSalary;
+            $netSalary = $this->netSalary;
+            $totalSalary = $this->totalSalary;
+            $totalAllowance =  $this->totalAllowance;
+            $totalDeduction = $this->totalDeduction;
+            $allowances = $this->allowances;
+            $deductions = $this->deductions;
+            $income_tax = $this->incomeTax;
+            $fnpf = $this->fnpf;
+            $srt = $this->srt;
+            $payroll = $this->payroll;
+            $fromDate = $this->fromDate;
+            $endDate = $this->endDate;
+            $commission_amount = $this->commission_amount;
+            $total_bonus = $this->total_bonus;
+            $lwop = $this->lwop;
+            $nonHolidayDates = count($this->nonHolidayDates);
+            $now = Carbon::now();
+            $dateString = $now->format('ymd');
+            $count = Payroll::where('employer_id', $employee->employer->id)->where('created_at', $now)->count();
+            $count_no = ($count + 1);
+            $sequenceString = str_pad($count_no, 3, '0', STR_PAD_LEFT);
+            $paySlipNumber = 'PS' . $dateString . '-' . $sequenceString;
+            $pdf = PDF::loadView('employer.payslip.templates.default', compact(
+                'employee',
+                'base_pay',
+                'grossSalary',
+                'netSalary',
+                'totalSalary',
+                'totalAllowance',
+                'totalDeduction',
+                'allowances',
+                'deductions',
+                'income_tax',
+                'fnpf',
+                'srt',
+                'fromDate',
+                'endDate',
+                'paySlipNumber',
+                'commission_amount',
+                'total_bonus',
+                'lwop',
+                'nonHolidayDates'
+            ));
+
+            $carbonDate = Carbon::parse($endDate);
+            // Format the date
+            $formattedDate = $carbonDate->format('d-m-Y');
+
+            $filename = 'EMP' . $employee->employer->id . '_PS_' . $formattedDate . '_' . $employee->id . '.pdf';
+            $path = 'pdfs/' . $filename;
+            $pdf->save(storage_path('app/public/' . $path));
+            $payroll->pay_slip = $filename;
+            $payroll->payslip_number = $paySlipNumber;
+            $payroll->save();
+        } catch (\Exception $e) {
             // Log or report the error
             \Log::error($e);
         }
     }
-    }
-
+}

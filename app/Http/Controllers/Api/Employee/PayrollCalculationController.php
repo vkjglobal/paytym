@@ -44,6 +44,7 @@ class PayrollCalculationController extends Controller
             'flag' => 'required',
         ]);
 
+       // dd($request->all());
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -52,9 +53,15 @@ class PayrollCalculationController extends Controller
             ], 400);
         }
         $EmployerId = $request->employer_id;
-        $id = $request->id;
-        $id_type = $id;
         $flag = $request->flag;
+        $id="";
+        if($flag!='all')
+        {
+            
+            $id = $request->id;
+        $id_type = $id;
+        }
+        
         $bank = "";
         if ($flag == "business") {
             foreach ($id as  $id) {
@@ -153,7 +160,7 @@ class PayrollCalculationController extends Controller
             }
         }
         if ($employee_count == 1) {
-            $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
+          //  $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);   // For Testing purpose
 
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
@@ -282,61 +289,65 @@ class PayrollCalculationController extends Controller
 
         //    Comented by robin on 14-06-23   it is needed. 
         //  $hr = User::with('role')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
-        $currentDate = Carbon::now()->format('dmy');
-
-        if (($flag == "all" || $flag == "others")) {
-            $csv_name = "HFC" . $currentDate;
-            $export = new HfcExport(0, 0, $flag_type, 0,  $employees);
-        } else {
-            if (!$bank) {
-                $bankname = "BNK";
-            } else {
-                $bankid = $bank->banks->id;
-                $bankname = optional(optional($bank)->banks)->bank_name;
-                if ($bankname == 'HFC') {
-                    $csv_name = "HFC" . $currentDate;
-                    $export = new HfcExport($bankid, $bankname, $flag_type, $id_type,  $employees);
-                } else if ($bankname == 'BSP') {
-                    $csv_name = "BSP" . $currentDate;
-                    $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
-                } else if ($bankname == 'BRED') {
-                    $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
-                } else if ($bankname == 'BOB') {
-                }
-            }
-        }
-        $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-        $path = 'exports/' . $csv_name;
-        $to = "robin.reubro@gmail.com";
-        //   $issend = Mail::to($to)->send(new PayrollTemplateMail($path, $EmployerId, $csv_name));
-        $this->mail_to_superiors($path, $EmployerId, $csv_name);
-        // if ($bankname == 'HFC' || $bankname == 'BSP' ) {
-
+        // $currentDate = Carbon::now()->format('dmy');
+        // if (($flag == "all" || $flag == "others")) {
+        //     $csv_name = "HFC" . $currentDate;
+        //     $export = new HfcExport(0, 0, $flag_type, 0,  $employees);
+        // } else {
+        //     if (!$bank) {
+        //         $bankname = "BNK";
+        //     } else {
+        //         $bankid = $bank->banks->id;
+        //         $bankname = optional(optional($bank)->banks)->bank_name;
+        //         if ($bankname == 'HFC') {
+        //             $csv_name = "HFC" . $currentDate;
+        //             $export = new HfcExport($bankid, $bankname, $flag_type, $id_type,  $employees);
+        //         } else if ($bankname == 'BSP') {
+        //             $csv_name = "BSP" . $currentDate;
+        //             $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
+        //         } else if ($bankname == 'BRED') {
+        //             $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
+        //         } else if ($bankname == 'BOB') {
+        //         }
+        //     }
         // }
+        // $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        // $path = 'exports/' . $csv_name;
+        // $to = "robin.reubro@gmail.com";
+        // //   $issend = Mail::to($to)->send(new PayrollTemplateMail($path, $EmployerId, $csv_name));
+        // $this->mail_to_superiors($path, $EmployerId, $csv_name);
+        // // if ($bankname == 'HFC' || $bankname == 'BSP' ) {
 
-        //sending payroll csv file through email mpaisa
-        $export = new MpaisaExport();
-        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-        $path = 'exports/payroll.csv';
-        $csv_name = "Mpaisa";
-        $this->mail_to_superiors($path, $EmployerId, $csv_name);
-        //end sending
+        // // }
 
-        //sending payroll csv file through email mycash
-        $export = new MycashExport();
-        $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-        $path = 'exports/payroll.csv';
-        $csv_name = "MyCash";
-        $this->mail_to_superiors($path, $EmployerId, $csv_name);
+        // //sending payroll csv file through email mpaisa
+        // $export = new MpaisaExport();
+        // $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        // $path = 'exports/payroll.csv';
+        // $csv_name = "Mpaisa";
+        // $this->mail_to_superiors($path, $EmployerId, $csv_name);
+        // //end sending
+
+        // //sending payroll csv file through email mycash
+        // $export = new MycashExport();
+        // $store = Storage::put('exports/payroll.csv', Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+        // $path = 'exports/payroll.csv';
+        // $csv_name = "MyCash";
+        // $this->mail_to_superiors($path, $EmployerId, $csv_name);
 
 
         if ($request->expectsJson()) {
+          //  dd("hiiii");
             // Handle API-specific logic here
-            $payrolls = Payroll::where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
+         //   dd(Auth::guard('employer')->id);
+       //  dd($EmployerId);
+            $payrolls = Payroll::with('user')->where('employer_id', $EmployerId)->latest()->get();
+         //   dd($payrolls->count());
+          //dd($payrolls);
             return response()->json([
                 'message' => 'Payroll calculated successfully.',
                 'data' => $payrolls
-            ], 200);
+            ],200);
         } else {
             // Handle web form-specific logic here
             return  notify()->success(__('Payroll calculated successfully.'));
