@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
 use App\Models\SupportTicket;
+use App\Models\AdminEmails;
 use App\Http\Requests\Employer\UpdateSupportTicketRequest;
 use App\Http\Requests\Employer\StoreSupportTicketRequest;
+use App\Mail\EmployerSupportTicketMailToAdmins;
 use Illuminate\Http\Request;
+use Mail;
 use Auth;
 
 class SupportTicketController extends Controller
@@ -59,7 +62,13 @@ class SupportTicketController extends Controller
         $supportTicket->subject = $validated['subject'];
         $supportTicket->message = $validated['message'];
         $supportTicket->employer_id = Auth::guard('employer')->user()->id;
+        $employer = Auth::guard('employer')->user();
         $issave = $supportTicket->save();
+        $adminEmails = AdminEmails::get()->pluck('email');
+        $recipients = $adminEmails->toArray();
+        if ($adminEmails->count()>0) {
+            Mail::to($recipients)->send(new EmployerSupportTicketMailToAdmins($employer,$supportTicket));
+            } 
         if ($issave) {
             notify()->success(__('Created successfully'));
         } else {

@@ -6,10 +6,12 @@ use Illuminate\Console\Command;
 use Carbon\Carbon;
 use App\Models\Employer;
 use App\Models\BillingEmail;
+use App\Models\AdminEmails;
 use App\Models\Invoice;
 use App\Mail\PaymentReminderEmail;
 use App\Mail\AccountDeactivationEmail;
 use App\Mail\AccountDeactivationWarningEmail;
+use App\Mail\EmployerDeactivationMailToAdmins;
 use Illuminate\Support\Facades\Mail;
 
 class SendAccountDeactivationEmail extends Command
