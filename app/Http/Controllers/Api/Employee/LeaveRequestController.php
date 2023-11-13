@@ -19,6 +19,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\CommonRequestEmailstoHR;
+use Mail;
 
 class LeaveRequestController extends Controller
 {
@@ -55,6 +57,21 @@ class LeaveRequestController extends Controller
         $leaveRequest->end_date = date('Y-m-d H:i:s', strtotime($validated['end_date']));
         $leaveRequest->type = $validated['type'];
         $res = $leaveRequest->save();
+
+        $user = User::where('id', Auth::user()->id)->first();
+        $hr = User::join('roles', 'users.position', '=', 'roles.id')
+        ->where('users.employer_id', $validated['employer_id'])
+        ->where('users.status', 1)
+        ->where('roles.role_name', 'like', '%HR%')
+        ->get();
+        $emails = $hr->pluck('email');
+                $recipients = $emails->toArray();
+                if ($emails->count()>0) {
+                    $content = 'A new leave request is received from ' . $user->first_name .' .Please Approve/Reject.';
+                    $title = 'New Leave Request Notification';
+                    $subject = 'New Leave Request from ' .$user->first_name ;
+                    Mail::to($recipients)->send(new CommonRequestEmailstoHR($user,$content,$subject,$title));
+                    } 
 
         if ($res) {
             return response()->json([

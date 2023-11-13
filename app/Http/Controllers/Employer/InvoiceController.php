@@ -274,11 +274,11 @@ public function download_email_invoice($id)
         return view('employer.invoice.invoice_checkout', compact('invoice', 'card','employer','checksumkey'));
     }
 
-    //public function checkResponse($nar_msgType)
-    public function checkResponse(Request $request)
+    public function checkResponse($nar_msgType, $nar_merTxnTime, $nar_merBankCode, $nar_orderNo, $nar_merId, $nar_txnCurrency, $nar_txnAmount, $nar_remitterEmail, $nar_remitterMobile, $nar_cardType, $nar_checkSum, $nar_paymentDesc, $nar_version, $nar_merflag, $nar_mcccode, $nar_returnUrl, $nar_Secure)
+    //public function checkResponse(Request $request)
     {
-        dd($request);
-        //dd($nar_msgType);
+        //dd($request);
+        dd($nar_msgType);
 
         Log::info('Response Data from Payment Gateway:', $request->all());
         if($request)

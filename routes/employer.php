@@ -358,8 +358,8 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   Route::get('pay_invoice/{id}', [InvoiceController::class, 'pay_invoice'])->name('pay_invoice');
   //Route::get('transaction-status/{id}', [InvoiceController::class, 'transaction_status'])->name('transaction_status');
   //Route::get('checkresponse/{nar_msgType}', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
-  //Route::get('checkresponse/{nar_msgType}', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
-  Route::get('checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
+  Route::get('checkresponse/{nar_msgType}/{nar_merTxnTime}/{nar_merBankCode}/{nar_orderNo}/{nar_merId}/{nar_txnCurrency}/{nar_txnAmount}/{nar_remitterEmail}/{nar_remitterMobile}/{nar_cardType}/{nar_checkSum}/{nar_paymentDesc}/{nar_version}/{nar_merflag}/{nar_mcccode}/{nar_returnUrl}/{nar_Secure}', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
+  //Route::get('checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
   //Route::resource('checkresponse', InvoiceController::class)->name('checkresponse');
   //Route::post('https://paytym.net/employer/checkresponse', [InvoiceController::class, 'checkResponse']);
   
