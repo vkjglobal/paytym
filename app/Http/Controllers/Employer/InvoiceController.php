@@ -279,7 +279,8 @@ public function download_email_invoice($id)
     public function checkResponse(Request $request)
     {
         //dd($request);
-        dd($request->nar_msgType);
+        $nar_msgType = $request->input('nar_msgType');
+        dd($nar_msgType);
 
         Log::info('Response Data from Payment Gateway:', $request->all());
         if($request)
