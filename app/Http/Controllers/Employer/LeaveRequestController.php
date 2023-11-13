@@ -10,8 +10,10 @@ use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\QuitRequest;
 use App\Models\User;
+use App\Mail\CommonRequestEmailstoHR;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class LeaveRequestController extends Controller
 {
@@ -44,6 +46,7 @@ class LeaveRequestController extends Controller
 
     public function store(Request $request)
     {
+       
         $breadcrumbs = [
             [(__('Dashboard')), route('employer.home')],
             [(__('Create Leave Requests')), null],
@@ -69,6 +72,22 @@ class LeaveRequestController extends Controller
         $leave_request->status = '0';
         $issave = $leave_request->save();
 
+        $user = User::where('id', $request->user)->first();
+        $hr = User::join('roles', 'users.position', '=', 'roles.id')
+        ->where('users.employer_id', Auth::guard('employer')->id())
+        ->where('users.status', 1)
+        ->where('roles.role_name', 'like', '%HR%')
+        ->get();
+        $emails = $hr->pluck('email');
+                $recipients = $emails->toArray();
+                if ($emails->count()>0) {
+                    $content = 'A new leave request is received from ' . $user->first_name .' .Please Approve/Reject.';
+                    $title = 'New Leave Request Notification';
+                    $subject = 'New Leave Request from ' .$user->first_name ;
+                    Mail::to($recipients)->send(new CommonRequestEmailstoHR($user,$content,$subject,$title));
+                    } 
+
+    
         if($issave){
             notify()->success(__('Created successfully'));
         } else {

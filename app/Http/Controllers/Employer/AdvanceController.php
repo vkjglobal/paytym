@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use App\Mail\CommonRequestEmailstoHR;
+use Mail;
 
 class AdvanceController extends Controller
 {
@@ -57,6 +59,21 @@ class AdvanceController extends Controller
         $payRequest->description = $request->description;
         $payRequest->requested_date = $now;
         $res = $payRequest->save();
+
+        $user = User::where('id', $request->employee_id)->first();
+        $hr = User::join('roles', 'users.position', '=', 'roles.id')
+        ->where('users.employer_id', Auth::guard('employer')->id())
+        ->where('users.status', 1)
+        ->where('roles.role_name', 'like', '%HR%')
+        ->get();
+        $emails = $hr->pluck('email');
+                $recipients = $emails->toArray();
+                if ($emails->count()>0) {
+                    $content = 'A new advance request is received from ' . $user->first_name .'.Please Approve/Reject.';
+                    $title = 'New Advance Request Notification';
+                    $subject = 'New Advance Request from ' .optional($user)->first_name ?? "" ;
+                    Mail::to($recipients)->send(new CommonRequestEmailstoHR($user,$content,$subject,$title));
+                    } 
 
         if ($res) {
             notify()->success(__('Added Successfully'));

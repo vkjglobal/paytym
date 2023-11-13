@@ -36,7 +36,10 @@
 						<input type="hidden" id="nar_mcccode" name="nar_mcccode" value="8931" />
 						{{--<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="https://uat2.yalamanchili.in/pgsim/checkresponse"/>--}}
 						<input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="https://paytym.net/employer/checkresponse"/>
-						<input type="hidden" id="nar_Secure" name="nar_Secure" value="IPGSECURE"/> 
+                       {{-- <input type="hidden" id="nar_returnUrl" name="nar_returnUrl" value="https://paytym.net/employer/checkresponse/{nar_msgType}/{nar_merTxnTime}/{nar_merBankCode}/{nar_orderNo}/{nar_merId}/{nar_txnCurrency}/{nar_txnAmount}/{nar_remitterEmail}/{nar_remitterMobile}/{nar_cardType}/{nar_checkSum}/{nar_paymentDesc}/{nar_version}/{nar_merflag}/{nar_mcccode}/{nar_returnUrl}/{nar_Secure}"/>--}}
+						
+                        
+                            <input type="hidden" id="nar_Secure" name="nar_Secure" value="IPGSECURE"/> 
 						
 
                        {{-- @csrf
