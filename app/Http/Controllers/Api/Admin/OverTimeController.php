@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\CommonRequestEmailstoHR;
+use Mail;
 
 class OverTimeController extends Controller
 {
@@ -152,6 +154,21 @@ class OverTimeController extends Controller
         $overtime->reason = $request->reason;
         $overtime->status = '1';
         $issave = $overtime->save();
+
+        $user = User::where('id', $request->employee_id)->first();
+        $hr = User::join('roles', 'users.position', '=', 'roles.id')
+        ->where('users.employer_id', $request->employer_id)
+        ->where('users.status', 1)
+        ->where('roles.role_name', 'like', '%HR%')
+        ->get();
+        $emails = $hr->pluck('email');
+                $recipients = $emails->toArray();
+                if ($emails->count()>0) {
+                    $content = 'An overtime request is received from ' . $user->first_name .' on ' . $request->date . 'for' .$request->total_hours . 'hours.Please Approve/Reject.';
+                    $title = 'New Overtime Request Notification';
+                    $subject = 'New Overtime Request from ' .$user->first_name ;
+                    Mail::to($recipients)->send(new CommonRequestEmailstoHR($user,$content,$subject,$title));
+                    } 
 
         if ($issave) {
             return response()->json([

@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
         "App\Console\Commands\SplitPayment",
         "App\Console\Commands\AddInvoices",
         "App\Console\Commands\SendPaymentReminder",
-        "App\Console\Commands\SendAccountDeactivationEmail"
+        "App\Console\Commands\SendAccountDeactivationEmail",
+        "\App\Console\Commands\ProcessPayrollReminder"
     ];
     
     /**
@@ -42,7 +43,8 @@ class Kernel extends ConsoleKernel
         //$schedule->command('send:login_credentials')->twiceDaily(24 ,18);
         $schedule->command('invoices:add')->monthlyOn(1, '00:00');
         
-        
+        $schedule->command('payroll:reminder')
+        ->dailyAt('14:43');
       
              
              
