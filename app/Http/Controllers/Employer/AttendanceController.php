@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 // use Excel;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\AttendanceImport;
+use App\Mail\CommonRequestEmailstoHR;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class AttendanceController extends Controller
 {
@@ -55,6 +57,21 @@ class AttendanceController extends Controller
             $stor->extra_hours = $request->extra_hours;
         }
         $issave = $stor->save();
+
+        $user = User::where('id', $request->name)->first();
+        $hr = User::join('roles', 'users.position', '=', 'roles.id')
+        ->where('users.employer_id', Auth::guard('employer')->id())
+        ->where('users.status', 1)
+        ->where('roles.role_name', 'like', '%HR%')
+        ->get();
+        $emails = $hr->pluck('email');
+                $recipients = $emails->toArray();
+                if ($emails->count()>0) {
+                    $content = $user->first_name . ' ' . $user->last_name . ' has checked in.';
+                    $title = 'Employee check-in Notification';
+                    $subject = 'Employee Checked in -' .$user->first_name ;
+                    Mail::to($recipients)->send(new CommonRequestEmailstoHR($user,$content,$subject,$title));
+                    } 
         if ($issave) {
             notify()->success(__('Created successfully'));
         } else {

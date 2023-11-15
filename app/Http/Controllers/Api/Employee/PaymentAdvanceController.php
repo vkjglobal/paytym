@@ -6,10 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\AssignDeduction;
 use App\Models\Deduction;
 use App\Models\PaymentAdvance;
+use App\Models\User;
+use App\Mail\CommonRequestEmailstoHR;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Mail;
+
 
 class PaymentAdvanceController extends Controller
 {
@@ -52,6 +56,20 @@ class PaymentAdvanceController extends Controller
                 $payRequest->requested_date = $requested_date;
 
                 $res = $payRequest->save();
+                $user = User::where('id', Auth::user()->id)->first();
+                $hr = User::join('roles', 'users.position', '=', 'roles.id')
+                ->where('users.employer_id', Auth::user()->employer_id)
+                ->where('users.status', 1)
+                ->where('roles.role_name', 'like', '%HR%')
+                ->get();
+                $emails = $hr->pluck('email');
+                $recipients = $emails->toArray();
+                if ($emails->count()>0) {
+                    $content = 'An advance amount of ' .$request->amount . ' is requested by ' . $user->first_name .' .Please Approve/Reject.';
+                    $title = 'New Advance Request Notification';
+                    $subject = 'New Advance Request from ' .$user->first_name ;
+                    Mail::to($recipients)->send(new CommonRequestEmailstoHR($user,$content,$subject,$title));
+                    } 
 
                 if ($res) {
                     return response()->json([

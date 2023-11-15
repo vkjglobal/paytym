@@ -69,7 +69,7 @@ class AdvanceController extends Controller
         $emails = $hr->pluck('email');
                 $recipients = $emails->toArray();
                 if ($emails->count()>0) {
-                    $content = 'A new advance request is received from ' . $user->first_name .'.Please Approve/Reject.';
+                    $content = 'An advance amount of ' .$request->amount . ' is requested by ' . $user->first_name .' .Please Approve/Reject.';
                     $title = 'New Advance Request Notification';
                     $subject = 'New Advance Request from ' .optional($user)->first_name ?? "" ;
                     Mail::to($recipients)->send(new CommonRequestEmailstoHR($user,$content,$subject,$title));

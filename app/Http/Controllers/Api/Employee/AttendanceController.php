@@ -9,9 +9,11 @@ use App\Models\LeaveRequest;
 use App\Models\Roster;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Mail\CommonRequestEmailstoHR;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 
 class AttendanceController extends Controller
 {
@@ -37,6 +39,22 @@ class AttendanceController extends Controller
         $attendance->date = $now;
 
         $res = $attendance->save();
+
+        $user = User::where('id', Auth::user()->id)->first();
+        $hr = User::join('roles', 'users.position', '=', 'roles.id')
+        ->where('users.employer_id', $request->employer_id)
+        ->where('users.status', 1)
+        ->where('roles.role_name', 'like', '%HR%')
+        ->get();
+        $emails = $hr->pluck('email');
+                $recipients = $emails->toArray();
+                if ($emails->count()>0) {
+                    $content = $user->first_name . ' ' . $user->last_name . ' has checked in.';
+                    $title = 'Employee check-in Notification';
+                    $subject = 'Employee Checked in -' .$user->first_name ;
+                    Mail::to($recipients)->send(new CommonRequestEmailstoHR($user,$content,$subject,$title));
+                    } 
+
 
         if ($res) {
             return response()->json([
@@ -88,6 +106,22 @@ class AttendanceController extends Controller
             $attendance->status = '1'; // need to do the status check 
             // $attendance->approve_reject = '0';
             $res = $attendance->save();
+
+            $user = User::where('id', Auth::user()->id)->first();
+                $hr = User::join('roles', 'users.position', '=', 'roles.id')
+                ->where('users.employer_id', $request->employer_id)
+                ->where('users.status', 1)
+                ->where('roles.role_name', 'like', '%HR%')
+                ->get();
+                $emails = $hr->pluck('email');
+                        $recipients = $emails->toArray();
+                if ($emails->count()>0) {
+                    $content = $user->first_name . ' ' . $user->last_name . ' has checked out.';
+                    $title = 'Employee check-out Notification';
+                    $subject = 'Employee Checked out -' .$user->first_name ;
+                    Mail::to($recipients)->send(new CommonRequestEmailstoHR($user,$content,$subject,$title));
+                    } 
+
             if ($res) {
                 return response()->json([
                     'message' => "Checked Out Successfully",
