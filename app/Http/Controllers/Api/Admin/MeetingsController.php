@@ -84,7 +84,7 @@ class MeetingsController extends Controller
             'attendees.*' => 'required'
 
         ]);
-        dd($request->all());
+        //dd($request->all());
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
@@ -105,7 +105,6 @@ class MeetingsController extends Controller
 
         $issave = $meetings->save();
         if ($issave) {
-
 
             //Rj 06-03-23
             for ($i = 0; $i < count($request->attendees); $i++) {
