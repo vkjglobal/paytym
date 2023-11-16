@@ -7,6 +7,7 @@ use App\Models\Overtime;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Api\Employee\AuthController;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\CommonRequestEmailstoHR;
 use Mail;
@@ -25,18 +26,15 @@ class OverTimeController extends Controller
         //     ], 400);
         // }
 
-        if(isset($request->employer_id))
-        {
+        if (isset($request->employer_id)) {
             $employer_id = $request->employer_id;
             $overtime_requests = Overtime::with('user.branch')->orderBy('id', 'desc')->where('employer_id', $employer_id)->get();
-        }
-        else
-        {
+        } else {
             $employee_id = $request->employee_id;
             $overtime_requests = Overtime::with('user.branch')->orderBy('id', 'desc')->where('employee_id', $employee_id)->get();
         }
 
-    
+
         if ($overtime_requests) {
             return response()->json([
                 'message' => "Listed Successfully",
@@ -83,6 +81,12 @@ class OverTimeController extends Controller
             $overtime->total_hours = $request->total_hours;
             $overtime->reason = $request->reason;
         } elseif ($status == '1' || $status == '2') {
+            if ($status == '1') {
+                $message = "Your request is Approved.";
+            } else {
+                $message = "Sorry, Your request is Rejected.";
+            }
+
             $validator = Validator::make($request->all(), [
                 'id' =>  'required',
             ]);
@@ -120,6 +124,10 @@ class OverTimeController extends Controller
         // $overtime->status ='1';
         $issave = $overtime->save();
         if ($issave) {
+            if ($status == '1' || $status == '2') {
+                $otherController = new AuthController();
+                $result = $otherController->push_notification($request, $request->employee_id, $message);
+            }
             return response()->json([
                 'message' => "Action executed Successfully"
 

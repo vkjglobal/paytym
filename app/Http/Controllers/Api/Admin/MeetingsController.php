@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Api\Employee\AuthController;
 
 class MeetingsController extends Controller
 {
@@ -115,6 +116,10 @@ class MeetingsController extends Controller
             }
             $issave = MeetingAttendees::insert($answers);
             if ($issave) {
+                $message="Meetings Created Successfully";
+                $otherController = new AuthController();
+                $user_id=Auth::user()->id;    // Neeed to change
+                $result = $otherController->push_notification($request,$user_id,$message);
 
                 return response()->json([
                     'message' => "Success",
