@@ -85,7 +85,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Payment Advance 08-11-22
     Route::post('advance_request_approve_decline_edit', [PaymentAdvanceController::class, 'advance_request_approve_decline_edit']);  // Updated the Api name By Robin on 08-11-23
     Route::post('list_advance_request', [PaymentAdvanceController::class, 'list_advance_request']);
-    
+
 
     // Attendance
     Route::post('check_in', [AttendanceController::class, 'check_in']);
@@ -106,7 +106,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Request Payment 21-11-22
     Route::post('meetings', [MeetingsController::class, 'meetings']);
 
-        Route::post('meetings_list', [MeetingsController::class, 'meetings_list']);
+    Route::post('meetings_list', [MeetingsController::class, 'meetings_list']);
     // End Robin 
     // Chats
     Route::get('get-chat', [ChatController::class, 'index']);
@@ -158,7 +158,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('create_meetings', [AdminMeetingsController::class, 'create_meetings']);
     Route::post('meetings_delete', [AdminMeetingsController::class, 'meetings_delete']);
 
-    
+
     //21-02-23
     Route::post('list_overtime', [OverTimeController::class, 'list_overtime']);
     Route::post('hr_store_overtime', [OverTimeController::class, 'hr_store_overtime']);
@@ -172,17 +172,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('list_files', [UploadsController::class, 'list_files']);
     Route::post('list_projects', [ProjectsController::class, 'list_projects']);
     Route::post('project_details', [ProjectsController::class, 'project_details']);
-    
 
-     //25-02-23
-     Route::post('admin_dashboard', [LeaveRequestController::class, 'admin_dashboard']);
 
-         //20-02-23
-    Route::post('payroll-calculation', [PayrollCalculationController::class,'payroll']);
-    Route::post('payroll-list', [DeductionsController::class,'payroll_list']);
-     
-    Route::post('get-leave-types',[LeaveRequestController::class,'get_leave_types']) ;
-     
+    //25-02-23
+    Route::post('admin_dashboard', [LeaveRequestController::class, 'admin_dashboard']);
+
+    //20-02-23
+    Route::post('payroll-calculation', [PayrollCalculationController::class, 'payroll']);
+    Route::post('payroll-list', [DeductionsController::class, 'payroll_list']);
+
+    Route::post('get-leave-types', [LeaveRequestController::class, 'get_leave_types']);
+
 
     //25-02-23
     Route::post('admin_dashboard', [LeaveRequestController::class, 'admin_dashboard']);
@@ -208,26 +208,29 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Get Branch 
     Route::post('get_branch', [BranchController::class, 'get_branch']);
 
-      // Get Department
-      Route::post('get_department', [DepartmentController::class, 'get_department']);
+    // Get Department
+    Route::post('get_department', [DepartmentController::class, 'get_department']);
 
-      // 01-07-23
+    // 01-07-23
 
-      // Attendance by HR
-      Route::post('attendance_by_hr', [AttendanceController::class, 'attendance_by_hr']);
-
-
-      //02-07-23
-      Route::post('list_employees_businesswise', [EmployeeController::class, 'list_employees_businesswise']);
-      
-
-      // 13-09-23 Revert PayRoll
-      Route::post('revert_payroll', [PayrollController::class,'revert_payroll']);
+    // Attendance by HR
+    Route::post('attendance_by_hr', [AttendanceController::class, 'attendance_by_hr']);
 
 
+    //02-07-23
+    Route::post('list_employees_businesswise', [EmployeeController::class, 'list_employees_businesswise']);
 
 
-      //
+    // 13-09-23 Revert PayRoll
+    Route::post('revert_payroll', [PayrollController::class, 'revert_payroll']);
+
+
+    // 16-11-23 By robin For get all the Payslip under employer for testing
+    Route::post('payslip_all', [PayrollController::class, 'payslip_all']);
+
+
+
+    //
 
 
 });

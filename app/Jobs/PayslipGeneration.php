@@ -146,7 +146,7 @@ class PayslipGeneration implements ShouldQueue
             // Format the date
             $formattedDate = $carbonDate->format('d-m-Y');
 
-            $filename = 'EMP' . $employee->employer->id . '_PS_' . $formattedDate . '_' . $employee->id . '.pdf';
+            $filename = 'EMP' . $employee->employer->id . '_PS_' . $formattedDate . '.pdf';
             $path = 'pdfs/' . $filename;
             $pdf->save(storage_path('app/public/' . $path));
             $payroll->pay_slip = $filename;
