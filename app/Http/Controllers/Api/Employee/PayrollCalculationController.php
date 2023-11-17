@@ -44,7 +44,7 @@ class PayrollCalculationController extends Controller
             'flag' => 'required',
         ]);
 
-       // dd($request->all());
+        // dd($request->all());
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -54,14 +54,15 @@ class PayrollCalculationController extends Controller
         }
         $EmployerId = $request->employer_id;
         $flag = $request->flag;
-        $id="";
-        if($flag!='all')
-        {
-            
-            $id = $request->id;
+        $id = "";
+        // if($flag!='all')
+        // {
+
+
+        // }
+        $id = $request->id;
         $id_type = $id;
-        }
-        
+
         $bank = "";
         if ($flag == "business") {
             foreach ($id as  $id) {
@@ -160,7 +161,7 @@ class PayrollCalculationController extends Controller
             }
         }
         if ($employee_count == 1) {
-          //  $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);   // For Testing purpose
+            //  $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);   // For Testing purpose
 
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
@@ -308,6 +309,8 @@ class PayrollCalculationController extends Controller
         //         } else if ($bankname == 'BRED') {
         //             $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
         //         } else if ($bankname == 'BOB') {
+        //         } else if ($bankname == 'ANZ') {
+        //             $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
         //         }
         //     }
         // }
@@ -335,19 +338,20 @@ class PayrollCalculationController extends Controller
         // $csv_name = "MyCash";
         // $this->mail_to_superiors($path, $EmployerId, $csv_name);
 
+        //    End Comment section 
 
         if ($request->expectsJson()) {
-          //  dd("hiiii");
+            //  dd("hiiii");
             // Handle API-specific logic here
-         //   dd(Auth::guard('employer')->id);
-       //  dd($EmployerId);
+            //   dd(Auth::guard('employer')->id);
+            //  dd($EmployerId);
             $payrolls = Payroll::with('user')->where('employer_id', $EmployerId)->latest()->get();
-         //   dd($payrolls->count());
-          //dd($payrolls);
+            //   dd($payrolls->count());
+            //dd($payrolls);
             return response()->json([
                 'message' => 'Payroll calculated successfully.',
                 'data' => $payrolls
-            ],200);
+            ], 200);
         } else {
             // Handle web form-specific logic here
             return  notify()->success(__('Payroll calculated successfully.'));
@@ -546,6 +550,184 @@ class PayrollCalculationController extends Controller
     }
 
 
+    public function anz_bank_template($data, $bank)
+    {
+        //   dd("in Anz...");
+        // Add Data to the Excel File
+        // Read the template CSV file
+        // $templatePath = '/path/to/template.csv'; // Replace with the actual path
+        $employer = Auth::guard('employer')->user();
+        // dd($employer->name);
+        $banks = optional($bank)->banks;
+        if ($banks) {
+            $templatePath = storage_path('uploads/bank_template/' . $banks->template);
+            //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
+        } else {
+            $templatePath =  storage_path('app/public/csv/BRED.xlsx'); // Replace with the actual path
+        }
+
+        $template = fopen($templatePath, 'r');
+        $currentDate = Carbon::now()->format('dmy');
+        $csv_name = 'ANZ' . $currentDate . '.xlsx';
+        //  dd($csv_name);
+        // Create a new CSV file for the updated data
+        $updatedPath = storage_path('app/public/csv/' . $csv_name); // Replace with the desired path
+        // Specify the source file and the destination for the copy
+        $sourcePath = $templatePath; // Replace with the actual source file path
+        $destinationPath = $updatedPath; // Replace with the desired destination path
+        File::copy($sourcePath, $destinationPath);
+        // Check if the copy was successful
+        if (File::exists($destinationPath)) {
+            // File has been successfully copied
+            // You can perform additional operations on the copied file if needed
+
+            $spreadsheet = IOFactory::load($templatePath);
+
+            // Get the active worksheet
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            // Define the starting row where data should be added
+            $startRow = 1; // Assuming you have a header row, starting from the second row
+
+
+
+            // First Sheet Batch
+
+            $column = 'A';
+            $startRow++;
+            // Start with the first column
+
+            //Bank Code
+            $worksheet->setCellValue($column . $startRow, '02');
+            $column++;
+
+            //Branch Code 
+            $worksheet->setCellValue($column . $startRow, '0000');
+            $column++;
+
+            //Account No
+            $worksheet->setCellValue($column . $startRow, '12345678');
+            $column++;
+
+
+            //Batch Type 
+            $worksheet->setCellValue($column . $startRow, '2');
+            $column++;
+
+            //Payer Name 
+            $worksheet->setCellValue($column . $startRow, $employer->name);
+            $column++;
+
+            //Diskette  File Name (Employer Account No)
+            $worksheet->setCellValue($column . $startRow, 'Employer Acc No');
+            $column++;
+
+            //Contra Bank Code  (Get the value from the Bank Table New Field)
+            $worksheet->setCellValue($column . $startRow, $bank->contra_bank_code);
+            $column++;
+
+
+            //contra_branch_no
+            $worksheet->setCellValue($column . $startRow, $bank->contra_branch_no);
+            $column++;
+
+            //contra_Account no
+            $worksheet->setCellValue($column . $startRow, '12345678');
+            $column++;
+
+
+            //Narrative 
+            $worksheet->setCellValue($column . $startRow, '');
+            $column++;
+
+            //Code 
+            $worksheet->setCellValue($column . $startRow, '');
+            $column++;
+
+            //Referance
+
+            $worksheet->setCellValue($column . $startRow, '');
+            $column++;
+
+
+            // First Sheet End 
+
+            // Get The Second sheet 
+            $secondSheet = $spreadsheet->getSheet(1);
+
+            // Define the starting row where data should be added
+            $startRow = 2; // Assuming you have a header row, starting from the second row
+
+            foreach ($data as $rowData) {
+                $column = 'B';
+                $startRow++;
+                // Start with the first column
+
+                //Bank Code
+                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $column++;
+
+                //Branch Code 
+                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $column++;
+
+                //Account No
+                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $column++;
+
+                //Transaction Code
+                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $column++;
+
+                //Payee Name
+                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $column++;
+
+                //Payer Narrative
+                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $column++;
+
+                //Payer Code
+                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $column++;
+
+                //Payer Reference
+                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $column++;
+
+                //Payee Narrative
+                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $column++;
+
+                //Payee Code
+                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $column++;
+
+                //Payee Reference
+                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $column++;
+
+                //Amount
+                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $column++;
+            }
+
+
+
+
+            // Save the modified spreadsheet to the new file
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $writer->save($destinationPath);
+        } else {
+            //  dd("else");
+            // Handle the case where the copy failed
+        }
+        // End 
+    }
+
+
+
+
     public function get_csv_data($flag, $id, $employees, $bank)
     {
         if ($flag == "business") {
@@ -591,16 +773,23 @@ class PayrollCalculationController extends Controller
                 }])->with(['payroll_latest', 'split_payment'])->where('id', $id->id)->where('status', '1')->get();
             }
         }
+
+
         $bankname = optional(optional($bank)->banks)->bank_name;
+        //  dd($bankname);
         if ($bankname == 'BRED') {
             $this->bred_bank_template($data, $bank);
         } elseif ($bankname == 'BOB') {
             $this->bob_bank_template($data, $bank);
         } elseif ($bankname == 'HFC') {
-            $this->pc1_format($data, $bank);
+            $this->anz_bank_template($data, $bank);
+            //$this->pc1_format($data, $bank);
             //  $this->bob_bank_template($data, $bank);
         } elseif ($bankname == 'WBC') {
             $this->pc1_format($data, $bank);
+        } elseif ($bankname == 'ANZ') {
+            $this->anz_bank_template($data, $bank);
+            //  $this->pc1_format($data, $bank);
         }
     }
 
@@ -608,6 +797,9 @@ class PayrollCalculationController extends Controller
     public function pc1_format($data, $bank)
     {
         $formattedData = '';
+        $employer_id = Auth::guard('employer')->id();
+        $employer = Employer::where('employer_id', $employer_id)->first();
+
         foreach ($data as $rowData) {
             $acc_no = $rowData->account_number;
             $trimmed_acc_no = substr($acc_no, 0, 12);
@@ -622,10 +814,10 @@ class PayrollCalculationController extends Controller
             $transaction_code = "053"; //3
             $amount = number_format(optional(optional($rowData)->payroll_latest)->net_salary, 2, '.', '');
             $t_p_name =  substr($name, 0, 20); // Max 20 
-            $t_p_reference = "111112222233";   //12
-            $t_p_analysis = "xxxxxxxxxxxx";  //12
+            $t_p_reference = "";   //12
+            $t_p_analysis = "";  //12
             $t_p_reference_char = "Wages_xxxxxxx";   //12
-            $o_p_name = "FigiBankAssoc";   //20
+            $o_p_name = $employer->name;   //20
             $o_p_particulars = "ED05123ERR11";  //12
 
             // Initialize an empty string to store the formatted data
