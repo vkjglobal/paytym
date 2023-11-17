@@ -168,7 +168,7 @@ class User extends Authenticatable
 
     public function payroll()
     {
-        return $this->hasOne(Payroll::class, 'user_id');
+        return $this->hasOne(Payroll::class, 'user_id')->latest();
     }
     public function payroll_latest()
     {
