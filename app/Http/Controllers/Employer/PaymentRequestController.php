@@ -48,7 +48,7 @@ class PaymentRequestController extends Controller
 
         $validator = Validator::make($request->all(), [
             'year' =>  'required',
-            'month' =>  'required',
+            'month' =>  'required'
         ]);
 
         // if validation fails
@@ -77,10 +77,10 @@ class PaymentRequestController extends Controller
 
     public function payslip_all(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'year' =>  'required',
             'month' =>  'required',
+            'employer_id' => 'required'
         ]);
 
         // if validation fails
@@ -89,7 +89,7 @@ class PaymentRequestController extends Controller
                 'message' => $validator->errors()->first()
             ], 400);
         } else {
-            $employer_id=Auth::guard('employer')->id();
+            $employer_id=$request->employer_id;
             // $payroll = Payroll::where('user_id', $user->id)->orderBy('id', 'DESC')->first();
             $payroll = Payroll::whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)
                                 ->where('employer_id',$employer_id)->orderBy('id', 'DESC')->get();

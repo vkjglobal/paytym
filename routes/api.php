@@ -226,7 +226,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     // 16-11-23 By robin For get all the Payslip under employer for testing
-    Route::post('payslip_all', [PayrollController::class, 'payslip_all']);
+    Route::post('payslip_all', [PaymentRequestController::class, 'payslip_all']);
 
 
 
