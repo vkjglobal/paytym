@@ -40,7 +40,6 @@ class PaymentAdvanceController extends Controller
                 'description' => 'required',
             ]);
 
-
             if ($validator->fails()) {
                 return response()->json([
                     'message' => $validator->errors()->first()
@@ -129,6 +128,10 @@ class PaymentAdvanceController extends Controller
 
                     $issave = $payment_advance->save();
                     if ($issave) {
+                        if ($status == '1' || $status == '2') {
+                            $otherController = new AuthController();
+                            $result = $otherController->push_notification($request, $request->user_id, $msg);
+                        }
                         return response()->json([
                             'message' => $msg
                         ], 200);

@@ -76,30 +76,30 @@ class UploadsController extends Controller
             //Rj work 19-10-23
             $file = $request->file('file');
             $originalFileName = $file->getClientOriginalName(); // Get the original file name
-            $file_path = $file->storeAs('file', $originalFileName);
+            $file_path = $file->storeAs('public/file', $originalFileName);
             //         $file_path = $request->file('file')->store('file', 'public');
             $uploads->file = $file_path;
 
-// Upload Files
+            // // Upload Files
 
-  // Get the uploaded file
-  $file = $request->file('file');
+            // // Get the uploaded file
+            // $file = $request->file('file');
 
-  // Generate a unique filename for the image
-  $originalFileName =$file->getClientOriginalName();
+            // // Generate a unique filename for the image
+            // $originalFileName = $file->getClientOriginalName();
 
-  //dd($originalFileName);
-  // Define the storage path for the image
-  $storagePath = 'public/uploads/file';
-
-
-  // Move the uploaded file to the storage location
-  $file->move(storage_path($storagePath), $originalFileName);
-  $uploads->file = 'uploads/file/'.$originalFileName;
+            // //dd($originalFileName);
+            // // Define the storage path for the image
+            // $storagePath = 'public/uploads/file';
 
 
+            // // Move the uploaded file to the storage location
+            // $file->move(storage_path($storagePath), $originalFileName);
+            // $uploads->file = 'uploads/file/' . $originalFileName;
 
-// End Upload Files
+
+
+            // End Upload Files
 
             $issave = $uploads->save();
             if ($issave) {

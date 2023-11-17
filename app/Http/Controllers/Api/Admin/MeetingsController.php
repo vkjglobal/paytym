@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Api\Employee\AuthController;
 
 class MeetingsController extends Controller
 {
@@ -84,7 +85,7 @@ class MeetingsController extends Controller
             'attendees.*' => 'required'
 
         ]);
-        dd($request->all());
+        //dd($request->all());
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
@@ -106,7 +107,6 @@ class MeetingsController extends Controller
         $issave = $meetings->save();
         if ($issave) {
 
-
             //Rj 06-03-23
             for ($i = 0; $i < count($request->attendees); $i++) {
                 $answers[] = [
@@ -116,6 +116,10 @@ class MeetingsController extends Controller
             }
             $issave = MeetingAttendees::insert($answers);
             if ($issave) {
+                $message="Meetings Created Successfully";
+                $otherController = new AuthController();
+                $user_id=Auth::user()->id;    // Neeed to change
+                $result = $otherController->push_notification($request,$user_id,$message);
 
                 return response()->json([
                     'message' => "Success",

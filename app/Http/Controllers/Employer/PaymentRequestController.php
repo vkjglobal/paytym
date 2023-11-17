@@ -48,7 +48,7 @@ class PaymentRequestController extends Controller
 
         $validator = Validator::make($request->all(), [
             'year' =>  'required',
-            'month' =>  'required',
+            'month' =>  'required'
         ]);
 
         // if validation fails
@@ -60,6 +60,39 @@ class PaymentRequestController extends Controller
             // $payroll = Payroll::where('user_id', $user->id)->orderBy('id', 'DESC')->first();
             $payroll = Payroll::whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)
                                 ->where('user_id', $user->id)->orderBy('id', 'DESC')->get();
+
+            if ($payroll) {
+                return response()->json([
+                    'message' => "Success",
+                    "payroll" => $payroll,
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => "No Records"
+                ], 400);
+            }
+        }
+    }
+
+
+    public function payslip_all(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'year' =>  'required',
+            'month' =>  'required',
+            'employer_id' => 'required'
+        ]);
+
+        // if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first()
+            ], 400);
+        } else {
+            $employer_id=$request->employer_id;
+            // $payroll = Payroll::where('user_id', $user->id)->orderBy('id', 'DESC')->first();
+            $payroll = Payroll::whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)
+                                ->where('employer_id',$employer_id)->orderBy('id', 'DESC')->get();
 
             if ($payroll) {
                 return response()->json([
