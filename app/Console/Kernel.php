@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
         "App\Console\Commands\AddInvoices",
         "App\Console\Commands\SendPaymentReminder",
         "App\Console\Commands\SendAccountDeactivationEmail",
-        "\App\Console\Commands\ProcessPayrollReminder"
+        "\App\Console\Commands\ProcessPayrollReminder",
+        "App\Console\Commands\ProjectBudgetReached",
     ];
     
     /**
@@ -44,9 +45,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('invoices:add')->monthlyOn(1, '00:00');
         
         $schedule->command('payroll:reminder')
-        ->dailyAt('14:43');
+        ->dailyAt('00:00');
       
-             
+       /*  $schedule->command('project budget reached:reminder')
+        ->dailyAt('16:59');  */   
              
           
              
