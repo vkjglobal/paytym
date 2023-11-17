@@ -166,9 +166,13 @@ class User extends Authenticatable
     //     return $this->hasMany(Commission::class, 'user_id');
     // }
 
+
     public function payroll()
     {
+        // Assuming $model is an instance of your Model
         return $this->hasOne(Payroll::class, 'user_id')->latest();
+
+       // return $this->hasOne(Payroll::class, 'user_id')->latest();
     }
     public function payroll_latest()
     {
