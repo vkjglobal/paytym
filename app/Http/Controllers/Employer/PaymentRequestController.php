@@ -76,7 +76,7 @@ class PaymentRequestController extends Controller
 
 
     public function payslip_all(Request $request)
-    {
+    {  
         $validator = Validator::make($request->all(), [
             'year' =>  'required',
             'month' =>  'required',
