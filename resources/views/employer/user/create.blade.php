@@ -21,7 +21,7 @@
                         </div>
                         </div>
                         </div>--}}
-                         
+
 
                     <div class="row">
                         <div class="col-sm-4">
@@ -68,7 +68,7 @@
                         <div class="col-sm-8">
                             <label>&nbsp;</label>
                             <div class="form-check form-check-flat form-check-primary chk-bx-typ2">
-                                <input class="form-check-input @if ($errors->has('check_out_reqd')) is-invalid @endif" type="checkbox" name="check_out_reqd"  id="check_out_reqd">
+                                <input class="form-check-input @if ($errors->has('check_out_reqd')) is-invalid @endif" type="checkbox" name="check_out_reqd" id="check_out_reqd">
                                 <label class="form-check-label" for="check_out_reqd">Tick if check-out is required for this employee <span></span></label>
                             </div>
                         </div>
@@ -127,10 +127,10 @@
                     </div><!-- Row -->
 
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Country<span class="text-danger">*</span></label>
-                                <select class="form-control" name="country" value="{{ old('country') }}">
+                                <select class="form-control" name="country" id="country" value="{{ old('country') }}">
                                     <option value="">--SELECT--</option>
                                     @foreach ($countries as $country)
                                     <option value="{{$country['id']}}" {{ old('country')==$country['id'] ? 'selected':'' }}>{{$country['name']}}</option>
@@ -139,7 +139,16 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div><!-- Col -->
-                        <div class="col-sm-6">
+                        <div class="col-sm-4" style="display: none;" id="bank_div">
+                            <div class="form-group">
+                                <label class="control-label">bank <span class="text-danger">*</span></label>
+                                <select class="form-control" name="bank" id="bank" value="{{ old('bank') }}">
+                                </select>
+
+                                <div class="invalid-feedback">{{ $errors->first('bank') }}</div>
+                            </div>
+                        </div><!-- Col -->
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Tax Identification Number<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control @if ($errors->has('tin')) is-invalid @endif" name="tin" value="{{ old('tin') }}" placeholder="Enter Tin">
@@ -194,21 +203,11 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Bank Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control @if ($errors->has('bank')) is-invalid @endif" name="bank" value="{{ old('bank') }}" placeholder="Enter Bank">
-                                <div class="invalid-feedback">{{ $errors->first('bank') }}</div>
-                            </div>
-                        </div><!-- Col -->
-                        <div class="col-sm-6">
-                            <div class="form-group">
                                 <label class="control-label">Bank Branch<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control @if ($errors->has('bank_branch')) is-invalid @endif" name="bank_branch" value="{{ old('bank_branch') }}" placeholder="Enter Bank Branch">
                                 <div class="invalid-feedback">{{ $errors->first('bank_branch') }}</div>
                             </div>
                         </div><!-- Col -->
-
-
-
 
                     </div><!-- Row -->
 
@@ -232,14 +231,10 @@
                                 <div class="invalid-feedback">{{ $errors->first('position') }}</div>
                             </div>
                         </div><!-- Col -->
-
-
-
-
                     </div>
-                    
-                    
-                    
+
+
+
                     <!-- Row  Licence-->
 
                     <div class="row">
@@ -259,10 +254,10 @@
                         </div>
 
                     </div>
-                    
+
                     <!-- Row -->
 
-                       <!-- Row  Passport-->
+                    <!-- Row  Passport-->
 
                     <div class="row">
                         <div class="col-sm-6">
@@ -281,9 +276,9 @@
                         </div>
 
                     </div>
-                    
+
                     <!-- Row -->
-                    
+
                     <!-- Row -->
                     <div class="row">
                         <div class="col-sm-6">
@@ -330,10 +325,11 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Image <span class="text-danger"> *</span></label>
-                                <input type="file" class="form-control @if ($errors->has('image')) is-invalid @endif" name="image" placeholder="Enter Image" required>
+                                <input type="file" class="form-control @if ($errors->has('image')) is-invalid @endif" name="image" placeholder="Enter Image" value="{{ old('image') }}" required>
                                 <div class="invalid-feedback">{{ $errors->first('image') }}</div>
                             </div>
                         </div><!-- Col -->
+                        
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Employee type<span class="text-danger">*</span></label>
@@ -405,66 +401,66 @@
                     </div>
                     <br>
                     <!-- Add extra fields for existing employees (initially hidden) -->
-                 {{--<div class="extra-fields row"  >
+                    {{--<div class="extra-fields row"  >
                       <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Annual Leaves Taken<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @if ($errors->has('annual_leaves_taken')) is-invalid @endif" name="annual_leaves_taken" value="{{ old('annual_leaves_taken') }}" placeholder="Annual leaves taken" >
-                                <div class="invalid-feedback">{{ $errors->first('annual_leaves_taken') }}</div>
-                            </div>
-                        </div>
-                     <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Sick Leaves Taken <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('sick_leaves_taken')) is-invalid @endif" name="sick_leaves_taken" value="{{ old('sick_leaves_taken') }}" placeholder="Sick leaves taken" >
-                                <div class="invalid-feedback">{{ $errors->first('sick_leaves_taken') }}</div>
-                            </div>
-                        </div>            
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Bereavement Leaves Taken <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('bereavement_leaves_taken')) is-invalid @endif" name="bereavement_leaves_taken" value="{{ old('bereavement_leaves_taken') }}" placeholder="Bereavement leaves taken" >
-                                <div class="invalid-feedback">{{ $errors->first('bereavement_leaves_taken') }}</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Maternity Leaves Taken <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('maternity_leaves_taken')) is-invalid @endif" name="maternity_leaves_taken" value="{{ old('maternity_leaves_taken') }}" placeholder="Maternity leaves taken" >
-                                <div class="invalid-feedback">{{ $errors->first('maternity_leaves_taken') }}</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Leave Without Pay <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('leave_without_pay')) is-invalid @endif" name="leave_without_pay" value="{{ old('leave_without_pay') }}" placeholder="Leave without pay" >
-                                <div class="invalid-feedback">{{ $errors->first('leave_without_pay') }}</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Special Leaves Taken <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('special_leave')) is-invalid @endif" name="special_leave" value="{{ old('special_leave') }}" placeholder="Special leaves taken" >
-                                <div class="invalid-feedback">{{ $errors->first('special_leave') }}</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Attendance To Date <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('attendance_to_date')) is-invalid @endif" name="attendance_to_date" value="{{ old('attendance_to_date') }}" placeholder="Attendance to date" >
-                                <div class="invalid-feedback">{{ $errors->first('attendance_to_date') }}</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="control-label">Days Absent <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('days_absent')) is-invalid @endif" name="days_absent" value="{{ old('days_absent') }}" placeholder="Enter days absent" >
-                                <div class="invalid-feedback">{{ $errors->first('days_absent') }}</div>
-                            </div>
-                        </div>
+                    <div class="invalid-feedback">{{ $errors->first('annual_leaves_taken') }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Sick Leaves Taken <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @if ($errors->has('sick_leaves_taken')) is-invalid @endif" name="sick_leaves_taken" value="{{ old('sick_leaves_taken') }}" placeholder="Sick leaves taken">
+                <div class="invalid-feedback">{{ $errors->first('sick_leaves_taken') }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Bereavement Leaves Taken <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @if ($errors->has('bereavement_leaves_taken')) is-invalid @endif" name="bereavement_leaves_taken" value="{{ old('bereavement_leaves_taken') }}" placeholder="Bereavement leaves taken">
+                <div class="invalid-feedback">{{ $errors->first('bereavement_leaves_taken') }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Maternity Leaves Taken <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @if ($errors->has('maternity_leaves_taken')) is-invalid @endif" name="maternity_leaves_taken" value="{{ old('maternity_leaves_taken') }}" placeholder="Maternity leaves taken">
+                <div class="invalid-feedback">{{ $errors->first('maternity_leaves_taken') }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Leave Without Pay <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @if ($errors->has('leave_without_pay')) is-invalid @endif" name="leave_without_pay" value="{{ old('leave_without_pay') }}" placeholder="Leave without pay">
+                <div class="invalid-feedback">{{ $errors->first('leave_without_pay') }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Special Leaves Taken <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @if ($errors->has('special_leave')) is-invalid @endif" name="special_leave" value="{{ old('special_leave') }}" placeholder="Special leaves taken">
+                <div class="invalid-feedback">{{ $errors->first('special_leave') }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Attendance To Date <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @if ($errors->has('attendance_to_date')) is-invalid @endif" name="attendance_to_date" value="{{ old('attendance_to_date') }}" placeholder="Attendance to date">
+                <div class="invalid-feedback">{{ $errors->first('attendance_to_date') }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Days Absent <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @if ($errors->has('days_absent')) is-invalid @endif" name="days_absent" value="{{ old('days_absent') }}" placeholder="Enter days absent">
+                <div class="invalid-feedback">{{ $errors->first('days_absent') }}</div>
+            </div>
+        </div>
 
-                    </div>--}}
-                    <!-- <div class="row">
+    </div>--}}
+    <!-- <div class="row">
                         
                        
                             <div class="col-sm-4">
@@ -476,9 +472,9 @@
                                     <div class="invalid-feedback">{{ $errors->first('password') }}</div>
                                 </div> -->
 
-                    <!-- </div> -->
-                    <!-- Col -->
-                    <!-- <div class="col-sm-4">
+    <!-- </div> -->
+    <!-- Col -->
+    <!-- <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Confirm Password<span class="text-danger"> *</span></label>
                                     <input type="password"
@@ -487,21 +483,17 @@
                                    <span id = "message1" style="color:red"> </span> <br><br>
                                 </div>
                             </div> -->
-                    <!-- Col -->
+    <!-- Col -->
 
-                    <!-- </div> -->
-                    <!-- Row -->
+    <!-- </div> -->
+    <!-- Row -->
 
+    <button type="submit" class="btn btn-primary submit">Register and Send</button>
+    </form>
 
-
-
-
-                    <button type="submit" class="btn btn-primary submit">Register and Send</button>
-                </form>
-
-            </div>
-        </div>
-    </div>
+</div>
+</div>
+</div>
 </div>
 @endsection
 @push('custom_js')
@@ -539,24 +531,63 @@
         });
     });
 </script>
-<!-- <script>
-    $(function() {
-        $('.extra-fields').hide();
-        $('input[name="employee_type"]').on('change', function() {
-            var selectedValue = $(this).val();
 
-            if (selectedValue === 'existing') {
-                $('.extra-fields').show();
-            } else {
-                $('.extra-fields').hide();
-            }
-        });
-    });
-</script> -->
 
 <script type="text/javascript">
     let token = "{{csrf_token()}}";
     (function($) {
+
+        $('#country').change(function(e) {
+            var id = $(this).val();
+            $("#wbc_details").hide();
+            
+            $('#bank').find('option').remove();
+                $.ajax({
+                    type: 'get',
+                    url: '/employer/report/employment_period/get_bank/' + id,
+                    dataType: 'json',
+                    success: function(response) {
+                        var len = 0;
+                        if (response != null) {
+                            len = response['data'].length;
+                        }
+                        if (len > 0) {
+                            $("#bank_div").show();
+                            var option1="<option value=''>--Choose Bank--</option>";
+                            $('#bank').append(option1);
+                            for (var i = 0; i < len; i++) {
+                                var id = response['data'][i].id;
+                                var name = response['data'][i].bank_name;
+                                var option = "<option value='" + id + "'>" + name + "</option>";
+                                $('#bank').append(option);
+                            }
+                        }
+                    }
+                });
+        });
+
+
+        $('#bank').change(function(e) {
+            var id = $(this).val();
+            var selectedOption = $("#bank option:selected");
+            var selectedText = selectedOption.text();
+            if(selectedText=='WBC' || selectedText=='Westpac')
+            {
+                $("#wbc_details").show();
+            }
+            else
+            {
+                $("#wbc_details").hide();
+                $("#company_name").val("");
+                $("#account_number").val("");
+                $("#batch_no").val("");
+            }
+            
+        });
+ 
+
+
+
         $('#business_user').change(function(e) {
             var id = $(this).val();
             $('#branch_user').find('option').not(':first').remove();
@@ -581,6 +612,7 @@
                 }
             });
         });
+
         $('#branch_user').change(function(e) {
             var id = $(this).val();
             $('#department_user').find('option').not(':first').remove();
@@ -608,24 +640,7 @@
     })(jQuery);
 </script>
 
-<!-- <script>
-        // Hide extra fields initially
-        document.querySelector('#extra-fields').style.display = 'none';
-
-        // Add JavaScript to show/hide extra fields based on radio button selection
-        document.querySelector('#existing_employee').addEventListener('change', function () {
-            if (this.checked) {
-                document.querySelector('#extra-fields').style.display = 'block';
-            }
-        });
-
-        document.querySelector('#new_employee').addEventListener('change', function () {
-            if (this.checked) {
-                document.querySelector('#extra-fields').style.display = 'none';
-            }
-        });
-    </script> -->
-
 <script src="{{ asset('admin_assets/vendors/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('admin_assets/js/tinymce.js') }}"></script>
+
 @endpush

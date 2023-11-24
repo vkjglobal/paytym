@@ -299,6 +299,11 @@ class User extends Authenticatable
 
         return $total;
     }
+
+    public function employee_bank()
+    {
+        return $this->belongsTo(BankModel::class,'bank');
+    }
     
 
     //attendance report

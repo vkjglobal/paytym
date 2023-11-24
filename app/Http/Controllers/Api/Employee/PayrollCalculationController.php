@@ -44,7 +44,6 @@ class PayrollCalculationController extends Controller
             'flag' => 'required',
         ]);
 
-        // dd($request->all());
         $flag_payroll = 0;
         //if validation fails
         if ($validator->fails()) {
@@ -161,7 +160,7 @@ class PayrollCalculationController extends Controller
             }
         }
         if ($employee_count == 1) {
-            //  $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);   // For Testing purpose
+          //  $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);   // For Testing purpose
 
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
@@ -477,7 +476,6 @@ class PayrollCalculationController extends Controller
         // Read the template CSV file
         // $templatePath = '/path/to/template.csv'; // Replace with the actual path
 
-
         $banks = optional($bank)->banks;
         if ($banks) {
             $templatePath = storage_path('uploads/bank_template/' . $banks->template);
@@ -552,23 +550,26 @@ class PayrollCalculationController extends Controller
 
     public function anz_bank_template($data, $bank)
     {
-        //   dd("in Anz...");
         // Add Data to the Excel File
         // Read the template CSV file
         // $templatePath = '/path/to/template.csv'; // Replace with the actual path
+
+
+
         $employer = Auth::guard('employer')->user();
-        // dd($employer->name);
         $banks = optional($bank)->banks;
+        //dd($banks);
         if ($banks) {
-            $templatePath = storage_path('uploads/bank_template/' . $banks->template);
+            $templatePath =  storage_path('app/public/csv/ANZ_NEW.xls');
+           // $templatePath = storage_path('uploads/bank_template/' . $banks->template);
             //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
         } else {
-            $templatePath =  storage_path('app/public/csv/BRED.xlsx'); // Replace with the actual path
+            $templatePath =  storage_path('app/public/csv/ANZ_NEW.xls'); // Replace with the actual path
         }
 
         $template = fopen($templatePath, 'r');
         $currentDate = Carbon::now()->format('dmy');
-        $csv_name = 'ANZ' . $currentDate . '.xlsx';
+        $csv_name = 'ANZ-' . $currentDate . '.xls';
         //  dd($csv_name);
         // Create a new CSV file for the updated data
         $updatedPath = storage_path('app/public/csv/' . $csv_name); // Replace with the desired path
@@ -580,19 +581,12 @@ class PayrollCalculationController extends Controller
         if (File::exists($destinationPath)) {
             // File has been successfully copied
             // You can perform additional operations on the copied file if needed
-
             $spreadsheet = IOFactory::load($templatePath);
-
             // Get the active worksheet
             $worksheet = $spreadsheet->getActiveSheet();
-
             // Define the starting row where data should be added
             $startRow = 1; // Assuming you have a header row, starting from the second row
-
-
-
             // First Sheet Batch
-
             $column = 'A';
             $startRow++;
             // Start with the first column
@@ -659,61 +653,73 @@ class PayrollCalculationController extends Controller
             $startRow = 2; // Assuming you have a header row, starting from the second row
 
             foreach ($data as $rowData) {
+
+                // Check the employee is ANZ bank or not 
+                // Static data is based on the document client provided . 
+                $employee_bank = $rowData->employee_bank;
+                if ($employee_bank->bank_name == 'ANZ') {
+                    $branch_code = '0000';
+                    $accountnumber= $rowData->accountnumber;
+                    $payee_narrative='';
+                } else {
+                    $branch_code = '0073';
+                    $accountnumber='99890718'; 
+                    $payee_narrative=$rowData->accountnumber;
+                }
+
                 $column = 'B';
                 $startRow++;
                 // Start with the first column
 
                 //Bank Code
-                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $secondSheet->setCellValue($column . $startRow, $banks->other_bank_code ? $banks->other_bank_code : '');
                 $column++;
 
                 //Branch Code 
-                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $secondSheet->setCellValue($column . $startRow, $branch_code);
                 $column++;
 
                 //Account No
-                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+
+                $secondSheet->setCellValue($column . $startRow, $accountnumber);
                 $column++;
 
                 //Transaction Code
-                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $secondSheet->setCellValue($column . $startRow, '01');
                 $column++;
 
                 //Payee Name
-                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
                 $column++;
 
-                //Payer Narrative
-                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                // Narrative
+                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . 'Wages');
                 $column++;
 
                 //Payer Code
-                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $secondSheet->setCellValue($column . $startRow, '');
                 $column++;
 
                 //Payer Reference
-                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $secondSheet->setCellValue($column . $startRow, '');
                 $column++;
 
                 //Payee Narrative
-                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $secondSheet->setCellValue($column . $startRow, $payee_narrative);
                 $column++;
 
-                //Payee Code
-                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                //Payer Code
+                $secondSheet->setCellValue($column . $startRow, '');
                 $column++;
 
                 //Payee Reference
-                $secondSheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $secondSheet->setCellValue($column . $startRow,$employee_bank->bank_name);
                 $column++;
 
                 //Amount
-                $secondSheet->setCellValue($column . $startRow, $rowData->id);
+                $secondSheet->setCellValue($column . $startRow, optional(optional($rowData)->payroll_latest)->net_salary);
                 $column++;
             }
-
-
-
 
             // Save the modified spreadsheet to the new file
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
@@ -732,32 +738,31 @@ class PayrollCalculationController extends Controller
     {
         if ($flag == "business") {
             foreach ($id as  $id) {
-                $data = User::with(['payroll_latest', 'split_payment'])
+                $data = User::with(['payroll_latest', 'split_payment', 'employee_bank'])
                     ->where('employer_id', Auth::guard('employer')->id())
                     ->where('status', '1')
                     ->where('business_id', $id)->get();
             }
         } else if ($flag == "branch") {
             foreach ($id as $id) {
-                $data = User::with(['payroll_latest', 'split_payment'])
+                $data = User::with(['payroll_latest', 'split_payment', 'employee_bank'])
                     ->where('employer_id', Auth::guard('employer')->id())
                     ->where('status', '1')
                     ->where('branch_id', $id)->get();
             }
         } else if ($flag == "department") {
             foreach ($id as $id) {
-                $data = User::with(['payroll_latest', 'split_payment'])
+                $data = User::with(['payroll_latest', 'split_payment', 'employee_bank'])
                     ->where('employer_id', Auth::guard('employer')->id())
                     ->where('status', '1')
                     ->where('department_id', $id)->get();
             }
         } else if ($flag == "all") {
-
             $data = User::with(['branch' => function ($query) {
                 $query->with(['banks' => function ($relatedQuery) {
                     $relatedQuery->where('bank_name', '=', 'HFC');
                 }]);
-            }])->with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
+            }])->with(['payroll_latest', 'split_payment', 'employee_bank'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
 
 
             // $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
@@ -773,7 +778,6 @@ class PayrollCalculationController extends Controller
                 }])->with(['payroll_latest', 'split_payment'])->where('id', $id->id)->where('status', '1')->get();
             }
         }
-
 
         $bankname = optional(optional($bank)->banks)->bank_name;
         //  dd($bankname);

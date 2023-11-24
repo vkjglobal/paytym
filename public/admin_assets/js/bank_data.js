@@ -3,6 +3,8 @@
         $('#country').change(function(e) {
             var id = $(this).val();
             $("#wbc_details").hide();
+            $("#bank_details").hide();
+            
             
             $('#bank').find('option').remove();
                 $.ajax({
@@ -31,6 +33,7 @@
 
 
         $('#bank').change(function(e) {
+            $("#bank_details").show();
             var id = $(this).val();
             var selectedOption = $("#bank option:selected");
             var selectedText = selectedOption.text();
