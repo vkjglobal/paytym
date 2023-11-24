@@ -60,7 +60,6 @@ class PayrollController extends Controller
      */
     public function create()
     {
-
         $users = User::all();
         return view('employer.Payroll.create', compact('users'));
     }
@@ -157,7 +156,7 @@ class PayrollController extends Controller
         $branches = Branch::where('employer_id', Auth::guard('employer')->user()->id)->get();
         $departments = Department::where('employer_id', Auth::guard('employer')->user()->id)->get();
         $payrolls = Payroll::where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
-        return view('employer.Payroll.generate', compact('users', 'businesses', 'branches', 'departments','payrolls'));
+        return view('employer.Payroll.generate', compact('users', 'businesses', 'branches', 'departments', 'payrolls'));
     }
 
 
@@ -165,21 +164,22 @@ class PayrollController extends Controller
     {
         $payrolls = Payroll::where('employer_id', Auth::guard('employer')->user()->id)->latest()->get();
 
-      return view('employer.Payroll.revert',compact('payrolls'));
+        return view('employer.Payroll.revert', compact('payrolls'));
     }
 
     public function generate_hourly_payroll($employee, $fromDate, $payDate, $EmployerId)
     {
-        //dd("hourly...");
         $endDate = $payDate;
-
+        // Check How many day the employee present during the Period
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $payDate])->get();
         if ($attendances) {
             $attendance_dup = $attendances;
+            //Check the Leaves involved in that period. 
             $holidays = Leaves::whereBetween('date', [$fromDate, $payDate])->get();
 
             $holidayArray = $holidays->pluck('date')->toArray();
             $totalHours = 0;
+            // Get the Real attendance count [attendance=]
             $attendancesWithoutHoliday = $attendances->reject(function ($attendance) use ($holidayArray) {
                 return in_array($attendance->date, $holidayArray);
             });
@@ -453,7 +453,7 @@ class PayrollController extends Controller
 
             $res = $payroll->save();
             $flag_payroll = 1;
-          //  dd("bbbbbb");
+            //  dd("bbbbbb");
             // Payslip Generation
             PayslipGeneration::dispatch(
                 $employee,
@@ -481,7 +481,7 @@ class PayrollController extends Controller
 
     public function generate_fixed_payroll($employee, $fromDate, $endDate)
     {
-      //  dd("fixed...");
+        //  dd("fixed...");
         $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / ($fromDate->daysInMonth)));
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $endDate])->get();
         //Allowance Calculation
@@ -772,7 +772,7 @@ class PayrollController extends Controller
         } else {
             return response()->json([
                 'message' => 'No record Found',
-                'data' =>0
+                'data' => 0
             ], 200);
         }
     }
@@ -784,41 +784,36 @@ class PayrollController extends Controller
         ];
 
         $request = new Request($requestData);
-        $result= $this->revert_payroll($request);
-        return redirect()->back()->with('message',$result);
-        
+        $result = $this->revert_payroll($request);
+        return redirect()->back()->with('message', $result);
     }
 
-   
+
 
     public function generate_web(Request $request)
     {
-       // dd($request->all());
+        // dd($request->all());
         $payroll_type = $request->payroll_type;
         $payrollcontroller = new PayrollCalculationController;
         if ($payroll_type == '1') {
             // All Employees Payroll Section
             $flag = 'all';
-            $id[]=$request->users;
+            $id[] = $request->users;
         } else {
             // Choose Employee Payroll Section
-            if($request->users != null)
-            {
+            if ($request->users != null) {
                 $flag = 'others';
-                $id=$request->users;
-            }
-           else if ($request->department != null) {
+                $id = $request->users;
+            } else if ($request->department != null) {
                 $flag = "department";
-                $id[]=$request->department;
+                $id[] = $request->department;
             } else if ($request->branch != null) {
                 $flag = "branch";
-                $id[]=$request->branch;
+                $id[] = $request->branch;
             } else if ($request->business != null) {
                 $flag = "business";
-                $id[]=$request->business;
+                $id[] = $request->business;
             }
-           
-            
         }
         $requestData = [
             'employer_id' => Auth::guard('employer')->user()->id,
@@ -829,7 +824,7 @@ class PayrollController extends Controller
 
         $request = new Request($requestData);
         $result = $payrollcontroller->payroll($request);
-        return redirect()->back()->with('message',$result);
-//        return $result;
+        return redirect()->back()->with('message', $result);
+        //        return $result;
     }
 }

@@ -54,10 +54,8 @@ class UserController extends Controller
                 [(__('Dashboard')), route('employer.user.index')],
                 [(__('Users')), null],
             ];
-    
             $users = User::where('employer_id',Auth::guard('employer')->user()->id)->with('business')->latest()->get();
             $roles = Role::where('employer_id',Auth::guard('employer')->user()->id)->get();   
-          
             return view('employer.user.index', compact('breadcrumbs', 'users','roles'));
         }
     }
@@ -104,8 +102,9 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
      $user = new User(); 
+     //$request->flash(); // Flash all input data including the file
      $validated = $request->validated();
-   
+     //dd($validated->bank);
      $user->employer_id = Auth::guard('employer')->user()->id;
      $user->company = Auth::guard('employer')->user()->company;
      $user->first_name = $validated['first_name'];

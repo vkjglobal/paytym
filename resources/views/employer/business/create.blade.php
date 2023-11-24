@@ -52,7 +52,7 @@
 
                             <div class="col-sm-4" style="display: none;" id="bank_div">
                                 <div class="form-group">
-                                    <label class="control-label">bank <span class="text-danger">*</span></label>
+                                    <label class="control-label">Bank <span class="text-danger">*</span></label>
                                     <select class="form-control" name="bank" id="bank" value="{{ old('bank') }}">
                                     </select>
 
@@ -63,10 +63,10 @@
                         </div><!-- Row -->
                         
 
-                        <div class="row" id="wbc_details" style="display: none;"> 
+                        <div class="row" id="bank_details" style="display: none;"> 
                         <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="control-label">Full Company Name<span class="text-danger">*</span></label>
+                                    <label class="control-label">Bank Account Name<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @if ($errors->has('company_name')) is-invalid @endif"
                                         name="company_name" id="company_name"  value="{{ old('company_name') }}" placeholder="Enter Company Name">
                                     <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
@@ -82,7 +82,7 @@
                                 </div>
                             </div><!-- Col -->
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" id="wbc_details" style="display: none;">
                                 <div class="form-group">
                                     <label class="control-label">At least one Batch No. registered with WBC*<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @if ($errors->has('batch_no')) is-invalid @endif"

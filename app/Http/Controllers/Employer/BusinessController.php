@@ -31,9 +31,6 @@ class BusinessController extends Controller
         ];
 
         $businesses = EmployerBusiness::where('employer_id', Auth::guard('employer')->user()->id)->get();
-
-
-
         return view('employer.business.index', compact('breadcrumbs', 'businesses'));
     }
 

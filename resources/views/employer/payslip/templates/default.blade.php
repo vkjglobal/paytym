@@ -6,6 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payslip</title>
 </head>
+
+<?php 
+// $name=$employee->first_name." ".$employee->last_name;
+// $employee_id=$employee->id;
+// $designation=$employee->job_title;
+// $doj=$employee->employment_start_date;
+// $paid_days="";
+// $paid_hours="";
+// $salary_type=$employee->salary_type;
+// $pay_period=$pay_period; // 0=Weekly,1=>fortnightly,2=monthly
+// $taxId="##00001";
+// $provident_fund="";
+// $base_rate="";
+// $double_time="";
+// $allowance=$totalAllowance;
+// $bonus=$total_bonus;
+// $commission=$commission_amount;
+// $gross_earnings=$grossSalary;
+// $pf="";
+// $tax="";
+// $loan="";
+// $union="";
+// $surcharge="";
+// $total_deduction=$totalDeduction;
+// // Total Net Paid
+// $bank_account_no=$employee->account_number;
+// $mpaisa="";
+// $mycash="";
+?>
+
+
+
+
+
 <body>
     <table style="width: 100%; text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.2;">
         <tr>

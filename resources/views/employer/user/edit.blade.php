@@ -373,7 +373,7 @@
 
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="control-label">New Password<span class="text-danger"> *</span></label>
+                                <label class="control-label">New Password</label>
                                 <input type="password" class="form-control @if ($errors->has('street')) is-invalid @endif" id="pswd1" name="password" value="{{ old('password') }}" placeholder="Ente Password">
                                 <div class="invalid-feedback">{{ $errors->first('password') }}</div>
                             </div>
@@ -381,7 +381,7 @@
                         </div><!-- Col -->
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="control-label">Confirm new Password<span class="text-danger"> *</span></label>
+                                <label class="control-label">Confirm new Password</label>
                                 <input type="password" class="form-control @if ($errors->has('password')) is-invalid @endif" id="pswd2" name="" value="{{ old('password') }}" placeholder="Confirm Password">
                                 <div class="invalid-feedback">{{ $errors->first('password') }}</div>
                                 <span id="message1" style="color:red"> </span> <br><br>
