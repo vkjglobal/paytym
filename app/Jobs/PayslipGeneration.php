@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Payroll;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class PayslipGeneration implements ShouldQueue
 {
@@ -148,10 +149,12 @@ class PayslipGeneration implements ShouldQueue
 
             $filename = 'EMP' . $employee->employer->id . '_PS_' . $formattedDate . '.pdf';
             $path = 'pdfs/' . $filename;
-            $pdf->save(storage_path('app/public/' . $path));
-            $payroll->pay_slip = $filename;
-            $payroll->payslip_number = $paySlipNumber;
-            $payroll->save();
+            $issave = $pdf->save(storage_path('app/public/' . $path));
+            if ($issave) {
+                $payroll->pay_slip = $filename;
+                $payroll->payslip_number = $paySlipNumber;
+                $payroll->save();
+            } 
         } catch (\Exception $e) {
             // Log or report the error
             \Log::error($e);
