@@ -10,7 +10,9 @@
                     <h6 class="card-title">Payroll</h6>
                     <div class="table-responsive">
                         @if($res->pay_slip)
-                        <img src="{{ asset('storage/pdfs/' . $res->pay_slip) }}" class="img-thumbnail mt-2" width="" alt="">
+                      
+    <iframe src="{{ asset('storage/pdfs/'.$res->pay_slip) }}" width="100%" height="600px" class="mt-2"></iframe>
+                        <!-- <img src="{{ asset('storage/pdfs/'.$res->pay_slip) }}" class="img-thumbnail mt-2" width="" alt=""> -->
                         @else
                         <span>No Payslip Found</span>
                         @endif
