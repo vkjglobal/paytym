@@ -118,7 +118,7 @@ class User extends Authenticatable
 
     public function business()
     {
-        return $this->belongsTo(EmployerBusiness::class,'business_id');
+        return $this->belongsTo(EmployerBusiness::class, 'business_id');
     }
 
     public function country()
@@ -128,17 +128,17 @@ class User extends Authenticatable
 
     public function department()
     {
-        return $this->belongsTo(Department::class,'department_id');
+        return $this->belongsTo(Department::class, 'department_id');
     }
 
     public function branch()
     {
-        return $this->belongsTo(Branch::class,'branch_id');
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 
     public function role()
     {
-        return $this->hasOne(Role::class,'id','position');
+        return $this->hasOne(Role::class, 'id', 'position');
     }
 
     public function attendance()
@@ -172,7 +172,7 @@ class User extends Authenticatable
         // Assuming $model is an instance of your Model
         return $this->hasOne(Payroll::class, 'user_id')->latest();
 
-       // return $this->hasOne(Payroll::class, 'user_id')->latest();
+        // return $this->hasOne(Payroll::class, 'user_id')->latest();
     }
     public function payroll_latest()
     {
@@ -185,29 +185,64 @@ class User extends Authenticatable
 
     public function split_payment_bank()
     {
-        $payroll = Payroll::where('user_id',$this->id)->where('start_date', '>=', $this->pay_date)->where('end_date', '<=', $this->payed_date)->sum('paid_salary');
+        $payroll = Payroll::where('user_id', $this->id)->where('start_date', '>=', $this->pay_date)->where('end_date', '<=', $this->payed_date)->sum('paid_salary');
         $split_payment = SplitPayment::where('employee_id', $this->id)->first();
-        if($split_payment != null)
-            {return $payroll * ($split_payment->bank/100);}
-        elseif($payroll != null)
-            {return $payroll;}
+        if ($split_payment != null) {
+            return $payroll * ($split_payment->bank / 100);
+        } elseif ($payroll != null) {
+            return $payroll;
+        }
     }
+
+
     public function split_payment_mpaisa()
     {
-        $payroll = Payroll::where('user_id',$this->id)->where('start_date', '>=', $this->pay_date)->where('end_date', '<=', $this->payed_date)->sum('paid_salary');
-      
+        $query = Payroll::where('user_id', $this->id)
+            ->where('start_date', '>=', $this->pay_date);
+
+        if ($this->payed_date === null) {
+            $payroll = $query->sum('paid_salary');
+        } else {
+            $payroll = $query->where('end_date', '<=', $this->payed_date)
+                ->sum('paid_salary');
+        }
+
+        // $payroll = Payroll::where('user_id', $this->id)
+        //     ->where('start_date', '>=', $this->pay_date)
+        //     ->where('end_date', '<=', $this->payed_date)
+        //     ->sum('paid_salary');
+
         $split_payment = SplitPayment::where('employee_id', $this->id)->first();
-        if($split_payment != null)
-            {return $payroll * ($split_payment->mpaisa/100);}
-            else{return 0;}
+        if ($split_payment != null) {
+            return $payroll * ($split_payment->mpaisa / 100);
+        } else {
+            return 0;
+        }
     }
+
+
     public function split_payment_mycash()
     {
-        $payroll = Payroll::where('user_id',$this->id)->where('start_date', '>=', $this->pay_date)->where('end_date', '<=', $this->payed_date)->sum('paid_salary');
+        $query = Payroll::where('user_id', $this->id)
+            ->where('start_date', '>=', $this->pay_date);
+
+        if ($this->payed_date === null) {
+            $payroll = $query->sum('paid_salary');
+        } else {
+            $payroll = $query->where('end_date', '<=', $this->payed_date)
+                ->sum('paid_salary');
+        }
+
+        // $payroll = Payroll::where('user_id', $this->id)
+        //     ->where('start_date', '>=', $this->pay_date)
+        //     ->where('end_date', '<=', $this->payed_date)
+        //     ->sum('paid_salary');
         $split_payment = SplitPayment::where('employee_id', $this->id)->first();
-        if($split_payment != null)
-            {return $payroll * ($split_payment->mycash/100);}
-            else{return 0;}
+        if ($split_payment != null) {
+            return $payroll * ($split_payment->mycash / 100);
+        } else {
+            return 0;
+        }
     }
 
     public function total_provident_fund()
@@ -220,7 +255,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(PaymentAdvance::class, 'user_id');
     }
-    
+
     public function members()
     {
         return $this->belongsTo(GroupChatMembers::class);
@@ -234,8 +269,7 @@ class User extends Authenticatable
     public function total_allowance()
     {
         $total = 0;
-        foreach($this->assign_allowance as $assign)
-        {
+        foreach ($this->assign_allowance as $assign) {
             $total += $assign->rate;
         }
         return $total;
@@ -244,8 +278,7 @@ class User extends Authenticatable
     public function total_deduction()
     {
         $total = 0;
-        foreach($this->assign_deduction as $assign)
-        {
+        foreach ($this->assign_deduction as $assign) {
             $total += $assign->rate;
         }
         return $total;
@@ -254,8 +287,7 @@ class User extends Authenticatable
     public function total_commission()
     {
         $total = 0;
-        foreach($this->commission as $commission)
-        {
+        foreach ($this->commission as $commission) {
             $total += $commission->rate;
         }
         return $total;
@@ -265,79 +297,79 @@ class User extends Authenticatable
     {
         $total = 0;
         $totalEmployee = DB::table('users')
-        ->join('bonus', 'users.id', '=', 'bonus.type_id')
-        ->where('bonus.type', '=', 0)
-        ->where('bonus.rate_type', '=', 1)
-        ->where('users.id', '=', $userId)
-        ->sum('bonus.rate');
+            ->join('bonus', 'users.id', '=', 'bonus.type_id')
+            ->where('bonus.type', '=', 0)
+            ->where('bonus.rate_type', '=', 1)
+            ->where('users.id', '=', $userId)
+            ->sum('bonus.rate');
 
         $totalDepartment = DB::table('users')
-        ->join('departments', 'users.department_id', '=', 'departments.id')
-        ->join('bonus', 'departments.id', '=', 'bonus.type_id')
-        ->where('bonus.type', '=', 1)
-        ->where('bonus.rate_type', '=', 1)
-        ->where('users.id', '=', $userId)
-        ->sum('bonus.rate');
+            ->join('departments', 'users.department_id', '=', 'departments.id')
+            ->join('bonus', 'departments.id', '=', 'bonus.type_id')
+            ->where('bonus.type', '=', 1)
+            ->where('bonus.rate_type', '=', 1)
+            ->where('users.id', '=', $userId)
+            ->sum('bonus.rate');
 
         $totalBranch = DB::table('users')
-        ->join('branches', 'users.branch_id', '=', 'branches.id')
-        ->join('bonus', 'branches.id', '=', 'bonus.type_id')
-        ->where('bonus.type', '=', 2)
-        ->where('bonus.rate_type', '=', 1)
-        ->where('users.id', '=', $userId)
-        ->sum('bonus.rate');
+            ->join('branches', 'users.branch_id', '=', 'branches.id')
+            ->join('bonus', 'branches.id', '=', 'bonus.type_id')
+            ->where('bonus.type', '=', 2)
+            ->where('bonus.rate_type', '=', 1)
+            ->where('users.id', '=', $userId)
+            ->sum('bonus.rate');
 
         $totalBusiness = DB::table('users')
-        ->join('employer_businesses', 'users.business_id', '=', 'employer_businesses.id')
-        ->join('bonus', 'employer_businesses.id', '=', 'bonus.type_id')
-        ->where('bonus.type', '=', 3)
-        ->where('bonus.rate_type', '=', 1)
-        ->where('users.id', '=', $userId)
-        ->sum('bonus.rate');
+            ->join('employer_businesses', 'users.business_id', '=', 'employer_businesses.id')
+            ->join('bonus', 'employer_businesses.id', '=', 'bonus.type_id')
+            ->where('bonus.type', '=', 3)
+            ->where('bonus.rate_type', '=', 1)
+            ->where('users.id', '=', $userId)
+            ->sum('bonus.rate');
 
-        $total += $totalEmployee + $totalDepartment + $totalBranch + $totalBusiness; 
+        $total += $totalEmployee + $totalDepartment + $totalBranch + $totalBusiness;
 
         return $total;
     }
 
     public function employee_bank()
     {
-        return $this->belongsTo(BankModel::class,'bank');
+        return $this->belongsTo(BankModel::class, 'bank');
     }
-    
+
 
     //attendance report
     public function attendanceReport($date_from, $date_to)
     {
         (float)$hours = 0;
-        if(!$date_to && !$date_from){
+        if (!$date_to && !$date_from) {
             $user = User::where('id', $this->id)->first();
-            $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$user->employment_start_date, Carbon::now()])->get();
-            foreach($attendances as $attend){
+            $attendances = Attendance::where('user_id', $this->id)->whereBetween('date', [$user->employment_start_date, Carbon::now()])->get();
+            foreach ($attendances as $attend) {
                 $check_in = Carbon::parse($attend->check_in);
                 $check_out = Carbon::parse($attend->check_out);
-                if ($check_in != NULL && $check_out != NULL){
+                if ($check_in != NULL && $check_out != NULL) {
                     $hours += $check_in->diffInHours($check_out);
                 }
             }
             return $hours;
         }
-        if(!$date_to){
-            $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$date_from, Carbon::now()])->get();
-            foreach($attendances as $attend){
+        if (!$date_to) {
+            $attendances = Attendance::where('user_id', $this->id)->whereBetween('date', [$date_from, Carbon::now()])->get();
+            foreach ($attendances as $attend) {
                 $check_in = Carbon::parse($attend->check_in);
                 $check_out = Carbon::parse($attend->check_out);
-                if ($check_in != NULL && $check_out != NULL){
+                if ($check_in != NULL && $check_out != NULL) {
                     $hours += $check_in->diffInHours($check_out);
                 }
             }
             return $hours;
         }
-        $attendances = Attendance::where('user_id', $this->id)->whereBetween('date',[$date_from, $date_to])->get();
-        foreach($attendances as $attend){
+        $attendances = Attendance::where('user_id', $this->id)->whereBetween('date', [$date_from, $date_to])->get();
+        foreach ($attendances as $attend) {
             $check_in = Carbon::parse($attend->check_in);
             $check_out = Carbon::parse($attend->check_out);
-            if ($check_in != NULL && $check_out != NULL){
+            if ($check_in != NULL && $check_out != NULL) {
                 $hours += $check_in->diffInHours($check_out);
             }
             // return $hours;
@@ -347,7 +379,7 @@ class User extends Authenticatable
         // $attendances = Attendance::where(Auth::guard('employer')->id())->where('user_id', $this->id)->get();
     }
 
- /*    public function attendanceReport_extrahours($date_from, $date_to)
+    /*    public function attendanceReport_extrahours($date_from, $date_to)
     {
         (float)$exhours = 0;
         if(!$date_to && !$date_from){
@@ -387,38 +419,38 @@ class User extends Authenticatable
         // $attendances = Attendance::where(Auth::guard('employer')->id())->where('user_id', $this->id)->get();
     } */
     public function attendanceReport_extrahours($date_from, $date_to)
-{
-    $totalExtraHours = 0;
+    {
+        $totalExtraHours = 0;
 
-    $query = Attendance::where('user_id', $this->id);
+        $query = Attendance::where('user_id', $this->id);
 
-    if ($date_from && $date_to) {
-        $query->whereBetween('date', [$date_from, $date_to]);
-    } elseif ($date_from) {
-        $query->where('date', '>=', $date_from);
-    } elseif ($date_to) {
-        $query->where('date', '<=', $date_to);
-    } else {
-        $user = User::find($this->id);
-        $query->whereBetween('date', [$user->employment_start_date, Carbon::now()]);
-    }
-
-    $attendances = $query->get();
-
-    foreach ($attendances as $attend) {
-        $extraHours = $attend->extra_hours;
-        
-        if ($extraHours !== null) {
-            list($hours, $minutes) = explode(':', $extraHours);
-            $totalExtraHours += ($hours * 60) + $minutes;
+        if ($date_from && $date_to) {
+            $query->whereBetween('date', [$date_from, $date_to]);
+        } elseif ($date_from) {
+            $query->where('date', '>=', $date_from);
+        } elseif ($date_to) {
+            $query->where('date', '<=', $date_to);
+        } else {
+            $user = User::find($this->id);
+            $query->whereBetween('date', [$user->employment_start_date, Carbon::now()]);
         }
+
+        $attendances = $query->get();
+
+        foreach ($attendances as $attend) {
+            $extraHours = $attend->extra_hours;
+
+            if ($extraHours !== null) {
+                list($hours, $minutes) = explode(':', $extraHours);
+                $totalExtraHours += ($hours * 60) + $minutes;
+            }
+        }
+
+        $totalHours = floor($totalExtraHours / 60);
+        $totalMinutes = $totalExtraHours % 60;
+
+        return sprintf('%02d:%02d', $totalHours, $totalMinutes);
     }
-
-    $totalHours = floor($totalExtraHours / 60);
-    $totalMinutes = $totalExtraHours % 60;
-
-    return sprintf('%02d:%02d', $totalHours, $totalMinutes);
-}
 
 
     public function leaves()
@@ -431,7 +463,7 @@ class User extends Authenticatable
         $fullday = Attendance::where('user_id', $this->id)->where('status', '1')->count();
         $halfday = Attendance::where('user_id', $this->id)->where('status', '0')->count();
 
-        return $fullday + ($halfday/2);
+        return $fullday + ($halfday / 2);
     }
 
     public function projects()
@@ -443,7 +475,7 @@ class User extends Authenticatable
     {
         $payrolls = Payroll::where('user_id', $this->id)->whereYear('created_at', Carbon::now()->year)->get();
         $total_tax = 0;
-        foreach($payrolls as $payroll){
+        foreach ($payrolls as $payroll) {
             $total_tax = $payroll->total_tax;
         }
         return $total_tax;
@@ -460,6 +492,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Payroll::class);
     }
-
-
 }

@@ -9,6 +9,8 @@
 </head>
 
 <?php
+$invoice_no=$payroll->id;
+$pay_date=$payroll->pay_date;
 $name = $employee->first_name . " " . $employee->last_name;
 $employee_id = $employee->id;
 $designation = $employee->job_title;
@@ -19,23 +21,27 @@ $salary_type = $employee->salary_type;
 $pay_period = $employee->pay_period; // 0=Weekly,1=>fortnightly,2=monthly
 $taxId = "##00001";
 $provident_fund = "0";
-$base_rate = "0";
-$double_time = "0";
+$base_rate = $base_pay;
+$double_time = $doubleTimeRate;
 $allowance = $totalAllowance;
-$bonus = $total_bonus;
+$bonus = $total_bonus;  // Add the Total Bonus 
 $commission = $commission_amount;
-$gross_earnings = $grossSalary;
-$pf = "0";
-$tax = "0";
+$gross_earnings = $grossSalary;  ////gross pay =  Base Pay + Overtime Pay + Double Pay + Bonus + Commission 
+$netSalary=$netSalary;  //net salary= Gross Pay – (Superannuation + All Taxes);
+$pf = $fnpf;
+$srtax=$srt;
+$tax = $income_tax + $srtax;
 $loan = "0";
 $union = "0";
 $surcharge = "0";
 $total_deduction = $totalDeduction;
+$nonHolidayDates=$nonHolidayDates;
 // Total Net Paid
 $bank_account_no = $employee->account_number;
 $mpaisa = "0";
 $mycash = "0";
 $total_amount = "0";
+
 ?>
 
 <body>
@@ -60,19 +66,17 @@ $total_amount = "0";
                                                             </tr>
                                                             <tr>
                                                                 <td style="text-align: left; vertical-align: bottom; font-weight: normal; width: 20%;">
-                                                                    <strong>Invoice No.:</strong> 15639909 <br>
-                                                                    <strong>Pay Date:</strong> 25/07/2023
+                                                                    <strong>Invoice No.:</strong>{{$invoice_no}}  <br>
+                                                                    <strong>Pay Date:</strong> {{$pay_date}}
                                                                 </td>
                                                             </tr>
                                                         </table>
                                                     </td>
                                                     <td style="width: 47%;"></td>
                                                     <td style="text-align: right; font-weight: normal; font-size: 14px; width: 33%;">
-                                                        <strong style="display: block;">Reubro International</strong>
-                                                        39/3122, S. Overbridge, <br>
-                                                        Valanjambalam, <br>
-                                                        Kochi - 682 016, Kerala, India,
-                                                    </td>
+                                                        <strong style="display: block;">{{$business_name}}</strong>
+                                                      {{ $street }}<br>
+                                                      {{$city}}
                                                 </tr>
                                             </table>
                                         </td>
@@ -95,13 +99,13 @@ $total_amount = "0";
                                             <table style="width: 100%; border-collapse: collapse;">
                                                 <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px; width: 33%;"><strong>Employee ID</strong></td>
-                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px; width: 33%;">{{$employee->id}}</td>
+                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px; width: 33%;">{{$employee_id}}</td>
                                                     <td style="text-align: left; padding: 5px; width: 34%;"></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;"><strong>Employee Name</strong></td>
-                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">{{$employee->first_name." ".$employee->last_name}}</td>
-                                                    <td style="text-align: left; padding: 5px;" rowspan="3"><strong>Paid Days:</strong></td>
+                                                    <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">{{$name}}</td>
+                                                    <td style="text-align: left; padding: 5px;" rowspan="3"><strong>Paid Days: {{$paid_days}}</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;"><strong>Designation</strong></td>
@@ -117,7 +121,7 @@ $total_amount = "0";
                                                 <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;"><strong>Salary Type</strong></td>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;">{{$salary_type == 0 ? 'Fixed' : 'Hourly' }}</td>
-                                                    <td style="text-align: left; padding: 5px;" rowspan="3"><strong>Paid Hours:</strong></td>
+                                                    <td style="text-align: left; padding: 5px;" rowspan="3"><strong>Paid Hours: {{$paid_hours}}</strong></td>
                                                 </tr>
 
                                                 <tr>
@@ -154,7 +158,7 @@ $total_amount = "0";
                                                 <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;"><strong>Time and Half</strong></td>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;"></td>
-                                                    <td style="text-align: right; padding: 5px;"></td>
+                                                    <td style="text-align: right; padding: 5px;">{{$double_time}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;"><strong>Double Time</strong></td>
@@ -205,14 +209,14 @@ $total_amount = "0";
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;"><strong>Loan</strong></td>
                                                     <td style="text-align: right; border-right: 1px solid #000000; padding: 5px;">{{$loan}}</td>
                                                 </tr>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;"><strong>Union</strong></td>
                                                     <td style="text-align: right; border-right: 1px solid #000000; padding: 5px;">{{$union}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; padding: 5px;"><strong>Surcharge</strong></td>
                                                     <td style="text-align: right; border-right: 1px solid #000000; padding: 5px;">{{$surcharge}}</td>
-                                                </tr>
+                                                </tr> -->
                                                 <tr>
                                                     <td style="text-align: left; border-right: 1px solid #000000; border-top: 1px solid #000000; padding: 5px;"><strong>Total Deductions</strong></td>
                                                     <td style="text-align: right; border-top: 1px solid #000000; padding: 5px;">{{$total_deduction}}</td>

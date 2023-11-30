@@ -361,7 +361,6 @@ Route::get('invoice_checkout/{id}', [InvoiceController::class, 'invoice_checkout
   //Route::get('checkresponse/{nar_msgType}/{nar_merTxnTime}/{nar_merBankCode}/{nar_orderNo}/{nar_merId}/{nar_txnCurrency}/{nar_txnAmount}/{nar_remitterEmail}/{nar_remitterMobile}/{nar_cardType}/{nar_checkSum}/{nar_paymentDesc}/{nar_version}/{nar_merflag}/{nar_mcccode}/{nar_returnUrl}/{nar_Secure}', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
   Route::get('checkresponse', [InvoiceController::class, 'checkResponse'])->name('checkresponse');
   //Route::match(['get', 'post'], 'checkresponse', [InvoiceController::class, 'checkResponse']);
-
   //Route::resource('checkresponse', InvoiceController::class)->name('checkresponse');
   //Route::post('https://paytym.net/employer/checkresponse', [InvoiceController::class, 'checkResponse']);
   
