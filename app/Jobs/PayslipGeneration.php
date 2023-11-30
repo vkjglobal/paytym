@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Payroll;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PayslipGeneration implements ShouldQueue
@@ -42,6 +43,7 @@ class PayslipGeneration implements ShouldQueue
     protected $total_bonus;
     protected $lwop;
     protected $nonHolidayDates;
+    protected $doubleTimeRate;
 
 
 
@@ -64,7 +66,8 @@ class PayslipGeneration implements ShouldQueue
         $commission_amount,
         $total_bonus,
         $lwop,
-        $nonHolidayDates
+        $nonHolidayDates,
+        $doubleTimeRate
     ) {
 
         $this->employee = $employee;
@@ -86,6 +89,7 @@ class PayslipGeneration implements ShouldQueue
         $this->total_bonus = $total_bonus;
         $this->lwop = $lwop;
         $this->nonHolidayDates = $nonHolidayDates;
+        $this->doubleTimeRate = $doubleTimeRate;
     }
 
     /**
@@ -96,6 +100,10 @@ class PayslipGeneration implements ShouldQueue
     public function handle()
     {
         try {
+            $employer_id=Auth::guard('employer')->user()->id;
+            $business_name=Auth::guard('employer')->user()->company;
+            $street= Auth::guard('employer')->user()->street;
+            $city= Auth::guard('employer')->user()->city;
             $employee = $this->employee;
             $base_pay =  $this->base_pay;
             $grossSalary = $this->grossSalary;
@@ -115,6 +123,7 @@ class PayslipGeneration implements ShouldQueue
             $total_bonus = $this->total_bonus;
             $lwop = $this->lwop;
             $nonHolidayDates = count($this->nonHolidayDates);
+            $doubleTimeRate=$this->doubleTimeRate;
             $now = Carbon::now();
             $dateString = $now->format('ymd');
             $count = Payroll::where('employer_id', $employee->employer->id)->where('created_at', $now)->count();
@@ -140,7 +149,12 @@ class PayslipGeneration implements ShouldQueue
                 'commission_amount',
                 'total_bonus',
                 'lwop',
-                'nonHolidayDates'
+                'nonHolidayDates',
+                'doubleTimeRate',
+                'payroll',
+                'business_name',
+                'street',
+                'city'
             ));
 
             $carbonDate = Carbon::parse($endDate);

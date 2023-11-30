@@ -453,9 +453,8 @@ class PayrollController extends Controller
 
             $res = $payroll->save();
             $flag_payroll = 1;
-            //  dd("bbbbbb");
             // Payslip Generation
-            PayslipGeneration::dispatch(
+            $this->slip_generation(
                 $employee,
                 $base_pay,
                 $grossSalary,
@@ -474,14 +473,37 @@ class PayrollController extends Controller
                 $commission_amount,
                 $total_bonus,
                 $lwop,
-                $nonHolidayDates
+                $nonHolidayDates,
+                $doubleTimeRate
             );
+
+            // PayslipGeneration::dispatch(
+            //     $employee,
+            //     $base_pay,
+            //     $grossSalary,
+            //     $netSalary,
+            //     $totalSalary,
+            //     $totalAllowance,
+            //     $totalDeduction,
+            //     $allowances,
+            //     $deductions,
+            //     $IncomeTaxToWithhold,
+            //     $fnpf_amount,
+            //     $srtToWithhold,
+            //     $payroll,
+            //     $fromDate,
+            //     $endDate,
+            //     $commission_amount,
+            //     $total_bonus,
+            //     $lwop,
+            //     $nonHolidayDates,
+            //     $doubleTimeRate
+            // );
         }
     }
 
     public function generate_fixed_payroll($employee, $fromDate, $endDate)
     {
-        //  dd("fixed...");
         $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / ($fromDate->daysInMonth)));
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $endDate])->get();
         //Allowance Calculation
@@ -710,11 +732,54 @@ class PayrollController extends Controller
 
         $res = $payroll->save();
         $flag_payroll = 1;
-
-
-
-
+        $doubleTimeRate=0;
         //Payslip generation
+        $this->slip_generation(
+            $employee,
+            $base_pay,
+            $grossSalary,
+            $netSalary,
+            $totalSalary,
+            $totalAllowance,
+            $totalDeduction,
+            $allowances,
+            $deductions,
+            $incomeTaxToWithhold,
+            $fnpf_amount,
+            $srtToWithhold,
+            $payroll,
+            $fromDate,
+            $endDate,
+            $commission_amount,
+            $total_bonus,
+            $lwop,
+            $nonHolidayDates,
+            $doubleTimeRate
+        );
+    }
+
+    public function slip_generation(
+        $employee,
+        $base_pay,
+        $grossSalary,
+        $netSalary,
+        $totalSalary,
+        $totalAllowance,
+        $totalDeduction,
+        $allowances,
+        $deductions,
+        $incomeTaxToWithhold,
+        $fnpf_amount,
+        $srtToWithhold,
+        $payroll,
+        $fromDate,
+        $endDate,
+        $commission_amount,
+        $total_bonus,
+        $lwop,
+        $nonHolidayDates,
+        $doubleTimeRate
+    ) {
         PayslipGeneration::dispatch(
             $employee,
             $base_pay,
@@ -734,7 +799,8 @@ class PayrollController extends Controller
             $commission_amount,
             $total_bonus,
             $lwop,
-            $nonHolidayDates
+            $nonHolidayDates,
+            $doubleTimeRate
         );
     }
 
