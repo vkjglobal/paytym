@@ -166,7 +166,7 @@ class PayrollCalculationController extends Controller
             }
         }
         if ($employee_count == 1) {
-            $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+            $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
 
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
@@ -313,7 +313,7 @@ class PayrollCalculationController extends Controller
                     $csv_name = "BSP" . $currentDate;
                     $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
                 } else if ($bankname == 'BRED') {
-                    $result = $this->get_csv_data($flag_type, $id_type, $employees,$bank);
+                    $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
                 } else if ($bankname == 'BOB') {
                 }
             }
@@ -452,7 +452,7 @@ class PayrollCalculationController extends Controller
 
     }
 
-    public function bred_bank_template($data,$bank)
+    public function bred_bank_template($data, $bank)
     {
         // Add Data to the Excel File
         // Read the template CSV file
@@ -477,7 +477,7 @@ class PayrollCalculationController extends Controller
 
             // Define the starting row where data should be added
             $startRow = 3; // Assuming you have a header row, starting from the second row
-            
+
             foreach ($data as $rowData) {
                 $column = 'A';
                 $startRow++;
@@ -488,7 +488,7 @@ class PayrollCalculationController extends Controller
                 $column++;
 
                 //Name
-                $worksheet->setCellValue($column . $startRow, $rowData->first_name.' '.$rowData->last_name);
+                $worksheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
                 $column++;
 
                 //Accnt  Number
@@ -506,13 +506,11 @@ class PayrollCalculationController extends Controller
                 // Narration 
 
                 $worksheet->setCellValue($column . $startRow, "TEst");
-                
             }
 
             // Save the modified spreadsheet to the new file
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
             $writer->save($destinationPath);
-
         } else {
             //  dd("else");
             // Handle the case where the copy failed
@@ -520,7 +518,7 @@ class PayrollCalculationController extends Controller
         // End 
     }
 
-    public function get_csv_data($flag, $id, $employees,$bank)
+    public function get_csv_data($flag, $id, $employees, $bank)
     {
         if ($flag == "business") {
             foreach ($id as  $id) {
@@ -565,6 +563,179 @@ class PayrollCalculationController extends Controller
                 }])->with(['payroll_latest', 'split_payment'])->where('id', $id->id)->where('status', '1')->get();
             }
         }
-        $this->bred_bank_template($data,$bank);
+        $this->bred_bank_template($data, $bank);
     }
 }
+
+
+
+// Avoid Codes May be use  From the Original File on 01-12-23
+    // $bred_data = getUsersByBankName('BRED');
+                // if ($bred_data->isNotEmpty()) {
+                //     $bred_csv_name = "BRED" . $currentDate;
+                // }
+
+                // $bob_data = getUsersByBankName('BOB');
+                // if ($bob_data->isNotEmpty()) {
+                //     $bob_csv_name = "BOB" . $currentDate;
+                // }
+
+
+                // $hfc_data = getUsersByBankName('HFC');
+                // if ($hfc_data->isNotEmpty()) {
+                //     $hfc_csv_name = "HFC" . $currentDate;
+                // }
+
+                // $bsp_data = getUsersByBankName('BSP');
+                // if ($bsp_data->isNotEmpty()) {
+                //     $bsp_csv_name = "BSP" . $currentDate;
+                // }
+
+                // $wbc_data = getUsersByBankName('WBC');
+                // if ($wbc_data->isNotEmpty()) {
+                //     $wbc_csv_name = "WBC" . $currentDate;
+                // }
+
+                // $anz_data = getUsersByBankName('ANZ');
+                // if ($anz_data->isNotEmpty()) {
+                //     $anz_csv_name = "ANZ" . $currentDate;
+                // }
+
+                // if ($flag == "all") {
+                //     foreach ($bankNames as $bankName) {
+                //         $id = null;
+                //         $data = $this->getUsersByBankName($bankName, $id);
+    
+                //         // Get the Bank 
+                //         //  $employees
+                //         foreach ($employees as $id) {
+                //             $user_data = User::where('id', $id)->first();
+                //             $branch_id = $user_data->branch_id;
+                //             $bank = Branch::with('banks')->where('id', $branch_id)->first();
+                //             if (!$bank) {
+                //                 $business = Branch::select('employer_business_id')->where('id', $id)->first();
+                //                 $bank = EmployerBusiness::with('banks')->where('id', $business->employer_business_id)->first();
+                //             }
+                //             //  End Get Bank
+                //             if ($data->isNotEmpty()) {
+                //                 $bankData[$bankName . '_csv_name'] = $bankName . $currentDate;
+                //             }
+                //         }
+                //     }
+                // } else if ($flag == "others") {
+              
+                // }
+
+
+                  // if ($key === 'HFC') {
+                //     $csv_name = "HFC" . $currentDate;
+                //     $export = new HfcExport(0, 0, $flag_type, 0,  $bank_data);
+                //     $store = Storage::put('exports/' . $csv_name, Excel::raw($bank_data, \Maatwebsite\Excel\Excel::CSV));
+                //     $path = 'exports/' . $csv_name;
+                // } elseif ($key === 'BSP') {
+                //     $result = $this->get_csv_data($flag_type, $id_type, $bank_data, $bank);
+                //     if ($result) {
+                //         $csv_name = $result;
+                //     } else {
+                //         $csv_name = 'BNK -' . $currentDate . '.xls';
+                //     }
+                //     // $csv_name = $bankname . '-' . $currentDate . '.xls';
+                //     $path = 'public/csv/' . $csv_name;
+                // } else {
+                //     $result = $this->get_csv_data($flag_type, $id_type, $bank_data, $bank);
+                //     if ($result) {
+                //         $csv_name = $result;
+                //     } else {
+                //         $csv_name = 'BNK -' . $currentDate . '.xls';
+                //     }
+                //     // $csv_name = $bankname . '-' . $currentDate . '.xls';
+                //     $path = 'public/csv/' . $csv_name;
+                // }
+
+// For Generalizing Templates 
+                // public function general_bank_template($data, $bank, $bankname)
+                // {
+                //     $banks = optional($bank)->banks;
+                //     if ($banks) {
+                //         //$templatePath = storage_path('uploads/bank_template/' . $banks->template);
+                //         $templatePath =  storage_path('app/public/csv/' . $bankname . '.xlsx'); // Replace with the actual path
+            
+                //     } else {
+                //         $templatePath =  storage_path('app/public/csv/' . $bankname . '.xlsx'); // Replace with the actual path
+                //     }
+            
+                //     $template = fopen($templatePath, 'r');
+                //     $currentDate = Carbon::now()->format('dmy');
+                //     $csv_name = $bankname . $currentDate . '.xlsx';
+                //     // Create a new CSV file for the updated data
+                //     $updatedPath = storage_path('app/public/csv/' . $csv_name); // Replace with the desired path
+                //     // Specify the source file and the destination for the copy
+                //     $sourcePath = $templatePath; // Replace with the actual source file path
+                //     $destinationPath = $updatedPath; // Replace with the desired destination path
+                //     File::copy($sourcePath, $destinationPath);
+                //     // Check if the copy was successful
+                //     if (File::exists($destinationPath)) {
+                //         // File has been successfully copied
+                //         // You can perform additional operations on the copied file if needed
+                //         $bankname = optional(optional($bank)->banks)->bank_name;
+                //         if ($bankname == 'BRED') {
+                //             return $this->bred_bank_template($data, $bank);
+                //         } elseif ($bankname == 'BOB') {
+                //             return $this->bob_bank_template($data, $bank);
+                //         } elseif ($bankname == 'WBC') {
+                //             return $this->pc1_format($data, $bank);
+                //         } elseif ($bankname == 'ANZ') {
+                //             return $this->anz_bank_template($data, $bank);
+                //         } elseif ($bankname == 'BSP') {
+                //             return $this->bsp_bank_template($data, $bank);
+                //         } elseif ($bankname == 'HFC') {
+                //             return $this->hfc_bank_template($data, $bank);
+                //         }
+            
+            
+                //         $spreadsheet = IOFactory::load($templatePath);
+                //         // Get the active worksheet
+                //         $worksheet = $spreadsheet->getActiveSheet();
+                //         // Define the starting row where data should be added
+                //         $startRow = 3; // Assuming you have a header row, starting from the second row
+            
+                //         foreach ($data as $rowData) {
+                //             $column = 'A';
+                //             $startRow++;
+                //             // Start with the first column
+            
+                //             //Bank Code
+                //             $worksheet->setCellValue($column . $startRow, $bank->other_bank_code);
+                //             $column++;
+            
+                //             //Name
+                //             $worksheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                //             $column++;
+            
+                //             //Accnt  Number
+                //             $worksheet->setCellValue($column . $startRow, $rowData->account_number);
+                //             $column++;
+                //             //AMount
+                //             $worksheet->setCellValue($column . $startRow, "AMT");
+                //             $column++;
+            
+                //             // Company Name
+            
+                //             $worksheet->setCellValue($column . $startRow, "BSC");
+                //             $column++;
+            
+                //             // Narration 
+                //             $worksheet->setCellValue($column . $startRow, "TEst");
+                //         }
+            
+                //         // Save the modified spreadsheet to the new file
+                //         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+                //         $writer->save($destinationPath);
+                //     } else {
+                //         //  dd("else");
+                //         // Handle the case where the copy failed
+                //     }
+                //     // End 
+            
+                //     return $csv_name;
+                // }

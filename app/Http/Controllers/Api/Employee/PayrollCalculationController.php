@@ -156,7 +156,6 @@ class PayrollCalculationController extends Controller
         }
         if ($employee_count == 1) {
             //  $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);   // For Testing purpose
-
             foreach ($employees as $employee) {
                 if ($employee->salary_type == "1" && $employee->status == "1") {
                     //Taking each employees 
@@ -165,9 +164,7 @@ class PayrollCalculationController extends Controller
                     } else {
                         $LastPayedDate = $employee->employment_start_date;
                     }
-
                     $payPeriod = CarbonPeriod::since($LastPayedDate)->until($today);
-
                     if ($employee->pay_period == "1") {
                         $subPeriodLength = CarbonInterval::days(14);
                     } else {
@@ -280,8 +277,6 @@ class PayrollCalculationController extends Controller
                 return  notify()->error(__('Sorry, no employees match this data. Please try different criteria.'));
             }
         }
-
-
         //    Comented by robin on 14-06-23   it is needed. 
         // Bank Template Send Section 
         $currentDate = Carbon::now()->format('dmy');
@@ -290,70 +285,48 @@ class PayrollCalculationController extends Controller
         // filter the 6 bank data & send 
 
         //get_csv_data();    //Step 1 :-  this will return the data added to the CSV 
-
-
         // No Need to check the flag here
         $bankNames = ['BRED', 'BOB', 'HFC', 'BSP', 'WBC', 'ANZ'];
         $bankData = [];
         if (($flag == "all" || $flag == "others")) {   // All & others case Bank is choosed based on the Employees
             // In All & Others Section we need to execute all the Bank template So 
-            if ($flag == "all") {
-                $currentDate = now()->format('Ymd'); // Assuming $currentDate is defined
+            foreach ($employees as $employee) {
+                //  $i = $i + 1;
+                // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
                 foreach ($bankNames as $bankName) {
-                    $data = $this->getUsersByBankName($bankName);
-                    if ($data->isNotEmpty()) {
-                        $bankData[$bankName . '_csv_name'] = $bankName . $currentDate;
+                    $data = $this->getUsersByBankName($bankName, $employee);
+                    $id = $employee->id;
+                    // Get the Bank 
+                    $user_data = User::where('id', $id)->first();
+                    $branch_id = $user_data->branch_id;
+                    $bank = Branch::with('banks')->where('id', $branch_id)->first();
+                    if (!$bank) {
+                        $business = Branch::select('employer_business_id')->where('id', $id)->first();
+                        $bank = EmployerBusiness::with('banks')->where('id', $business->employer_business_id)->first();
                     }
-                }
-            } else if ($flag == "others") {
-                foreach ($employees as $id) {
-                    //  $i = $i + 1;
-                    // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
-                    foreach ($bankNames as $bankName) {
-                        $data = $this->getUsersByBankNameAll($bankName, $id);
-                        if ($data->isNotEmpty()) {
-                            $csvName = $bankName . $currentDate;
-                            $bankData[$bankName . '_csv_name'] = $bankName . $currentDate;
+                    //  End Get Bank
 
-                            // Instantiate different export classes based on CSV name
-                            if ($csvName === 'HFC' . $currentDate) {
-                                $export = new HfcExport(0, 0, $flag_type, 0, [$id]);
-                            } elseif ($csvName === 'BSP' . $currentDate) {
-                                $export_bsp = new PaymentExport(0, 0, $flag_type, 0, [$id]);
-                            }
-                        }
+                    if ($data->isNotEmpty()) {
+                        $csvName = $bankName . $currentDate;
+                        $bankData[$bankName] = $data;
                     }
-                    // $bred_data = getUsersByBankNameAll('BRED', $id);
-                    // if ($bred_data->isNotEmpty()) {
-                    //     $bred_csv_name = "BRED" . $currentDate;
-                    // }
                 }
             }
 
-
-
-
-
-
-            $csv_name = "HFC" . $currentDate;
-            $export = new HfcExport(0, 0, $flag_type, 0,  $employees);
-
-
-            $csv_name = "BSP" . $currentDate;
-            $export_bsp = new PaymentExport(0, 0, $flag_type, 0,  $employees);
-
-
-            $csv_name = "BSP" . $currentDate;
-            $export_ = new HfcExport(0, 0, $flag_type, 0,  $employees);
-
-            $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
-
-            $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-            $path = 'exports/' . $csv_name;
-            $path = 'public/csv/' . $csv_name;
+            foreach ($bankData as $key => $bank_data) {
+                // Instantiate different export classes based on CSV name
+                $result = $this->get_csv_data($flag_type, $id_type, $bank_data, $bank);
+                // Csv Name Returns
+                if ($result) {
+                    $csv_name = $result;
+                } else {
+                    $csv_name = 'BNK -' . $currentDate . '.xls';
+                }
+                // $csv_name = $bankname . '-' . $currentDate . '.xls';
+                $path = 'public/csv/' . $csv_name;
+                $this->mail_to_superiors($path, $EmployerId, $csv_name);
+            }
         } else {   //  Business, Branch,Department , Template is choosed based on the Business or Branch
-            //      dd($bank);
-
             if (!$bank) {
                 // This will never happened bcz the employee or organization must select the Bank. 
                 $bankname = "BNK";
@@ -361,33 +334,40 @@ class PayrollCalculationController extends Controller
                 $bankid = $bank->banks->id;
                 $bankname = optional(optional($bank)->banks)->bank_name;
             }
-            //    dd($bankname);
-            if ($bankname == 'HFC') {
-                $csv_name = "HFC" . $currentDate;
-                $export = new HfcExport($bankid, $bankname, $flag_type, $id_type, $employees);
-            } else if ($bankname == 'BSP') {
-                $csv_name = "BSP" . $currentDate;
-                $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
-            } else {
-                $csv_name = $bankname . '-' . $currentDate . '.xls';
-                $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
-            }
 
-            if ($bankname == 'HFC' || $bankname == 'BSP') {
-                $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
-                $path = 'exports/' . $csv_name;
+            $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
+            // Csv Name Returns
+            if ($result) {
+                $csv_name = $result;
             } else {
-                $path = 'public/csv/' . $csv_name;
+                $csv_name = 'BNK -' . $currentDate . '.xls';
             }
+            // $csv_name = $bankname . '-' . $currentDate . '.xls';
+            $path = 'public/csv/' . $csv_name;
+            $this->mail_to_superiors($path, $EmployerId, $csv_name);
+
+            // if ($bankname == 'HFC') {
+            //     $csv_name = "HFC" . $currentDate;
+            //     $export = new HfcExport($bankid, $bankname, $flag_type, $id_type, $employees);
+            // } else if ($bankname == 'BSP') {
+            //     $csv_name = "BSP" . $currentDate;
+            //     //  $export = new PaymentExport($bankid, $bankname, $flag_type, $id_type);
+            // } else {
+            //     $csv_name = $bankname . '-' . $currentDate . '.xls';
+            //     $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
+            // }
+
+            // if ($bankname == 'HFC' || $bankname == 'BSP') {
+            //     $store = Storage::put('exports/' . $csv_name, Excel::raw($export, \Maatwebsite\Excel\Excel::CSV));
+            //     $path = 'exports/' . $csv_name;
+            // } else {
+            //     $path = 'public/csv/' . $csv_name;
+            // }
 
             $this->mail_to_superiors($path, $EmployerId, $csv_name);
         }
 
-
-
-
         //   comment for not send mail during testingg
-
         // if ($bankname == 'HFC' || $bankname == 'BSP' ) {  // Mail send is different
 
         // }
@@ -430,16 +410,9 @@ class PayrollCalculationController extends Controller
     }
 
 
-    public function mail_to_superiors_all_others($path, $EmployerId, $csv_name)
-    {
-    }
-
-
-
     public function mail_to_superiors($path, $EmployerId, $csv_name)
     {
         Mail::send([], [], function ($message) use ($path, $EmployerId, $csv_name) {
-            // $hr = User::where('employer_id', $EmployerId)->where('position', 1)->first();
             $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
             //$finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
             $finance = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%finance%')->first();
@@ -473,15 +446,12 @@ class PayrollCalculationController extends Controller
         //    Storage::delete($path);
     }
 
+
     public function bred_bank_template($data, $bank)
     {
-        // Add Data to the Excel File
-        // Read the template CSV file
-        // $templatePath = '/path/to/template.csv'; // Replace with the actual path
         $banks = optional($bank)->banks;
         if ($banks) {
             $templatePath = storage_path('uploads/bank_template/' . $banks->template);
-            //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
         } else {
             $templatePath =  storage_path('app/public/csv/BRED.xlsx'); // Replace with the actual path
         }
@@ -489,7 +459,6 @@ class PayrollCalculationController extends Controller
         $template = fopen($templatePath, 'r');
         $currentDate = Carbon::now()->format('dmy');
         $csv_name = 'BRED' . $currentDate . '.xlsx';
-        //  dd($csv_name);
         // Create a new CSV file for the updated data
         $updatedPath = storage_path('app/public/csv/' . $csv_name); // Replace with the desired path
         // Specify the source file and the destination for the copy
@@ -500,12 +469,9 @@ class PayrollCalculationController extends Controller
         if (File::exists($destinationPath)) {
             // File has been successfully copied
             // You can perform additional operations on the copied file if needed
-
             $spreadsheet = IOFactory::load($templatePath);
-
             // Get the active worksheet
             $worksheet = $spreadsheet->getActiveSheet();
-
             // Define the starting row where data should be added
             $startRow = 3; // Assuming you have a header row, starting from the second row
 
@@ -546,6 +512,7 @@ class PayrollCalculationController extends Controller
             // Handle the case where the copy failed
         }
         // End 
+        return $csv_name;
     }
 
 
@@ -560,7 +527,7 @@ class PayrollCalculationController extends Controller
             $templatePath = storage_path('uploads/bank_template/' . $banks->template);
             //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
         } else {
-            $templatePath =  storage_path('public/csv/BRED.xlsx'); // Replace with the actual path
+            $templatePath =  storage_path('app/public/csv/BOB.xlsx'); // Replace with the actual path
         }
 
         $template = fopen($templatePath, 'r');
@@ -585,7 +552,6 @@ class PayrollCalculationController extends Controller
 
             // Define the starting row where data should be added
             $startRow = 2; // Assuming you have a header row, starting from the second row
-
             foreach ($data as $rowData) {
                 $column = 'B';
                 $startRow++;
@@ -624,28 +590,158 @@ class PayrollCalculationController extends Controller
             // Handle the case where the copy failed
         }
         // End 
+
+        return $csv_name;
     }
 
-    function getUsersByBankName($bankName)
+
+    public function bsp_bank_template($data, $bank)
     {
-        return User::with(['branch' => function ($query) use ($bankName) {
-            $query->with(['banks' => function ($relatedQuery) use ($bankName) {
-                $relatedQuery->where('bank_name', '=', $bankName);
-            }]);
-        }])
-            ->with(['payroll_latest', 'split_payment'])
-            ->where('employer_id', Auth::guard('employer')->id())
-            ->where('status', '1')
-            ->get();
+        $banks = optional($bank)->banks;
+        if ($banks) {
+            $templatePath =  storage_path('app/public/csv/BSP.xlsx');
+            //$templatePath = storage_path('uploads/bank_template/' . $banks->template);
+            //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
+        } else {
+            $templatePath =  storage_path('public/csv/BSP.xlsx'); // Replace with the actual path
+        }
+
+        $template = fopen($templatePath, 'r');
+        $currentDate = Carbon::now()->format('dmy');
+        $csv_name = 'BSP' . $currentDate . '.xlsx';
+        // Create a new CSV file for the updated data
+        $updatedPath = storage_path('app/public/csv/' . $csv_name); // Replace with the desired path
+        // Specify the source file and the destination for the copy
+        $sourcePath = $templatePath; // Replace with the actual source file path
+        $destinationPath = $updatedPath; // Replace with the desired destination path
+        File::copy($sourcePath, $destinationPath);
+        // Check if the copy was successful
+        if (File::exists($destinationPath)) {
+            // File has been successfully copied
+            // You can perform additional operations on the copied file if needed
+            $spreadsheet = IOFactory::load($templatePath);
+            // Get the active worksheet
+            $worksheet = $spreadsheet->getActiveSheet();
+            // Define the starting row where data should be added
+            $startRow = 0; // Assuming you have a header row, starting from the second row
+            foreach ($data as $rowData) {
+                $column = 'A';
+                $startRow++;
+                // Start with the first column
+
+                //Bank Code
+                $worksheet->setCellValue($column . $startRow, $bank->branch_code);
+                //   $column++;
+                // Account Number
+                $worksheet->setCellValue($column . $startRow, $rowData->account_number);
+                $column++;
+
+                // NetPay
+                $worksheet->setCellValue($column . $startRow, optional(optional($rowData)->payroll_latest)->net_salary);
+                $column++;
+
+                // Wages
+                $worksheet->setCellValue($column . $startRow, 'wages');
+                $column++;
+
+                //Name
+                $worksheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                // Net pay
+            }
+
+            // Save the modified spreadsheet to the new file
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $writer->save($destinationPath);
+        } else {
+            //  dd("else");
+            // Handle the case where the copy failed
+        }
+        // End 
+        return $csv_name;
     }
 
-    function getUsersByBankNameAll($bankName, $id)
+    public function hfc_bank_template($data, $bank)
     {
-        return User::with(['branch' => function ($query) use ($bankName) {
-            $query->with(['banks' => function ($relatedQuery) use ($bankName) {
-                $relatedQuery->where('bank_name', '=', $bankName);
-            }]);
-        }])->with(['payroll_latest', 'split_payment'])->where('id', $id->id)->where('status', '1')->get();
+        $banks = optional($bank)->banks;
+        if ($banks) {
+            $templatePath =  storage_path('app/public/csv/HFC.xlsx');
+            //$templatePath = storage_path('uploads/bank_template/' . $banks->template);
+            //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
+        } else {
+            $templatePath =  storage_path('public/csv/HFC.xlsx'); // Replace with the actual path
+        }
+
+        $template = fopen($templatePath, 'r');
+        $currentDate = Carbon::now()->format('dmy');
+        $csv_name = 'HFC' . $currentDate . '.xlsx';
+        // Create a new CSV file for the updated data
+        $updatedPath = storage_path('app/public/csv/' . $csv_name); // Replace with the desired path
+        // Specify the source file and the destination for the copy
+        $sourcePath = $templatePath; // Replace with the actual source file path
+        $destinationPath = $updatedPath; // Replace with the desired destination path
+        File::copy($sourcePath, $destinationPath);
+        // Check if the copy was successful
+        if (File::exists($destinationPath)) {
+            // File has been successfully copied
+            // You can perform additional operations on the copied file if needed
+            $spreadsheet = IOFactory::load($templatePath);
+            // Get the active worksheet
+            $worksheet = $spreadsheet->getActiveSheet();
+            // Define the starting row where data should be added
+            $startRow = 1; // Assuming you have a header row, starting from the second row
+            foreach ($data as $rowData) {
+                $column = 'A';
+                $startRow++;
+                // Start with the first column
+
+                //Bank Code
+                $worksheet->setCellValue($column . $startRow, $bank->branch_code);
+                //   $column++;
+                // Account Number
+                $worksheet->setCellValue($column . $startRow, $rowData->account_number);
+                $column++;
+
+                // Account Name
+                $worksheet->setCellValue($column . $startRow, $rowData->first_name . ' ' . $rowData->last_name);
+                $column++;
+
+                // NetPay
+                $worksheet->setCellValue($column . $startRow, optional(optional($rowData)->payroll_latest)->net_salary);
+                $column++;
+
+                // Wages
+                $worksheet->setCellValue($column . $startRow, 'test transaction');
+            }
+
+            // Save the modified spreadsheet to the new file
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $writer->save($destinationPath);
+        } else {
+            //  dd("else");
+            // Handle the case where the copy failed
+        }
+        // End 
+        return $csv_name;
+    }
+
+
+
+    function getUsersByBankName($bankName, $id)
+    {
+        $query = User::with(['branch.banks', 'payroll_latest', 'split_payment'])
+            ->whereHas('branch.banks', function ($relatedQuery) use ($bankName) {
+                $relatedQuery->where('bank_name', $bankName);
+            })
+            ->where('status', '1');
+
+        if ($id !== null) {
+            $query->where('id', $id->id);
+        } else {
+            $query->where('employer_id', Auth::guard('employer')->id());
+        }
+
+        $query_get = $query->get();
+        return $query_get;
     }
 
 
@@ -817,12 +913,12 @@ class PayrollCalculationController extends Controller
             // Save the modified spreadsheet to the new file
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
             $writer->save($destinationPath);
-            return $csv_name;
         } else {
             //  dd("else");
             // Handle the case where the copy failed
         }
         // End 
+        return $csv_name;
     }
 
 
@@ -851,48 +947,23 @@ class PayrollCalculationController extends Controller
                     ->where('status', '1')
                     ->where('department_id', $id)->get();
             }
-        } else if ($flag == "all") {
-            $data = User::with(['branch' => function ($query) {
-                $query->with(['banks' => function ($relatedQuery) {
-                    $relatedQuery->where('bank_name', '=', 'HFC');
-                }]);
-            }])->with(['payroll_latest', 'split_payment', 'employee_bank'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
-
-
-            // $data = User::with(['payroll_latest', 'split_payment'])->where('employer_id', Auth::guard('employer')->id())->where('status', '1')->get();
-        } else if ($flag = "others") {
-            //dd($this->employees->id);
-            foreach ($employees as $id) {
-                //  $i = $i + 1;
-                // Inside the loop, you fetch a user record based on each $id and add it to the $employees array.
-                $data = User::with(['branch' => function ($query) {
-                    $query->with(['banks' => function ($relatedQuery) {
-                        $relatedQuery->where('bank_name', '=', 'HFC');
-                    }]);
-                }])->with(['payroll_latest', 'split_payment'])->where('id', $id->id)->where('status', '1')->get();
-            }
+        } else if ($flag == "all" || $flag == "others") {
+            $data = $employees;
         }
 
-
-
         $bankname = optional(optional($bank)->banks)->bank_name;
-        //  dd($bankname);
-        //        dd($data);
-
-
         if ($bankname == 'BRED') {
-            $this->bred_bank_template($data, $bank);
+            return $this->bred_bank_template($data, $bank);
         } elseif ($bankname == 'BOB') {
-            $this->bob_bank_template($data, $bank);
-        } elseif ($bankname == 'HFC') {
-            $this->anz_bank_template($data, $bank);
-            //$this->pc1_format($data, $bank);
-            //  $this->bob_bank_template($data, $bank);
+            return $this->bob_bank_template($data, $bank);
         } elseif ($bankname == 'WBC') {
-            $this->pc1_format($data, $bank);
+            return $this->pc1_format($data, $bank);
         } elseif ($bankname == 'ANZ') {
-            $this->anz_bank_template($data, $bank);
-            //  $this->pc1_format($data, $bank);
+            return $this->anz_bank_template($data, $bank);
+        } elseif ($bankname == 'BSP') {
+            return $this->bsp_bank_template($data, $bank);
+        } elseif ($bankname == 'HFC') {
+            return $this->hfc_bank_template($data, $bank);
         }
     }
 
@@ -978,35 +1049,3 @@ class PayrollCalculationController extends Controller
         return response()->download($path, 'DISDATA.PC1');
     }
 }
-
-// Avoid Codes May be use
-    // $bred_data = getUsersByBankName('BRED');
-                // if ($bred_data->isNotEmpty()) {
-                //     $bred_csv_name = "BRED" . $currentDate;
-                // }
-
-                // $bob_data = getUsersByBankName('BOB');
-                // if ($bob_data->isNotEmpty()) {
-                //     $bob_csv_name = "BOB" . $currentDate;
-                // }
-
-
-                // $hfc_data = getUsersByBankName('HFC');
-                // if ($hfc_data->isNotEmpty()) {
-                //     $hfc_csv_name = "HFC" . $currentDate;
-                // }
-
-                // $bsp_data = getUsersByBankName('BSP');
-                // if ($bsp_data->isNotEmpty()) {
-                //     $bsp_csv_name = "BSP" . $currentDate;
-                // }
-
-                // $wbc_data = getUsersByBankName('WBC');
-                // if ($wbc_data->isNotEmpty()) {
-                //     $wbc_csv_name = "WBC" . $currentDate;
-                // }
-
-                // $anz_data = getUsersByBankName('ANZ');
-                // if ($anz_data->isNotEmpty()) {
-                //     $anz_csv_name = "ANZ" . $currentDate;
-                // }

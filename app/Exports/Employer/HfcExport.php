@@ -62,7 +62,7 @@ class HfcExport implements FromCollection, WithMapping
                     ->where('status', '1')
                     ->where('department_id', $id)->get();
             }
-        } else if ($flag == "all" || $flag = "others") {
+        } else if ($flag == "all" || $flag == "others") {
             $data = $this->employees;
         }
 
