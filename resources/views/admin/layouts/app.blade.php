@@ -89,6 +89,8 @@
     <!-- custom js for this page -->
     <script src="{{ asset('admin_assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('admin_assets/js/datepicker.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+
     <!-- end custom js for this page -->
     <!-- custom js -->
     @notifyJs

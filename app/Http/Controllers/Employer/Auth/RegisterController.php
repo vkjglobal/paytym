@@ -23,6 +23,7 @@ use Exception;
 use Illuminate\Support\Facades\Storage;
 use symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Events\AdminNotification;
 
 class RegisterController extends Controller
 {
@@ -37,7 +38,7 @@ class RegisterController extends Controller
     |
     */
 
-    
+
 
     /**
      * Where to redirect employers after registration.
@@ -115,7 +116,7 @@ class RegisterController extends Controller
             'tin_letter' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
             'logo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
         ]);
-            
+
 
         $rand_pass =  Str::random(8);
         $employer = new Employer();
@@ -130,24 +131,24 @@ class RegisterController extends Controller
         $employer->street = $request['street'];
         $employer->city = $request['city'];
         $employer->website = $request['website'];
-        $employer->user_type = "Employer"; 
+        $employer->user_type = "Employer";
         $employer->status = 1;
         // $employer->qr_code = QrCode::size(250)->generate($employer->company);
 
         $employer->password = Hash::make($rand_pass);
-        try{
-             //10-10-23
+        try {
+            //10-10-23
             $employer->email_verified_token = Str::random(32);
-           //$issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
-        } catch (TransportExceptionInterface $e){
+            //$issend = Mail::to($email)->send(new SendEmployerPassword($rand_pass));
+        } catch (TransportExceptionInterface $e) {
             notify()->error(__('Failed to Register. Please check the email and try again'));
             return redirect()->back();
         }
         // if(!$mail_res){
-            
+
         // }
-            
-            
+
+
         if (isset($request['registration_certificate'])) {
             $path =  $request['registration_certificate']->storeAs(
                 'uploads/certificate',
@@ -175,15 +176,15 @@ class RegisterController extends Controller
         }
         $res = $employer->save();
 
-        
+
         if ($res) {
             $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
-           
+
             $employer->save();
 
             //18-10-23
-            $defaultLeaveTypes = LeaveType::where('employer_id',0)->where('country_id',$employer->country_id)->get();
-            
+            $defaultLeaveTypes = LeaveType::where('employer_id', 0)->where('country_id', $employer->country_id)->get();
+
             foreach ($defaultLeaveTypes as $defaultLeaveType) {
                 LeaveType::create([
                     'leave_type' => $defaultLeaveType->leave_type,
@@ -194,13 +195,19 @@ class RegisterController extends Controller
             }
             //
 
-            $issend=  Mail::to($email)->send(new EmployerRegisterEmail($employer,$rand_pass));
+            $issend =  Mail::to($email)->send(new EmployerRegisterEmail($employer, $rand_pass));
 
             $adminEmails = AdminEmails::get()->pluck('email');
             $recipients = $adminEmails->toArray();
-           if ($adminEmails->count()>0) {
-            Mail::to($recipients)->send(new EmployerRegisterEmailToAdmins($employer));
-            } 
+            if ($adminEmails->count() > 0) {
+                Mail::to($recipients)->send(new EmployerRegisterEmailToAdmins($employer));
+            }
+
+            // // After an admin action that requires a notification
+            // $message = 'Something that requires admin attention.';
+            // event(new AdminNotification($message));
+
+
 
             //Auth::guard('employer')->login($employer);
             //notify()->success(__('Password sent to your registered email'));
@@ -211,7 +218,6 @@ class RegisterController extends Controller
         } else {
             notify()->error(__('Failed to Register. Please try again'));
             return redirect()->back();
-
         }
     }
 

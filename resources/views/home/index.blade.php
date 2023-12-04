@@ -1548,6 +1548,7 @@
         crossorigin="anonymous"></script> -->
     <script src="{{asset('home_assets/js/owl.carousel.min.js')}}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
     @if (session('success'))
     <script>
         Swal.fire(
