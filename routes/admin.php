@@ -63,6 +63,10 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('profile', [ProfileController::class, 'store']);
 
+   //   // After an admin action that requires a notification
+   //   $message = 'Something that requires admin attention.';
+   //   event(new AdminNotification($message));
+
     Route::post('update-password', [ProfileController::class, 'updatePass'])->name('update.password');
 
 

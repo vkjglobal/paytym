@@ -309,21 +309,33 @@ class PayrollCalculationController extends Controller
                     if ($data->isNotEmpty()) {
                         $csvName = $bankName . $currentDate;
                         $bankData[$bankName] = $data;
+
+                        $bankData[$bankName] = [
+                            'data' => $data,
+                            'bank_details' => $bank,
+                        ];
+
+
                     }
                 }
             }
 
             foreach ($bankData as $key => $bank_data) {
                 // Instantiate different export classes based on CSV name
-                $result = $this->get_csv_data($flag_type, $id_type, $bank_data, $bank);
+                $employees=$bank_data['data'];
+                $bank=$bank_data['bank_details'];
+                $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank, $key);
                 // Csv Name Returns
                 if ($result) {
                     $csv_name = $result;
                 } else {
                     $csv_name = 'BNK -' . $currentDate . '.xls';
                 }
-                // $csv_name = $bankname . '-' . $currentDate . '.xls';
-                $path = 'public/csv/' . $csv_name;
+                if ($csv_name == 1) {
+                    $path = 'DISDATA.PC1';
+                } else {
+                    $path = 'public/csv/' . $csv_name;
+                }
                 $this->mail_to_superiors($path, $EmployerId, $csv_name);
             }
         } else {   //  Business, Branch,Department , Template is choosed based on the Business or Branch
@@ -334,15 +346,15 @@ class PayrollCalculationController extends Controller
                 $bankid = $bank->banks->id;
                 $bankname = optional(optional($bank)->banks)->bank_name;
             }
-
-            $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank);
+            $key = 0; // Key is used to get the different bank template during the All & others Section. Thers is no use in Business section 
+            $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank,$key);
+            // dd($result);
             // Csv Name Returns
             if ($result) {
                 $csv_name = $result;
             } else {
                 $csv_name = 'BNK -' . $currentDate . '.xls';
             }
-            // $csv_name = $bankname . '-' . $currentDate . '.xls';
             $path = 'public/csv/' . $csv_name;
             $this->mail_to_superiors($path, $EmployerId, $csv_name);
 
@@ -364,7 +376,7 @@ class PayrollCalculationController extends Controller
             //     $path = 'public/csv/' . $csv_name;
             // }
 
-            $this->mail_to_superiors($path, $EmployerId, $csv_name);
+            // $this->mail_to_superiors($path, $EmployerId, $csv_name);
         }
 
         //   comment for not send mail during testingg
@@ -413,6 +425,10 @@ class PayrollCalculationController extends Controller
     public function mail_to_superiors($path, $EmployerId, $csv_name)
     {
         Mail::send([], [], function ($message) use ($path, $EmployerId, $csv_name) {
+            if ($csv_name == 1) // Check the Template is Pc1 or not
+            {
+                $csv_name = 'DISDATA.PC1';
+            }
             $hr = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%hr%')->first();
             //$finance = User::where('employer_id', $EmployerId)->where('position', 5)->first();
             $finance = Role::with('user')->where('employer_id', $EmployerId)->where('role_name', 'like', '%finance%')->first();
@@ -518,11 +534,13 @@ class PayrollCalculationController extends Controller
 
     public function bob_bank_template($data, $bank)
     {
+       
         // Add Data to the Excel File
         // Read the template CSV file
         // $templatePath = '/path/to/template.csv'; // Replace with the actual path
 
         $banks = optional($bank)->banks;
+       //$banks = optional($data)->banks;
         if ($banks) {
             $templatePath = storage_path('uploads/bank_template/' . $banks->template);
             //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
@@ -566,7 +584,7 @@ class PayrollCalculationController extends Controller
                 $column++;
 
                 //Bank Name
-                $worksheet->setCellValue($column . $startRow, $bank->bank_name);
+                $worksheet->setCellValue($column . $startRow, 'Bank of Baroda');
                 $column++;
                 //AMount
                 $worksheet->setCellValue($column . $startRow, $rowData->account_number);
@@ -599,9 +617,8 @@ class PayrollCalculationController extends Controller
     {
         $banks = optional($bank)->banks;
         if ($banks) {
-            $templatePath =  storage_path('app/public/csv/BSP.xlsx');
-            //$templatePath = storage_path('uploads/bank_template/' . $banks->template);
-            //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
+            // $templatePath =  storage_path('app/public/csv/BSP.xlsx');
+            $templatePath = storage_path('uploads/bank_template/' . $banks->template);
         } else {
             $templatePath =  storage_path('public/csv/BSP.xlsx'); // Replace with the actual path
         }
@@ -664,9 +681,8 @@ class PayrollCalculationController extends Controller
     {
         $banks = optional($bank)->banks;
         if ($banks) {
-            $templatePath =  storage_path('app/public/csv/HFC.xlsx');
-            //$templatePath = storage_path('uploads/bank_template/' . $banks->template);
-            //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
+            //            $templatePath =  storage_path('app/public/csv/HFC.xlsx');
+            $templatePath = storage_path('uploads/bank_template/' . $banks->template);
         } else {
             $templatePath =  storage_path('public/csv/HFC.xlsx'); // Replace with the actual path
         }
@@ -724,35 +740,13 @@ class PayrollCalculationController extends Controller
         return $csv_name;
     }
 
-
-
-    function getUsersByBankName($bankName, $id)
-    {
-        $query = User::with(['branch.banks', 'payroll_latest', 'split_payment'])
-            ->whereHas('branch.banks', function ($relatedQuery) use ($bankName) {
-                $relatedQuery->where('bank_name', $bankName);
-            })
-            ->where('status', '1');
-
-        if ($id !== null) {
-            $query->where('id', $id->id);
-        } else {
-            $query->where('employer_id', Auth::guard('employer')->id());
-        }
-
-        $query_get = $query->get();
-        return $query_get;
-    }
-
-
     public function anz_bank_template($data, $bank)
     {
         $employer = Auth::guard('employer')->user();
         $banks = optional($bank)->banks;
         if ($banks) {
-            $templatePath =  storage_path('app/public/csv/ANZ_NEW.xls');
-            // $templatePath = storage_path('uploads/bank_template/' . $banks->template);
-            //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
+            //$templatePath =  storage_path('app/public/csv/ANZ_NEW.xls');
+            $templatePath = storage_path('uploads/bank_template/' . $banks->template);
         } else {
             $templatePath =  storage_path('app/public/csv/ANZ_NEW.xls'); // Replace with the actual path
         }
@@ -922,57 +916,11 @@ class PayrollCalculationController extends Controller
     }
 
 
-
-
-    public function get_csv_data($flag, $id, $employees, $bank)
-    {
-        if ($flag == "business") {
-            foreach ($id as  $id) {
-                $data = User::with(['payroll_latest', 'split_payment', 'employee_bank'])
-                    ->where('employer_id', Auth::guard('employer')->id())
-                    ->where('status', '1')
-                    ->where('business_id', $id)->get();
-            }
-        } else if ($flag == "branch") {
-            foreach ($id as $id) {
-                $data = User::with(['payroll_latest', 'split_payment', 'employee_bank'])
-                    ->where('employer_id', Auth::guard('employer')->id())
-                    ->where('status', '1')
-                    ->where('branch_id', $id)->get();
-            }
-        } else if ($flag == "department") {
-            foreach ($id as $id) {
-                $data = User::with(['payroll_latest', 'split_payment', 'employee_bank'])
-                    ->where('employer_id', Auth::guard('employer')->id())
-                    ->where('status', '1')
-                    ->where('department_id', $id)->get();
-            }
-        } else if ($flag == "all" || $flag == "others") {
-            $data = $employees;
-        }
-
-        $bankname = optional(optional($bank)->banks)->bank_name;
-        if ($bankname == 'BRED') {
-            return $this->bred_bank_template($data, $bank);
-        } elseif ($bankname == 'BOB') {
-            return $this->bob_bank_template($data, $bank);
-        } elseif ($bankname == 'WBC') {
-            return $this->pc1_format($data, $bank);
-        } elseif ($bankname == 'ANZ') {
-            return $this->anz_bank_template($data, $bank);
-        } elseif ($bankname == 'BSP') {
-            return $this->bsp_bank_template($data, $bank);
-        } elseif ($bankname == 'HFC') {
-            return $this->hfc_bank_template($data, $bank);
-        }
-    }
-
-
     public function pc1_format($data, $bank)
     {
         $formattedData = '';
         $employer_id = Auth::guard('employer')->id();
-        $employer = Employer::where('employer_id', $employer_id)->first();
+        $employer = Employer::where('id', $employer_id)->first();
 
         foreach ($data as $rowData) {
             $acc_no = $rowData->account_number;
@@ -1035,11 +983,13 @@ class PayrollCalculationController extends Controller
 
         // Create or overwrite the file
         $store = Storage::disk('local')->put('DISDATA.PC1', $formattedData);
-        if ($store) {
-            dd("success.." . $store);
-        } else {
-            dd("else...");
-        }
+        return $store;
+
+        // if ($store) {
+        //     dd("success.." . $store);
+        // } else {
+        //     dd("else...");
+        // }
     }
 
     public function downloadFile()
@@ -1047,5 +997,75 @@ class PayrollCalculationController extends Controller
         $path = storage_path('app/DISDATA.PC1');
 
         return response()->download($path, 'DISDATA.PC1');
+    }
+
+
+    public function get_csv_data($flag, $id, $employees, $bank, $key)
+    {
+        if ($flag == "business") {
+            foreach ($id as  $id) {
+                $data = User::with(['payroll_latest', 'split_payment', 'employee_bank'])
+                    ->where('employer_id', Auth::guard('employer')->id())
+                    ->where('status', '1')
+                    ->where('business_id', $id)->get();
+            }
+        } else if ($flag == "branch") {
+            foreach ($id as $id) {
+                $data = User::with(['payroll_latest', 'split_payment', 'employee_bank'])
+                    ->where('employer_id', Auth::guard('employer')->id())
+                    ->where('status', '1')
+                    ->where('branch_id', $id)->get();
+            }
+        } else if ($flag == "department") {
+            foreach ($id as $id) {
+                $data = User::with(['payroll_latest', 'split_payment', 'employee_bank'])
+                    ->where('employer_id', Auth::guard('employer')->id())
+                    ->where('status', '1')
+                    ->where('department_id', $id)->get();
+            }
+        } else if ($flag == "all" || $flag == "others") {
+            $data = $employees;
+        }
+if($key==0)
+{
+    $bankname = optional(optional($bank)->banks)->bank_name;
+}
+else{
+    $bankname = $key;   // In the case of different bank template during the All & others Section, pick the Bank name
+}
+       
+        if ($bankname == 'BRED') {
+            return $this->bred_bank_template($data, $bank);
+        } elseif ($bankname == 'BOB') {
+            return $this->bob_bank_template($data, $bank);
+        } elseif ($bankname == 'WBC') {
+            return $this->pc1_format($data, $bank);
+        } elseif ($bankname == 'ANZ') {
+            return $this->anz_bank_template($data, $bank);
+        } elseif ($bankname == 'BSP') {
+            return $this->bsp_bank_template($data, $bank);
+        } elseif ($bankname == 'HFC') {
+           // dd("hfc..");
+            return $this->hfc_bank_template($data, $bank);
+        }
+    }
+
+
+    function getUsersByBankName($bankName, $id)
+    {
+        $query = User::with(['branch.banks', 'payroll_latest', 'split_payment'])
+            ->whereHas('branch.banks', function ($relatedQuery) use ($bankName) {
+                $relatedQuery->where('bank_name', $bankName);
+            })
+            ->where('status', '1');
+
+        if ($id !== null) {
+            $query->where('id', $id->id);
+        } else {
+            $query->where('employer_id', Auth::guard('employer')->id());
+        }
+
+        $query_get = $query->get();
+        return $query_get;
     }
 }
