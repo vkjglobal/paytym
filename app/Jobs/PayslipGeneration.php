@@ -44,6 +44,8 @@ class PayslipGeneration implements ShouldQueue
     protected $lwop;
     protected $nonHolidayDates;
     protected $doubleTimeRate;
+    protected $attendance_count;
+
 
 
 
@@ -67,7 +69,8 @@ class PayslipGeneration implements ShouldQueue
         $total_bonus,
         $lwop,
         $nonHolidayDates,
-        $doubleTimeRate
+        $doubleTimeRate,
+        $attendance_count
     ) {
 
         $this->employee = $employee;
@@ -90,6 +93,7 @@ class PayslipGeneration implements ShouldQueue
         $this->lwop = $lwop;
         $this->nonHolidayDates = $nonHolidayDates;
         $this->doubleTimeRate = $doubleTimeRate;
+        $this->attendance_count = $attendance_count;
     }
 
     /**
@@ -130,6 +134,7 @@ class PayslipGeneration implements ShouldQueue
             $count_no = ($count + 1);
             $sequenceString = str_pad($count_no, 3, '0', STR_PAD_LEFT);
             $paySlipNumber = 'PS' . $dateString . '-' . $sequenceString;
+            $attendance_count=$this->attendance_count;
             $pdf = PDF::loadView('employer.payslip.templates.default', compact(
                 'employee',
                 'base_pay',
@@ -154,7 +159,8 @@ class PayslipGeneration implements ShouldQueue
                 'payroll',
                 'business_name',
                 'street',
-                'city'
+                'city',
+                'attendance_count',
             ));
 
             $carbonDate = Carbon::parse($endDate);
