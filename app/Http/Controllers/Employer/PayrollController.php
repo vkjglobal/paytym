@@ -204,6 +204,7 @@ class PayrollController extends Controller
 
             //Extra hours at base rate and over time rate calculation
             $overtimerate = optional($employee->business->payrollsetting)->over_time_rate ?? 0;
+            $overtime_unit_rate=$overtimerate;
             if ($totalHours > $employee->total_hours_per_week) {
                 $extraHours = $totalHours - ($employee->total_hours_per_week);
                 if ($extraHours > $employee->extra_hours_at_base_rate) {
@@ -217,6 +218,7 @@ class PayrollController extends Controller
             }
             //Double time calculation
             $doubletimerate = optional($employee->business->payrollsetting)->double_time_rate ?? 0;
+            $doubletime_unit_rate=$doubletimerate;
             foreach ($holidays as $holiday) {
                 foreach ($attendance_dup as $attendance) {
                     if ($attendance->date == $holiday->date) {
@@ -429,6 +431,7 @@ class PayrollController extends Controller
             $lwop = 0;
             $nonHolidayDates = $attendancesWithoutHoliday;
             $totalSalary = $netSalary + $totalAllowance - $totalDeduction; //Total Pay = Net pay + Allowances - Deductions
+            $attendance_count = 0;
             //Payroll Entry
             $user = User::where('id', $employee->id)->first();
             $payDate = Carbon::now();
@@ -474,7 +477,10 @@ class PayrollController extends Controller
                 $total_bonus,
                 $lwop,
                 $nonHolidayDates,
-                $doubleTimeRate
+                $doubleTimeRate,
+                $attendance_count,
+                $overtime_unit_rate,
+                $doubletime_unit_rate
             );
 
             // PayslipGeneration::dispatch(
@@ -506,6 +512,8 @@ class PayrollController extends Controller
     {
         $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / ($fromDate->daysInMonth)));
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $endDate])->get();
+        $attendance_count = $attendances->count();
+        //dd($attendance_count);
         //Allowance Calculation
 
         $allowances = AssignAllowance::with('allowance')->where('user_id', $employee->id)->get();
@@ -732,8 +740,27 @@ class PayrollController extends Controller
 
         $res = $payroll->save();
         $flag_payroll = 1;
-        $doubleTimeRate=0;
         //Payslip generation
+        // Paid Days, Paid Hours, Base Rate, Double Time, Allowance Rate,Bonus Rate, Commission Rate,
+        // Gross Earnings, Loan , Union, Surcharge, Total Deductions 
+        $paid_days = $attendance_count;
+        $paid_hours=0;
+        $base_rate=0; 
+     //   $doubleTimeRate;
+        $allowance_rate=0;
+        $bonus_rate=0;
+        $commission_rate=0;
+        $gross_earnings=0;
+        $loan=0;
+        $union=0;
+        $surcharge=0;
+        $total_deduction=0;
+        $doubleTimeRate="-";
+        $overtime_unit_rate="-";
+        $doubletime_unit_rate="-";
+        
+
+
         $this->slip_generation(
             $employee,
             $base_pay,
@@ -754,7 +781,10 @@ class PayrollController extends Controller
             $total_bonus,
             $lwop,
             $nonHolidayDates,
-            $doubleTimeRate
+            $doubleTimeRate,
+            $attendance_count,
+            $overtime_unit_rate,
+            $doubletime_unit_rate
         );
     }
 
@@ -778,7 +808,10 @@ class PayrollController extends Controller
         $total_bonus,
         $lwop,
         $nonHolidayDates,
-        $doubleTimeRate
+        $doubleTimeRate,
+        $attendance_count,
+        $overtime_unit_rate,
+        $doubletime_unit_rate
     ) {
         PayslipGeneration::dispatch(
             $employee,
@@ -800,7 +833,10 @@ class PayrollController extends Controller
             $total_bonus,
             $lwop,
             $nonHolidayDates,
-            $doubleTimeRate
+            $doubleTimeRate,
+            $attendance_count,
+            $overtime_unit_rate,
+            $doubletime_unit_rate
         );
     }
 
