@@ -288,7 +288,7 @@ class PayrollCalculationController extends Controller
         // No Need to check the flag here
         $bankNames = ['BRED', 'BOB', 'HFC', 'BSP', 'WBC', 'ANZ'];
         $bankData = [];
-        if (($flag == "all" || $flag == "others")) {   // All & others case Bank is choosed based on the Employees
+        if (($flag_type  == "all" || $flag_type == "others")) {   // All & others case Bank is choosed based on the Employees
             // In All & Others Section we need to execute all the Bank template So 
             foreach ($employees as $employee) {
                 //  $i = $i + 1;
@@ -319,7 +319,7 @@ class PayrollCalculationController extends Controller
                     }
                 }
             }
-
+    //        dd($bankData);
             foreach ($bankData as $key => $bank_data) {
                 // Instantiate different export classes based on CSV name
                 $employees=$bank_data['data'];
@@ -347,8 +347,9 @@ class PayrollCalculationController extends Controller
                 $bankname = optional(optional($bank)->banks)->bank_name;
             }
             $key = 0; // Key is used to get the different bank template during the All & others Section. Thers is no use in Business section 
+           dd($bank);
             $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank,$key);
-            // dd($result);
+             dd($result);
             // Csv Name Returns
             if ($result) {
                 $csv_name = $result;
