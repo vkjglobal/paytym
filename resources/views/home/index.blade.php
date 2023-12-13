@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,7 +60,7 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="#ForEmployees">Employees</a>
                                     </li>
-                                   <!--  <li class="nav-item">
+                                    <!--  <li class="nav-item">
                                         <a class="nav-link" href="#HowItWork">Registration Process</a>
                                     </li> -->
                                     <li class="nav-item">
@@ -79,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <a href="" class="sticky-button"><img src="{{asset('home_assets/images/logo-jobtym.png')}}" alt=""></a>
+        <!-- <a href="" class="sticky-button"><img src="{{asset('home_assets/images/logo-jobtym.png')}}" alt=""></a> -->
     </header>
 
 
@@ -88,11 +89,11 @@
     <section class="header-section hero-section" id="home">
         <div class="container">
             <div class="row justify-content-center">
-               <!-- <div class="col-md-6 text-white  " data-aos="fade-up" data-aos-duration="2000">
+                <!-- <div class="col-md-6 text-white  " data-aos="fade-up" data-aos-duration="2000">
                     <div class="text">-->
-                        <!-- <h1 class="first-text">Creative <br>Solutions to</h1>
+                <!-- <h1 class="first-text">Creative <br>Solutions to</h1>
                         <h1 class="sub-text"> Improve your <br>Business.</h1> -->
-                       <!-- <div class="banner-txt">
+                <!-- <div class="banner-txt">
                             Are you looking for an advanced and
                             innovative <strong class="fw-600"> HR management and
                                 Payroll software system?</strong>
@@ -155,6 +156,22 @@
         </div>
     </section>
     <!-- about End -->
+
+    <!----Video Section --->
+    <section class="pt-5">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-8 col-md-10 col-12">
+                    <div class="video-container border p-md-3 p-2" id="video-container">
+                        <iframe id="video" width="100%" height="400" src="https://www.youtube.com/embed/0ytFy_3N5lw?controls=0" title="Paytym : HR Automated | HR and Payroll Automation Platform" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" autoplay allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!----Video End Section --->
+
+
 
     <!-- employers-section -->
     <section class="forEmployers-section" id="ForEmployers">
@@ -328,7 +345,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center my-3">
-                    <a class="btn btn-typ4 btn-typ-3d flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span  class="small">Onboard Employees and Start Processing Payroll</span></a>
+                    <a class="btn btn-typ4 btn-typ-3d flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span class="small">Onboard Employees and Start Processing Payroll</span></a>
                 </div>
                 <button class="fixed-btn btn-typ2-3d">
                     <span class="small">Up to 9 <br> employees</span>
@@ -399,17 +416,17 @@
                     </ul> -->
                     <ul class="row about-table">
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
-                       
+
                             <div class="d-flex">
-                            @if(is_null($payslips))
+                                @if(is_null($payslips))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 1.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
-                               
+
                                     <strong class="d-block mb-2 black-txt">Pay Slips</strong>
                                     <p class="grey-txt">view and download payslips for each pay.</p>
-                                                                     
-                                </div> 
+
+                                </div>
                                 @else
                                 @if(is_null($payslips->img))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 1.png')}}" alt="" srcset="">
@@ -418,19 +435,19 @@
                                 <div class="about-icons"><img src="{{asset('uploads/cms/'.$payslips->img)}}" alt="" srcset="">
                                 </div>
                                 @endif
-                              
+
                                 <div class="text-table">
-                               
+
                                     <strong class="d-block mb-2 black-txt">{{$payslips->cms_type}}</strong>
                                     <p class="grey-txt">{{$payslips->content}}</p>
+                                </div>
+                                @endif
                             </div>
-                            @endif
-                            </div>
-                           
+
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
                             <div class="d-flex">
-                            @if(is_null($leaves))
+                                @if(is_null($leaves))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 2.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
@@ -445,13 +462,13 @@
                                 <div class="about-icons"><img src="{{asset('uploads/cms/'.$leaves->img)}}" alt="" srcset="">
                                 </div>
                                 @endif
-                               
+
                                 <div class="text-table">
-                               
+
                                     <strong class="d-block mb-2 black-txt">{{$leaves->cms_type}}</strong>
                                     <p class="grey-txt">{{$leaves->content}}</p>
-                            </div>
-                            @endif
+                                </div>
+                                @endif
                             </div>
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
@@ -472,16 +489,16 @@
                                 </div>
                                 @endif
                                 <div class="text-table">
-                               
+
                                     <strong class="d-block mb-2 black-txt">{{$personalprofile->cms_type}}</strong>
                                     <p class="grey-txt">{{$personalprofile->content}}</p>
-                            </div>
-                            @endif
+                                </div>
+                                @endif
                             </div>
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
                             <div class="d-flex">
-                            @if(is_null($depositaccounts))
+                                @if(is_null($depositaccounts))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 4.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
@@ -496,18 +513,18 @@
                                 <div class="about-icons"><img src="{{asset('uploads/cms/'.$depositaccounts->img)}}" alt="" srcset="">
                                 </div>
                                 @endif
-                               
+
                                 <div class="text-table">
-                               
+
                                     <strong class="d-block mb-2 black-txt">{{$depositaccounts->cms_type}}</strong>
                                     <p class="grey-txt">{{$depositaccounts->content}}</p>
-                            </div>
-                            @endif
+                                </div>
+                                @endif
                             </div>
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-3">
                             <div class="d-flex">
-                            @if(is_null($shiftroster))
+                                @if(is_null($shiftroster))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 4.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
@@ -522,18 +539,18 @@
                                 <div class="about-icons"><img src="{{asset('uploads/cms/'.$shiftroster->img)}}" alt="" srcset="">
                                 </div>
                                 @endif
-                                
+
                                 <div class="text-table">
-                               
+
                                     <strong class="d-block mb-2 black-txt">{{$shiftroster->cms_type}}</strong>
                                     <p class="grey-txt">{{$shiftroster->content}}</p>
-                            </div>
-                            @endif
+                                </div>
+                                @endif
                             </div>
                         </li>
                         <li class="col-md-6 col-12 mb-md-5 mb-0">
                             <div class="d-flex">
-                            @if(is_null($appchat))
+                                @if(is_null($appchat))
                                 <div class="about-icons"><img src="{{asset('home_assets/images/about-icons/Group 4.png')}}" alt="" srcset="">
                                 </div>
                                 <div class="text-table">
@@ -548,13 +565,13 @@
                                 <div class="about-icons"><img src="{{asset('uploads/cms/'.$appchat->img)}}" alt="" srcset="">
                                 </div>
                                 @endif
-                               
+
                                 <div class="text-table">
-                               
+
                                     <strong class="d-block mb-2 black-txt">{{$appchat->cms_type}}</strong>
                                     <p class="grey-txt">{{$appchat->content}}</p>
-                            </div>
-                            @endif
+                                </div>
+                                @endif
                             </div>
                         </li>
                     </ul>
@@ -729,7 +746,7 @@
             <p class="small mb-0">(No credit card details required at sign up)</p>
         </div>
     </section>
-   
+
     <!-- pricing-plan section -->
     <section class="pricing-plan" id="pricing">
         <div class="container about-title pt-5 text-center">
@@ -959,12 +976,12 @@
  -->
             </div>
             <div class="d-flex justify-content-center my-3">
-                <a class="btn btn-typ4 btn-typ-3d flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span  class="small">Onboard Employees and Start Processing Payroll</span></a>
+                <a class="btn btn-typ4 btn-typ-3d flex-column px-3" href="{{ route('employer.register') }}"><strong>Register Now - Pay Later</strong> <span class="small">Onboard Employees and Start Processing Payroll</span></a>
             </div>
         </div>
     </section>
- <!-- testimonial-section -->
- @if($testimonial->count()!=0)
+    <!-- testimonial-section -->
+    @if($testimonial->count()!=0)
     <section class="testimonial-section" id="testimonial">
         <div class="container about-title pt-5 text-center">
             <h3 class="light-blue-text">Testimonials</h3>
@@ -978,97 +995,97 @@
                     <div class="owl-carousel testimonial-carousel owl-theme owl-loaded">
                         <div class="owl-stage-outer">
                             <div class="owl-stage">
-                               {{-- @if(is_null($testimonial))
+                                {{-- @if(is_null($testimonial))
                                 <div class="owl-item">
                                     <div class="test-item row">
                                         <div class="col-md-3">
                                             <img src="{{asset('home_assets/images/profile-image/1.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="test-info col-md-9">
+                                <div class="txt-cntnt">
+                                    “ Most Dedicated!! These guys are very Dedicated and creative
+                                    you have expected, We will happy after Working with Them”
                                 </div>
-                               
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/3.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/4.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('home_assets/images/profile-image/6.jpg')}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                “ Most Dedicated!! These guys are very Dedicated and creative
-                                                you have expected, We will happy after Working with Them”
-                                            </div>
-                                            <strong>Selvedin Durak</strong>
-                                            <span>Datahub</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @else--}}
-                                @foreach ($testimonial as $testimonials)
-                                <div class="owl-item">
-                                    <div class="test-item row">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('uploads/cms/'.$testimonials->img)}}" alt="">
-                                        </div>
-                                        <div class="test-info col-md-9">
-                                            <div class="txt-cntnt">
-                                                {{$testimonials->content}}
-                                            </div>
-                                            <strong>{{$testimonials->content1}}</strong>
-                                            <span>{{$testimonials->content2}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endforeach
-                                {{--@endif--}}
+                                <strong>Selvedin Durak</strong>
+                                <span>Datahub</span>
                             </div>
                         </div>
                     </div>
+
+                    <div class="owl-item">
+                        <div class="test-item row">
+                            <div class="col-md-3">
+                                <img src="{{asset('home_assets/images/profile-image/3.jpg')}}" alt="">
+                            </div>
+                            <div class="test-info col-md-9">
+                                <div class="txt-cntnt">
+                                    “ Most Dedicated!! These guys are very Dedicated and creative
+                                    you have expected, We will happy after Working with Them”
+                                </div>
+                                <strong>Selvedin Durak</strong>
+                                <span>Datahub</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="owl-item">
+                        <div class="test-item row">
+                            <div class="col-md-3">
+                                <img src="{{asset('home_assets/images/profile-image/4.jpg')}}" alt="">
+                            </div>
+                            <div class="test-info col-md-9">
+                                <div class="txt-cntnt">
+                                    “ Most Dedicated!! These guys are very Dedicated and creative
+                                    you have expected, We will happy after Working with Them”
+                                </div>
+                                <strong>Selvedin Durak</strong>
+                                <span>Datahub</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="owl-item">
+                        <div class="test-item row">
+                            <div class="col-md-3">
+                                <img src="{{asset('home_assets/images/profile-image/6.jpg')}}" alt="">
+                            </div>
+                            <div class="test-info col-md-9">
+                                <div class="txt-cntnt">
+                                    “ Most Dedicated!! These guys are very Dedicated and creative
+                                    you have expected, We will happy after Working with Them”
+                                </div>
+                                <strong>Selvedin Durak</strong>
+                                <span>Datahub</span>
+                            </div>
+                        </div>
+                    </div>
+                    @else--}}
+                    @foreach ($testimonial as $testimonials)
+                    <div class="owl-item">
+                        <div class="test-item row">
+                            <div class="col-md-3">
+                                <img src="{{asset('uploads/cms/'.$testimonials->img)}}" alt="">
+                            </div>
+                            <div class="test-info col-md-9">
+                                <div class="txt-cntnt">
+                                    {{$testimonials->content}}
+                                </div>
+                                <strong>{{$testimonials->content1}}</strong>
+                                <span>{{$testimonials->content2}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                    {{--@endif--}}
                 </div>
             </div>
         </div>
+        </div>
+        </div>
+        </div>
     </section>
-@endif
+    @endif
 
-<section id="why-paytym" class="pb-5">
+    <section id="why-paytym" class="pb-5">
         <div class="container about-title pt-5 text-center">
             <div class="border pt-5 px-lg-0 px-sm-3 px-0">
                 <h3>Why Choose Paytym’s Cloud-based Software?</h3>
@@ -1097,7 +1114,7 @@
                                 <img src="{{asset('uploads/cms/'.$improvespeed->img)}}" class="img-fluid" alt="">
                                 @endif
                                 <h6 class="ml-3 mb-0 text-left fw-600">
-                                {{$improvespeed->cms_type}}
+                                    {{$improvespeed->cms_type}}
                                 </h6>
                             </div>
                             <p>
@@ -1108,7 +1125,7 @@
                     </div>
 
                     <div class="col-md-6">
-                    @if(is_null($offermobileaccess))
+                        @if(is_null($offermobileaccess))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon2.png')}}" class="img-fluid" alt="">
@@ -1130,7 +1147,7 @@
                                 <img src="{{asset('uploads/cms/'.$offermobileaccess->img)}}" class="img-fluid" alt="">
                                 @endif
                                 <h6 class="ml-3 mb-0 text-left fw-600">
-                                {{$offermobileaccess->cms_type}}
+                                    {{$offermobileaccess->cms_type}}
                                 </h6>
                             </div>
                             <p>
@@ -1140,7 +1157,7 @@
                         @endif
                     </div>
                     <div class="col-md-6">
-                    @if(is_null($protectdata))
+                        @if(is_null($protectdata))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon3.png')}}" class="img-fluid" alt="">
@@ -1169,7 +1186,7 @@
                                 <img src="{{asset('uploads/cms/'.$protectdata->img)}}" class="img-fluid" alt="">
                                 @endif
                                 <h6 class="ml-3 mb-0 text-left fw-600">
-                                {{$protectdata->cms_type}}
+                                    {{$protectdata->cms_type}}
                                 </h6>
                             </div>
                             <p>
@@ -1180,7 +1197,7 @@
 
                     </div>
                     <div class="col-md-6">
-                    @if(is_null($easilyscalebusiness))
+                        @if(is_null($easilyscalebusiness))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon4.png') }}" class="img-fluid" alt="">
@@ -1207,7 +1224,7 @@
                                 <img src="{{asset('uploads/cms/'.$easilyscalebusiness->img)}}" class="img-fluid" alt="">
                                 @endif
                                 <h6 class="ml-3 mb-0 text-left fw-600">
-                                {{$easilyscalebusiness->cms_type}}
+                                    {{$easilyscalebusiness->cms_type}}
                                 </h6>
                             </div>
                             <p>
@@ -1217,7 +1234,7 @@
                         @endif
                     </div>
                     <div class="col-md-6">
-                    @if(is_null($offeremployeeservice))
+                        @if(is_null($offeremployeeservice))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon5.png')}}" class="img-fluid" alt="">
@@ -1246,7 +1263,7 @@
                                 <img src="{{asset('uploads/cms/'.$offeremployeeservice->img)}}" class="img-fluid" alt="">
                                 @endif
                                 <h6 class="ml-3 mb-0 text-left fw-600">
-                                {{$offeremployeeservice->cms_type}}
+                                    {{$offeremployeeservice->cms_type}}
                                 </h6>
                             </div>
                             <p>
@@ -1256,7 +1273,7 @@
                         @endif
                     </div>
                     <div class="col-md-6">
-                    @if(is_null($reducecost))
+                        @if(is_null($reducecost))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon6.png')}}" class="img-fluid" alt="">
@@ -1285,7 +1302,7 @@
                                 <img src="{{asset('uploads/cms/'.$reducecost->img)}}" class="img-fluid" alt="">
                                 @endif
                                 <h6 class="ml-3 mb-0 text-left fw-600">
-                                {{$reducecost->cms_type}}
+                                    {{$reducecost->cms_type}}
                                 </h6>
                             </div>
                             <p>
@@ -1295,7 +1312,7 @@
                         @endif
                     </div>
                     <div class="col-md-6">
-                    @if(is_null($envfriendly))
+                        @if(is_null($envfriendly))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon7.png')}}" class="img-fluid" alt="">
@@ -1323,7 +1340,7 @@
                                 <img src="{{asset('uploads/cms/'.$envfriendly->img)}}" class="img-fluid" alt="">
                                 @endif
                                 <h6 class="ml-3 mb-0 text-left fw-600">
-                                {{$envfriendly->cms_type}}
+                                    {{$envfriendly->cms_type}}
                                 </h6>
                             </div>
                             <p>
@@ -1333,7 +1350,7 @@
                         @endif
                     </div>
                     <div class="col-md-6">
-                    @if(is_null($effortlessstat))
+                        @if(is_null($effortlessstat))
                         <div class="p-3">
                             <div class="d-flex align-items-center mb-2">
                                 <img src="{{asset('home_assets/images/why-paytym-icons/icon8.png')}}" class="img-fluid" alt="">
@@ -1361,7 +1378,7 @@
                                 <img src="{{asset('uploads/cms/'.$effortlessstat->img)}}" class="img-fluid" alt="">
                                 @endif
                                 <h6 class="ml-3 mb-0 text-left fw-600">
-                                {{$effortlessstat->cms_type}}
+                                    {{$effortlessstat->cms_type}}
                                 </h6>
                             </div>
                             <p>
