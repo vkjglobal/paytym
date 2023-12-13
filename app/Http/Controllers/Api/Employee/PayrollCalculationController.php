@@ -314,8 +314,6 @@ class PayrollCalculationController extends Controller
                             'data' => $data,
                             'bank_details' => $bank,
                         ];
-
-
                     }
                 }
             }
@@ -347,9 +345,7 @@ class PayrollCalculationController extends Controller
                 $bankname = optional(optional($bank)->banks)->bank_name;
             }
             $key = 0; // Key is used to get the different bank template during the All & others Section. Thers is no use in Business section 
-           dd($bank);
             $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank,$key);
-             dd($result);
             // Csv Name Returns
             if ($result) {
                 $csv_name = $result;
@@ -400,12 +396,9 @@ class PayrollCalculationController extends Controller
         $csv_name = "MyCash";
         $this->mail_to_superiors($path, $EmployerId, $csv_name);
 
-
-
         //    End Comment section 
 
         if ($request->expectsJson()) {
-            //  dd("hiiii");
             // Handle API-specific logic here
             //   dd(Auth::guard('employer')->id);
             //  dd($EmployerId);
@@ -449,7 +442,7 @@ class PayrollCalculationController extends Controller
                 $to = "robin.reubro@gmail.com";
             }
 
-            $to = "robin.reubro@gmail.com";
+            $to = "anusmaya.reubro@gmail.com";
             $cc = "robin.reubro@gmail.com";
             $cc1 = "josephson.1991@gmail.com";
             $message->to($to)
