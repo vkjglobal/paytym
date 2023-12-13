@@ -204,7 +204,7 @@ class PayrollController extends Controller
 
             //Extra hours at base rate and over time rate calculation
             $overtimerate = optional($employee->business->payrollsetting)->over_time_rate ?? 0;
-            $overtime_unit_rate=$overtimerate;
+            $overtime_unit_rate = $overtimerate;
             if ($totalHours > $employee->total_hours_per_week) {
                 $extraHours = $totalHours - ($employee->total_hours_per_week);
                 if ($extraHours > $employee->extra_hours_at_base_rate) {
@@ -216,11 +216,14 @@ class PayrollController extends Controller
                     $total_pay = ($extraHours * $employee->rate); //over time base salary
                 }
             }
+
             //Double time calculation
             $doubletimerate = optional($employee->business->payrollsetting)->double_time_rate ?? 0;
-            $doubletime_unit_rate=$doubletimerate;
+            $doubletime_unit_rate = $doubletimerate;
+           $doubleTimeRate =0;
             foreach ($holidays as $holiday) {
                 foreach ($attendance_dup as $attendance) {
+                
                     if ($attendance->date == $holiday->date) {
                         $TotalHolidayHours = 0;
                         $checkIn = Carbon::parse($attendance->check_in);
@@ -231,10 +234,7 @@ class PayrollController extends Controller
                     }
                 }
             }
-
-
             //Allowance Calculation
-
             $allowances = AssignAllowance::where('user_id', $employee->id)->get();
             $totalAllowance = 0;
             if (isset($allowances)) {
@@ -333,71 +333,41 @@ class PayrollController extends Controller
                     $taxAddon = $value['income_tax_value'];
                     $flag = 3;
                 }
-
-                // $G = 2;    //should be made dynamic - No of completed pay period including current
-                // $B1 = 0;   //should be made dynamic - tax witheheld to date 
-                // $IncomeTaxToWithhold = (($A1 / $F * $G) - $B1 + ($incomeTaxOnC2 - $incomeTaxOnC1));
-
-                //             if (isset($taxRate)) {
-
-                // }
-
-
-                //Tax Calculation - SRT  
-                // $srtToWithhold = 0;
-                // $srtRate =  $employee->country?->srt_tax ?? 0;
-                // $weeklySalary = $employee->rate * $employee->total_hours_per_week;
-                // if (isset($srtRate)) {
-                //     if ($employee->pay_period == "0") {
-                //         $annualIncome = $weeklySalary * 52;
-                //         $F = 52;
-                //     } else {
-                //         $annualIncome = $weeklySalary * 26;
-                //         $F =  26;    //C1
-                //     }
-
-                // $A2 = $annualIncome * ($srtRate / 100);
-                // $G = 5;
-                // $B2 = 4;
-                // $srtToWithhold = (($A2 / $F * $G) - $B2);
-                // if ($srtToWithhold < 0) {
-                //     $srtToWithhold = 0;
-                // }
             }
-
 
             $srtRates = TaxSettingsSrtModel::where('country_id', $employer->country_id)->get();
-
-            foreach ($srtRates as $key => $value) {
-                if ($value['annualincome_from'] == '0' && $annualIncome < $value['annualincome_to']) {
-                    $srtRate = $value['srt_tax'];
-                    $srtAddon = $value['srt_value'];
-                    $flag = 1;
-                } else if ($value['annualincome_to'] == null && $annualIncome > $value['annualincome_from']) {
-                    $srtRate = $value['srt_tax'];
-                    $srtAddon = $value['srt_value'];
-                    $flag = 2;
-                } else if ($annualIncome > $value['annualincome_from'] && $annualIncome < $value['annualincome_to']) {
-                    $srtRate = $value['srt_tax'];
-                    $srtAddon = $value['srt_value'];
-                    $flag = 3;
-                }
-            }
-            //      dd($annualIncome . "," . $value['annualincome_from'] . "," . $taxRate . "," . $taxAddon);
-
-            $A1 = ($annualIncome -  $value['annualincome_from']) * ($taxRate / 100) + $taxAddon;  // IncomeTax
-            // dd($A1); 
-            $C2 = $annualIncome + $total_bonus;   // Income + Bonus
-            $incomeTaxOnC2 = $A1 + $total_bonus;
-            $srtAddon = $value['srt_value'];
-            $A2 = $C2 * ($srtRate / 100) + $srtAddon;  // SRT On C2
-
-            $G = 5;  //Number of completed pay periods including current period
-            $B2 = 4;   //SRT 
-
-            $srtToWithhold = (($A2 / $F * $G) - $B2);
-            if ($srtToWithhold < 0) {
+            if ($srtRates->isEmpty()) {
+                // $srtRates does not have any values
                 $srtToWithhold = 0;
+            } else {
+                // $srtRates has values
+                foreach ($srtRates as $key => $value) {
+                    if ($value['annualincome_from'] == '0' && $annualIncome < $value['annualincome_to']) {
+                        $srtRate = $value['srt_tax'];
+                        $srtAddon = $value['srt_value'];
+                        $flag = 1;
+                    } else if ($value['annualincome_to'] == null && $annualIncome > $value['annualincome_from']) {
+                        $srtRate = $value['srt_tax'];
+                        $srtAddon = $value['srt_value'];
+                        $flag = 2;
+                    } else if ($annualIncome > $value['annualincome_from'] && $annualIncome < $value['annualincome_to']) {
+                        $srtRate = $value['srt_tax'];
+                        $srtAddon = $value['srt_value'];
+                        $flag = 3;
+                    }
+                }
+                $A1 = ($annualIncome -  $value['annualincome_from']) * ($taxRate / 100) + $taxAddon;  // IncomeTax
+                $C2 = $annualIncome + $total_bonus;   // Income + Bonus
+                $incomeTaxOnC2 = $A1 + $total_bonus;
+                $srtAddon = $value['srt_value'];
+                $A2 = $C2 * ($srtRate / 100) + $srtAddon;  // SRT On C2
+                $G = 5;  //Number of completed pay periods including current period
+                $B2 = 4;   //SRT 
+
+                $srtToWithhold = (($A2 / $F * $G) - $B2);
+                if ($srtToWithhold < 0) {
+                    $srtToWithhold = 0;
+                }
             }
 
             $total_tax = $srtToWithhold + $IncomeTaxToWithhold;
@@ -576,7 +546,7 @@ class PayrollController extends Controller
         }
 
         //Tax Calculation - Income tax 
-        $taxRate = $employee->country?->tax ?? 0;
+        $taxRate = $employee->country?->tax ?? 0;  // 08-12-23 Robin-  Now there is no tax in country Form
         $salary = $employee->rate;
         if (isset($taxRate)) {
             if ($employee->pay_period == "0") {
@@ -744,21 +714,21 @@ class PayrollController extends Controller
         // Paid Days, Paid Hours, Base Rate, Double Time, Allowance Rate,Bonus Rate, Commission Rate,
         // Gross Earnings, Loan , Union, Surcharge, Total Deductions 
         $paid_days = $attendance_count;
-        $paid_hours=0;
-        $base_rate=0; 
-     //   $doubleTimeRate;
-        $allowance_rate=0;
-        $bonus_rate=0;
-        $commission_rate=0;
-        $gross_earnings=0;
-        $loan=0;
-        $union=0;
-        $surcharge=0;
-        $total_deduction=0;
-        $doubleTimeRate="-";
-        $overtime_unit_rate="-";
-        $doubletime_unit_rate="-";
-        
+        $paid_hours = 0;
+        $base_rate = 0;
+        //   $doubleTimeRate;
+        $allowance_rate = 0;
+        $bonus_rate = 0;
+        $commission_rate = 0;
+        $gross_earnings = 0;
+        $loan = 0;
+        $union = 0;
+        $surcharge = 0;
+        $total_deduction = 0;
+        $doubleTimeRate = "-";
+        $overtime_unit_rate = "-";
+        $doubletime_unit_rate = "-";
+
 
 
         $this->slip_generation(

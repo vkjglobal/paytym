@@ -9,21 +9,19 @@
                 <!-- <h2>Privacy Policy</h2> -->
 
                 <div class="card-body">
-                <div class="card-header"><h3> Privacy Policy</h3></div>
+                <div class="card-header"><h3> Paytym Privacy Policy</h3></div>
                 <div class="my-3">
+                
+                <strong>Your Privacy Matters</strong>
                 <p>
-                    At Paytym, protecting our users’ privacy and personal information is of the utmost importance. This
-                    Privacy Policy outlines the types of information we collect, how we use it, and the steps we take to
-                    ensure its security.
+                At Paytym, we deeply value your trust and privacy.  We are committed to protecting your personal information with the highest level of security and transparency.
                 </p>
                 <ol class="pl-3">
                     <li>
-                        <strong>Information Collection:</strong>
-                        <p>
-                            We collect personal information from our users when they sign up for an account and use our
-                            payroll software. This information may include names, addresses, email addresses, and other
-                            key data.
-                        </p>
+                        <strong>What We Collect</strong>
+                       <ul>
+                        <li><b>Account Information:</b> Your name, email, address, and other details you provide are essential for creating and managing your account.</li>
+                       </ul>
                     </li>
                     <li>
                         <strong>Use of Information:</strong>

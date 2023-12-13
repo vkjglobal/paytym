@@ -107,8 +107,9 @@
                         <!-- <h1 class="first-text">Creative <br>Solutions to</h1>
                         <h1 class="sub-text"> Improve your <br>Business.</h1> -->
                         <h3 class="fw-600 mb-4">
-                            Transform Your Business with <br class="d-lg-block d-none">Paytym's Powerful HR and Payroll <br class="d-lg-block d-none">Automation Platform.
+                            Transform Your Business with <br class="d-lg-block d-none">Paytym's Powerful HR and Payroll Automation Platform.
                         </h3>
+                        <!-- <br class="d-lg-block d-none"> -->
                         <p class="mb-4 pr-4">
                             Unlock stress-free payroll processing with Paytym. Save time, costs, and eliminate errors. Hire, pay, and manage your team effortlessly, all in one place!
                         </p>
