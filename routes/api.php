@@ -52,6 +52,7 @@ Route::middleware('auth:sanctum','deactivated')->get('/user', function (Request 
     return $request->user();
 });
 
+
 Route::post('login', [AuthController::class, 'index']);
 
 // Forgot Password
@@ -60,6 +61,7 @@ Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->middl
 //forgotPwd_confirmOtp
 Route::post('forgotpwd-confirm-otp', [AuthController::class, 'forgotPwd_confirmOtp']);
 Route::post('forgotpwd-password-update', [AuthController::class, 'forgotPwd_updatePassword']);
+
 
 
 Route::middleware(['auth:sanctum', 'deactivated'])->group(function () {

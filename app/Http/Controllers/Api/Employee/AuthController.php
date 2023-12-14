@@ -40,59 +40,61 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
 
             $authUser = Auth::user();
-            $employer=Employer::where('id',$authUser->employer_id)->first();
+            $employer = Employer::where('id', $authUser->employer_id)->first();
 
-            if($employer->status=='0')
-            {
+            if ($employer->status == '0') {
+                return response()->json([
+                    'message' => "The Employer is Inactive",
+                ], 200);
+            } else if ($authUser->status == '0') {
                 return response()->json([
                     'message' => "Inactive Person",
                 ], 200);
-            }
-            else{
-            
-            $success['token'] =  $authUser->createToken($authUser->first_name . '-MyToken')->plainTextToken;
-            $casual = 0;
-            $absence = 0;
-            $annual = 0;
-            $halfday = 0;
+            } else {
 
-            $user_id = Auth::user()->id;
-            $lastCheckedIn = Null;
-            $lastAttendance = Attendance::where('user_id',$authUser->id)->latest()->first();
-            if($lastAttendance){
-                if(is_null($lastAttendance->check_out)){
-                    $lastCheckedIn = $lastAttendance->check_in;
+                $success['token'] =  $authUser->createToken($authUser->first_name . '-MyToken')->plainTextToken;
+                $casual = 0;
+                $absence = 0;
+                $annual = 0;
+                $halfday = 0;
+
+                $user_id = Auth::user()->id;
+                $lastCheckedIn = Null;
+                $lastAttendance = Attendance::where('user_id', $authUser->id)->latest()->first();
+                if ($lastAttendance) {
+                    if (is_null($lastAttendance->check_out)) {
+                        $lastCheckedIn = $lastAttendance->check_in;
+                    }
                 }
-            }
-               
-            $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
-            if ($leave) {
-                $casual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'casual')->get();
-                $casual = $casual->count();
-                $absence = LeaveRequest::where('status', '1')->where('user_id', $user_id)->get();
-                $absence = $absence->count();
-                $annual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'annual')->get();
-                $annual = $annual->count();
-                $halfday = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'halfday')->get();
-                $halfday = $halfday->count();
-            }
-            $capabilities = UserCapabilities::with('role')->where('role_id', $authUser->position)->get();
-            $capabilities_list = Schema::getColumnListing('user_capabilities');
 
-            return response()->json([
-                'message' => "You have successfully logged in!",
-                'employee' => $authUser,
-                'token' => $success['token'],
-                'casual' => $casual,
-                'absence' => $absence,
-                'annual' => $annual,
-                'halfday' => $halfday,
-                'capabilities' => $capabilities,
-                // 'capabilities_list' => $capabilities_list,
-                'last_checked_in' => $lastCheckedIn,
-                
-            ], 200);
-        }
+                $leave = LeaveRequest::where('status', '1')->where('user_id', $user_id);
+                if ($leave) {
+                    $casual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'casual')->get();
+                    $casual = $casual->count();
+                    $absence = LeaveRequest::where('status', '1')->where('user_id', $user_id)->get();
+                    $absence = $absence->count();
+                    $annual = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'annual')->get();
+                    $annual = $annual->count();
+                    $halfday = LeaveRequest::where('status', '1')->where('user_id', $user_id)->where('type', 'halfday')->get();
+                    $halfday = $halfday->count();
+                }
+                $capabilities = UserCapabilities::with('role')->where('role_id', $authUser->position)->get();
+                $capabilities_list = Schema::getColumnListing('user_capabilities');
+
+                return response()->json([
+                    'message' => "You have successfully logged in!",
+                    'employee' => $authUser,
+                    'token' => $success['token'],
+                    'casual' => $casual,
+                    'absence' => $absence,
+                    'annual' => $annual,
+                    'halfday' => $halfday,
+                    'capabilities' => $capabilities,
+                    // 'capabilities_list' => $capabilities_list,
+                    'last_checked_in' => $lastCheckedIn,
+
+                ], 200);
+            }
         } else {
             return response()->json([
                 'message' => "Wrong credentials. Please try again."
@@ -222,17 +224,27 @@ class AuthController extends Controller
             $email = $request->email;
             $otp = rand(1000, 9999);
             $authUser = User::where('email', $email)->first();
-            if($authUser)
-            {
+            // $authUser = Auth::user();
+            if ($authUser) {
+                $employer = Employer::where('id', $authUser->employer_id)->first();
+
+                if ($employer->status == '0') {
+                    return response()->json([
+                        'message' => "The Employer is Inactive",
+                    ], 200);
+                } else if ($authUser->status == '0') {
+                    return response()->json([
+                        'message' => "Inactive Person",
+                    ], 200);
+                }
+
                 Mail::to($email)->send(new SendOtp($otp));
                 $authUser->otp = $otp;
                 $authUser->update();
                 return response()->json([
                     'message' => 'Please find the email otp'
                 ], 200);
-            }
-            else
-            {
+            } else {
                 return response()->json([
                     'message' => 'The provided email ID is not registered as an employee in the Paytm application.'
                 ], 400);
@@ -342,8 +354,8 @@ class AuthController extends Controller
         if ($user->device_id) {
             $deviceToken = $user->device_id;
             // $deviceToken ="dhHuifm_TwyPGGHeBcdGge:APA91bGl9CAyrpMCyifrPSfurBn-2rWA7IKKWEBYJhnEPfHW4FaXIYYEktFDjlqeELX_gucKghv4TZwIb2pBP4NrdULOlDMRiMi244ww1eppPJwBueHLmSNWUlF32_HdVz8plQqmmwt0";
-           
-           
+
+
             $url = 'https://fcm.googleapis.com/fcm/send';
             $headers = [
                 'Authorization' => 'key=AAAAmB77ark:APA91bFXkWwXAW_cKzE_dRmc9efC0pHD4R-6tUXArCht88ABJi-50ug3pvDVcxs6Obe_Qj58D_jrJcCuKqkvja7BcVBqCQy_solhOb-1H1KzzCRvFTyicc3wrEJqBmF68mRMDwFR52h3',
@@ -357,21 +369,21 @@ class AuthController extends Controller
                 ],
             ];
             $response = Http::withHeaders($headers)->post($url, $data);
-            
+
             // Check for HTTP errors
             if ($response->failed()) {
                 throw new Exception('Failed to send FCM notification: ' . $response->body());
             }
-            
+
             // Parse the response body
             $responseBody = $response->json();
-           
-           
-           
-           
-           
-           
-           
+
+
+
+
+
+
+
             // $client = new Client([
             //     'headers' => [
             //         'Authorization' => 'key=AAAA4cDCVvc:APA91bEcUocR-KUherx0YW48Yv5mdZBKBnW7ZMQnPynTMw-JOddqTeXwo5bc3zwC4IIJ_Pd5UEyDGB0hb5lFAszrk0y5q_gvwbekWUHKJweB-aFiRdIssliYTwCZED__RmEARtnXl1Wx',
@@ -388,7 +400,7 @@ class AuthController extends Controller
             //         ],
             //     ],
             // ]);
-     
+
 
             // if ($response->getStatusCode() == 200) {
             //     dd($response);
@@ -431,13 +443,13 @@ class AuthController extends Controller
 
     public function chat_notification(Request $request, $employees, $message, $last_message, $group_id)
     {
-        foreach($employees as $employee_id)
-        $user = User::find($employee_id);
+        foreach ($employees as $employee_id)
+            $user = User::find($employee_id);
         if ($user->device_id) {
             $deviceToken = $user->device_id;
             // $deviceToken ="dhHuifm_TwyPGGHeBcdGge:APA91bGl9CAyrpMCyifrPSfurBn-2rWA7IKKWEBYJhnEPfHW4FaXIYYEktFDjlqeELX_gucKghv4TZwIb2pBP4NrdULOlDMRiMi244ww1eppPJwBueHLmSNWUlF32_HdVz8plQqmmwt0";
-           
-           
+
+
             $url = 'https://fcm.googleapis.com/fcm/send';
             $headers = [
                 'Authorization' => 'key=AAAAmB77ark:APA91bFXkWwXAW_cKzE_dRmc9efC0pHD4R-6tUXArCht88ABJi-50ug3pvDVcxs6Obe_Qj58D_jrJcCuKqkvja7BcVBqCQy_solhOb-1H1KzzCRvFTyicc3wrEJqBmF68mRMDwFR52h3',
@@ -450,20 +462,20 @@ class AuthController extends Controller
                     'body' => $message
                 ],
                 'data' => [
-                    'group_id' => $group_id, 
+                    'group_id' => $group_id,
                     'message' => $last_message
                 ],
             ];
             $response = Http::withHeaders($headers)->post($url, $data);
-            
+
             // Check for HTTP errors
             if ($response->failed()) {
                 throw new Exception('Failed to send FCM notification: ' . $response->body());
             }
-            
+
             // Parse the response body
             $responseBody = $response->json();
-           
+
             return response()->json([
                 'message' => 'device id updated'
             ], 200);
