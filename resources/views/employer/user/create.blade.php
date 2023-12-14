@@ -65,6 +65,15 @@
                                 <div class="invalid-feedback">{{ $errors->first('tax_code') }}</div>
                             </div>
                         </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Provident Fund ID<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('provident_fund_id')) is-invalid @endif" name="provident_fund_id" value="{{ old('provident_fund_id') }}" placeholder="Enter Provident Fund" required>
+                                <div class="invalid-feedback">{{ $errors->first('provident_fund_id') }}</div>
+                            </div>
+                        </div>
+
                         <div class="col-sm-8">
                             <label>&nbsp;</label>
                             <div class="form-check form-check-flat form-check-primary chk-bx-typ2">
@@ -88,21 +97,21 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Phone Number <span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control @if ($errors->has('street')) is-invalid @endif" name="phone" value="{{ old('phone') }}" placeholder="Enter Phone No">
+                                <input type="text" class="form-control @if ($errors->has('street')) is-invalid @endif" name="phone" value="{{ old('phone') }}" placeholder="Enter Phone No" required>
                                 <div class="invalid-feedback">{{ $errors->first('phone') }}</div>
                             </div>
                         </div><!-- Col -->
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Date Of Birth<span class="text-danger"> *</span></label>
-                                <input type="date" class="form-control @if ($errors->has('city')) is-invalid @endif" name="date_of_birth" value="{{ old('date_of_birth') }}" placeholder="Enter Country">
+                                <input type="date" class="form-control @if ($errors->has('city')) is-invalid @endif" name="date_of_birth" value="{{ old('date_of_birth') }}" placeholder="Enter DOB" required>
                                 <div class="invalid-feedback">{{ $errors->first('date_of_birth') }}</div>
                             </div>
                         </div><!-- Col -->
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Street <span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control @if ($errors->has('street')) is-invalid @endif" name="street" value="{{ old('street') }}" placeholder="Enter Street Name">
+                                <input type="text" class="form-control @if ($errors->has('street')) is-invalid @endif" name="street" value="{{ old('street') }}" placeholder="Enter Street Name" required>
                                 <div class="invalid-feedback">{{ $errors->first('street') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -112,7 +121,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">City / Town <span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control @if ($errors->has('city')) is-invalid @endif" name="city" value="{{ old('city') }}" placeholder="Enter City">
+                                <input type="text" class="form-control @if ($errors->has('city')) is-invalid @endif" name="city" value="{{ old('city') }}" placeholder="Enter City" required>
                                 <div class="invalid-feedback">{{ $errors->first('city') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -120,7 +129,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Post Code <span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control @if ($errors->has('postcode')) is-invalid @endif" name="postcode" value="{{ old('postcode') }}" placeholder="Enter Post Code">
+                                <input type="text" class="form-control @if ($errors->has('postcode')) is-invalid @endif" name="postcode" value="{{ old('postcode') }}" placeholder="Enter Post Code" required>
                                 <div class="invalid-feedback">{{ $errors->first('postcode') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -130,7 +139,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Country<span class="text-danger">*</span></label>
-                                <select class="form-control" name="country" id="country" value="{{ old('country') }}">
+                                <select class="form-control" name="country" id="country" value="{{ old('country') }}" required>
                                     <option value="">--SELECT--</option>
                                     @foreach ($countries as $country)
                                     <option value="{{$country['id']}}" {{ old('country')==$country['id'] ? 'selected':'' }}>{{$country['name']}}</option>
@@ -151,7 +160,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Tax Identification Number<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control @if ($errors->has('tin')) is-invalid @endif" name="tin" value="{{ old('tin') }}" placeholder="Enter Tin">
+                                <input type="text" class="form-control @if ($errors->has('tin')) is-invalid @endif" name="tin" value="{{ old('tin') }}" placeholder="Enter Tin" required>
                                 <div class="invalid-feedback">{{ $errors->first('tin') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -162,7 +171,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Business<span class="text-danger">*</span></label>
-                                <select id="business_user" class="form-control" class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}">
+                                <select id="business_user" class="form-control" class="form-control @if ($errors->has('business')) is-invalid @endif" name="business" value="{{ old('business') }}" required>
                                     <option value="">--SELECT--</option>
                                     @foreach ($businesses as $business)
                                     <option value="{{$business['id']}} " {{ old('business')==$business['id'] ? 'selected':'' }}>{{$business['name']}}</option>
@@ -174,7 +183,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Branch<span class="text-danger">*</span></label>
-                                <select id="branch_user" class="form-control" class="form-control @if ($errors->has('branch')) is-invalid @endif" name="branch" value="{{ old('branch') }}">
+                                <select id="branch_user" class="form-control" class="form-control @if ($errors->has('branch')) is-invalid @endif" name="branch" value="{{ old('branch') }}" required>
                                     <option value="">--SELECT--</option>
                                     @foreach ($branches as $key => $value)
                                     <option value="{{$value['id']}}" {{ old('branch')==$value['id'] ? 'selected':'' }}>{{$value['name']}}</option>
@@ -186,7 +195,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Department<span class="text-danger">*</span></label>
-                                <select id="department_user" class="form-control" class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}">
+                                <select id="department_user" class="form-control" class="form-control @if ($errors->has('department')) is-invalid @endif" name="department" value="{{ old('department') }}" required>
                                     <option value="">--SELECT--</option>
                                     @foreach ($departments as $department)
                                     <option value="{{$department['id']}}" {{ old('department')==$department['id'] ? 'selected':'' }}>{{$department['dep_name']}}</option>
@@ -204,7 +213,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Bank Branch<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control @if ($errors->has('bank_branch')) is-invalid @endif" name="bank_branch" value="{{ old('bank_branch') }}" placeholder="Enter Bank Branch">
+                                <input type="text" class="form-control @if ($errors->has('bank_branch')) is-invalid @endif" name="bank_branch" value="{{ old('bank_branch') }}" placeholder="Enter Bank Branch" required>
                                 <div class="invalid-feedback">{{ $errors->first('bank_branch') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -215,14 +224,14 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Account Number<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control @if ($errors->has('account_number')) is-invalid @endif" name="account_number" value="{{ old('account_number') }}" placeholder="Enter Account Number">
+                                <input type="text" class="form-control @if ($errors->has('account_number')) is-invalid @endif" name="account_number" value="{{ old('account_number') }}" placeholder="Enter Account Number" required>
                                 <div class="invalid-feedback">{{ $errors->first('account_number') }}</div>
                             </div>
                         </div><!-- Col -->
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Role<span class="text-danger">*</span></label>
-                                <select class="form-control" class="form-control @if ($errors->has('position')) is-invalid @endif" name="position" value="{{ old('position') }}">
+                                <select class="form-control" class="form-control @if ($errors->has('position')) is-invalid @endif" name="position" value="{{ old('position') }}" required>
                                     <option value="">--SELECT--</option>
                                     @foreach ($roles as $key => $value)
                                     <option value="{{$value['id']}}" {{ old('position')==$value['id'] ? 'selected':'' }}>{{$value['role_name']}}</option>
@@ -248,7 +257,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Licence Expiry Date</label>
-                                <input type="date" class="form-control @if ($errors->has('licence_expiry_date')) is-invalid @endif" name="licence_expiry_date" value="{{ old('licence_expiry_date') }}" placeholder="Enter Licence Expiry Date">
+                                <input type="date" class="form-control @if ($errors->has('licence_expiry_date')) is-invalid @endif" name="licence_expiry_date" value="{{ old('licence_expiry_date') }}" placeholder="Enter Licence Expiry Date" >
                                 <div class="invalid-feedback">{{ $errors->first('licence_expiry_date') }}</div>
                             </div>
                         </div>
@@ -304,14 +313,14 @@
                     <div class="row" id="time-row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Check-In Time(Defaut) </label>
+                                <label class="control-label">Check-In Time(Default) </label>
                                 <input type="time" class="form-control @if ($errors->has('start_time')) is-invalid @endif" name="start_time" value="{{ old('start_time') }}">
                                 <div class="invalid-feedback">{{ $errors->first('start_time') }}</div>
                             </div>
                         </div><!-- Col -->
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Check-Out Time(Defaut) </label>
+                                <label class="control-label">Check-Out Time(Default) </label>
                                 <input type="time" class="form-control @if ($errors->has('end_time')) is-invalid @endif" name="end_time" value="{{ old('end_time') }}">
                                 <div class="invalid-feedback">{{ $errors->first('end_time') }}</div>
                             </div>
@@ -329,11 +338,11 @@
                                 <div class="invalid-feedback">{{ $errors->first('image') }}</div>
                             </div>
                         </div><!-- Col -->
-                        
+
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Employee type<span class="text-danger">*</span></label>
-                                <select class="form-control" class="form-control @if ($errors->has('employeetype')) is-invalid @endif" name="employeetype" value="{{ old('employeetype') }}">
+                                <select class="form-control" class="form-control @if ($errors->has('employeetype')) is-invalid @endif" name="employeetype" value="{{ old('employeetype') }}" required>
                                     <option value="">--SELECT--</option>
                                     <option value="0" {{ old('employeetype')=='0' ? 'selected':'' }}>Attachee</option>
                                     <option value="1" {{ old('employeetype')=='1' ? 'selected':'' }}>Apprenticeship</option>
@@ -540,30 +549,30 @@
         $('#country').change(function(e) {
             var id = $(this).val();
             $("#wbc_details").hide();
-            
+
             $('#bank').find('option').remove();
-                $.ajax({
-                    type: 'get',
-                    url: '/employer/report/employment_period/get_bank/' + id,
-                    dataType: 'json',
-                    success: function(response) {
-                        var len = 0;
-                        if (response != null) {
-                            len = response['data'].length;
-                        }
-                        if (len > 0) {
-                            $("#bank_div").show();
-                            var option1="<option value=''>--Choose Bank--</option>";
-                            $('#bank').append(option1);
-                            for (var i = 0; i < len; i++) {
-                                var id = response['data'][i].id;
-                                var name = response['data'][i].bank_name;
-                                var option = "<option value='" + id + "'>" + name + "</option>";
-                                $('#bank').append(option);
-                            }
+            $.ajax({
+                type: 'get',
+                url: '/employer/report/employment_period/get_bank/' + id,
+                dataType: 'json',
+                success: function(response) {
+                    var len = 0;
+                    if (response != null) {
+                        len = response['data'].length;
+                    }
+                    if (len > 0) {
+                        $("#bank_div").show();
+                        var option1 = "<option value=''>--Choose Bank--</option>";
+                        $('#bank').append(option1);
+                        for (var i = 0; i < len; i++) {
+                            var id = response['data'][i].id;
+                            var name = response['data'][i].bank_name;
+                            var option = "<option value='" + id + "'>" + name + "</option>";
+                            $('#bank').append(option);
                         }
                     }
-                });
+                }
+            });
         });
 
 
@@ -571,20 +580,17 @@
             var id = $(this).val();
             var selectedOption = $("#bank option:selected");
             var selectedText = selectedOption.text();
-            if(selectedText=='WBC' || selectedText=='Westpac')
-            {
+            if (selectedText == 'WBC' || selectedText == 'Westpac') {
                 $("#wbc_details").show();
-            }
-            else
-            {
+            } else {
                 $("#wbc_details").hide();
                 $("#company_name").val("");
                 $("#account_number").val("");
                 $("#batch_no").val("");
             }
-            
+
         });
- 
+
 
 
 

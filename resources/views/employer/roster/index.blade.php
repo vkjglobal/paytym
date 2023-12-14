@@ -11,13 +11,12 @@
                         <div class="float-right mb-3">
                             <a  class="btn btn-primary btn-icon-text" href={{route('employer.roster.report')}}>
                             <i class="btn-icon-prepend" data-feather="download-cloud"></i>
-                            Download Roaster
+                            Download Roster List
                             </a> 
                             
                         </div>
 
                         <div class="row mt-4 mb-4" id="" >
-                            
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label class="control-label">Business<span class="text-danger"></span></label>

@@ -40,7 +40,7 @@
                             Gross Pay: {{optional($employee)->rate ?? 'No data'}}<br>
                             Employment Start Date: {{optional($employee)->employment_start_date ?? 'No data'}}<br>
                             <br>
-                            Yours login credentials is as follows: <br>
+                            Your login credentials is as follows: <br>
                             email : {{$employee->email}}<br>
                             password: {{$password}}<br>
                         </td>
