@@ -528,7 +528,6 @@ class PayrollCalculationController extends Controller
 
     public function bob_bank_template($data, $bank)
     {
-       
         // Add Data to the Excel File
         // Read the template CSV file
         // $templatePath = '/path/to/template.csv'; // Replace with the actual path

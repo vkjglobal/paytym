@@ -96,7 +96,7 @@
                                             name="country" value="{{ old('country') }}" placeholder="Enter Country"
                                             required>
                                         <div class="invalid-feedback">{{ $errors->first('country') }}</div> -->
-                                        <select class="form-control"  class="form-control @if ($errors->has('country')) is-invalid @endif" name="country" value="{{ old('country') }}">
+                                        <select class="form-control"  class="form-control @if ($errors->has('country')) is-invalid @endif" name="country" value="{{ old('country') }}" required>
                                     <option value="">--SELECT--</option>
                                     @foreach ($country as $key => $value)
                                     <option value="{{$value['id']}}">{{$value['name']}}</option>

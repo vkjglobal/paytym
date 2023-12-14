@@ -220,10 +220,10 @@ class PayrollController extends Controller
             //Double time calculation
             $doubletimerate = optional($employee->business->payrollsetting)->double_time_rate ?? 0;
             $doubletime_unit_rate = $doubletimerate;
-           $doubleTimeRate =0;
+            $doubleTimeRate = 0;
             foreach ($holidays as $holiday) {
                 foreach ($attendance_dup as $attendance) {
-                
+
                     if ($attendance->date == $holiday->date) {
                         $TotalHolidayHours = 0;
                         $checkIn = Carbon::parse($attendance->check_in);
@@ -318,7 +318,6 @@ class PayrollController extends Controller
             $srtRate = 0;
             $srtAddon = 0;
             $flag = 0;
-            //dd($taxRates);
             foreach ($taxRates as $key => $value) {
                 if ($value['annualincome_from'] == '0' && $annualIncome < $value['annualincome_to']) {
                     $taxRate = $value['income_tax_rate'];
@@ -356,22 +355,48 @@ class PayrollController extends Controller
                         $flag = 3;
                     }
                 }
+
+                // $A1 = $annualIncome * ($taxRate / 100);
+                // $C2 = $annualIncome + $total_bonus;
+                // $incomeTaxOnC2 = $C2 * ($taxRate / 100);
+                // $incomeTaxOnC1 = $A1;
+                // $G = 2;    //should be made dynamic - No of completed pay period including current
+                // $B1 = 0;   //should be made dynamic - tax witheheld to date 
+                // $incomeTaxToWithhold = (($A1 / $F * $G) - $B1 + ($incomeTaxOnC2 - $incomeTaxOnC1));
+                // if ($incomeTaxToWithhold < 0) {
+                //     $incomeTaxToWithhold = 0;
+                // }
+
+
+
+
+
+
+
                 $A1 = ($annualIncome -  $value['annualincome_from']) * ($taxRate / 100) + $taxAddon;  // IncomeTax
                 $C2 = $annualIncome + $total_bonus;   // Income + Bonus
                 $incomeTaxOnC2 = $A1 + $total_bonus;
+                $incomeTaxOnC1 = $A1;
                 $srtAddon = $value['srt_value'];
                 $A2 = $C2 * ($srtRate / 100) + $srtAddon;  // SRT On C2
                 $G = 5;  //Number of completed pay periods including current period
                 $B2 = 4;   //SRT 
+                $B1 = 0;
+
+                $incomeTaxToWithhold = (($A1 / $F * $G) - $B1 + ($incomeTaxOnC2 - $incomeTaxOnC1));
+                //dd($incomeTaxToWithhold);
+                if ($incomeTaxToWithhold < 0) {
+                    $incomeTaxToWithhold = 0;
+                }
 
                 $srtToWithhold = (($A2 / $F * $G) - $B2);
                 if ($srtToWithhold < 0) {
                     $srtToWithhold = 0;
                 }
             }
-
-            $total_tax = $srtToWithhold + $IncomeTaxToWithhold;
-
+            //  dd("anusmaya");
+            //dd($incomeTaxToWithhold);
+            $total_tax = $srtToWithhold + $incomeTaxToWithhold;
             //FNPF calculation
             $empTotalSalary = $employee->total_hours_per_week * $employee->rate;
             $fnpf_amount = 0;
@@ -546,21 +571,50 @@ class PayrollController extends Controller
         }
 
         //Tax Calculation - Income tax 
-        $taxRate = $employee->country?->tax ?? 0;  // 08-12-23 Robin-  Now there is no tax in country Form
+
+        $weeklySalary = $employee->rate * $employee->total_hours_per_week;
+
+        //    dd($employee->pay_period);
+        if ($employee->pay_period == "0") {
+            $annualIncome = $weeklySalary * 52;
+            $F = 52;
+        } else if ($employee->pay_period == "1") {
+            $annualIncome = $weeklySalary * 26;
+            $F =  26;    //C1
+        } else {
+            $annualIncome = $weeklySalary * 12;
+            $F =  12;    //C1
+        }
+
+
+        $employer = Employer::find($employee->employer_id)->first();
+        $taxRates = TaxSettings::where('country_id', $employer->country_id)->get();
+        $taxRate = 0;
+        $taxAddon = 0;
+        $srtRate = 0;
+        $srtAddon = 0;
+        $flag = 0;
+        foreach ($taxRates as $key => $value) {
+            if ($value['annualincome_from'] == '0' && $annualIncome < $value['annualincome_to']) {
+                $taxRate = $value['income_tax_rate'];
+                $taxAddon = $value['income_tax_value'];
+                $flag = 1;
+            } else if ($value['annualincome_to'] == null && $annualIncome > $value['annualincome_from']) {
+                $taxRate = $value['income_tax_rate'];
+                $taxAddon = $value['income_tax_value'];
+                $flag = 2;
+            } else if ($annualIncome > $value['annualincome_from'] && $annualIncome < $value['annualincome_to']) {
+                $taxRate = $value['income_tax_rate'];
+                $taxAddon = $value['income_tax_value'];
+                $flag = 3;
+            }
+        }
+
+
+        // $taxRate = $employee->country?->tax ?? 0;  // 08-12-23 Robin-  Now there is no tax in country Form
         $salary = $employee->rate;
         if (isset($taxRate)) {
-            if ($employee->pay_period == "0") {
-                $annualIncome = $salary * 52;
-                $F = 52;
-            } else if ($employee->pay_period == "1") {
-                $annualIncome = $salary * 26;
-                $F =  26;    //C1
-            } else {
-                $annualIncome = $salary * 12;
-                $F =  12;    //C1
-            }
-
-            $A1 = $annualIncome * ($taxRate / 100);
+            $A1 = $annualIncome * ($taxRate / 100) +  $taxAddon;
             $C2 = $annualIncome + $total_bonus;
             $incomeTaxOnC2 = $C2 * ($taxRate / 100);
             $incomeTaxOnC1 = $A1;
@@ -601,6 +655,7 @@ class PayrollController extends Controller
         $fnpf_amount = 0;
         $country = Country::where('id', $employee->country_id)->first();
         $fnpf = ProvidentFund::where('user_id', $employee->id)->first();
+        
         if (!empty($fnpf)) {
             if (!empty($fnpf->user_rate)) {
                 $fnpf_amount += $employee->rate * (($fnpf->user_rate) / 100);

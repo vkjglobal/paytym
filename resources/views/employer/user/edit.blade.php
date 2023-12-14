@@ -55,6 +55,16 @@
                                 <div class="invalid-feedback">{{ $errors->first('tax_code') }}</div>
                             </div>
                         </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Provident Fund ID<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('provident_fund_id')) is-invalid @endif" name="provident_fund_id" value="{{ old('provident_fund_id',$user->pf_id) }}" placeholder="Enter Provident Fund ID" required>
+                                <div class="invalid-feedback">{{ $errors->first('provident_fund_id') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
+
                     <div class="col-sm-8">
                             <label>&nbsp;</label>
                             <div class="form-check form-check-flat form-check-primary chk-bx-typ2">
