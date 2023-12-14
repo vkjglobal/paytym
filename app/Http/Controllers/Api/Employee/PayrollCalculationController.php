@@ -833,8 +833,8 @@ class PayrollCalculationController extends Controller
 
                 // Check the employee is ANZ bank or not 
                 // Static data is based on the document client provided . 
-                $employee_bank = $rowData->employee_bank;
-                if ($employee_bank->bank_name == 'ANZ') {
+                $employee_bank = optional($rowData)->employee_bank;
+                if (optional($employee_bank)->bank_name == 'ANZ') {
                     $branch_code = '0000';
                     $accountnumber = $rowData->accountnumber;
                     $payee_narrative = '';
@@ -890,7 +890,7 @@ class PayrollCalculationController extends Controller
                 $column++;
 
                 //Payee Reference
-                $secondSheet->setCellValue($column . $startRow, $employee_bank->bank_name);
+                $secondSheet->setCellValue($column . $startRow, optional($employee_bank)->bank_name);
                 $column++;
 
                 //Amount

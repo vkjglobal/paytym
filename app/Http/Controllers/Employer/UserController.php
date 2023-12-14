@@ -414,6 +414,8 @@ class UserController extends Controller
 
         return view('employer.user.user_import', compact('breadcrumbs'));
     }
+
+    
     public function importExistingEmployee()
     {
         $breadcrumbs = [
