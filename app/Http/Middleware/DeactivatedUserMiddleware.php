@@ -18,9 +18,8 @@ class DeactivatedUserMiddleware
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-
-        if ($user && $user->is_deactivated) {
-            Auth::guard('api')->logout(); // Use the appropriate guard ('web', 'api', etc.)
+        if ($user && $user->status ==0) {
+            Auth::guard('web')->logout(); // Use the appropriate guard ('web', 'api', etc.)
             return response()->json(['message' => 'Your account has been deactivated.'], 401);
         }
 
