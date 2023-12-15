@@ -15,7 +15,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">First Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('email')) is-invalid @endif" name="first_name" value="{{ old('first_name',$user->first_name) }}" placeholder="Enter First Name" required>
+                                <input type="text" class="form-control @if ($errors->has('first_name')) is-invalid @endif" name="first_name" value="{{ old('first_name',$user->first_name) }}" placeholder="Enter First Name" required>
                                 <div class="invalid-feedback">{{ $errors->first('first_name') }}</div>
                             </div>
                         </div><!-- Col -->

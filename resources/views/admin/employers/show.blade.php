@@ -100,13 +100,13 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Registration Certificate</label>
-                                <img src="{{ asset('storage/' . $employer->registration_certificate) }}" class="img-thumbnail mt-2" width="100" alt="">
+                                <iframe src="{{ asset('storage/' . $employer->registration_certificate) }}" class="img-thumbnail mt-2" style="width:60%"></iframe>
                             </div>
                         </div><!-- Col -->
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Tin Letter</label>
-                                <img src="{{ asset('storage/' . $employer->tin_letter) }}" class="img-thumbnail mt-2" width="100" alt="">
+                                <iframe src="{{ asset('storage/' . $employer->tin_letter) }}" class="img-thumbnail mt-2" style="width:60%"></iframe>
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
@@ -115,7 +115,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="control-label">logo</label>
-                                <img src="{{ asset('storage/' . $employer->logo) }}"   class="img-thumbnail mt-2" width="100" alt="Employer Image">
+                                <iframe src="{{ asset('storage/' . $employer->logo) }}"   class="img-thumbnail mt-2" style="width:60%"></iframe>
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
