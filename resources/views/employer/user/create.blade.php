@@ -27,7 +27,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">First Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('email')) is-invalid @endif" name="first_name" value="{{ old('first_name') }}" placeholder="Enter First Name" required>
+                                <input type="text" class="form-control @if ($errors->has('first_name')) is-invalid @endif" name="first_name" value="{{ old('first_name') }}" placeholder="Enter First Name" required>
                                 <div class="invalid-feedback">{{ $errors->first('first_name') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -159,7 +159,7 @@
                         <div class="col-sm-4" style="display: none;" id="bank_div">
                             <div class="form-group">
                                 <label class="control-label">bank <span class="text-danger">*</span></label>
-                                <select class="form-control" name="bank" id="bank" value="{{ old('bank') }}">
+                                <select class="form-control" name="bank" id="bank" value="{{ old('bank') }}" required>
                                 </select>
 
                                 <div class="invalid-feedback">{{ $errors->first('bank') }}</div>
@@ -364,7 +364,7 @@
 
                     <div class="form-group">
                         <label for="salary-type">Salary Type</label>
-                        <select name="salary_type" id="salary-type">
+                        <select name="salary_type" id="salary-type" required>
                             <option value="">--SELECT--</option>
                             <option value="1" {{ old('salary_type')=='1' ? 'selected':'' }}>Hourly</option>
                             <option value="0" {{ old('salary_type')=='0' ? 'selected':'' }}>Fixed</option>

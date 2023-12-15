@@ -400,6 +400,12 @@
                                 <label for="" class="control-label mb-0 ml-2">Payslip Settings</label>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                            <div class="d-flex align-items-center">
+                                <input type="checkbox" class="" id="receive_payroll_email" name="receive_payroll_email" value="0">
+                                <label for="" class="control-label mb-0 ml-2">Receive Payroll Email</label>
+                            </div>
+                        </div>
                     </div>
                     <hr>
 
