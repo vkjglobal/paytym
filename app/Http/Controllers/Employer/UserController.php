@@ -182,7 +182,8 @@ class UserController extends Controller
         }
         //Robin 14-12-34 updation
         $user->pf_id = $request->get('provident_fund_id');
-
+        // Robin 15-12-23
+        $user->employee_id = $request->get('employee_id');
 
         $issave = $user->save();
 
@@ -337,6 +338,7 @@ class UserController extends Controller
         }
         // Robin 14-12-23
         $user->pf_id = $request->get('provident_fund_id');
+        $user->employee_id = $request->get('employee_id');
         $issave = $user->save();
         if ($issave) {
             notify()->success(__('Updated successfully'));
@@ -415,7 +417,7 @@ class UserController extends Controller
         return view('employer.user.user_import', compact('breadcrumbs'));
     }
 
-    
+
     public function importExistingEmployee()
     {
         $breadcrumbs = [

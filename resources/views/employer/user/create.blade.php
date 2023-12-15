@@ -74,6 +74,14 @@
                             </div>
                         </div>
 
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Employee ID<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('employee_id')) is-invalid @endif" name="employee_id" value="{{ old('employee_id') }}" placeholder="Enter Employee ID" required>
+                                <div class="invalid-feedback">{{ $errors->first('employee_id') }}</div>
+                            </div>
+                        </div>
+
                         <div class="col-sm-8">
                             <label>&nbsp;</label>
                             <div class="form-check form-check-flat form-check-primary chk-bx-typ2">
@@ -257,7 +265,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Licence Expiry Date</label>
-                                <input type="date" class="form-control @if ($errors->has('licence_expiry_date')) is-invalid @endif" name="licence_expiry_date" value="{{ old('licence_expiry_date') }}" placeholder="Enter Licence Expiry Date" >
+                                <input type="date" class="form-control @if ($errors->has('licence_expiry_date')) is-invalid @endif" name="licence_expiry_date" value="{{ old('licence_expiry_date') }}" placeholder="Enter Licence Expiry Date">
                                 <div class="invalid-feedback">{{ $errors->first('licence_expiry_date') }}</div>
                             </div>
                         </div>
