@@ -65,8 +65,6 @@ class EmployerController extends Controller
     public function store(StoreEmployerRequest $request)
     {
         $validated = $request->validated();
-
-
         $employer = new Employer();
         $employer->company = $validated['company'];
         $employer->name = $validated['name'];
@@ -82,7 +80,6 @@ class EmployerController extends Controller
         $employer->tin = $validated['tin'];
         $employer->website = $validated['website'];
         $employer->status = '1';
-
         if ($request->hasFile('registration_certificate')) {
             $path =  $request->file('registration_certificate')->storeAs(
                 'uploads/employers',
@@ -112,10 +109,8 @@ class EmployerController extends Controller
         $res = $employer->save();
 
         if ($res) {
-
             $employer->qr_code = QrCode::size(250)->format('svg')->generate($employer->id);
             $employer->save();
-
             //18-10-23
             $defaultLeaveTypes = LeaveType::where('employer_id',0)->where('country_id',$employer->country_id)->get();
             
@@ -162,6 +157,17 @@ class EmployerController extends Controller
         ];
         $country = Country::get();
         return view('admin.employers.edit', compact('breadcrumbs', 'employer','country'));
+    }
+
+    public function show(Employer $employer)
+    {
+        $breadcrumbs = [
+            [(__('Dashboard')), route('admin.home')],
+            [(__('Employers')), route('admin.employers.index')],
+            [(__('Show')), null]
+        ];
+        $country = Country::get();
+        return view('admin.employers.show', compact('breadcrumbs', 'employer','country'));
     }
 
     /**

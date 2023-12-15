@@ -60,6 +60,7 @@ class StoreUserRequest extends FormRequest
             'passport_no'=>  'nullable',
             'passport_expiry_date'=>  'nullable',
             'provident_fund_id'=>  'nullable',
+            'employee_id'=>  'nullable',
             //'check_out_reqd'=>  'nullable',
         ];
     }

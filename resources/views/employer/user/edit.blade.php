@@ -65,6 +65,15 @@
                         </div><!-- Col -->
 
 
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Employee ID<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @if ($errors->has('employee_id')) is-invalid @endif" name="employee_id" value="{{ old('employee_id',$user->employee_id) }}" placeholder="Enter Employee ID" required>
+                                <div class="invalid-feedback">{{ $errors->first('employee_id') }}</div>
+                            </div>
+                        </div><!-- Col -->
+
+
                     <div class="col-sm-8">
                             <label>&nbsp;</label>
                             <div class="form-check form-check-flat form-check-primary chk-bx-typ2">

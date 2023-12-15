@@ -62,6 +62,8 @@ class UpdateUserRequest extends FormRequest
             'passport_expiry_date'=>  'nullable',
             'check_out_reqd'=>  'nullable',
             'provident_fund_id'=>  'nullable',
+            'employee_id'=>  'nullable',
+            
         ];
     }
 }

@@ -22,7 +22,7 @@
                             @foreach ($usercapability as $usercapability)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <th>{{$usercapability->role->role_name}}</th>
+                                <th>{{ optional(optional($usercapability)->role)->role_name}}</th>
                                 <td> <!-- Edit button -->
                                         <a href="{{ route('employer.usercapabilities.edit', $usercapability->id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit">
                                            View & Edit
