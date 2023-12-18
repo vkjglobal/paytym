@@ -251,7 +251,7 @@ class PayrollCalculationController extends Controller
                     }
                     $lastPayPeriod = end($payPeriods);
                     if (count($payPeriods) != 0) {
-
+                       
                         foreach ($payPeriods as $payPeriod) {
                             $salaryStartDate = $payPeriod['start_date'];
                             $salaryEndDate = $payPeriod['end_date'];
@@ -263,6 +263,9 @@ class PayrollCalculationController extends Controller
                             $employee->payed_date = $salaryEndDate;
                         }
                         $employee->save();
+                    }
+                    else{
+                   //
                     }
                 }
             }
@@ -317,11 +320,11 @@ class PayrollCalculationController extends Controller
                     }
                 }
             }
-    //        dd($bankData);
+            //        dd($bankData);
             foreach ($bankData as $key => $bank_data) {
                 // Instantiate different export classes based on CSV name
-                $employees=$bank_data['data'];
-                $bank=$bank_data['bank_details'];
+                $employees = $bank_data['data'];
+                $bank = $bank_data['bank_details'];
                 $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank, $key);
                 // Csv Name Returns
                 if ($result) {
@@ -345,7 +348,7 @@ class PayrollCalculationController extends Controller
                 $bankname = optional(optional($bank)->banks)->bank_name;
             }
             $key = 0; // Key is used to get the different bank template during the All & others Section. Thers is no use in Business section 
-            $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank,$key);
+            $result = $this->get_csv_data($flag_type, $id_type, $employees, $bank, $key);
             // Csv Name Returns
             if ($result) {
                 $csv_name = $result;
@@ -533,7 +536,7 @@ class PayrollCalculationController extends Controller
         // $templatePath = '/path/to/template.csv'; // Replace with the actual path
 
         $banks = optional($bank)->banks;
-       //$banks = optional($data)->banks;
+        //$banks = optional($data)->banks;
         if ($banks) {
             $templatePath = storage_path('uploads/bank_template/' . $banks->template);
             //storage_path('app/public/uploads/bank_template/').$banks->template; // Replace with the actual path
@@ -544,7 +547,7 @@ class PayrollCalculationController extends Controller
         $template = fopen($templatePath, 'r');
         $currentDate = Carbon::now()->format('dmy');
         $csv_name = 'BOB' . $currentDate . '.xlsx';
-        
+
         //  dd($csv_name);
         // Create a new CSV file for the updated data
         $updatedPath = storage_path('app/public/csv/' . $csv_name); // Replace with the desired path
@@ -1020,14 +1023,12 @@ class PayrollCalculationController extends Controller
         } else if ($flag == "all" || $flag == "others") {
             $data = $employees;
         }
-if($key==0)
-{
-    $bankname = optional(optional($bank)->banks)->bank_name;
-}
-else{
-    $bankname = $key;   // In the case of different bank template during the All & others Section, pick the Bank name
-}
-       
+        if ($key == 0) {
+            $bankname = optional(optional($bank)->banks)->bank_name;
+        } else {
+            $bankname = $key;   // In the case of different bank template during the All & others Section, pick the Bank name
+        }
+
         if ($bankname == 'BRED') {
             return $this->bred_bank_template($data, $bank);
         } elseif ($bankname == 'BOB') {
@@ -1039,7 +1040,7 @@ else{
         } elseif ($bankname == 'BSP') {
             return $this->bsp_bank_template($data, $bank);
         } elseif ($bankname == 'HFC') {
-           // dd("hfc..");
+            // dd("hfc..");
             return $this->hfc_bank_template($data, $bank);
         }
     }

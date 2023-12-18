@@ -28,7 +28,7 @@ class StoreBranchRequest extends FormRequest
             'business' => 'required',
             'town' => 'required',
             'postcode' => 'required',
-            'country' => 'required',
+            'country' => 'nullable',
             'bank' => 'nullable',
             'account_number' => 'nullable',
             'company_name' => 'nullable',

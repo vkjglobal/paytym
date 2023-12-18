@@ -50,12 +50,12 @@
                                 <div class="invalid-feedback">{{ $errors->first('postcode') }}</div>
                             </div>
                         </div><!-- Col -->
-
+                 
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Country <span class="text-danger">*</span></label>
                                 <select class="form-control" name="country" id="country" value="{{ old('country') }}">
-                                    <option value="">--Choose Country--</option>
+                                    <option value="0">--Choose Country--</option>
                                     @foreach ($country as $key => $value )
                                     <option value="{{ $value['id'] }}" {{ $branch->country == $value['id'] ? 'selected' : '' }}>{{ $value['name']}}</option>
                                     @endforeach
@@ -64,7 +64,6 @@
                                 <div class="invalid-feedback">{{ $errors->first('country') }}</div>
                             </div>
                         </div><!-- Col -->
-
                         <div class="col-sm-4" id="bank_div">
                             <div class="form-group">
                                 <label class="control-label">Bank <span class="text-danger">*</span></label>
@@ -102,11 +101,11 @@
                             <div class="form-group">
                                 <label class="control-label">Account Number<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @if ($errors->has('account_number')) is-invalid @endif" name="account_number" id="account_number" value="{{ old('account_number',$branch->account_number) }}" placeholder="Enter Account Number">
-                                <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
+                                <div class="invalid-feedback">{{ $errors->first('account_number') }}</div>
                             </div>
                         </div><!-- Col -->
 
-                        <div class="col-sm-4"  id="wbc_details" @if ($flag=='0' ) style="display: none;" @endif>
+                        <div class="col-sm-4" id="wbc_details" @if ($flag=='0' ) style="display: none;" @endif>
                             <div class="form-group">
                                 <label class="control-label">At least one Batch No. registered with WBC*<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @if ($errors->has('batch_no')) is-invalid @endif" name="batch_no" id="batch_no" value="{{ old('batch_no',$branch->batch_no) }}" placeholder="Enter Batch No">
@@ -115,9 +114,15 @@
                         </div><!-- Col -->
 
                     </div><!-- Row -->
+                  
+                                          
 
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary submit">Submit</button>
+                        </div>
+                    </div>
 
-                    <button type="submit" class="btn btn-primary submit">Submit</button>
                 </form>
 
             </div>

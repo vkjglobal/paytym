@@ -2,6 +2,10 @@
     (function($) {
         $('#country').change(function(e) {
             var id = $(this).val();
+            if(id=='0')
+            {
+                $("#bank_div").hide();
+            }
             $("#wbc_details").hide();
             $("#bank_details").hide();
             

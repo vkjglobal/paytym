@@ -334,38 +334,44 @@ class PayrollController extends Controller
                 }
             }
 
-            $srtRates = TaxSettingsSrtModel::where('country_id', $employer->country_id)->get();
-            if ($srtRates->isEmpty()) {
-                // $srtRates does not have any values
-                $srtToWithhold = 0;
-            } else {
-                // $srtRates has values
-                foreach ($srtRates as $key => $value) {
-                    if ($value['annualincome_from'] == '0' && $annualIncome < $value['annualincome_to']) {
-                        $srtRate = $value['srt_tax'];
-                        $srtAddon = $value['srt_value'];
-                        $flag = 1;
-                    } else if ($value['annualincome_to'] == null && $annualIncome > $value['annualincome_from']) {
-                        $srtRate = $value['srt_tax'];
-                        $srtAddon = $value['srt_value'];
-                        $flag = 2;
-                    } else if ($annualIncome > $value['annualincome_from'] && $annualIncome < $value['annualincome_to']) {
-                        $srtRate = $value['srt_tax'];
-                        $srtAddon = $value['srt_value'];
-                        $flag = 3;
-                    }
-                }
+            // $srtRates = TaxSettingsSrtModel::where('country_id', $employer->country_id)->get();
+            // if ($srtRates->isEmpty()) {
+            //     // $srtRates does not have any values
+            //     $srtToWithhold = 0;
+            // } else {
+            //     // $srtRates has values
+            //     foreach ($srtRates as $key => $value) {
+            //         if ($value['annualincome_from'] == '0' && $annualIncome < $value['annualincome_to']) {
+            //             $srtRate = $value['srt_tax'];
+            //             $srtAddon = $value['srt_value'];
+            //             $flag = 1;
+            //         } else if ($value['annualincome_to'] == null && $annualIncome > $value['annualincome_from']) {
+            //             $srtRate = $value['srt_tax'];
+            //             $srtAddon = $value['srt_value'];
+            //             $flag = 2;
+            //         } else if ($annualIncome > $value['annualincome_from'] && $annualIncome < $value['annualincome_to']) {
+            //             $srtRate = $value['srt_tax'];
+            //             $srtAddon = $value['srt_value'];
+            //             $flag = 3;
+            //         }
 
-                // $A1 = $annualIncome * ($taxRate / 100);
-                // $C2 = $annualIncome + $total_bonus;
-                // $incomeTaxOnC2 = $C2 * ($taxRate / 100);
-                // $incomeTaxOnC1 = $A1;
-                // $G = 2;    //should be made dynamic - No of completed pay period including current
-                // $B1 = 0;   //should be made dynamic - tax witheheld to date 
-                // $incomeTaxToWithhold = (($A1 / $F * $G) - $B1 + ($incomeTaxOnC2 - $incomeTaxOnC1));
-                // if ($incomeTaxToWithhold < 0) {
-                //     $incomeTaxToWithhold = 0;
-                // }
+            //         $srtAddon = $value['srt_value'];
+            //         $A2 = $C2 * ($srtRate / 100) + $srtAddon;  // SRT On C2
+            //         $G = 5;  //Number of completed pay periods including current period
+            //         $B2 = 4;   //SRT 
+            //         $B1 = 0;
+            //     }
+
+            //     // $A1 = $annualIncome * ($taxRate / 100);
+            //     // $C2 = $annualIncome + $total_bonus;
+            //     // $incomeTaxOnC2 = $C2 * ($taxRate / 100);
+            //     // $incomeTaxOnC1 = $A1;
+            //     // $G = 2;    //should be made dynamic - No of completed pay period including current
+            //     // $B1 = 0;   //should be made dynamic - tax witheheld to date 
+            //     // $incomeTaxToWithhold = (($A1 / $F * $G) - $B1 + ($incomeTaxOnC2 - $incomeTaxOnC1));
+            //     // if ($incomeTaxToWithhold < 0) {
+            //     //     $incomeTaxToWithhold = 0;
+            //     // }
 
 
 
@@ -373,30 +379,33 @@ class PayrollController extends Controller
 
 
 
-                $A1 = ($annualIncome -  $value['annualincome_from']) * ($taxRate / 100) + $taxAddon;  // IncomeTax
-                $C2 = $annualIncome + $total_bonus;   // Income + Bonus
-                $incomeTaxOnC2 = $A1 + $total_bonus;
-                $incomeTaxOnC1 = $A1;
-                $srtAddon = $value['srt_value'];
-                $A2 = $C2 * ($srtRate / 100) + $srtAddon;  // SRT On C2
-                $G = 5;  //Number of completed pay periods including current period
-                $B2 = 4;   //SRT 
-                $B1 = 0;
 
-                $incomeTaxToWithhold = (($A1 / $F * $G) - $B1 + ($incomeTaxOnC2 - $incomeTaxOnC1));
-                //dd($incomeTaxToWithhold);
-                if ($incomeTaxToWithhold < 0) {
-                    $incomeTaxToWithhold = 0;
-                }
 
-                $srtToWithhold = (($A2 / $F * $G) - $B2);
-                if ($srtToWithhold < 0) {
-                    $srtToWithhold = 0;
-                }
+
+
+            //     //dd($incomeTaxToWithhold);
+
+
+            //     $srtToWithhold = (($A2 / $F * $G) - $B2);
+            //     if ($srtToWithhold < 0) {
+            //         $srtToWithhold = 0;
+            //     }
+            // }
+            $G = 2;    //should be made dynamic - No of completed pay period including current
+            $B1 = 0;   //should be made dynamic - tax witheheld to date 
+            $A1 = ($annualIncome -  $value['annualincome_from']) * ($taxRate / 100) + $taxAddon;  // IncomeTax
+            $C2 = $annualIncome + $total_bonus;   // Income + Bonus
+            $incomeTaxOnC2 = $A1 + $total_bonus;
+            $incomeTaxOnC1 = $A1;
+            $incomeTaxToWithhold = (($A1 / $F * $G) - $B1 + ($incomeTaxOnC2 - $incomeTaxOnC1));
+            if ($incomeTaxToWithhold < 0) {
+                $incomeTaxToWithhold = 0;
             }
+
             //  dd("anusmaya");
             //dd($incomeTaxToWithhold);
-            $total_tax = $srtToWithhold + $incomeTaxToWithhold;
+            // $srtToWithhold +
+            $total_tax = $incomeTaxToWithhold;
             //FNPF calculation
             $empTotalSalary = $employee->total_hours_per_week * $employee->rate;
             $fnpf_amount = 0;
@@ -451,6 +460,9 @@ class PayrollController extends Controller
 
             $res = $payroll->save();
             $flag_payroll = 1;
+            $srtToWithhold = 0;
+            $paid_days=4;  // Static Data
+            $paid_hours=$totalHours;
             // Payslip Generation
             $this->slip_generation(
                 $employee,
@@ -473,7 +485,8 @@ class PayrollController extends Controller
                 $lwop,
                 $nonHolidayDates,
                 $doubleTimeRate,
-                $attendance_count,
+                $paid_days,
+                $paid_hours,
                 $overtime_unit_rate,
                 $doubletime_unit_rate
             );
@@ -505,12 +518,15 @@ class PayrollController extends Controller
 
     public function generate_fixed_payroll($employee, $fromDate, $endDate)
     {
+
+        $payPeriods[] = ['start_date' => $fromDate, 'end_date' => $endDate];
+        $count_pay_period = count($payPeriods);
+
         $perDaySalary = ($employee->pay_period == '0') ? ($employee->rate / 7) : (($employee->pay_period == '1') ? ($employee->rate / 14) : ($employee->rate / ($fromDate->daysInMonth)));
         $attendances = Attendance::where('user_id', $employee->id)->whereBetween('date', [$fromDate, $endDate])->get();
         $attendance_count = $attendances->count();
-        //dd($attendance_count);
-        //Allowance Calculation
 
+        //Allowance Calculation
         $allowances = AssignAllowance::with('allowance')->where('user_id', $employee->id)->get();
         $totalAllowance = 0;
         if ($allowances) {
@@ -570,7 +586,7 @@ class PayrollController extends Controller
             }
         }
 
-        //Tax Calculation - Income tax 
+        //Tax Calculation - Income tax   Fixed Basis
 
         $weeklySalary = $employee->rate * $employee->total_hours_per_week;
 
@@ -629,25 +645,25 @@ class PayrollController extends Controller
 
         //Tax calculation - SRT
         $srtToWithhold = 0;
-        $salary = $employee->rate;
-        $srt_rate = $employee->country?->srt_tax ?? 0;
-        if ($employee->pay_period == "0") {
-            $annualIncome = $salary * 52;
-            $F = 52;
-        } else if ($employee->pay_period == "1") {
-            $annualIncome = $salary * 26;
-            $F =  26;    //C1
-        } else {
-            $annualIncome = $salary * 12;
-            $F =  12;    //C1
-        }
-        $A2 = $annualIncome * ($srt_rate / 100);
-        $G = 5; //should be made dynamic - No of completed pay period including current
-        $B2 = 4;  //should be made dynamic - tax witheheld to date 
-        $srtToWithhold = (($A2 / $F * $G) - $B2);
-        if ($srtToWithhold < 0) {
-            $srtToWithhold = 0;
-        }
+        // $salary = $employee->rate;
+        // $srt_rate = $employee->country?->srt_tax ?? 0;
+        // if ($employee->pay_period == "0") {
+        //     $annualIncome = $salary * 52;
+        //     $F = 52;
+        // } else if ($employee->pay_period == "1") {
+        //     $annualIncome = $salary * 26;
+        //     $F =  26;    //C1
+        // } else {
+        //     $annualIncome = $salary * 12;
+        //     $F =  12;    //C1
+        // }
+        // $A2 = $annualIncome * ($srt_rate / 100);
+        // $G = 5; //should be made dynamic - No of completed pay period including current
+        // $B2 = 4;  //should be made dynamic - tax witheheld to date 
+        // $srtToWithhold = (($A2 / $F * $G) - $B2);
+        // if ($srtToWithhold < 0) {
+        //     $srtToWithhold = 0;
+        // }
 
         $totalTaxAmount = $srtToWithhold + $incomeTaxToWithhold;
 
@@ -655,7 +671,7 @@ class PayrollController extends Controller
         $fnpf_amount = 0;
         $country = Country::where('id', $employee->country_id)->first();
         $fnpf = ProvidentFund::where('user_id', $employee->id)->first();
-        
+
         if (!empty($fnpf)) {
             if (!empty($fnpf->user_rate)) {
                 $fnpf_amount += $employee->rate * (($fnpf->user_rate) / 100);
@@ -728,7 +744,7 @@ class PayrollController extends Controller
             }
         }
 
-
+        $paid_days = $count_pay_period - $lwop;
         $lwopAmount = $lwop * $perDaySalary;
 
         //Total salary calculation
@@ -768,7 +784,7 @@ class PayrollController extends Controller
         //Payslip generation
         // Paid Days, Paid Hours, Base Rate, Double Time, Allowance Rate,Bonus Rate, Commission Rate,
         // Gross Earnings, Loan , Union, Surcharge, Total Deductions 
-        $paid_days = $attendance_count;
+       // $paid_days = $attendance_count;
         $paid_hours = 0;
         $base_rate = 0;
         //   $doubleTimeRate;
@@ -808,6 +824,8 @@ class PayrollController extends Controller
             $nonHolidayDates,
             $doubleTimeRate,
             $attendance_count,
+            $paid_days,
+            $paid_hours,
             $overtime_unit_rate,
             $doubletime_unit_rate
         );
@@ -834,7 +852,8 @@ class PayrollController extends Controller
         $lwop,
         $nonHolidayDates,
         $doubleTimeRate,
-        $attendance_count,
+        $paid_days,
+        $paid_hours,
         $overtime_unit_rate,
         $doubletime_unit_rate
     ) {
@@ -859,7 +878,8 @@ class PayrollController extends Controller
             $lwop,
             $nonHolidayDates,
             $doubleTimeRate,
-            $attendance_count,
+            $paid_days,
+            $paid_hours,
             $overtime_unit_rate,
             $doubletime_unit_rate
         );

@@ -24,18 +24,16 @@ class UpdateBranchRequest extends FormRequest
     public function rules()
     {
         return [
-            
                 'name' => 'required',
                 'town' => 'required',
                 'postcode' => 'required',
-                'country' => 'required',
+                'country' => 'nullable',
                 'bank' => 'nullable',
                 'account_number' => 'nullable',
                 'account_number' => 'nullable',
                 'company_name' => 'nullable',
                 'batch_no' => 'nullable'
                 // 'qr_code' => 'nullable|mimes:png,jpg,jpeg,pdf|max:5048',
-    
         ];
     }
 }

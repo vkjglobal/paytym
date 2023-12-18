@@ -13,8 +13,7 @@ $name = $employee->first_name . " " . $employee->last_name;
 $employee_id = $employee->id;
 $designation = $employee->job_title;
 $doj = $employee->employment_start_date;
-$paid_days = 0;
-$paid_hours = 0;
+$paid_days = $attendance_count;
 $salary_type = $employee->salary_type;
 $pay_period = $employee->pay_period; // 0=Weekly,1=>fortnightly,2=monthly
 $taxId = "##00001";
