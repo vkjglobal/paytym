@@ -24,7 +24,7 @@
                             <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Business<span class="text-danger">*</span></label>
-                                <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="business" value="{{ old('branch') }}">
+                                <select class="form-control"  class="form-control @if ($errors->has('branch')) is-invalid @endif" name="business" value="{{ old('branch') }}" required>
                                     <option value="">--SELECT--</option>
                                     @foreach ($businesses as $business)
                                     <option value="{{$business['id']}}">{{$business['name']}}</option>
@@ -69,9 +69,9 @@
 
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="control-label">Country <span class="text-danger">*</span></label>
+                                    <label class="control-label">Country</label>
                                     <select class="form-control" name="country" id="country" value="{{ old('country') }}">
-                                        <option value="">--Choose Country--</option>
+                                        <option value="0">--Choose Country--</option>
                                         @foreach ($country as $key => $value )
                                         <option value="{{ $value['id'] }}">{{ $value['name']}}</option>
                                         @endforeach
@@ -84,7 +84,7 @@
                             <div class="col-sm-4" style="display: none;" id="bank_div">
                                 <div class="form-group">
                                     <label class="control-label">Bank<span class="text-danger">*</span></label>
-                                    <select class="form-control" name="bank" id="bank" value="{{ old('bank') }}">
+                                    <select class="form-control @if ($errors->has('bank')) is-invalid @endif" name="bank" id="bank" value="{{ old('bank') }}">
                                     </select>
 
                                     <div class="invalid-feedback">{{ $errors->first('bank') }}</div>

@@ -24,10 +24,10 @@
                             @foreach ($bank as $bank)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $bank->bank_name }}</td>
-                                <td>{{ $bank->country->name }}</td>
-                                <td>{{ $bank->other_bank_code }}</td>
-                                <td>{{ $bank->branch_code }}</td>
+                                <td>{{ optional($bank)->bank_name }}</td>
+                                <td>{{ optional(optional($bank)->country)->name }}</td>
+                                <td>{{ optional($bank)->other_bank_code }}</td>
+                                <td>{{ optional($bank)->branch_code }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <!-- Edit button -->

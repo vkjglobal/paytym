@@ -14,7 +14,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Country<span class="text-danger">*</span></label>
-                                <select class="form-control" class="form-control @if ($errors->has('country_id')) is-invalid @endif" name="country_id" value="{{ old('country_id') }}">
+                                <select class="form-control" class="form-control @if ($errors->has('country_id')) is-invalid @endif" name="country_id" value="{{ old('country_id') }}" required>
                                     <option value="">--SELECT--</option>
                                     @foreach ($countries as $key => $value)
                                     <option value="{{$value['id']}}">{{$value['name']}}</option>
@@ -28,7 +28,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Bank Name<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if ($errors->has('bank_name')) is-invalid @endif" name="bank_name" value="{{ old('bank_name') }}" placeholder="Enter Name">
+                                <input type="text" class="form-control @if ($errors->has('bank_name')) is-invalid @endif" name="bank_name" value="{{ old('bank_name') }}" placeholder="Enter Name" required>
                                 <div class="invalid-feedback">{{ $errors->first('bank_name') }}</div>
                             </div>
                         </div><!-- Col -->
@@ -36,7 +36,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Address<span class="text-danger">*</span></label>
-                                <textarea class="form-control @if ($errors->has('address')) is-invalid @endif" name="address">
+                                <textarea class="form-control @if ($errors->has('address')) is-invalid @endif" name="address" required>
                                 </textarea>
                                 <div class="invalid-feedback">{{ $errors->first('address') }}</div>
                             </div>
@@ -64,7 +64,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="control-label">Bank Template<span class="text-danger">*</span></label>
-                                <input type="file" class="form-control @if ($errors->has('bank_template')) is-invalid @endif" name="bank_template" value="{{ old('bank_template') }}" placeholder="Enter Bank Template">
+                                <input type="file" class="form-control @if ($errors->has('bank_template')) is-invalid @endif" name="bank_template" value="{{ old('bank_template') }}" placeholder="Enter Bank Template" required>
                                 <div class="invalid-feedback">{{ $errors->first('bank_template') }}</div>
                             </div>
                         </div><!-- Col -->

@@ -43,7 +43,6 @@ class BranchController extends Controller
         {
             $validated = $request->validated();
     
-    
             $branch = new Branch();
             $branch->employer_id = Auth::guard('employer')->user()->id;
             $branch->name = $validated['name'];
@@ -52,7 +51,10 @@ class BranchController extends Controller
             $branch->town = $validated['town'];
             $branch->postcode = $validated['postcode'];
             $branch->country = $validated['country'];
-            $branch->bank = $validated['bank'];
+            if(isset($validated['bank']))
+            {
+                $branch->bank = $validated['bank'];
+            }
             $branch->account_number = $validated['account_number'];
             $branch->company_name = $validated['company_name'];
             $branch->batch_no = $validated['batch_no'];
@@ -91,7 +93,10 @@ class BranchController extends Controller
             $branch->town = $validated['town'];
             $branch->postcode = $validated['postcode'];
             $branch->country = $validated['country'];
-            $branch->bank = $validated['bank'];
+            if(isset($validated['bank']))
+            {
+                $branch->bank = $validated['bank'];
+            }
             $branch->account_number = $validated['account_number'];
             $branch->company_name = $validated['company_name'];
             $branch->batch_no = $validated['batch_no'];
