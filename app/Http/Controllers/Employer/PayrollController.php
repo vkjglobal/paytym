@@ -694,6 +694,7 @@ class PayrollController extends Controller
         $taxAddon = 0;
         $srtRate = 0;
         $srtAddon = 0;
+        $range_from= 0; 
         $flag = 0;
 
 
