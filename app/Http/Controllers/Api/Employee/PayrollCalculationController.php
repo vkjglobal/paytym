@@ -90,7 +90,6 @@ class PayrollCalculationController extends Controller
             $pending_attendance = Attendance::where('employer_id', $request->employer_id)->where('approve_reject', null)->get();
 
             if ((count($pending_leaves) > 0)) {
-
                 if ($request->expectsJson()) {
                     // Handle API-specific logic here
                     return response()->json([
@@ -210,7 +209,6 @@ class PayrollCalculationController extends Controller
                     }
                 }
 
-
                 //Fixed salary type
                 else if ($employee->salary_type == "0" && $employee->status == "1") {
                     $lastPayedDate = $employee->payed_date ?? $employee->employment_start_date;
@@ -251,7 +249,7 @@ class PayrollCalculationController extends Controller
                     }
                     $lastPayPeriod = end($payPeriods);
                     if (count($payPeriods) != 0) {
-                       
+
                         foreach ($payPeriods as $payPeriod) {
                             $salaryStartDate = $payPeriod['start_date'];
                             $salaryEndDate = $payPeriod['end_date'];
@@ -263,9 +261,8 @@ class PayrollCalculationController extends Controller
                             $employee->payed_date = $salaryEndDate;
                         }
                         $employee->save();
-                    }
-                    else{
-                   //
+                    } else {
+                        
                     }
                 }
             }

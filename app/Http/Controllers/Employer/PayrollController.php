@@ -318,6 +318,7 @@ class PayrollController extends Controller
             $srtRate = 0;
             $srtAddon = 0;
             $flag = 0;
+            $range_from = 0;
             // foreach ($taxRates as $key => $value) {
             //     if ($value['annualincome_from'] == '0' && $annualIncome < $value['annualincome_to']) {
             //         $taxRate = $value['income_tax_rate'];
@@ -686,7 +687,6 @@ class PayrollController extends Controller
             $annualIncome = $salary * 12;
             $F =  12;    //C1
         }
-
         //dd($annualIncome);
         $employer = Employer::find($employee->employer_id)->first();
         $taxRates = TaxSettings::where('country_id', $employer->country_id)->get();
