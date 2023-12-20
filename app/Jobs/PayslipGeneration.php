@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PayslipGeneration implements ShouldQueue
 {
-
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * Create a new job instance.
      *
@@ -46,9 +44,6 @@ class PayslipGeneration implements ShouldQueue
     protected $doubleTimeRate;
     protected $paid_days;
     protected $paid_hours;
-
-
-
 
     public function __construct(
         $employee,
